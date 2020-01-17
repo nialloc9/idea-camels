@@ -1,0 +1,1 @@
+export const items = ['About Us', 'Services', 'Products'];
