@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import Block1 from 'components/Block1';
+import Block2 from 'components/Block2';
+import Block3 from 'components/Block3';
 
 export default () => (
-  <div>
-    <h1>Welcome to React-Static</h1>
-  </div>
+  <Fragment>
+    <Block1 />
+    <Block2 />
+    <Block3 />
+  </Fragment>
 )

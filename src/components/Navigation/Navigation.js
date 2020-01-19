@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Menu, MenuItem, MenuMenu } from '../Menu'
-import {  styled, createMediaQuery } from 'utils/style'
+import { Image } from '../Image'
+import { styled, createMediaQuery, remCalc } from 'utils/style'
 import { items } from './utils';
 
 const StyledMenu = styled(Menu)`
@@ -8,6 +9,7 @@ const StyledMenu = styled(Menu)`
     background-color: ${({ theme: { navigation } }) => navigation.backgroundColor} !important;
     color: ${({ theme: { navigation } }) => navigation.color} !important;
     display: none !important;
+    margin: 0 !important;
 
     a {
         color: ${({ theme: { navigation } }) => navigation.color} !important;
@@ -16,6 +18,10 @@ const StyledMenu = styled(Menu)`
     ${({ theme: { breakpoints } }) => createMediaQuery(breakpoints.tablet)} {
         display: flex !important;
     }
+`;
+
+const StyledImage = styled(Image)`
+  max-width: ${({ theme: { navigation } }) => remCalc(navigation.logoSize)} !important;
 `;
 
 export default ({ theme: { navigation } }) => {
@@ -30,7 +36,9 @@ export default ({ theme: { navigation } }) => {
           name='logo'
           active={activeItem === 'logo'}
           onClick={handleItemClick}
-        />
+        >
+          <StyledImage src={navigation.logo} />
+        </MenuItem>
         <MenuMenu position='right'>
           {items.map(o => (
             <MenuItem
