@@ -1,6 +1,7 @@
 import logo from 'static/logo.png';
 import logoColor from 'static/logoColor.png';
 import block2Image from 'static/block2Image.webp';
+import block4FirstImage from 'static/block4FirstImage.png';
 
 const defaultFont = {
     color: '#2a2a2a',
@@ -44,7 +45,7 @@ export default {
     },
     block3: {
         ...defaultFont,
-        height: 700,
+        height: 900,
         backgroundColor: 'white',
         fontFamily: 'Jubilat, Georgia, sans-serif',
         overlay: {
@@ -74,6 +75,37 @@ export default {
                 headerBackgroundColor: '#f7c545',
                 featuresMargins: [40, 0, 0, 0],
             }
+        }
+    },
+    block4: {
+        ...defaultFont,
+        fontFamily: "Jubilat, Georgia, sans-serif",
+        height: 700,
+        backgroundColor: '#f4f4f2',
+        paddings: [0, 20, 0, 20],
+        headingContainerPaddings: [40, 0, 0, 0],
+        heading: {
+            size: 50,
+            weight: 200,
+            lineHeight: 57,
+        },
+        subHeading: {
+            size: 18,
+            lineHeight: 25,
+            weight: 400,
+            color: '#686868',
+            margins: [-10, 0, 0, 0]
+        },
+        cardContainer: {
+            width: 1000,
+            margins: [40, 0, 0, 0]
+        },
+        firstCard: {
+            block4FirstImage
+        },
+        button: {
+            size: 'huge',
+            margins: [40, 0, 0, 0]
         }
     }
 }

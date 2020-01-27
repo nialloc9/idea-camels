@@ -11,3 +11,12 @@ export const remCalc = pixels => {
 };
 
 export const createMediaQuery = breakpoint => `@media (min-width: ${breakpoint}px)`;
+
+export const getMarginsOrPaddings = values => {
+
+    if(!Array.isArray(values)) {
+        return String(values).split(' ').map(o => remCalc(o).join(' '));
+    }
+
+    return `${remCalc(values[0])} ${remCalc(values[1])} ${remCalc(values[2])} ${remCalc(values[3])}`
+};

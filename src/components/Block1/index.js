@@ -4,7 +4,7 @@ import { Image } from '../Image';
 import { Button } from '../Button';
 
 const Container = styled.section`
-    height: ${({ theme: { block1: { height } } }) => remCalc(height)};
+    min-height: ${({ theme: { block1: { height } } }) => remCalc(height)};
     padding: ${({ theme: { block1: { paddings } } }) => `${remCalc(paddings[0])} ${remCalc(paddings[1])} ${remCalc(paddings[2])} ${remCalc(paddings[3])}`};
     box-sizing: border-box;
     background-color: ${({ theme: { block1: { backgroundColor } } }) => backgroundColor};

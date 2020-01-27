@@ -1,13 +1,11 @@
 import React from 'react';
-import { remCalc, styled, withTheme } from 'utils/style';
+import { remCalc, styled, withTheme, getMarginsOrPaddings, createMediaQuery } from 'utils/style';
 import { Button } from '../Button';
 import { Grid, GridColumn } from '../Grid';
 import { Card } from '../Card';
 
-const getMarginsOrPaddings = values => `${remCalc(values[0])} ${remCalc(values[1])} ${remCalc(values[2])} ${remCalc(values[3])}`;
-
 const Container = styled.section`
-    height: ${({ theme: { block3: { height } } }) => remCalc(height)};
+    min-height: ${({ theme: { block3: { height } } }) => remCalc(height)};
     background-color: ${({ theme: { block3: { backgroundColor } } }) => backgroundColor};
     display: flex;
     justify-content: center;
@@ -16,12 +14,16 @@ const Container = styled.section`
 `;
 
 const Overlay = styled.div`
-    position: absolute;
+    position: relative;
     box-sizing: border-box;
     top: ${({ theme: { block3: { overlay } } }) => `${overlay.top}px`};
     min-height: ${({ theme: { block3: { overlay } } }) => remCalc(overlay.minHeight)};
     background-color: ${({ theme: { block3: { overlay } } }) => overlay.backgroundColor};
     max-width: ${({ theme: { block3: { overlay } } }) => remCalc(overlay.width)};
+
+    ${({ theme: { breakpoints } }) => createMediaQuery(breakpoints.tablet)} {
+        position: absolute;
+    }
 `;
 
 const Heading = styled.h1`
