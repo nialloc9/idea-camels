@@ -3,9 +3,23 @@ import logoColor from 'static/logoColor.png';
 import block2Image from 'static/block2Image.webp';
 import block4FirstImage from 'static/block4FirstImage.png';
 
+const MAIN_000 = '#f7c545';
+const MAIN_001 = '#DEAC2C'
+
+const TEXT_000 = '#2a2a2a';
+
+const WHITE_000 = 'white';
+
+const FONT_000 = "'Darker Grotesque', sans-serif";
+const FONT_001 = 'Jubilat, Georgia, sans-serif';
+const FONT_002 = "'Brandon Grotesque', Arial, sans-serif";
+
+const GRAY_000 = "#f4f4f2";
+const GRAY_001 = "#686868";
+
 const defaultFont = {
-    color: '#2a2a2a',
-    fontFamily: "'Darker Grotesque', sans-serif"
+    color: TEXT_000,
+    fontFamily: FONT_000
 };
 
 export default {
@@ -13,13 +27,13 @@ export default {
         tablet: 768
     },
     navigation: {
-        backgroundColor: '#f7c545',
-        color: 'white',
+        backgroundColor: MAIN_000,
+        color: WHITE_000,
         fontFamily: defaultFont.fontFamily,
         size: 'huge',
         button: {
-            backgroundColor: '#DEAC2C',
-            color: 'white'
+            backgroundColor: MAIN_001,
+            color: WHITE_000
         },
         logoSize: 23,
         logo
@@ -28,7 +42,7 @@ export default {
         height: 700,
         width: 728,
         paddings: [0, 20, 0, 20],
-        backgroundColor: 'white',
+        backgroundColor: WHITE_000,
         logo: logoColor,
         headingSize: 60,
         headingLineHeight: 66,
@@ -45,11 +59,11 @@ export default {
     },
     block3: {
         ...defaultFont,
-        height: 900,
-        backgroundColor: 'white',
-        fontFamily: 'Jubilat, Georgia, sans-serif',
+        height: 960,
+        backgroundColor: WHITE_000,
+        fontFamily: FONT_001,
         overlay: {
-            backgroundColor: 'white',
+            backgroundColor: WHITE_000,
             width: 1000,
             minHeight: 500,
             top: -210,
@@ -70,20 +84,19 @@ export default {
             },
             features: {
                 headerPadding: 10,
-                headerFontFamily: "'Brandon Grotesque', Arial, sans-serif",
+                headerFontFamily: FONT_002,
                 headerMargins: [40, 0, 0, 0],
-                headerBackgroundColor: '#f7c545',
+                headerBackgroundColor: MAIN_COLOR_000,
                 featuresMargins: [40, 0, 0, 0],
             }
         }
     },
     block4: {
         ...defaultFont,
-        fontFamily: "Jubilat, Georgia, sans-serif",
+        fontFamily: FONT_001,
         height: 700,
-        backgroundColor: '#f4f4f2',
+        backgroundColor: GRAY_000,
         paddings: [0, 20, 0, 20],
-        headingContainerPaddings: [40, 0, 0, 0],
         heading: {
             size: 50,
             weight: 200,
@@ -93,19 +106,62 @@ export default {
             size: 18,
             lineHeight: 25,
             weight: 400,
-            color: '#686868',
+            color: GRAY_001,
             margins: [-10, 0, 0, 0]
         },
         cardContainer: {
             width: 1000,
-            margins: [40, 0, 0, 0]
+            margins: [60, 0, 0, 0],
+            paddings: [40, 40, 40, 40]
         },
         firstCard: {
-            block4FirstImage
+            image: {
+                src: block4FirstImage,
+                size: 'small'
+            }
+        },
+        button: {
+            size: 'large',
+            margins: [40, 0, 0, 0]
+        }
+    },
+    block5: {
+        ...defaultFont,
+        fontFamily: FONT_001,
+        height: 700,
+        backgroundColor: WHITE_000,
+        paddings: [0, 20, 0, 20],
+        quoteContainerPaddings: [60, 0, 0, 0],
+        card: {
+            width: 1000
+        },
+        quote: {
+            size: 50,
+            weight: 200,
+            lineHeight: 57,
+        },
+        author: {
+            size: 18,
+            lineHeight: 25,
+            weight: 400,
+            color: GRAY_001,
+            margins: [-10, 0, 0, 0]
+        },
+        cardContainer: {
+            width: 1000,
+            margins: [60, 0, 0, 0],
+            paddings: [40, 40, 40, 40]
         },
         button: {
             size: 'huge',
-            margins: [40, 0, 0, 0]
+            margins: [40, 0, 0, 0],
+            backgroundColor: MAIN_000,
         }
+    },
+    footer: {
+        ...defaultFont,
+        height: 700,
+        paddings: [60, 0, 0, 0],
+        backgroundColor: GRAY_000
     }
 }

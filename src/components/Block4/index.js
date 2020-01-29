@@ -1,6 +1,6 @@
 import React from 'react';
 import { remCalc, styled, withTheme, getMarginsOrPaddings } from 'utils/style';
-import { Grid, GridColumn } from '../Grid';
+import { Grid, GridRow, GridColumn } from '../Grid';
 import { Segment } from '../Segment';
 import { Divider } from '../Divider';
 import { Image } from '../Image';
@@ -11,12 +11,14 @@ const Container = styled.section`
     padding: ${({ theme: { block4: { paddings } } }) => getMarginsOrPaddings(paddings)};
     background-color: ${({ theme: { block4: { backgroundColor } } }) => backgroundColor};
     font-family: ${({ theme: { block4: { fontFamily } } }) => fontFamily};
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 `;
 
 const HeadingContainer = styled.div`
     width: 100%;
     text-align: center;
-    padding: ${({ theme: { block4 } }) => getMarginsOrPaddings(block4.headingContainerPaddings)};
 `;
     
 const Heading = styled.h1`
@@ -51,6 +53,7 @@ const ImageContainer = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    padding: ${({ theme: { block4: { cardContainer } } }) => getMarginsOrPaddings(cardContainer.paddings)};
 `;
 
 const ImageInnerContainer = styled.div`
@@ -82,11 +85,11 @@ export default withTheme(({ theme: { block4 } }) => (
                     
                         <Divider vertical />
 
-                        <Grid.Row verticalAlign='middle'>
-                                <GridColumn>
+                        <GridRow verticalAlign='middle'>
+                                <GridColumn >
                                     <ImageContainer>
                                         <ImageInnerContainer>
-                                            <Image size="medium" src={block4.firstCard.block4FirstImage} />
+                                            <Image size={block4.firstCard.image.size} src={block4.firstCard.image.src} />
                                         </ImageInnerContainer>
                                     </ImageContainer>
                                 </GridColumn>
@@ -100,7 +103,7 @@ export default withTheme(({ theme: { block4 } }) => (
                                         <Button color='black' size={block4.button.size} basic>Get Started</Button>
                                     </ButtonContainer>
                                 </GridColumn>
-                        </Grid.Row>
+                        </GridRow>
                     </Grid>
                 </Segment>
             </SplitCard>
