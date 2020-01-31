@@ -86,7 +86,7 @@ export default {
                 headerPadding: 10,
                 headerFontFamily: FONT_002,
                 headerMargins: [40, 0, 0, 0],
-                headerBackgroundColor: MAIN_COLOR_000,
+                headerBackgroundColor: MAIN_000,
                 featuresMargins: [40, 0, 0, 0],
             }
         }
@@ -160,8 +160,21 @@ export default {
     },
     footer: {
         ...defaultFont,
-        height: 700,
+        size: 20,
+        height: 400,
         paddings: [60, 0, 0, 0],
-        backgroundColor: GRAY_000
+        backgroundColor: GRAY_000,
+        column1: {
+            imageSrc: logoColor,
+            imageSize: "mini"
+        },
+        column2: {
+            color: TEXT_000,
+            hoverColor: MAIN_000
+        },
+        column3: {
+            iconColor: MAIN_000,
+            iconSize: 'medium'
+        }
     }
 }

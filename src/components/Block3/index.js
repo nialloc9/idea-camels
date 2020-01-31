@@ -69,23 +69,20 @@ const FeatureHeader = styled.h1`
 
 const features = [
     {
-        key: 1,
         header: 'Modern',
         description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures."
     },
     {
-        key: 2,
         header: 'Simple',
         description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures."
     },
     {
-        key: 3,
         header: 'Safe',
         description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures."
     }
 ];
 
-export default withTheme(({ theme: { block3 } }) => console.log(block3) || (
+export default withTheme(({ theme: { block3 } }) => (
     <Container>
         <Overlay>
             <TextContainer>
@@ -105,9 +102,9 @@ export default withTheme(({ theme: { block3 } }) => console.log(block3) || (
             <FeaturesContainer>
                 <Grid centered columns={3} stretched stackable>
                     {
-                        features.map(({ key, ...rest }) => (
-                            <GridColumn>
-                                <StyleCard {...rest} />
+                        features.map((o) => (
+                            <GridColumn key={o.header}>
+                                <StyleCard {...o} />
                             </GridColumn>
                         ))
                     }

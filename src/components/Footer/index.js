@@ -1,5 +1,10 @@
 import React from 'react';
-import {styled, remCalc} from 'utils/style'
+import {styled, remCalc, withTheme} from 'utils/style';
+import {config} from 'config';
+import { Grid, GridColumn } from "../Grid";
+import { Image } from "../Image";
+import { List, ListItem } from "../List";
+import { Icon } from "../Icon";
 
 const Container = styled.section`
     min-height: ${({ theme: { footer: { height } } }) => remCalc(height)};
@@ -12,10 +17,43 @@ const Container = styled.section`
     flex-direction: column;
     justify-content: center;
     color: ${({ theme: { footer: { color } } }) => color};
+    font-size: ${({ theme: { footer: { size } } }) => remCalc(size)};
 `;
 
-export default () => (
+const StyledIcon = styled(Icon)`
+    color: ${({ theme: { footer: { column3: { iconColor } }}}) => iconColor};
+`;
+
+const StyledListItem = styled(ListItem)`
+    color: ${({ theme: { footer: { column2: { color } }}}) => color} !important;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+        color: ${({ theme: { footer: { column2: { hoverColor } }}}) => hoverColor} !important;
+    }
+`;
+
+export default withTheme(({ theme: { footer: { column1: { imageSrc, imageSize }, column3: { iconSize } } } }) => (
     <Container>
-        hello
+        <Grid stackable container columns={3}>
+            <GridColumn>
+                <Image src={imageSrc} size={imageSize} avatar />
+                <span>The Teachers Guild</span>
+            </GridColumn>
+            <GridColumn>
+                <List>
+                    <StyledListItem as="a">Contact Us</StyledListItem>
+                    <StyledListItem as="a">Terms And Conditions</StyledListItem>
+                    <StyledListItem as="a">Privacy Policy</StyledListItem>
+                    <StyledListItem as="a">Cookies Policy</StyledListItem>
+                </List>
+            </GridColumn>
+            <GridColumn>
+                <a href={config.social.facebook}><StyledIcon bordered size={iconSize} name='facebook' /></a>
+                <a href={config.social.facebook}><StyledIcon bordered size={iconSize} name='twitter' /></a>
+                <a href={config.social.facebook}><StyledIcon bordered size={iconSize} name='linkedin' /></a>
+            </GridColumn>
+        </Grid>
     </Container>
-)
+))
