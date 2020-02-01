@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import withAnalytics from 'hoc/withAnalytics';
 import { Menu, MenuItem, MenuMenu } from '../Menu'
 import { Image } from '../Image'
 import { styled, createMediaQuery, remCalc } from 'utils/style'
@@ -24,6 +25,8 @@ const StyledImage = styled(Image)`
   max-width: ${({ theme: { navigation } }) => remCalc(navigation.logoSize)} !important;
 `;
 
+const AnalyticsMenuItem = withAnalytics(MenuItem);
+
 export default ({ theme: { navigation } }) => {
 
   const [{activeItem}, setState] = useState({ activeItem: 'home' });
@@ -32,20 +35,24 @@ export default ({ theme: { navigation } }) => {
 
   return(
       <StyledMenu secondary size={navigation.size}>
-        <MenuItem
+        <AnalyticsMenuItem
           name='logo'
           active={activeItem === 'logo'}
           onClick={handleItemClick}
+          action='navigation-logo-click'
+          href="/coming-soon"
         >
-          <StyledImage src={navigation.logo} />
-        </MenuItem>
+          <StyledImage alt="idea camal logo" src={navigation.logo} />
+        </AnalyticsMenuItem>
         <MenuMenu position='right'>
           {items.map(o => (
-            <MenuItem
+            <AnalyticsMenuItem
               key={o}
               name={o}
+              href="/coming-soon"
               active={activeItem === o}
               onClick={handleItemClick}
+              action={`${o.replace(' ', '-')}-click`.toLowerCase()}
             />
           ))}
         </MenuMenu>

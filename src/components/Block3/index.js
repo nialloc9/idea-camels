@@ -1,5 +1,6 @@
 import React from 'react';
 import { remCalc, styled, withTheme, getMarginsOrPaddings, createMediaQuery } from 'utils/style';
+import withAnalytics from 'hoc/withAnalytics';
 import { Button } from '../Button';
 import { Grid, GridColumn } from '../Grid';
 import { Card } from '../Card';
@@ -69,31 +70,33 @@ const FeatureHeader = styled.h1`
 
 const features = [
     {
-        header: 'Modern',
-        description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures."
+        header: 'Validation',
+        description: "Idea Camal combines paid search with simplified landing pages to tell you are people searching for your answer to their problem. By providing reports and a list of emails of people who interacted with your idea page you can be sure your idea is one worth doing."
     },
     {
         header: 'Simple',
-        description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures."
+        description: "SEO, Development, Paid Search. A never ending list of hoops to jump through and all you want is to know 'is it worth doing?'. Idea Camal simplifies all of this by providing one seamless experience to provide feedback on your idea as soon as possible."
     },
     {
-        header: 'Safe',
-        description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures."
+        header: 'Fast',
+        description: "Whether you are a developer, marketing exec, or any other are of the business who wants to wait months to know if people even want your product? Idea Camal can provide your with the validation you need to move your idea into development."
     }
 ];
+
+const AnalyticsButton = withAnalytics(Button);
 
 export default withTheme(({ theme: { block3 } }) => (
     <Container>
         <Overlay>
             <TextContainer>
                 <Heading>
-                    Welcome to The Teachers Guild
+                    Welcome to Idea Camal
                 </Heading>
                 <MainText>
-                    We are a professional community that activates teachers' creativity to solve the biggest challenges in education today. In our collaborative learning programs we use Design Thinking, a learner-centered approach to problem solving. Teachers tap into their inner designer by trying new ideas and discovering what works and why for their students and schools.
+                    Combining a super modern UI with paid search to create a landing page and drive traffic to it based on other internet users search keywords. Don't spend time creating a fully fleged site when all you want to know is it worth the development time. Instead you can know in a matter of days if your new idea is worth persuing.
                 </MainText>
                 <ButtonContainer>
-                    <Button color='black' size={block3.overlay.button.size} basic>Learn More</Button>
+                    <AnalyticsButton href="/coming-soon" color='black' size={block3.overlay.button.size} basic action='block3-button'>Learn More</AnalyticsButton>
                 </ButtonContainer>
             </TextContainer>
 

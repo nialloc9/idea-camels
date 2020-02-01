@@ -1,10 +1,13 @@
 import React from 'react';
 import { remCalc, styled, withTheme, getMarginsOrPaddings } from 'utils/style';
+import withAnalytics from 'hoc/withAnalytics';
 import { Grid, GridRow, GridColumn } from '../Grid';
 import { Segment } from '../Segment';
 import { Divider } from '../Divider';
 import { Image } from '../Image';
 import { Button } from '../Button';
+
+const AnalyticsButton = withAnalytics(Button);
 
 const Container = styled.section`
     min-height: ${({ theme: { block4: { height } } }) => remCalc(height)};
@@ -74,7 +77,7 @@ export default withTheme(({ theme: { block4 } }) => (
                 Start Creating!
             </Heading>
             <SubHeading>
-                Be inspired by the creativity of our community.
+                Don't waste time on development and validate your idea now.
             </SubHeading>
         </HeadingContainer>
     
@@ -97,10 +100,10 @@ export default withTheme(({ theme: { block4 } }) => (
                                 <GridColumn>
                                     <Heading>Test your ideas</Heading>
                                     <SubHeading>
-                                    Rapidly test an idea by creating a landing page and testing adwords to see if it is worth continuing. All in one place.
+                                        Rapidly test an idea by creating a landing page and testing adwords to see if it is worth continuing. All in one place.
                                     </SubHeading>
                                     <ButtonContainer>
-                                        <Button color='black' size={block4.button.size} basic>Get Started</Button>
+                                        <AnalyticsButton href="/coming-soon" color='black' size={block4.button.size} basic action='block4-button'>Get Started</AnalyticsButton>
                                     </ButtonContainer>
                                 </GridColumn>
                         </GridRow>

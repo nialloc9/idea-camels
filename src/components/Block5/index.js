@@ -1,9 +1,6 @@
 import React from 'react';
 import { remCalc, styled, withTheme, getMarginsOrPaddings } from 'utils/style';
-import { Grid, GridRow, GridColumn } from '../Grid';
-import { Segment } from '../Segment';
-import { Divider } from '../Divider';
-import { Image } from '../Image';
+import withAnalytics from 'hoc/withAnalytics';
 import { Button } from '../Button';
 
 const Container = styled.section`
@@ -56,19 +53,21 @@ const StyledButton = styled(Button)`
     color: ${({ theme: { block5: { button } } }) => button.color} !important;
 `;
 
+const AnalyticsButton = withAnalytics(StyledButton);
+
 export default withTheme(({ theme: { block5 } }) => (
     <Container>
         <InnerContainer>
             <QuoteContainer>
                 <Quote>
-                    "There is shared belief among educators today that the status quo is not okay, and we're in the position to do something about it."
+                    "Gut feelings have no place in a world where data driven assumptions can be made."
                 </Quote>
                 <Author>
-                    - ANA OZA, 7TH GRADE ENGLISH TEACHER
+                    - Seamus O' Connor, Senior Engineering Manager
                 </Author>
             </QuoteContainer>
             <ButtonContainer>
-                <StyledButton size={block5.button.size}>JOIN US</StyledButton>
+                <AnalyticsButton href="/coming-soon" size={block5.button.size} action='block5-button'>JOIN US</AnalyticsButton>
             </ButtonContainer>
         </InnerContainer>
     </Container>

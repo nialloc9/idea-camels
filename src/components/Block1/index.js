@@ -1,5 +1,6 @@
 import React from 'react';
 import { remCalc, styled, withTheme } from 'utils/style';
+import withAnalytics from 'hoc/withAnalytics';
 import { Image } from '../Image';
 import { Button } from '../Button';
 
@@ -47,20 +48,24 @@ const ButtonContainer = styled.div`
     max-width: ${({ theme: { block1: { buttonWidth } } }) => buttonWidth ? remCalc(buttonWidth) : 'auto'};
 `;
 
+const AnalyticsImage = withAnalytics(Image);
+
+const AnalyticsButton = withAnalytics(Button);
+
 export default withTheme(({ theme: { block1 } }) => (
     <Container>
         <InnerContainer>
             <ImageContainer>
-                <Image size='small' src={block1.logo} />
+                <AnalyticsImage alt="idea camal logo" size='small' src={block1.logo} action='block1-logo' />
             </ImageContainer>
             <Heading>
-                Teachers are the innovators education has been waiting for.
+                Have an idea? <br /> Not sure if it's worth doing?
             </Heading>
             <SubHeading>
-                Preparing our students to be the problem solvers of tomorrow
+                Find out are people searching for your idea. All in under 1 hour!!
             </SubHeading>
             <ButtonContainer>
-                <Button color='black' size={block1.buttonSize} basic>Buy Now</Button>
+                <AnalyticsButton href="/coming-soon" action="block1-button" color='black' size={block1.buttonSize} basic>Buy Now</AnalyticsButton>
             </ButtonContainer>
         </InnerContainer>
     </Container>

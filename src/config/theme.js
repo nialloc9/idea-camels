@@ -59,7 +59,7 @@ export default {
     },
     block3: {
         ...defaultFont,
-        height: 960,
+        height: 650,
         backgroundColor: WHITE_000,
         fontFamily: FONT_001,
         overlay: {
@@ -176,5 +176,24 @@ export default {
             iconColor: MAIN_000,
             iconSize: 'medium'
         }
-    }
+    },
+    comingSoon: {
+        ...defaultFont,
+        width: 800,
+        fontFamily: FONT_001,
+        height: 700,
+        backgroundColor: GRAY_000,
+        paddings: [0, 20, 0, 20],
+        headingSize: 60,
+        headingLineHeight: 66,
+        headingMargins: [40, 0, 0, 0],
+        subHeadingLineHeight: 27,
+        subHeadingSize: 27,
+        subHeadingMargins: [40, 0, 40, 0],
+        signUpWidth: 500,
+        button: {
+            size: 'large',
+            margins: [40, 0, 0, 0]
+        }
+    },
 }

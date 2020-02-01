@@ -24,7 +24,8 @@
     "react-static-plugin-sitemap": "^7.2.0",
     "react-static-plugin-source-filesystem": "^7.2.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2"
+    "semantic-ui-react": "^0.88.2",
+    "universal-analytics": "^0.4.20"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",

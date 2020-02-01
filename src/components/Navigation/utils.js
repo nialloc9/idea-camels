@@ -1,1 +1,1 @@
-export const items = ['About Us', 'Services', 'Products'];
+export const items = ['About Us', 'Services', 'Products', 'Sign Up'];
