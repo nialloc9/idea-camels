@@ -40,7 +40,7 @@ export default ({ theme: { navigation } }) => {
           active={activeItem === 'logo'}
           onClick={handleItemClick}
           action='navigation-logo-click'
-          href="/coming-soon"
+          href="/"
         >
           <StyledImage alt="idea camal logo" src={navigation.logo} />
         </AnalyticsMenuItem>
