@@ -42,7 +42,7 @@ export default withTheme(({ theme: { footer: { column1: { imageSrc, imageSize },
         <Grid stackable container columns={3}>
             <GridColumn>
                 <Image src={imageSrc} size={imageSize} avatar />
-                <span>Idea Camal</span>
+                <span>Idea Camels</span>
             </GridColumn>
             <GridColumn>
                 <List>

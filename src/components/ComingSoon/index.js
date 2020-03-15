@@ -3,7 +3,7 @@ import {styled, remCalc, getMarginsOrPaddings, createMediaQuery} from 'utils/sty
 import EmailSignUp from 'components/EmailSignUp';
 
 const Container = styled.section`
-    min-height: ${({ theme: { comingSoon: { height } } }) => remCalc(height)};
+    min-height: 100vh;
     padding: ${({ theme: { comingSoon: { paddings } } }) => getMarginsOrPaddings(paddings)};
     background-color: ${({ theme: { comingSoon: { backgroundColor } } }) => backgroundColor};
     font-family: ${({ theme: { comingSoon: { fontFamily } } }) => fontFamily};
@@ -36,14 +36,13 @@ const SignUpContainer = styled.div`
     ${({ theme: { breakpoints } }) => createMediaQuery(breakpoints.tablet)} {
         max-width: ${({ theme: { comingSoon } }) => remCalc(comingSoon.signUpWidth)};
     }
-    
 `;
 
 export default () => (
     <Container>
         <InnerContainer>
             <Heading>Coming Soon</Heading>
-            <SubHeading>Sign up now to the upcoming Idea Camal release and receive an early bird discount.</SubHeading>
+            <SubHeading>Sign up now to the upcoming Idea Camels release and receive an early bird discount.</SubHeading>
             <SignUpContainer>
                 <EmailSignUp />
             </SignUpContainer>

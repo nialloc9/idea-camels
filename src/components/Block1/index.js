@@ -56,7 +56,7 @@ export default withTheme(({ theme: { block1 } }) => (
     <Container>
         <InnerContainer>
             <ImageContainer>
-                <AnalyticsImage alt="idea camal logo" size='small' src={block1.logo} action='block1-logo' />
+                <AnalyticsImage alt="idea camels logo" size='small' src={block1.logo} action='block1-logo' />
             </ImageContainer>
             <Heading>
                 Have an idea? <br /> Not sure if it's worth doing?

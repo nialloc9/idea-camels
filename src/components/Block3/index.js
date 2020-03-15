@@ -71,15 +71,15 @@ const FeatureHeader = styled.h1`
 const features = [
     {
         header: 'Validation',
-        description: "Idea Camal combines paid search with simplified landing pages to tell you are people searching for your answer to their problem. By providing reports and a list of emails of people who interacted with your idea page you can be sure your idea is one worth doing."
+        description: "Idea Camels combines paid search with simplified landing pages to tell you are people searching for your answer to their problem. By providing reports and a list of emails of people who interacted with your idea page you can be sure your idea is one worth doing."
     },
     {
         header: 'Simple',
-        description: "SEO, Development, Paid Search. A never ending list of hoops to jump through and all you want is to know 'is it worth doing?'. Idea Camal simplifies all of this by providing one seamless experience to provide feedback on your idea as soon as possible."
+        description: "SEO, Development, Paid Search. A never ending list of hoops to jump through and all you want is to know 'is it worth doing?'. Idea Camels simplifies all of this by providing one seamless experience to provide feedback on your idea as soon as possible."
     },
     {
         header: 'Fast',
-        description: "Whether you are a developer, marketing exec, or any other are of the business who wants to wait months to know if people even want your product? Idea Camal can provide your with the validation you need to move your idea into development."
+        description: "Whether you are a developer, marketing exec, or any other are of the business who wants to wait months to know if people even want your product? Idea Camels can provide your with the validation you need to move your idea into development."
     }
 ];
 
@@ -90,7 +90,7 @@ export default withTheme(({ theme: { block3 } }) => (
         <Overlay>
             <TextContainer>
                 <Heading>
-                    Welcome to Idea Camal
+                    Welcome to Idea Camels
                 </Heading>
                 <MainText>
                     Combining a super modern UI with paid search to create a landing page and drive traffic to it based on other internet users search keywords. Don't spend time creating a fully fleged site when all you want to know is it worth the development time. Instead you can know in a matter of days if your new idea is worth persuing.

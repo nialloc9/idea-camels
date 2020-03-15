@@ -29,7 +29,7 @@ export default {
       <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="https://fonts.googleapis.com/css?family=Darker+Grotesque&display=swap" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow|Cairo|Darker+Grotesque|Josefin+Sans|Playfair+Display&display=swap" rel="stylesheet" />
       </Head>
       <Body>{children}</Body>
     </Html>

@@ -11,8 +11,8 @@ const TEXT_000 = '#2a2a2a';
 const WHITE_000 = 'white';
 
 const FONT_000 = "'Darker Grotesque', sans-serif";
-const FONT_001 = 'Jubilat, Georgia, sans-serif';
-const FONT_002 = "'Brandon Grotesque', Arial, sans-serif";
+const FONT_001 = "Cairo, 'Playfair Display', sans-serif";
+const FONT_002 = "'Josefin Sans', 'Archivo Narrow', sans-serif";
 
 const GRAY_000 = "#f4f4f2";
 const GRAY_001 = "#686868";
@@ -174,14 +174,13 @@ export default {
         },
         column3: {
             iconColor: MAIN_000,
-            iconSize: 'medium'
+            iconSize: 'small'
         }
     },
     comingSoon: {
         ...defaultFont,
         width: 800,
         fontFamily: FONT_001,
-        height: 700,
         backgroundColor: GRAY_000,
         paddings: [0, 20, 0, 20],
         headingSize: 60,
