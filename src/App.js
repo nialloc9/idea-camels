@@ -11,17 +11,21 @@ addPrefetchExcludes(['dynamic'])
 function App() {
   return (
     <ThemeProvider theme={theme}>
-          <Root>
-      <Navigation />
-        <div className="content">
-          <React.Suspense fallback={<em>Loading...</em>}>
-            <Router>
-              <Routes path="*" />
-            </Router>
-          </React.Suspense>
-        </div>
-      
-    </Root>
+      <Root>
+        <Navigation />
+        
+        {
+          typeof document !== 'undefined' && (
+            <div className="content">
+              <React.Suspense fallback={<em>Loading...</em>}>
+                <Router>
+                  <Routes path="*" />
+                </Router>
+              </React.Suspense>
+            </div>
+          )
+        }
+      </Root>
       </ThemeProvider>
     
   )

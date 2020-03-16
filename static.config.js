@@ -5,8 +5,11 @@ export default {
   getRoutes: async () => {
     return [
       {
-        path: '/blog'
+        path: '/'
       },
+      {
+        path: '/coming-soon'
+      }
     ]
   },
   plugins: [
