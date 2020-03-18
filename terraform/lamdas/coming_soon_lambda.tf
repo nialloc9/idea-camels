@@ -1,3 +1,7 @@
+provider "aws" {
+  region = "${var.aws_region}"
+}
+
 resource "aws_iam_role" "coming_soon_lambda" {
   name = "${var.coming_soon_lambda_iam_role}"
 
@@ -24,13 +28,9 @@ resource "aws_lambda_function" "coming_soon_lambda" {
   function_name    = "${var.coming_soon_function_name}"
   role             = "${aws_iam_role.coming_soon_lambda.arn}"
   handler          = "index.handler"
-  runtime          = "nodejs6.10"
+  runtime          = "nodejs12.x"
 
   tags = {
     purpose        = "${var.purpose}"
   }
-
-  depends_on = [
-    aws_s3.,
-  ]
 }

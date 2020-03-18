@@ -33,3 +33,21 @@ resource "aws_s3_bucket" "ideacamels-coming-soon-lambda" {
     purpose        = "${var.purpose}"
   }
 }
+
+resource "null_resource" "remove_and_upload_to_s3" {
+  provisioner "local-exec" {
+    command = "aws s3 sync ../../dist s3://${var.site_bucket} --delete"
+  }
+
+  depends_on = [aws_s3_bucket.ideacamels.com]
+}
+
+resource "aws_s3_bucket_object" "object" {
+  bucket = "ideacamels-coming-soon-lambda"
+  key    = "comingSoon.js"
+  source = "../../lamdas/dist/comingSoon.zip"
+
+  etag = "${filemd5("../../lamdas/dist/comingSoon.zip")}"
+
+  depends_on = [aws_s3_bucket.ideacamels-coming-soon-lambda]
+}

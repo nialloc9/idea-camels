@@ -15,7 +15,7 @@ variable "lambda_coming_soon_bucket" {
 
 variable "lambda_coming_soon_key" {
     type = "string"
-    default = "handler.zip"
+    default = "comingSoon.js"
 }
 
 variable "coming_soon_function_name" {
