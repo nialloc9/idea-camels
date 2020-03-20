@@ -8,9 +8,9 @@ variable "site_bucket" {
     default = "ideacamels.com"
 }
 
-variable "lambda_coming_soon_bucket" {
+variable "lambda_bucket" {
     type = "string"
-    default = "ideacamels-coming-soon-lambda"
+    default = "ideacamels-lambdas"
 }
 
 variable "lambda_coming_soon_key" {

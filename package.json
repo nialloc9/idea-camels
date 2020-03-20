@@ -9,8 +9,8 @@
     "serve": "serve dist -p 3000",
     "deploy-site": "make deploy_site_to_s3",
     "deploy-site-infra": "make deploy_site_infra",
-    "deploy-lamdas": "make deploy_lamdas_to_s3",
-    "deploy-lamdas-infra": "make deploy_lamdas_infra",
+    "deploy-lambdas": "make deploy_lambdas_to_s3",
+    "deploy-lambdas-infra": "make deploy_lambdas_infra",
     "bust-site-cache": "make invalidate_site_cache"
   },
   "dependencies": {

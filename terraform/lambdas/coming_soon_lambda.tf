@@ -23,7 +23,7 @@ EOF
 }
 
 resource "aws_lambda_function" "coming_soon_lambda" {
-  s3_bucket         = "${var.lambda_coming_soon_bucket}"
+  s3_bucket         = "${var.lambda_bucket}"
   s3_key         = "${var.lambda_coming_soon_key}"
   function_name    = "${var.coming_soon_function_name}"
   role             = "${aws_iam_role.coming_soon_lambda.arn}"

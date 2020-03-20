@@ -4,6 +4,7 @@ provider "aws" {
 
 resource "aws_s3_bucket" "ideacamels" {
   bucket = "${var.site_bucket}"
+  force_destroy = true
   acl    = "public-read"
   policy = "${file("idea-camels-website-policy.json")}" 
   tags = {
@@ -27,27 +28,26 @@ resource "aws_s3_bucket" "www-ideacamels" {
   }
 }
 
-resource "aws_s3_bucket" "ideacamels-coming-soon-lambda" {
-  bucket = "${var.lambda_coming_soon_bucket}"
-  tags = {
-    purpose        = "${var.purpose}"
-  }
-}
-
 resource "null_resource" "remove_and_upload_to_s3" {
   provisioner "local-exec" {
     command = "aws s3 sync ../../dist s3://${var.site_bucket} --delete"
   }
 
-  depends_on = [aws_s3_bucket.ideacamels.com]
+  depends_on = [aws_s3_bucket.ideacamels]
 }
 
-resource "aws_s3_bucket_object" "object" {
-  bucket = "ideacamels-coming-soon-lambda"
-  key    = "comingSoon.zip"
-  source = "../../lamdas/dist/comingSoon.zip"
+resource "aws_s3_bucket" "ideacamels-lambda" {
+  bucket = "${var.lambda_bucket_name}"
+  force_destroy = true
+  tags = {
+    purpose = "${var.purpose}"
+  }
+}
 
-  etag = "${filemd5("../../lamdas/dist/comingSoon.zip")}"
+resource "null_resource" "remove_and_upload_lambda_to_s3" {
+  provisioner "local-exec" {
+    command = "aws s3 sync ../../lambdas/dist s3://${var.lambda_bucket_name} --delete"
+  }
 
-  depends_on = [aws_s3_bucket.ideacamels-coming-soon-lambda]
+  depends_on = [aws_s3_bucket.ideacamels-lambda]
 }
