@@ -1,8 +1,8 @@
 deploy_site_to_s3:
-	aws s3 sync ./dist s3://${SITE_BUCKET_NAME} --delete
+	aws s3 sync ./dist s3://ideacamels.com --delete
 
 deploy_lamdas_to_s3:
-	aws s3 sync ./lamdas/dist s3://${LAMDA_BUCKET_NAME} --delete
+	aws s3 sync ./lamdas/dist s3://ideacamels-coming-soon-lambda --delete
 
 invalidate_site_cache:
 	aws cloudfront create-invalidation --distribution-id ${SITE_DISTRIBUTION_ID} --paths '/*'

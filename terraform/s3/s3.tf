@@ -44,7 +44,7 @@ resource "null_resource" "remove_and_upload_to_s3" {
 
 resource "aws_s3_bucket_object" "object" {
   bucket = "ideacamels-coming-soon-lambda"
-  key    = "comingSoon.js"
+  key    = "comingSoon.zip"
   source = "../../lamdas/dist/comingSoon.zip"
 
   etag = "${filemd5("../../lamdas/dist/comingSoon.zip")}"
