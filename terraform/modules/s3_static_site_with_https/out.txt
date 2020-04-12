@@ -1,0 +1,2 @@
+{ "CertificateArn": "arn:aws:acm:eu-west-1:115830081349:certificate/26c0634a-ea1d-4be3-985f-bb613e17d7eb" }
+arn:aws:acm:eu-west-1:115830081349:certificate/26c0634a-ea1d-4be3-985f-bb613e17d7eb

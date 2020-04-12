@@ -181,16 +181,16 @@ module.exports = require("semantic-ui-react");
 /* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(29);
 /* harmony import */ var _babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
 /* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(17);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(18);
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(18);
-/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(19);
-/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(11);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(11);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(19);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(12);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(20);
 /* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(7);
@@ -210,6 +210,11 @@ module.exports = require("semantic-ui-react");
 
 
 
+function _createSuper(Derived) { return function () { var Super = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5___default()(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+
 
 
 /* harmony default export */ __webpack_exports__["a"] = (function (WrappedComponent) {
@@ -218,9 +223,9 @@ module.exports = require("semantic-ui-react");
   return _temp = /*#__PURE__*/function (_Component) {
     _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default()(Event, _Component);
 
-    function Event() {
-      var _getPrototypeOf2;
+    var _super = _createSuper(Event);
 
+    function Event() {
       var _this;
 
       _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default()(this, Event);
@@ -229,9 +234,9 @@ module.exports = require("semantic-ui-react");
         args[_key] = arguments[_key];
       }
 
-      _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(Event)).call.apply(_getPrototypeOf2, [this].concat(args)));
+      _this = _super.call.apply(_super, [this].concat(args));
 
-      _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), "handleClick", function () {
+      _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this), "handleClick", function () {
         var _this$props = _this.props,
             action = _this$props.action,
             label = _this$props.label,
@@ -255,7 +260,7 @@ module.exports = require("semantic-ui-react");
             onClick = _this$props2.onClick,
             rest = _babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1___default()(_this$props2, ["action", "label", "onClick"]);
 
-        return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(WrappedComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, rest, {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(WrappedComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, rest, {
           onClick: this.handleClick
         }));
       }
@@ -801,10 +806,16 @@ module.exports = require("@babel/runtime/helpers/assertThisInitialized");
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("@reach/router");
+module.exports = require("@babel/runtime/helpers/getPrototypeOf");
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports) {
+
+module.exports = require("@reach/router");
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -827,40 +838,34 @@ var requireById = function requireById(id) {
 exports["default"] = requireById;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-static");
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("@babel/runtime/helpers/slicedToArray");
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("@babel/runtime/helpers/classCallCheck");
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = require("@babel/runtime/helpers/createClass");
 
 /***/ }),
-/* 18 */
-/***/ (function(module, exports) {
-
-module.exports = require("@babel/runtime/helpers/possibleConstructorReturn");
-
-/***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime/helpers/getPrototypeOf");
+module.exports = require("@babel/runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 20 */
@@ -912,10 +917,10 @@ var external_react_ = __webpack_require__(1);
 var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_);
 
 // EXTERNAL MODULE: external "react-static"
-var external_react_static_ = __webpack_require__(14);
+var external_react_static_ = __webpack_require__(15);
 
 // EXTERNAL MODULE: external "@reach/router"
-var router_ = __webpack_require__(12);
+var router_ = __webpack_require__(13);
 
 // CONCATENATED MODULE: /Users/noconnor1/Desktop/niall/template-website/src/components/Router/index.js
 
@@ -923,7 +928,7 @@ var router_ = __webpack_require__(12);
 var style = __webpack_require__(0);
 
 // EXTERNAL MODULE: external "@babel/runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(15);
+var slicedToArray_ = __webpack_require__(16);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime/helpers/taggedTemplateLiteral"
@@ -1011,22 +1016,22 @@ var AnalyticsMenuItem = Object(withAnalytics["a" /* default */])(external_semant
     });
   };
 
-  return external_react_default.a.createElement(StyledMenu, {
+  return /*#__PURE__*/external_react_default.a.createElement(StyledMenu, {
     secondary: true,
     size: navigation.size
-  }, external_react_default.a.createElement(AnalyticsMenuItem, {
+  }, /*#__PURE__*/external_react_default.a.createElement(AnalyticsMenuItem, {
     name: "logo",
     active: activeItem === 'logo',
     onClick: handleItemClick,
     action: "navigation-logo-click",
     href: "/"
-  }, external_react_default.a.createElement(StyledImage, {
+  }, /*#__PURE__*/external_react_default.a.createElement(StyledImage, {
     alt: "idea camels logo",
     src: navigation.logo
-  })), external_react_default.a.createElement(external_semantic_ui_react_["MenuMenu"], {
+  })), /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["MenuMenu"], {
     position: "right"
   }, items.map(function (o) {
-    return external_react_default.a.createElement(AnalyticsMenuItem, {
+    return /*#__PURE__*/external_react_default.a.createElement(AnalyticsMenuItem, {
       key: o,
       name: o,
       href: "/coming-soon",
@@ -1128,23 +1133,23 @@ var StyledButton = Object(style["e" /* styled */])(Button["a" /* Button */])(_te
     });
   };
 
-  return external_react_default.a.createElement(Mobile_StyledMenu, {
+  return /*#__PURE__*/external_react_default.a.createElement(Mobile_StyledMenu, {
     secondary: true,
     size: navigation.size,
     stackable: true
-  }, external_react_default.a.createElement(external_semantic_ui_react_["MenuItem"], null, external_react_default.a.createElement(StyledButton, {
+  }, /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["MenuItem"], null, /*#__PURE__*/external_react_default.a.createElement(StyledButton, {
     fluid: true,
     onClick: handleMenuClick,
     icon: "align justify"
   })), isOpen && items.map(function (o) {
-    return external_react_default.a.createElement(external_semantic_ui_react_["MenuItem"], {
+    return /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["MenuItem"], {
       key: o,
       name: o,
       active: activeItem === {
         o: o
       },
       onClick: handleItemClick
-    }, external_react_default.a.createElement(Item, null, o));
+    }, /*#__PURE__*/external_react_default.a.createElement(Item, null, o));
   }));
 });
 // CONCATENATED MODULE: /Users/noconnor1/Desktop/niall/template-website/src/components/Navigation/index.js
@@ -1154,9 +1159,9 @@ var StyledButton = Object(style["e" /* styled */])(Button["a" /* Button */])(_te
 
 /* harmony default export */ var components_Navigation = (Object(style["f" /* withTheme */])(function (_ref) {
   var theme = _ref.theme;
-  return [external_react_default.a.createElement(Navigation, {
+  return [/*#__PURE__*/external_react_default.a.createElement(Navigation, {
     theme: theme
-  }), external_react_default.a.createElement(Mobile, {
+  }), /*#__PURE__*/external_react_default.a.createElement(Mobile, {
     theme: theme
   })];
 }));
@@ -1174,13 +1179,13 @@ var config = __webpack_require__(30);
 Object(external_react_static_["addPrefetchExcludes"])(['dynamic']);
 
 function App() {
-  return external_react_default.a.createElement(style["a" /* ThemeProvider */], {
+  return /*#__PURE__*/external_react_default.a.createElement(style["a" /* ThemeProvider */], {
     theme: config["a" /* theme */]
-  }, external_react_default.a.createElement(external_react_static_["Root"], null, external_react_default.a.createElement(components_Navigation, null), typeof document !== 'undefined' && external_react_default.a.createElement("div", {
+  }, /*#__PURE__*/external_react_default.a.createElement(external_react_static_["Root"], null, /*#__PURE__*/external_react_default.a.createElement(components_Navigation, null), typeof document !== 'undefined' && /*#__PURE__*/external_react_default.a.createElement("div", {
     className: "content"
-  }, external_react_default.a.createElement(external_react_default.a.Suspense, {
-    fallback: external_react_default.a.createElement("em", null, "Loading...")
-  }, external_react_default.a.createElement(router_["Router"], null, external_react_default.a.createElement(external_react_static_["Routes"], {
+  }, /*#__PURE__*/external_react_default.a.createElement(external_react_default.a.Suspense, {
+    fallback: /*#__PURE__*/external_react_default.a.createElement("em", null, "Loading...")
+  }, /*#__PURE__*/external_react_default.a.createElement(router_["Router"], null, /*#__PURE__*/external_react_default.a.createElement(external_react_static_["Routes"], {
     path: "*"
   }))))));
 }
@@ -1260,7 +1265,7 @@ var _react = __webpack_require__(1);
 
 var React = _interopRequireWildcard(_react);
 
-var _requireById = __webpack_require__(13);
+var _requireById = __webpack_require__(14);
 
 var _requireById2 = _interopRequireDefault(_requireById);
 
@@ -1729,7 +1734,7 @@ var universalOptions = {
   },
   error: function error(props) {
     console.error(props.error);
-    return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", null, "An error occurred loading this page's template. More information is available in the console.");
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", null, "An error occurred loading this page's template. More information is available in the console.");
   },
   ignoreBabelRename: true
 };
@@ -1819,7 +1824,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ __webpack_exports__["default"] = (function () {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "404 - Oh no's! We couldn't find that page :("));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "404 - Oh no's! We couldn't find that page :("));
 });
 
 /***/ }),
@@ -1973,12 +1978,12 @@ var AnalyticsImage = Object(withAnalytics["a" /* default */])(Image["a" /* Image
 var AnalyticsButton = Object(withAnalytics["a" /* default */])(Button["a" /* Button */]);
 /* harmony default export */ var Block1 = (Object(style["f" /* withTheme */])(function (_ref16) {
   var block1 = _ref16.theme.block1;
-  return external_react_default.a.createElement(Container, null, external_react_default.a.createElement(InnerContainer, null, external_react_default.a.createElement(ImageContainer, null, external_react_default.a.createElement(AnalyticsImage, {
+  return /*#__PURE__*/external_react_default.a.createElement(Container, null, /*#__PURE__*/external_react_default.a.createElement(InnerContainer, null, /*#__PURE__*/external_react_default.a.createElement(ImageContainer, null, /*#__PURE__*/external_react_default.a.createElement(AnalyticsImage, {
     alt: "idea camels logo",
     size: "small",
     src: block1.logo,
     action: "block1-logo"
-  })), external_react_default.a.createElement(Heading, null, "Have an idea? ", external_react_default.a.createElement("br", null), " Not sure if it's worth doing?"), external_react_default.a.createElement(SubHeading, null, "Find out are people searching for your idea. All in under 1 hour!!"), external_react_default.a.createElement(ButtonContainer, null, external_react_default.a.createElement(AnalyticsButton, {
+  })), /*#__PURE__*/external_react_default.a.createElement(Heading, null, "Have an idea? ", /*#__PURE__*/external_react_default.a.createElement("br", null), " Not sure if it's worth doing?"), /*#__PURE__*/external_react_default.a.createElement(SubHeading, null, "Find out are people searching for your idea. All in under 1 hour!!"), /*#__PURE__*/external_react_default.a.createElement(ButtonContainer, null, /*#__PURE__*/external_react_default.a.createElement(AnalyticsButton, {
     href: "/coming-soon",
     action: "block1-button",
     color: "black",
@@ -2009,7 +2014,7 @@ var Block2_Container = style["e" /* styled */].section(Block2_templateObject(), 
   return image;
 });
 /* harmony default export */ var Block2 = (function () {
-  return external_react_default.a.createElement(Block2_Container, null);
+  return /*#__PURE__*/external_react_default.a.createElement(Block2_Container, null);
 });
 // EXTERNAL MODULE: external "semantic-ui-react"
 var external_semantic_ui_react_ = __webpack_require__(3);
@@ -2211,21 +2216,21 @@ var features = [{
 var Block3_AnalyticsButton = Object(withAnalytics["a" /* default */])(Button["a" /* Button */]);
 /* harmony default export */ var Block3 = (Object(style["f" /* withTheme */])(function (_ref25) {
   var block3 = _ref25.theme.block3;
-  return external_react_default.a.createElement(Block3_Container, null, external_react_default.a.createElement(Overlay, null, external_react_default.a.createElement(TextContainer, null, external_react_default.a.createElement(Block3_Heading, null, "Welcome to Idea Camels"), external_react_default.a.createElement(MainText, null, "Combining a super modern UI with paid search to create a landing page and drive traffic to it based on other internet users search keywords. Don't spend time creating a fully fleged site when all you want to know is it worth the development time. Instead you can know in a matter of days if your new idea is worth persuing."), external_react_default.a.createElement(Block3_ButtonContainer, null, external_react_default.a.createElement(Block3_AnalyticsButton, {
+  return /*#__PURE__*/external_react_default.a.createElement(Block3_Container, null, /*#__PURE__*/external_react_default.a.createElement(Overlay, null, /*#__PURE__*/external_react_default.a.createElement(TextContainer, null, /*#__PURE__*/external_react_default.a.createElement(Block3_Heading, null, "Welcome to Idea Camels"), /*#__PURE__*/external_react_default.a.createElement(MainText, null, "Combining a super modern UI with paid search to create a landing page and drive traffic to it based on other internet users search keywords. Don't spend time creating a fully fleged site when all you want to know is it worth the development time. Instead you can know in a matter of days if your new idea is worth persuing."), /*#__PURE__*/external_react_default.a.createElement(Block3_ButtonContainer, null, /*#__PURE__*/external_react_default.a.createElement(Block3_AnalyticsButton, {
     href: "/coming-soon",
     color: "black",
     size: block3.overlay.button.size,
     basic: true,
     action: "block3-button"
-  }, "Learn More"))), external_react_default.a.createElement(FeatureHeader, null, "FEATURES"), external_react_default.a.createElement(FeaturesContainer, null, external_react_default.a.createElement(external_semantic_ui_react_["Grid"], {
+  }, "Learn More"))), /*#__PURE__*/external_react_default.a.createElement(FeatureHeader, null, "FEATURES"), /*#__PURE__*/external_react_default.a.createElement(FeaturesContainer, null, /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["Grid"], {
     centered: true,
     columns: 3,
     stretched: true,
     stackable: true
   }, features.map(function (o) {
-    return external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], {
+    return /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], {
       key: o.header
-    }, external_react_default.a.createElement(StyleCard, o));
+    }, /*#__PURE__*/external_react_default.a.createElement(StyleCard, o));
   })))));
 }));
 // CONCATENATED MODULE: /Users/noconnor1/Desktop/niall/template-website/src/components/Segment/index.js
@@ -2396,18 +2401,18 @@ var Block4_ButtonContainer = style["e" /* styled */].div(Block4_templateObject9(
 });
 /* harmony default export */ var Block4 = (Object(style["f" /* withTheme */])(function (_ref18) {
   var block4 = _ref18.theme.block4;
-  return external_react_default.a.createElement(Block4_Container, null, external_react_default.a.createElement(HeadingContainer, null, external_react_default.a.createElement(Block4_Heading, null, "Start Creating!"), external_react_default.a.createElement(Block4_SubHeading, null, "Don't waste time on development and validate your idea now.")), external_react_default.a.createElement(CardContainer, null, external_react_default.a.createElement(SplitCard, null, external_react_default.a.createElement(external_semantic_ui_react_["Segment"], null, external_react_default.a.createElement(external_semantic_ui_react_["Grid"], {
+  return /*#__PURE__*/external_react_default.a.createElement(Block4_Container, null, /*#__PURE__*/external_react_default.a.createElement(HeadingContainer, null, /*#__PURE__*/external_react_default.a.createElement(Block4_Heading, null, "Start Creating!"), /*#__PURE__*/external_react_default.a.createElement(Block4_SubHeading, null, "Don't waste time on development and validate your idea now.")), /*#__PURE__*/external_react_default.a.createElement(CardContainer, null, /*#__PURE__*/external_react_default.a.createElement(SplitCard, null, /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["Segment"], null, /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["Grid"], {
     columns: 2,
     stackable: true,
     textAlign: "center"
-  }, external_react_default.a.createElement(external_semantic_ui_react_["Divider"], {
+  }, /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["Divider"], {
     vertical: true
-  }), external_react_default.a.createElement(external_semantic_ui_react_["GridRow"], {
+  }), /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["GridRow"], {
     verticalAlign: "middle"
-  }, external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], null, external_react_default.a.createElement(Block4_ImageContainer, null, external_react_default.a.createElement(ImageInnerContainer, null, external_react_default.a.createElement(Image["a" /* Image */], {
+  }, /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], null, /*#__PURE__*/external_react_default.a.createElement(Block4_ImageContainer, null, /*#__PURE__*/external_react_default.a.createElement(ImageInnerContainer, null, /*#__PURE__*/external_react_default.a.createElement(Image["a" /* Image */], {
     size: block4.firstCard.image.size,
     src: block4.firstCard.image.src
-  })))), external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], null, external_react_default.a.createElement(Block4_Heading, null, "Test your ideas"), external_react_default.a.createElement(Block4_SubHeading, null, "Rapidly test an idea by creating a landing page and testing adwords to see if it is worth continuing. All in one place."), external_react_default.a.createElement(Block4_ButtonContainer, null, external_react_default.a.createElement(Block4_AnalyticsButton, {
+  })))), /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], null, /*#__PURE__*/external_react_default.a.createElement(Block4_Heading, null, "Test your ideas"), /*#__PURE__*/external_react_default.a.createElement(Block4_SubHeading, null, "Rapidly test an idea by creating a landing page and testing adwords to see if it is worth continuing. All in one place."), /*#__PURE__*/external_react_default.a.createElement(Block4_ButtonContainer, null, /*#__PURE__*/external_react_default.a.createElement(Block4_AnalyticsButton, {
     href: "/coming-soon",
     color: "black",
     size: block4.button.size,
@@ -2553,7 +2558,7 @@ var StyledButton = Object(style["e" /* styled */])(Button["a" /* Button */])(Blo
 var Block5_AnalyticsButton = Object(withAnalytics["a" /* default */])(StyledButton);
 /* harmony default export */ var Block5 = (Object(style["f" /* withTheme */])(function (_ref18) {
   var block5 = _ref18.theme.block5;
-  return external_react_default.a.createElement(Block5_Container, null, external_react_default.a.createElement(Block5_InnerContainer, null, external_react_default.a.createElement(QuoteContainer, null, external_react_default.a.createElement(Quote, null, "\"Gut feelings have no place in a world where data driven assumptions can be made.\""), external_react_default.a.createElement(Author, null, "- Seamus O' Connor, Senior Engineering Manager")), external_react_default.a.createElement(Block5_ButtonContainer, null, external_react_default.a.createElement(Block5_AnalyticsButton, {
+  return /*#__PURE__*/external_react_default.a.createElement(Block5_Container, null, /*#__PURE__*/external_react_default.a.createElement(Block5_InnerContainer, null, /*#__PURE__*/external_react_default.a.createElement(QuoteContainer, null, /*#__PURE__*/external_react_default.a.createElement(Quote, null, "\"Gut feelings have no place in a world where data driven assumptions can be made.\""), /*#__PURE__*/external_react_default.a.createElement(Author, null, "- Seamus O' Connor, Senior Engineering Manager")), /*#__PURE__*/external_react_default.a.createElement(Block5_ButtonContainer, null, /*#__PURE__*/external_react_default.a.createElement(Block5_AnalyticsButton, {
     href: "/coming-soon",
     size: block5.button.size,
     action: "block5-button"
@@ -2644,47 +2649,47 @@ var AnalyticsListItem = Object(withAnalytics["a" /* default */])(StyledListItem)
       imageSrc = _ref11$theme$footer$c.imageSrc,
       imageSize = _ref11$theme$footer$c.imageSize,
       iconSize = _ref11$theme$footer.column3.iconSize;
-  return external_react_default.a.createElement(Footer_Container, null, external_react_default.a.createElement(external_semantic_ui_react_["Grid"], {
+  return /*#__PURE__*/external_react_default.a.createElement(Footer_Container, null, /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["Grid"], {
     stackable: true,
     container: true,
     columns: 3
-  }, external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], null, external_react_default.a.createElement(Image["a" /* Image */], {
+  }, /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], null, /*#__PURE__*/external_react_default.a.createElement(Image["a" /* Image */], {
     src: imageSrc,
     size: imageSize,
     avatar: true
-  }), external_react_default.a.createElement("span", null, "Idea Camels")), external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], null, external_react_default.a.createElement(external_semantic_ui_react_["List"], null, external_react_default.a.createElement(AnalyticsListItem, {
+  }), /*#__PURE__*/external_react_default.a.createElement("span", null, "Idea Camels")), /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], null, /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["List"], null, /*#__PURE__*/external_react_default.a.createElement(AnalyticsListItem, {
     as: "a",
     href: "/coming-soon",
     action: "footer-contact"
-  }, "Contact Us"), external_react_default.a.createElement(AnalyticsListItem, {
+  }, "Contact Us"), /*#__PURE__*/external_react_default.a.createElement(AnalyticsListItem, {
     as: "a",
     href: "/coming-soon",
     action: "footer-taq"
-  }, "Terms And Conditions"), external_react_default.a.createElement(AnalyticsListItem, {
+  }, "Terms And Conditions"), /*#__PURE__*/external_react_default.a.createElement(AnalyticsListItem, {
     as: "a",
     href: "/coming-soon",
     action: "footer-privacy"
-  }, "Privacy Policy"), external_react_default.a.createElement(AnalyticsListItem, {
+  }, "Privacy Policy"), /*#__PURE__*/external_react_default.a.createElement(AnalyticsListItem, {
     as: "a",
     href: "/coming-soon",
     action: "footer-cookies"
-  }, "Cookies Policy"))), external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], null, external_react_default.a.createElement("a", {
+  }, "Cookies Policy"))), /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["GridColumn"], null, /*#__PURE__*/external_react_default.a.createElement("a", {
     href: "/coming-soon"
-  }, external_react_default.a.createElement(AnalyticsIcon, {
+  }, /*#__PURE__*/external_react_default.a.createElement(AnalyticsIcon, {
     action: "footer-facebook",
     bordered: true,
     size: iconSize,
     name: "facebook"
-  })), external_react_default.a.createElement("a", {
+  })), /*#__PURE__*/external_react_default.a.createElement("a", {
     href: "/coming-soon"
-  }, external_react_default.a.createElement(AnalyticsIcon, {
+  }, /*#__PURE__*/external_react_default.a.createElement(AnalyticsIcon, {
     action: "footer-facebook",
     bordered: true,
     size: iconSize,
     name: "twitter"
-  })), external_react_default.a.createElement("a", {
+  })), /*#__PURE__*/external_react_default.a.createElement("a", {
     href: "/coming-soon"
-  }, external_react_default.a.createElement(AnalyticsIcon, {
+  }, /*#__PURE__*/external_react_default.a.createElement(AnalyticsIcon, {
     action: "footer-facebook",
     bordered: true,
     size: iconSize,
@@ -2700,7 +2705,7 @@ var AnalyticsListItem = Object(withAnalytics["a" /* default */])(StyledListItem)
 
 
 /* harmony default export */ var pages = __webpack_exports__["default"] = (function () {
-  return external_react_default.a.createElement(external_react_["Fragment"], null, external_react_default.a.createElement(Block1, null), external_react_default.a.createElement(Block2, null), external_react_default.a.createElement(Block3, null), external_react_default.a.createElement(Block4, null), external_react_default.a.createElement(Block5, null), external_react_default.a.createElement(Footer, null));
+  return /*#__PURE__*/external_react_default.a.createElement(external_react_["Fragment"], null, /*#__PURE__*/external_react_default.a.createElement(Block1, null), /*#__PURE__*/external_react_default.a.createElement(Block2, null), /*#__PURE__*/external_react_default.a.createElement(Block3, null), /*#__PURE__*/external_react_default.a.createElement(Block4, null), /*#__PURE__*/external_react_default.a.createElement(Block5, null), /*#__PURE__*/external_react_default.a.createElement(Footer, null));
 });
 
 /***/ }),
@@ -2723,24 +2728,24 @@ var taggedTemplateLiteral_default = /*#__PURE__*/__webpack_require__.n(taggedTem
 var style = __webpack_require__(0);
 
 // EXTERNAL MODULE: external "@babel/runtime/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(16);
+var classCallCheck_ = __webpack_require__(17);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
 
 // EXTERNAL MODULE: external "@babel/runtime/helpers/createClass"
-var createClass_ = __webpack_require__(17);
+var createClass_ = __webpack_require__(18);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
-
-// EXTERNAL MODULE: external "@babel/runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(18);
-var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
-
-// EXTERNAL MODULE: external "@babel/runtime/helpers/getPrototypeOf"
-var getPrototypeOf_ = __webpack_require__(19);
-var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf_);
 
 // EXTERNAL MODULE: external "@babel/runtime/helpers/assertThisInitialized"
 var assertThisInitialized_ = __webpack_require__(11);
 var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized_);
+
+// EXTERNAL MODULE: external "@babel/runtime/helpers/possibleConstructorReturn"
+var possibleConstructorReturn_ = __webpack_require__(19);
+var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
+
+// EXTERNAL MODULE: external "@babel/runtime/helpers/getPrototypeOf"
+var getPrototypeOf_ = __webpack_require__(12);
+var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf_);
 
 // EXTERNAL MODULE: external "@babel/runtime/helpers/inherits"
 var inherits_ = __webpack_require__(20);
@@ -2782,6 +2787,11 @@ var analytics = __webpack_require__(21);
 
 
 
+function _createSuper(Derived) { return function () { var Super = getPrototypeOf_default()(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = getPrototypeOf_default()(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return possibleConstructorReturn_default()(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+
 
 
 
@@ -2789,9 +2799,9 @@ var analytics = __webpack_require__(21);
 var EmailSignUp_EmailSignUp = /*#__PURE__*/function (_Component) {
   inherits_default()(EmailSignUp, _Component);
 
-  function EmailSignUp() {
-    var _getPrototypeOf2;
+  var _super = _createSuper(EmailSignUp);
 
+  function EmailSignUp() {
     var _this;
 
     classCallCheck_default()(this, EmailSignUp);
@@ -2800,7 +2810,7 @@ var EmailSignUp_EmailSignUp = /*#__PURE__*/function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    _this = possibleConstructorReturn_default()(this, (_getPrototypeOf2 = getPrototypeOf_default()(EmailSignUp)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _super.call.apply(_super, [this].concat(args));
 
     defineProperty_default()(assertThisInitialized_default()(_this), "state", {
       email: ""
@@ -2825,7 +2835,7 @@ var EmailSignUp_EmailSignUp = /*#__PURE__*/function (_Component) {
   createClass_default()(EmailSignUp, [{
     key: "render",
     value: function render() {
-      return external_react_default.a.createElement(external_semantic_ui_react_["Input"], {
+      return /*#__PURE__*/external_react_default.a.createElement(external_semantic_ui_react_["Input"], {
         fluid: true,
         placeholder: "Enter your email",
         type: "email",
@@ -2942,13 +2952,13 @@ var SignUpContainer = style["e" /* styled */].div(_templateObject5(), function (
   return Object(style["d" /* remCalc */])(comingSoon.signUpWidth);
 });
 /* harmony default export */ var ComingSoon = (function () {
-  return external_react_default.a.createElement(Container, null, external_react_default.a.createElement(InnerContainer, null, external_react_default.a.createElement(Heading, null, "Coming Soon"), external_react_default.a.createElement(SubHeading, null, "Sign up now to the upcoming Idea Camels release and receive an early bird discount."), external_react_default.a.createElement(SignUpContainer, null, external_react_default.a.createElement(EmailSignUp_EmailSignUp, null))));
+  return /*#__PURE__*/external_react_default.a.createElement(Container, null, /*#__PURE__*/external_react_default.a.createElement(InnerContainer, null, /*#__PURE__*/external_react_default.a.createElement(Heading, null, "Coming Soon"), /*#__PURE__*/external_react_default.a.createElement(SubHeading, null, "Sign up now to the upcoming Idea Camels release and receive an early bird discount."), /*#__PURE__*/external_react_default.a.createElement(SignUpContainer, null, /*#__PURE__*/external_react_default.a.createElement(EmailSignUp_EmailSignUp, null))));
 });
 // CONCATENATED MODULE: /Users/noconnor1/Desktop/niall/template-website/src/pages/coming-soon.js
 
 
 /* harmony default export */ var coming_soon = __webpack_exports__["default"] = (function () {
-  return external_react_default.a.createElement(ComingSoon, null);
+  return /*#__PURE__*/external_react_default.a.createElement(ComingSoon, null);
 });
 
 /***/ }),
@@ -2965,9 +2975,9 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(__webpack_require__(1));
 
-var _reactStatic = __webpack_require__(14);
+var _reactStatic = __webpack_require__(15);
 
-var _router = __webpack_require__(12);
+var _router = __webpack_require__(13);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {
@@ -3376,10 +3386,10 @@ var getConfig = function getConfig(isDynamic, universalConfig, options, props) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	".": 13,
-	"./": 13,
-	"./index": 13,
-	"./index.js": 13
+	".": 14,
+	"./": 14,
+	"./index": 14,
+	"./index.js": 14
 };
 
 
@@ -3686,7 +3696,7 @@ if (typeof document !== 'undefined') {
   var renderMethod = target.hasChildNodes() ? react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.hydrate : react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render;
 
   var render = function render(Comp) {
-    renderMethod(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_hot_loader__WEBPACK_IMPORTED_MODULE_2__["AppContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Comp, null)), target);
+    renderMethod( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_hot_loader__WEBPACK_IMPORTED_MODULE_2__["AppContainer"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Comp, null)), target);
   }; // Render!
 
 
