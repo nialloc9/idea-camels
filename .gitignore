@@ -6,3 +6,4 @@ artifacts/
 tmp/
 .terraform/
 scripts/setEnvVariables.sh
+.env
