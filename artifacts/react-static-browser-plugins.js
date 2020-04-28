@@ -1,24 +1,24 @@
 // Imports
-import plugin0 from '/Users/noconnor1/Desktop/niall/template-website/node_modules/react-static-plugin-reach-router/browser.api.js'
+import plugin0 from '/usr/src/app/node_modules/react-static-plugin-reach-router/browser.api.js'
 
 // Plugins
 const plugins = [{
-        location: "/Users/noconnor1/Desktop/niall/template-website/node_modules/react-static-plugin-source-filesystem",
+        location: "/usr/src/app/node_modules/react-static-plugin-source-filesystem",
         plugins: [],
         hooks: {}
       },
 {
-        location: "/Users/noconnor1/Desktop/niall/template-website/node_modules/react-static-plugin-reach-router",
+        location: "/usr/src/app/node_modules/react-static-plugin-reach-router",
         plugins: [],
         hooks: plugin0({})
       },
 {
-        location: "/Users/noconnor1/Desktop/niall/template-website/node_modules/react-static-plugin-sitemap/dist",
+        location: "/usr/src/app/node_modules/react-static-plugin-sitemap/dist",
         plugins: [],
         hooks: {}
       },
 {
-        location: "/Users/noconnor1/Desktop/niall/template-website",
+        location: "/usr/src/app",
         plugins: [],
         hooks: {}
       }]
