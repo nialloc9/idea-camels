@@ -1,0 +1,41 @@
+{
+  "name": "react-static-example-basic",
+  "private": true,
+  "scripts": {
+    "start": "react-static start",
+    "stage": "react-static build --staging",
+    "build": "react-static build",
+    "analyze": "react-static build --analyze",
+    "serve": "serve dist -p 3000"
+  },
+  "dependencies": {
+    "@emotion/core": "^10.0.27",
+    "@emotion/styled": "^10.0.27",
+    "@reach/router": "^1.2.1",
+    "axios": "^0.19.0",
+    "cms": "^1.8.1",
+    "emotion": "^10.0.27",
+    "emotion-theming": "^10.0.27",
+    "graphql-cost-analysis": "^1.0.3",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-static": "^7.2.3",
+    "react-static-plugin-reach-router": "^7.2.3",
+    "react-static-plugin-sitemap": "^7.2.3",
+    "react-static-plugin-source-filesystem": "^7.2.3",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2",
+    "universal-analytics": "^0.4.20"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.1.0",
+    "eslint-config-react-app": "^5.0.1",
+    "eslint-config-react-tools": "^1.1.7",
+    "eslint-plugin-flowtype": "^4.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "serve": "^11.1.0"
+  }
+}

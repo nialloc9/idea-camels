@@ -1,0 +1,1 @@
+Uses https://github.com/riboseinc/terraform-aws-s3-cloudfront-website

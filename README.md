@@ -1,3 +1,3 @@
-# React-Static - Basic Template
+# Idea Camels
 
-To use this template, run `react-static create` and use the `basic` template.
+To run frontend locally docker-compose up

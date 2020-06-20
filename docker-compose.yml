@@ -1,11 +1,9 @@
 version: '2.0'
 services:
   idea-camels:
-    build: .
+    build: ./packages/frontend/Dockerfile
     ports:
     - "3000:3000"
     volumes:
-    - .:/usr/src/app
-    command: tail -f /dev/null
-    env_file:
-        - .env
+    - ./packages/frontend:/usr/src/app
+    command: npm run start
