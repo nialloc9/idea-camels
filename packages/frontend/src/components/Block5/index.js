@@ -63,7 +63,7 @@ export default withTheme(({ theme: { block5 } }) => (
                     "Gut feelings have no place in a world where data driven assumptions can be made."
                 </Quote>
                 <Author>
-                    - Seamus O' Connor, Senior Engineering Manager
+                    - Tim Ford, Marketing Director
                 </Author>
             </QuoteContainer>
             <ButtonContainer>

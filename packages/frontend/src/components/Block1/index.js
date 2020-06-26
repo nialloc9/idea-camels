@@ -62,8 +62,12 @@ export default withTheme(({ theme: { block1 } }) => (
                 Have an idea? <br /> Not sure if it's worth doing?
             </Heading>
             <SubHeading>
-                Find out are people searching for your idea. All in under 1 hour!!
+                Find out are people searching for your idea.
+                <p>
+                    All in under 1 hour!!
+                </p>
             </SubHeading>
+            
             <ButtonContainer>
                 <AnalyticsButton href="/coming-soon" action="block1-button" color='black' size={block1.buttonSize} basic>Buy Now</AnalyticsButton>
             </ButtonContainer>

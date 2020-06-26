@@ -1,0 +1,2 @@
+There needs to be a hosted zone set up. Once set up use the named servers created with it and put them in the registered 
+domains named servers. This will direct traffic from that url to the host zone which points to cloudfront.
