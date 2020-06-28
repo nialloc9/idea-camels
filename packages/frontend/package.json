@@ -17,14 +17,17 @@
     "emotion": "^10.0.27",
     "emotion-theming": "^10.0.27",
     "graphql-cost-analysis": "^1.0.3",
+    "pure-react-carousel": "^1.27.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-slick": "^0.26.1",
     "react-static": "^7.2.3",
     "react-static-plugin-reach-router": "^7.2.3",
     "react-static-plugin-sitemap": "^7.2.3",
     "react-static-plugin-source-filesystem": "^7.2.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
+    "slick-carousel": "^1.8.1",
     "universal-analytics": "^0.4.20"
   },
   "devDependencies": {

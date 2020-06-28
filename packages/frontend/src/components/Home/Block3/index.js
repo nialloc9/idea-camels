@@ -1,9 +1,9 @@
 import React from 'react';
 import { remCalc, styled, withTheme, getMarginsOrPaddings, createMediaQuery } from 'utils/style';
 import withAnalytics from 'hoc/withAnalytics';
-import { Button } from '../Button';
-import { Grid, GridColumn } from '../Grid';
-import { Card } from '../Card';
+import { Button } from '../../Button';
+import { Grid, GridColumn } from '../../Grid';
+import { Card } from '../../Card';
 
 const Container = styled.section`
     min-height: ${({ theme: { block3: { height } } }) => remCalc(height)};

@@ -1,7 +1,8 @@
 import React from 'react';
 import { remCalc, styled, withTheme, getMarginsOrPaddings } from 'utils/style';
 import withAnalytics from 'hoc/withAnalytics';
-import { Button } from '../Button';
+import { Button } from '../../Button';
+import Carausel from './Carousel';
 
 const Container = styled.section`
     min-height: ${({ theme: { block5: { height } } }) => remCalc(height)};
@@ -58,6 +59,8 @@ const AnalyticsButton = withAnalytics(StyledButton);
 export default withTheme(({ theme: { block5 } }) => (
     <Container>
         <InnerContainer>
+        <Carausel />
+            
             <QuoteContainer>
                 <Quote>
                     "Gut feelings have no place in a world where data driven assumptions can be made."

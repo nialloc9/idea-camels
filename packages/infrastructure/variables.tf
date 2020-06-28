@@ -64,14 +64,8 @@ variable "cert_validation_method" {
   type = string
 }
 
-variable "state_bucket_name" {
-  description = "The name of the bucket to hold the terraform state"
-  default     = "infrastructure-state"
-  type = string
-}
-
-variable "state_bucket_key" {
-  description = "The name of the bucket key for storing terraform state"
-  default     = "aws/eu-west-1/idea-camels/terraform.tfstate"
-  type = string
+variable "www_record_ttl" {
+  description = "TTL of route53 record for www domain"
+  default     = 300
+  type = number
 }

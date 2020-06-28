@@ -1,11 +1,11 @@
 import React from 'react';
 import { remCalc, styled, withTheme, getMarginsOrPaddings } from 'utils/style';
 import withAnalytics from 'hoc/withAnalytics';
-import { Grid, GridRow, GridColumn } from '../Grid';
-import { Segment } from '../Segment';
-import { Divider } from '../Divider';
-import { Image } from '../Image';
-import { Button } from '../Button';
+import { Grid, GridRow, GridColumn } from '../../Grid';
+import { Segment } from '../../Segment';
+import { Divider } from '../../Divider';
+import { Image } from '../../Image';
+import { Button } from '../../Button';
 
 const AnalyticsButton = withAnalytics(Button);
 

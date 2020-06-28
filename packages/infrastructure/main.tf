@@ -1,10 +1,10 @@
-terraform {
-  backend "s3" {
-    bucket = var.state_bucket_name
-    key    = var.state_bucket_key
-    region = var.region
-  }
-}
+# terraform {
+#   backend "s3" {
+#     bucket = "idea-camels-infrastructure-state"
+#     key    = "aws/main/terraform.tfstate"
+#     region = "eu-west-1"
+#   }
+# }
 
 # AWS Region for S3 and other resources
 provider "aws" {
@@ -25,6 +25,7 @@ module "main" {
   source = "github.com/riboseinc/terraform-aws-s3-cloudfront-website"
 
   fqdn = var.fqdn
+  # aliases = "www.${var.fqdn}"
   ssl_certificate_arn = aws_acm_certificate_validation.cert.certificate_arn
   allowed_ips = var.allowed_ips
 
@@ -88,6 +89,15 @@ resource "aws_route53_record" "web" {
     evaluate_target_health = false
   }
 }
+
+# resource "aws_route53_record" "www" {
+#   provider = "aws.main"
+#   zone_id = "${data.aws_route53_zone.main.zone_id}"
+#   name = "www.${var.fqdn}"
+#   type = "CNAME"
+#   records = ["${var.fqdn}"]
+#   ttl = var.www_record_ttl
+# }
 
 # Outputs
 

@@ -14,4 +14,4 @@ install_aws_cli:
 	aws --version
 
 create_state_bucket:
-	aws s3api create-bucket --bucket "infrastructure-state" --region "eu-west-1" \ --create-bucket-configuration LocationConstraint="eu-west-1"
+	aws --profile=idea-camels s3api create-bucket --bucket idea-camels-infrastructure-state --region eu-west-1  --create-bucket-configuration LocationConstraint=eu-west-1

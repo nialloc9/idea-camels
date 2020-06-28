@@ -1,1 +1,1 @@
-export { List, ListItem } from 'semantic-ui-react';
+export { List, ListItem, ListHeader, ListContent, ListDescription } from 'semantic-ui-react';

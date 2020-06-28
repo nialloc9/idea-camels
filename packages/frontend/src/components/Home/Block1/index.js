@@ -1,8 +1,8 @@
 import React from 'react';
 import { remCalc, styled, withTheme } from 'utils/style';
 import withAnalytics from 'hoc/withAnalytics';
-import { Image } from '../Image';
-import { Button } from '../Button';
+import { Image } from '../../Image';
+import { Button } from '../../Button';
 
 const Container = styled.section`
     min-height: ${({ theme: { block1: { height } } }) => remCalc(height)};

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
 import 'semantic-ui-css/semantic.min.css'
+import 'pure-react-carousel/dist/react-carousel.es.css';
 
 // Your top level component
 import App from './App'

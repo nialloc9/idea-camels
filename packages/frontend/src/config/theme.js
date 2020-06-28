@@ -128,7 +128,7 @@ export default {
     block5: {
         ...defaultFont,
         fontFamily: FONT_001,
-        height: 700,
+        height: 1200,
         backgroundColor: WHITE_000,
         paddings: [0, 20, 0, 20],
         quoteContainerPaddings: [60, 0, 0, 0],
