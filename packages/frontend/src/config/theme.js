@@ -96,7 +96,7 @@ export default {
         fontFamily: FONT_001,
         height: 700,
         backgroundColor: GRAY_000,
-        paddings: [0, 20, 0, 20],
+        paddings: [0, 20, 40, 20],
         heading: {
             size: 50,
             weight: 200,
@@ -128,12 +128,16 @@ export default {
     block5: {
         ...defaultFont,
         fontFamily: FONT_001,
-        height: 1200,
+        height: 700,
         backgroundColor: WHITE_000,
-        paddings: [0, 20, 0, 20],
-        quoteContainerPaddings: [60, 0, 0, 0],
+        paddings: [20, 20, 0, 20],
+        quoteContainerPaddings: [0, 0, 0, 0],
         card: {
             width: 1000
+        },
+        carousel: {
+            size: "huge",
+            textAlign: "center"
         },
         quote: {
             size: 50,

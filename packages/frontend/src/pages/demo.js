@@ -145,8 +145,6 @@ export default () => (
               </Table>
               </Spacer>
             </Segment>
-          </GridColumn>
-          <GridColumn>
             <Segment padded>
                 <Header>Add your keywords</Header>
                 <List>
@@ -154,6 +152,9 @@ export default () => (
                 </List>
                 <Button icon="plus" />
             </Segment>
+          </GridColumn>
+          <GridColumn>
+            
           </GridColumn>
         </Grid>
     <Footer />

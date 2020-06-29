@@ -2,10 +2,11 @@ import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { withTheme } from 'utils/style';
 import { Image } from '../../Image';
 import { Header } from '../../Header';
 import dragAndDrop from "static/dragAndDrop.png"
-import keywords from "static/keywords.png"
+import keywordBudget from "static/keywordBudget.png"
 import results from "static/results.png"
 
 const settings = {
@@ -17,19 +18,19 @@ const settings = {
     autoplay: true
   };
 
-export default () => (
+export default withTheme(({ theme: { block5 } }) => (
     <Slider {...settings}>
         <div>
-          <Image size="huge" src={dragAndDrop} />
-          <Header textAlign="center">Create a landing page in minutes from our predesigned templates</Header>
+          <Image centered size={block5.carousel.size} src={dragAndDrop} />
+          <Header textAlign={block5.carousel.textAlign}>Create a landing page in minutes from our predesigned templates</Header>
         </div>
         <div>
-         <Image src={keywords} />
-         <Header textAlign="center">Register keywords and a budget to drive traffic to your landing page</Header>
+         <Image centered size={block5.carousel.size} src={keywordBudget} />
+         <Header textAlign={block5.carousel.textAlign}>Register keywords and a budget to drive traffic to your landing page</Header>
         </div>
         <div>
-         <Image size="huge" src={results} />
-         <Header textAlign="center">Analysis the results and build an email list of interested customers</Header>
+         <Image centered size={block5.carousel.size} src={results} />
+         <Header textAlign={block5.carousel.textAlign}>Analysis the results and build an email list of interested customers</Header>
         </div>
       </Slider>
-    );
+    ));

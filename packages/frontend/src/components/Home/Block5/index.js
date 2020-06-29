@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { remCalc, styled, withTheme, getMarginsOrPaddings } from 'utils/style';
 import withAnalytics from 'hoc/withAnalytics';
 import { Button } from '../../Button';
@@ -57,21 +57,22 @@ const StyledButton = styled(Button)`
 const AnalyticsButton = withAnalytics(StyledButton);
 
 export default withTheme(({ theme: { block5 } }) => (
-    <Container>
-        <InnerContainer>
+    <Fragment>
         <Carausel />
-            
-            <QuoteContainer>
-                <Quote>
-                    "Gut feelings have no place in a world where data driven assumptions can be made."
-                </Quote>
-                <Author>
-                    - Tim Ford, Marketing Director
-                </Author>
-            </QuoteContainer>
-            <ButtonContainer>
-                <AnalyticsButton href="/coming-soon" size={block5.button.size} action='block5-button'>JOIN US</AnalyticsButton>
-            </ButtonContainer>
-        </InnerContainer>
-    </Container>
+        <Container>
+            <InnerContainer>
+                <QuoteContainer>
+                    <Quote>
+                        "Gut feelings have no place in a world where data driven assumptions can be made."
+                    </Quote>
+                    <Author>
+                        - Tim Ford, Marketing Director
+                    </Author>
+                </QuoteContainer>
+                <ButtonContainer>
+                    <AnalyticsButton href="/coming-soon" size={block5.button.size} action='block5-button'>JOIN US</AnalyticsButton>
+                </ButtonContainer>
+            </InnerContainer>
+        </Container>
+    </Fragment>
 ));
