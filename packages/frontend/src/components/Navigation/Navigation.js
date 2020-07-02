@@ -42,7 +42,7 @@ export default ({ theme: { navigation } }) => {
           action='navigation-logo-click'
           href="/"
         >
-          <StyledImage alt="idea camels logo" src={navigation.logo} />
+          <StyledImage alt="idea camels logo" src={navigation.logo.src} />
         </AnalyticsMenuItem>
         <MenuMenu position='right'>
           {items.map(o => (

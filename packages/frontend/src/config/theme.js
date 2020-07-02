@@ -1,4 +1,4 @@
-import logo from 'static/logo.png';
+import whiteLogo from 'static/whiteLogo.png';
 import logoColor from 'static/logoColor.png';
 import block2Image from 'static/block2Image.webp';
 import block4FirstImage from 'static/block4FirstImage.png';
@@ -36,7 +36,9 @@ export default {
             color: WHITE_000
         },
         logoSize: 23,
-        logo
+        logo: {
+            src: whiteLogo
+        }
     },
     block1: {
         height: 700,

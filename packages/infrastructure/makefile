@@ -15,3 +15,6 @@ install_aws_cli:
 
 create_state_bucket:
 	aws --profile=idea-camels s3api create-bucket --bucket idea-camels-infrastructure-state --region eu-west-1  --create-bucket-configuration LocationConstraint=eu-west-1
+
+terraform_apply:
+	terraform apply -out=state.json

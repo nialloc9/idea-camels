@@ -1,10 +1,11 @@
-# terraform {
-#   backend "s3" {
-#     bucket = "idea-camels-infrastructure-state"
-#     key    = "aws/main/terraform.tfstate"
-#     region = "eu-west-1"
-#   }
-# }
+terraform {
+  backend "s3" {
+    bucket = "idea-camels-infrastructure-state"
+    key    = "aws/main/terraform.tfstate"
+    region = "eu-west-1"
+    profile = "idea-camels"
+  }
+}
 
 # AWS Region for S3 and other resources
 provider "aws" {
@@ -25,7 +26,7 @@ module "main" {
   source = "github.com/riboseinc/terraform-aws-s3-cloudfront-website"
 
   fqdn = var.fqdn
-  # aliases = "www.${var.fqdn}"
+  aliases = ["www.${var.fqdn}"]
   ssl_certificate_arn = aws_acm_certificate_validation.cert.certificate_arn
   allowed_ips = var.allowed_ips
 
@@ -51,21 +52,24 @@ resource "aws_acm_certificate" "cert" {
   provider          = "aws.cloudfront"
   domain_name       = var.fqdn
   validation_method = var.cert_validation_method
+  subject_alternative_names = ["www.${var.fqdn}"]
 }
 
 resource "aws_route53_record" "cert_validation" {
   provider = "aws.cloudfront"
-  name     = aws_acm_certificate.cert.domain_validation_options.0.resource_record_name
-  type     = aws_acm_certificate.cert.domain_validation_options.0.resource_record_type
-  zone_id  = data.aws_route53_zone.main.id
-  records  = [aws_acm_certificate.cert.domain_validation_options.0.resource_record_value]
-  ttl      = 60
+  count = length(aws_acm_certificate.cert.domain_validation_options)
+
+  zone_id = data.aws_route53_zone.main.zone_id
+  name    = element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_name, count.index)
+  type    = element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_type, count.index)
+  records = [element(aws_acm_certificate.cert.domain_validation_options.*.resource_record_value, count.index)]
+  ttl     = 60
 }
 
 resource "aws_acm_certificate_validation" "cert" {
   provider                = "aws.cloudfront"
   certificate_arn         = aws_acm_certificate.cert.arn
-  validation_record_fqdns = [aws_route53_record.cert_validation.fqdn]
+  validation_record_fqdns = aws_route53_record.cert_validation.*.fqdn
 }
 
 
@@ -90,14 +94,14 @@ resource "aws_route53_record" "web" {
   }
 }
 
-# resource "aws_route53_record" "www" {
-#   provider = "aws.main"
-#   zone_id = "${data.aws_route53_zone.main.zone_id}"
-#   name = "www.${var.fqdn}"
-#   type = "CNAME"
-#   records = ["${var.fqdn}"]
-#   ttl = var.www_record_ttl
-# }
+resource "aws_route53_record" "www" {
+  provider = "aws.main"
+  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  name = "www.${var.fqdn}"
+  type = "CNAME"
+  records = ["${var.fqdn}"]
+  ttl = var.www_record_ttl
+}
 
 # Outputs
 

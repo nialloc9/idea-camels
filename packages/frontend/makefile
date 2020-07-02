@@ -1,9 +1,10 @@
 # S3
 deploy_site_to_s3:
-	aws s3 sync ./dist s3://${SITE_BUCKET_NAME} --delete --profile=${AWS_PROFILE}
+	aws s3 sync ./dist s3://ideacamels.com --delete --profile=idea-camels
 	
 invalidate_cdn_cache:
-	aws cloudfront create-invalidation --distribution-id ${SITE_DISTRIBUTION_ID} --paths '/*' --profile=${AWS_PROFILE}
+	# To get distribution id check terraform state file
+	aws cloudfront create-invalidation --distribution-id E3MMNEXFI9AND4 --paths '/*' --profile=idea-camels
 
 install_aws_cli:
 	apt-get install awscli -y 

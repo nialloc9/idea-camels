@@ -18,9 +18,14 @@ export default {
       {
         location: path.resolve('./src/pages'),
       },
+      
     ],
     require.resolve('react-static-plugin-reach-router'),
     require.resolve('react-static-plugin-sitemap'),
+    [
+      'react-static-plugin-favicons',
+      { inputFile: path.resolve('./favicon.png') }
+    ]
   ],
   Document: ({
     Html,
