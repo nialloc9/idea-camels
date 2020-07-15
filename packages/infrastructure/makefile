@@ -16,5 +16,11 @@ install_aws_cli:
 create_state_bucket:
 	aws --profile=idea-camels s3api create-bucket --bucket idea-camels-infrastructure-state --region eu-west-1  --create-bucket-configuration LocationConstraint=eu-west-1
 
+create_lambda_bucket:
+	aws --profile=idea-camels s3api create-bucket --bucket idea-camels-lambda-source-code --region eu-west-1  --create-bucket-configuration LocationConstraint=eu-west-1
+
 terraform_apply:
 	terraform apply -out=state.json
+
+test_coming_soon_lambda:
+	aws --profile=idea-camels lambda invoke --region=eu-west-1 --function-name=coming_soon output.tx

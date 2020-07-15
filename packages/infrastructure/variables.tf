@@ -4,6 +4,11 @@ variable profile {
     description = "AWS profile in credentials to use"
 }
 
+variable account_id {
+    type = string
+    default = "115830081349"
+}
+
 variable region {
     type = string
     default = "eu-west-1"
@@ -69,3 +74,53 @@ variable "www_record_ttl" {
   default     = 300
   type = number
 }
+
+// API
+
+variable "s3_bucket_api_lambda_source_code" {
+  default     = "idea-camels-lambda-source-code"
+  type = string
+}
+
+variable "coming_soon_function_name" {
+  default     = "coming_soon"
+  type = string
+}
+
+variable "s3_key_coming_soon_lambda" {
+  default     = "v1.0.0/comingSoon.zip"
+  type = string
+}
+
+variable "coming_soon_lambda_handler" {
+  default     = "lambdas/comingSoon.handler"
+  type = string
+}
+
+variable "coming_soon_lambda_environment" {
+  default     = "nodejs10.x"
+  type = string
+}
+
+// API GATEWAY
+variable "idea_camels_api_gateway_name" {
+  default     = "idea_camels_api"
+  type = string
+}
+
+variable "idea_camels_api_gateway_description" {
+  default     = "Idea camels API gateway"
+  type = string
+}
+
+# variable "coming_soon_lambda_environment" {
+#   default     = "nodejs10.x"
+#   type = string
+# }
+
+# variable "coming_soon_lambda_environment" {
+#   default     = "nodejs10.x"
+#   type = string
+# }
+
+

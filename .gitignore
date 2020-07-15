@@ -7,3 +7,5 @@ tmp/
 .terraform/
 scripts/setEnvVariables.sh
 .env
+
+backend/dist
