@@ -221,6 +221,10 @@ resource "aws_api_gateway_method" "coming_soon" {
    source_arn = "${aws_api_gateway_rest_api.idea_camels_api.execution_arn}/*/*"
  }
 
- output "base_url" {
+output "base_url" {
   value = aws_api_gateway_deployment.idea_camels_api.invoke_url
+}
+
+output "coming_soon_base_url" {
+  value = "${aws_api_gateway_deployment.idea_camels_api.invoke_url}/coming-soon"
 }
