@@ -1,0 +1,13 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Action": [
+            "dynamodb:DescribeTable",
+            "dynamodb:PutItem"
+        ],
+        "Effect": "Allow",
+        "Resource": "${coming_soon_table_arn}"
+      }
+    ]
+  }

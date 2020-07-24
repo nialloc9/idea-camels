@@ -21,7 +21,6 @@ provider "aws" {
   profile = var.profile
 }
 
-# Using this module
 module "main" {
   source = "github.com/riboseinc/terraform-aws-s3-cloudfront-website"
 
@@ -44,9 +43,6 @@ module "main" {
     aws.cloudfront = aws.cloudfront
   }
 }
-
-
-# ACM Certificate generation
 
 resource "aws_acm_certificate" "cert" {
   provider          = "aws.cloudfront"
@@ -72,15 +68,6 @@ resource "aws_acm_certificate_validation" "cert" {
   validation_record_fqdns = aws_route53_record.cert_validation.*.fqdn
 }
 
-
-# Route 53 record for the static site
-
-data "aws_route53_zone" "main" {
-  provider     = "aws.main"
-  name         = var.domain
-  private_zone = false
-}
-
 resource "aws_route53_record" "web" {
   provider = "aws.main"
   zone_id  = data.aws_route53_zone.main.zone_id
@@ -103,128 +90,21 @@ resource "aws_route53_record" "www" {
   ttl = var.www_record_ttl
 }
 
-# Outputs
-
-output "s3_bucket_id" {
-  value = module.main.s3_bucket_id
+module "database" {
+  source = "./modules/database"
+  
+  providers = {
+    "aws.main" = "aws.main"
+  }
+  
 }
 
-output "s3_bucket_arn" {
-  value = module.main.s3_bucket_arn
-}
+module "api" {
+  source = "./modules/serverless_api"
+  
+  providers = {
+    "aws.main" = "aws.main"
+  }
 
-output "s3_domain" {
-  value = module.main.s3_website_endpoint
-}
-
-output "s3_hosted_zone_id" {
-  value = module.main.s3_hosted_zone_id
-}
-
-output "cloudfront_domain" {
-  value = module.main.cf_domain_name
-}
-
-output "cloudfront_hosted_zone_id" {
-  value = module.main.cf_hosted_zone_id
-}
-
-output "cloudfront_distribution_id" {
-  value = module.main.cf_distribution_id
-}
-
-output "route53_fqdn" {
-  value = aws_route53_record.web.fqdn
-}
-
-output "acm_certificate_arn" {
-  value = aws_acm_certificate_validation.cert.certificate_arn
-}
-
-
-# API
-
-resource "aws_lambda_function" "coming_soon" {
-  provider = "aws.main"
-  function_name = var.coming_soon_function_name
-
-  s3_bucket = var.s3_bucket_api_lambda_source_code
-  s3_key    = var.s3_key_coming_soon_lambda
-
-  handler = var.coming_soon_lambda_handler
-  runtime = var.coming_soon_lambda_environment
-
-  role = aws_iam_role.api_lambda_role.arn
-}
-
-data "template_file" "api_lambda" {
-  template = "${file("${path.module}/policies/api_lambda.json")}"
-}
-
-resource "aws_iam_role" "api_lambda_role" {
-  provider = "aws.main"
-  name = "${var.coming_soon_function_name}_lambda"
-  assume_role_policy = data.template_file.api_lambda.rendered
-}
-
-resource "aws_api_gateway_rest_api" "idea_camels_api" {
-  provider = "aws.main"
-  name        = "idea_camels_api"
-  description = "Idea Camels API"
-}
-
- resource "aws_api_gateway_resource" "coming_soon" {
-   provider = "aws.main"
-   rest_api_id = aws_api_gateway_rest_api.idea_camels_api.id
-   parent_id   = aws_api_gateway_rest_api.idea_camels_api.root_resource_id
-   path_part   = "coming-soon"
-}
-
-resource "aws_api_gateway_method" "coming_soon" {
-   provider = "aws.main"
-   rest_api_id   = aws_api_gateway_rest_api.idea_camels_api.id
-   resource_id   = aws_api_gateway_resource.coming_soon.id
-   http_method   = "POST"
-   authorization = "NONE"
- }
-
- resource "aws_api_gateway_integration" "coming_soon" {
-   provider = "aws.main"
-   rest_api_id = aws_api_gateway_rest_api.idea_camels_api.id
-   resource_id = aws_api_gateway_method.coming_soon.resource_id
-   http_method = aws_api_gateway_method.coming_soon.http_method
-
-   integration_http_method = "POST"
-   type                    = "AWS_PROXY"
-   uri                     = aws_lambda_function.coming_soon.invoke_arn
- }
-
- resource "aws_api_gateway_deployment" "idea_camels_api" {
-   provider = "aws.main"
-   depends_on = [
-     aws_api_gateway_integration.coming_soon
-   ]
-
-   rest_api_id = aws_api_gateway_rest_api.idea_camels_api.id
-   stage_name  = "prod"
- }
-
- resource "aws_lambda_permission" "apigw" {
-   provider = "aws.main"
-   statement_id  = "AllowAPIGatewayInvoke"
-   action        = "lambda:InvokeFunction"
-   function_name = aws_lambda_function.coming_soon.function_name
-   principal     = "apigateway.amazonaws.com"
-
-   # The "/*/*" portion grants access from any method on any resource
-   # within the API Gateway REST API.
-   source_arn = "${aws_api_gateway_rest_api.idea_camels_api.execution_arn}/*/*"
- }
-
-output "base_url" {
-  value = aws_api_gateway_deployment.idea_camels_api.invoke_url
-}
-
-output "coming_soon_base_url" {
-  value = "${aws_api_gateway_deployment.idea_camels_api.invoke_url}/coming-soon"
+  coming_soon_table_arn = module.database.coming_soon_table_arn
 }
