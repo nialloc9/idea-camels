@@ -26,6 +26,9 @@ export default {
     breakpoints: {
         tablet: 768
     },
+    infoMessage: {
+        textAlign: "center"
+    },
     navigation: {
         backgroundColor: MAIN_000,
         color: WHITE_000,

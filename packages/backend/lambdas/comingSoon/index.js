@@ -6,8 +6,13 @@ exports.handler = (event, context, callback) => {
     const response = {
         statusCode: 200,
         body: {event},
-        headers: {'Content-Type': 'application/json'}
+        headers: {
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+          "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
+        }
     }
+    
     response.body.test = "1"
 
       const params = {

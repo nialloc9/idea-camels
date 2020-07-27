@@ -5,6 +5,6 @@ export default {
         linkedin: "https://linkedin.com",
     },
     ga: {
-        uaId: "UA-120929027-2"
+        uaId: "UA-173719058-1"
     }
 }

@@ -1,7 +1,7 @@
-// import ua from "universal-analytics";
+import ua from "universal-analytics";
 import {config} from "config";
 
-// const visitor = ua(config.ga.uaId, { http: false });
+const visitor = ua(config.ga.uaId, { http: false });
 
 /**
  * handles events
@@ -19,11 +19,11 @@ export const handleEvent = (action, label) => {
                 ea: action,
                 el: label
     })
-    // visitor
-    //     .event({
-    //         ec: ec === "" ? "landing" : ec,
-    //         ea: action,
-    //         el: label
-    //     })
-    //     .send();
+    visitor
+        .event({
+            ec: ec === "" ? "landing" : ec,
+            ea: action,
+            el: label
+        })
+        .send();
 };
