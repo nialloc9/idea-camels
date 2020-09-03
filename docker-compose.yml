@@ -1,9 +1,9 @@
 version: '2.0'
 services:
-  idea-camels:
-    build: ./packages/frontend
+  idea-camels-client:
+    build: ./packages/client
     ports:
     - "3000:3000"
     volumes:
-    - ./packages/frontend:/usr/src/app
+    - ./packages/client:/usr/src/app:cached
     command: npm run start
