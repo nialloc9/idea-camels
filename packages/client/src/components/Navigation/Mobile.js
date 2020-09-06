@@ -1,41 +1,14 @@
 import React, { useState } from 'react'
-import { Menu, MenuItem } from '../Menu'
-import { Button } from '../Button'
-import { styled, createMediaQuery } from '../../utils/style'
+import { Menu, Item } from '../Styled/Menu'
+import { Block } from '../Styled/Block'
+import { Button } from '../Styled/Button'
 import { items } from './utils';
+import { theme } from '../../config';
 import withAnalytics from '../../hoc/withAnalytics';
 
-const StyledMenu = styled(Menu)`
-    font-family: ${({ theme: { navigation } }) => navigation.fontFamily} !important;
-    background-color: ${({ theme: { navigation } }) => navigation.backgroundColor} !important;
-    color: ${({ theme: { navigation } }) => navigation.color} !important;
+const AnalyticsMenuItem = withAnalytics(Item);
 
-    a {
-        color: ${({ theme: { navigation } }) => navigation.color} !important;
-    }
-    
-    ${({ theme: { breakpoints } }) => createMediaQuery(breakpoints.tablet)} {
-        display: none !important;
-    }
-`;
-
-const Item = styled.div`
-    text-align: center;
-    width: 100%;
-`;
-
-const StyledButton = styled(Button)`
-    background-color: ${({theme: { navigation }}) => navigation.button.backgroundColor} !important;
-    color: ${({theme: { navigation }}) => navigation.button.color} !important;
-
-    &:hover {
-        filter: brightness(0.96)
-    }
-`;
-
-const AnalyticsMenuItem = withAnalytics(MenuItem);
-
-export default ({ theme: { navigation } }) => {
+export default () => {
     
   const [{isOpen, activeItem}, setState] = useState({ activeItem: 'home', isOpen: false });
 
@@ -44,10 +17,10 @@ export default ({ theme: { navigation } }) => {
   const handleMenuClick = () => setState({ isOpen: !isOpen });
 
   return(
-      <StyledMenu secondary size={navigation.size} stackable>
-        <MenuItem>
-            <StyledButton fluid onClick={handleMenuClick} icon='align justify' />
-        </MenuItem>
+      <Menu secondary size="huge" stackable backgroundColor={theme.colors.main000} color={theme.colors.white000} anchorColor={theme.colors.white000} fontFamily={theme.defaultFont.fontFamily} tabletDisplay="none">
+        <Item>
+            <Button fluid onClick={handleMenuClick} icon='align justify' backgroundColor={theme.colors.main001} color={theme.colors.white000} />
+        </Item>
         {
             isOpen && items.map(o => (
                 <AnalyticsMenuItem
@@ -58,10 +31,10 @@ export default ({ theme: { navigation } }) => {
                     action='navigation-logo-click'
                     href="/coming-soon"
                 >
-                    <Item>{o}</Item>
+                    <Block textAlign="center" width="100%">{o}</Block>
                 </AnalyticsMenuItem>
             ))
         }
-      </StyledMenu>
+      </Menu>
     )
 }

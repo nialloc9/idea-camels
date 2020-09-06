@@ -13,5 +13,9 @@ export default {
     },
     ga: {
         uaId: "UA-173719058-1"
+    },
+    hotjar: {
+        id: 1710788,
+        version: 6
     }
 }

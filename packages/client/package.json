@@ -19,6 +19,7 @@
     "pure-react-carousel": "^1.27.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hotjar": "^2.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-slick": "^0.26.1",
@@ -31,6 +32,8 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
+    "husky": "^4.2.5",
+    "prettier": "^2.1.1",
     "serve": "^11.3.2"
   },
   "scripts": {
@@ -53,6 +56,16 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "lint-staged": {
+    "src/*": [
+      "prettier --tab-width 4 --write",
+      "git add"
+    ],
+    "server/*": [
+      "prettier --tab-width 4 --write",
+      "git add"
     ]
   }
 }

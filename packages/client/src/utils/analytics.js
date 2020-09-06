@@ -1,6 +1,8 @@
 import Analytics from 'analytics'
 import googleAnalytics from '@analytics/google-analytics'
+import { hotjar } from 'react-hotjar';
 import {config} from "../config";
+import {logger} from "../utils/utils"
 
 const analytics = Analytics({
     app: 'idea-camels',
@@ -10,6 +12,12 @@ const analytics = Analytics({
       })
     ]
   })
+
+if(config.isProd) {
+  hotjar.initialize(config.hotjar.id, config.hotjar.version);
+} else {
+  logger.info("SIMULATED HOTJAR INITIALIZATION")
+}
 
 /**
  * handles events
@@ -33,7 +41,7 @@ export const handleEvent = (action, label) => {
         return analytics.track(action, options);
     }
     
-    console.log(options);
+    logger.info("SIMULATED GA EVENT", options);
 };
 
 /**
@@ -43,5 +51,5 @@ export const handlePageView = () => {
 
     if(config.isProd) return analytics.page();
 
-    console.log("GOOGLE ANALYTICS --- PAGE VIEW")
+    logger.info("SIMULATED GA PAGE VIEW")
 }

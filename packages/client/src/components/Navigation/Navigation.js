@@ -1,40 +1,21 @@
 import React, { useState } from 'react'
 import withAnalytics from '../../hoc/withAnalytics';
-import { Menu, MenuItem, MenuMenu } from '../Menu'
-import { Image } from '../Image'
-import { styled, createMediaQuery, remCalc } from '../../utils/style'
+import { Menu, Item, MenuMenu } from '../Styled/Menu'
+import { Image } from '../Styled/Image'
+import { remCalc } from '../../utils/style'
 import { items } from './utils';
+import { theme } from '../../config';
 
-const StyledMenu = styled(Menu)`
-    font-family: ${({ theme: { navigation } }) => navigation.fontFamily} !important;
-    background-color: ${({ theme: { navigation } }) => navigation.backgroundColor} !important;
-    color: ${({ theme: { navigation } }) => navigation.color} !important;
-    display: none !important;
-    margin: 0 !important;
+const AnalyticsMenuItem = withAnalytics(Item);
 
-    a {
-        color: ${({ theme: { navigation } }) => navigation.color} !important;
-    }
-    
-    ${({ theme: { breakpoints } }) => createMediaQuery(breakpoints.tablet)} {
-        display: flex !important;
-    }
-`;
-
-const StyledImage = styled(Image)`
-  max-width: ${({ theme: { navigation } }) => remCalc(navigation.logoSize)} !important;
-`;
-
-const AnalyticsMenuItem = withAnalytics(MenuItem);
-
-export default ({ theme: { navigation } }) => {
+export default () => {
 
   const [{activeItem}, setState] = useState({ activeItem: 'home' });
 
   const handleItemClick = (e, { name }) => setState({ activeItem: name })
 
   return(
-      <StyledMenu secondary size={navigation.size}>
+      <Menu display="none" secondary size="huge" backgroundColor={theme.colors.main000} color={theme.colors.white000} anchorColor={theme.colors.white000} fontFamily={theme.defaultFont.fontFamily}>
         <AnalyticsMenuItem
           name='logo'
           active={activeItem === 'logo'}
@@ -42,7 +23,7 @@ export default ({ theme: { navigation } }) => {
           action='navigation-logo-click'
           href="/"
         >
-          <StyledImage alt="idea camels logo" src={navigation.logo.src} />
+          <Image maxWidth={remCalc(23)} alt="idea camels logo" src={theme.logos.main000} />
         </AnalyticsMenuItem>
         <MenuMenu position='right'>
           {items.map(o => (
@@ -56,6 +37,6 @@ export default ({ theme: { navigation } }) => {
             />
           ))}
         </MenuMenu>
-      </StyledMenu>
+      </Menu>
     )
 }

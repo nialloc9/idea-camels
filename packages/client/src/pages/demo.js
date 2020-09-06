@@ -1,17 +1,17 @@
 import React, { Fragment } from 'react'
-import Footer from 'components/Footer';
-import {Segment} from 'components/Segment';
-import {Grid, GridColumn} from 'components/Grid';
-import {List, ListItem} from 'components/List';
-import {Input} from 'components/Input';
-import {Button} from 'components/Button';
-import {Header} from 'components/Header';
-import {Progress} from 'components/Progress';
-import {Image} from 'components/Image';
-import {Pagination} from 'components/Pagination';
-import {Table, TableHeader, TableHeaderCell, TableRow, TableCell, TableBody} from 'components/Table';
-import { remCalc, styled } from 'utils/style';
-import dragAndDrop from 'static/dragAndDrop.png';
+import Footer from '../components/Footer';
+import {Segment} from '../components/Segment';
+import {Grid, GridColumn} from '../components/Grid';
+import {List, ListItem} from '../components/List';
+import {Input} from '../components/Input';
+import {Button} from '../components/Button';
+import {Header} from '../components/Header';
+import {Progress} from '../components/Progress';
+import {Image} from '../components/Image';
+import {Pagination} from '../components/Pagination';
+import {Table, TableHeader, TableHeaderCell, TableRow, TableCell, TableBody} from '../components/Table';
+import { remCalc, styled } from '../utils/style';
+import dragAndDrop from '../static/dragAndDrop.png';
 
 const defaultKeywords = [
   {

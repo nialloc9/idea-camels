@@ -10,3 +10,12 @@ export const withEnterKey = (value, callback) => e => {
         callback(value);
     }
 };
+
+/**
+ * @description logger used for logging information
+ */
+export const logger = {
+    log: (message, context = {}) => console.log(`${message} : `, context),
+    info: (message, context = {}) => console.info(`${message} : `, context),
+    error: (message, context = {}) => console.error(`${message} : `, context)
+}

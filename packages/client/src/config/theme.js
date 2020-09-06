@@ -23,8 +23,33 @@ const defaultFont = {
 };
 
 export default {
+    colors: {
+        main000: MAIN_000,
+        main001: MAIN_001,
+        text000: TEXT_000,
+        white000: WHITE_000,
+        gray000: GRAY_000,
+        gray001: GRAY_001
+    },
+    fonts: {
+        font000: FONT_000,
+        font001: FONT_001,
+        font002: FONT_002,
+    },
+    defaultFont: {
+        color: TEXT_000,
+        fontFamily: FONT_000
+    },
+    logos: {
+        main000: whiteLogo
+    },
+    // landing page
     breakpoints: {
-        tablet: 768
+        tablet: 768,
+        computer: 1024,
+        computerLarge: 1280,
+        computerXLarge: 1920,
+        computerXXLarge: 2568
     },
     infoMessage: {
         textAlign: "center"
