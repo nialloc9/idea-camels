@@ -1,6 +1,8 @@
 const { NODE_ENV } = process.env;
 
-const { location: { pathname } } = window;
+const {
+    location: { pathname },
+} = window;
 
 export default {
     env: NODE_ENV,
@@ -12,10 +14,10 @@ export default {
         linkedin: "https://linkedin.com",
     },
     ga: {
-        uaId: "UA-173719058-1"
+        uaId: "UA-173719058-1",
     },
     hotjar: {
         id: 1710788,
-        version: 6
-    }
-}
+        version: 6,
+    },
+};

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { handleEvent } from "../utils/analytics"
+import { handleEvent } from "../utils/analytics";
 
-export default WrappedComponent =>
+export default (WrappedComponent) =>
     class Event extends Component {
         static propTypes = {
             action: PropTypes.string.isRequired,
-            label: PropTypes.string
+            label: PropTypes.string,
         };
 
         handleClick = (...e) => {
@@ -14,10 +14,10 @@ export default WrappedComponent =>
 
             handleEvent(action, label);
 
-            if(onClick) {
+            if (onClick) {
                 onClick(...e);
             }
-        }
+        };
 
         render() {
             const { action, label, onClick, ...rest } = this.props;

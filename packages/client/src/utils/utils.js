@@ -4,7 +4,7 @@
  * @param {func} callback
  * @returns {void}
  */
-export const withEnterKey = (value, callback) => e => {
+export const withEnterKey = (value, callback) => (e) => {
     if (e.key === "Enter" && e.shiftKey === false && value && value !== "") {
         e.preventDefault();
         callback(value);
@@ -17,5 +17,5 @@ export const withEnterKey = (value, callback) => e => {
 export const logger = {
     log: (message, context = {}) => console.log(`${message} : `, context),
     info: (message, context = {}) => console.info(`${message} : `, context),
-    error: (message, context = {}) => console.error(`${message} : `, context)
-}
+    error: (message, context = {}) => console.error(`${message} : `, context),
+};

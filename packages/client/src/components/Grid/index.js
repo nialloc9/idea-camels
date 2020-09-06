@@ -1,1 +1,1 @@
-export { Grid, GridRow, GridColumn } from 'semantic-ui-react';
+export { Grid, GridRow, GridColumn } from "semantic-ui-react";

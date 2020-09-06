@@ -1,1 +1,1 @@
-export { Progress } from 'semantic-ui-react';
+export { Progress } from "semantic-ui-react";

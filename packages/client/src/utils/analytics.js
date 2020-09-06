@@ -1,22 +1,22 @@
-import Analytics from 'analytics'
-import googleAnalytics from '@analytics/google-analytics'
-import { hotjar } from 'react-hotjar';
-import {config} from "../config";
-import {logger} from "../utils/utils"
+import Analytics from "analytics";
+import googleAnalytics from "@analytics/google-analytics";
+import { hotjar } from "react-hotjar";
+import { config } from "../config";
+import { logger } from "../utils/utils";
 
 const analytics = Analytics({
-    app: 'idea-camels',
+    app: "idea-camels",
     plugins: [
-      googleAnalytics({
-        trackingId: config.ga.uaId
-      })
-    ]
-  })
+        googleAnalytics({
+            trackingId: config.ga.uaId,
+        }),
+    ],
+});
 
-if(config.isProd) {
-  hotjar.initialize(config.hotjar.id, config.hotjar.version);
+if (config.isProd) {
+    hotjar.initialize(config.hotjar.id, config.hotjar.version);
 } else {
-  logger.info("SIMULATED HOTJAR INITIALIZATION")
+    logger.info("SIMULATED HOTJAR INITIALIZATION");
 }
 
 /**
@@ -26,7 +26,7 @@ if(config.isProd) {
  */
 export const handleEvent = (action, label) => {
     const {
-        location: { pathname }
+        location: { pathname },
     } = document;
 
     const ec = pathname.split("/")[1];
@@ -34,13 +34,13 @@ export const handleEvent = (action, label) => {
     const options = {
         category: ec === "" ? "landing" : ec,
         value: action,
-        label: label
+        label: label,
     };
 
-    if(config.isProd) {
+    if (config.isProd) {
         return analytics.track(action, options);
     }
-    
+
     logger.info("SIMULATED GA EVENT", options);
 };
 
@@ -48,8 +48,7 @@ export const handleEvent = (action, label) => {
  * @description handles a page view
  */
 export const handlePageView = () => {
+    if (config.isProd) return analytics.page();
 
-    if(config.isProd) return analytics.page();
-
-    logger.info("SIMULATED GA PAGE VIEW")
-}
+    logger.info("SIMULATED GA PAGE VIEW");
+};

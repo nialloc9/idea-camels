@@ -1,14 +1,14 @@
-import whiteLogo from '../static/whiteLogo.png';
-import logoColor from '../static/logoColor.png';
-import block2Image from '../static/block2Image.webp';
-import block4FirstImage from '../static/block4FirstImage.png';
+import whiteLogo from "../static/whiteLogo.png";
+import logoColor from "../static/logoColor.png";
+import block2Image from "../static/block2Image.webp";
+import block4FirstImage from "../static/block4FirstImage.png";
 
-const MAIN_000 = '#f7c545';
-const MAIN_001 = '#DEAC2C'
+const MAIN_000 = "#f7c545";
+const MAIN_001 = "#DEAC2C";
 
-const TEXT_000 = '#2a2a2a';
+const TEXT_000 = "#2a2a2a";
 
-const WHITE_000 = 'white';
+const WHITE_000 = "white";
 
 const FONT_000 = "'Darker Grotesque', sans-serif";
 const FONT_001 = "Cairo, 'Playfair Display', sans-serif";
@@ -19,7 +19,7 @@ const GRAY_001 = "#686868";
 
 const defaultFont = {
     color: TEXT_000,
-    fontFamily: FONT_000
+    fontFamily: FONT_000,
 };
 
 export default {
@@ -29,7 +29,7 @@ export default {
         text000: TEXT_000,
         white000: WHITE_000,
         gray000: GRAY_000,
-        gray001: GRAY_001
+        gray001: GRAY_001,
     },
     fonts: {
         font000: FONT_000,
@@ -38,10 +38,10 @@ export default {
     },
     defaultFont: {
         color: TEXT_000,
-        fontFamily: FONT_000
+        fontFamily: FONT_000,
     },
     logos: {
-        main000: whiteLogo
+        main000: whiteLogo,
     },
     // landing page
     breakpoints: {
@@ -49,24 +49,24 @@ export default {
         computer: 1024,
         computerLarge: 1280,
         computerXLarge: 1920,
-        computerXXLarge: 2568
+        computerXXLarge: 2568,
     },
     infoMessage: {
-        textAlign: "center"
+        textAlign: "center",
     },
     navigation: {
         backgroundColor: MAIN_000,
         color: WHITE_000,
         fontFamily: defaultFont.fontFamily,
-        size: 'huge',
+        size: "huge",
         button: {
             backgroundColor: MAIN_001,
-            color: WHITE_000
+            color: WHITE_000,
         },
         logoSize: 23,
         logo: {
-            src: whiteLogo
-        }
+            src: whiteLogo,
+        },
     },
     block1: {
         height: 700,
@@ -80,12 +80,12 @@ export default {
         subHeadingLineHeight: 27,
         subHeadingSize: 27,
         subHeadingMargins: [40, 0, 40, 0],
-        buttonSize: 'huge',
+        buttonSize: "huge",
         ...defaultFont,
     },
     block2: {
         height: 700,
-        image: block2Image
+        image: block2Image,
     },
     block3: {
         ...defaultFont,
@@ -109,7 +109,7 @@ export default {
                 margins: [40, 0, 0, 0],
             },
             button: {
-                size: 'huge',
+                size: "huge",
                 margins: [40, 0, 0, 0],
             },
             features: {
@@ -118,8 +118,8 @@ export default {
                 headerMargins: [40, 0, 0, 0],
                 headerBackgroundColor: MAIN_000,
                 featuresMargins: [40, 0, 0, 0],
-            }
-        }
+            },
+        },
     },
     block4: {
         ...defaultFont,
@@ -137,23 +137,23 @@ export default {
             lineHeight: 25,
             weight: 400,
             color: GRAY_001,
-            margins: [-10, 0, 0, 0]
+            margins: [-10, 0, 0, 0],
         },
         cardContainer: {
             width: 1000,
             margins: [60, 0, 0, 0],
-            paddings: [40, 40, 40, 40]
+            paddings: [40, 40, 40, 40],
         },
         firstCard: {
             image: {
                 src: block4FirstImage,
-                size: 'small'
-            }
+                size: "small",
+            },
         },
         button: {
-            size: 'large',
-            margins: [40, 0, 0, 0]
-        }
+            size: "large",
+            margins: [40, 0, 0, 0],
+        },
     },
     block5: {
         ...defaultFont,
@@ -163,11 +163,11 @@ export default {
         paddings: [20, 20, 0, 20],
         quoteContainerPaddings: [0, 0, 0, 0],
         card: {
-            width: 1000
+            width: 1000,
         },
         carousel: {
             size: "huge",
-            textAlign: "center"
+            textAlign: "center",
         },
         quote: {
             size: 50,
@@ -179,18 +179,18 @@ export default {
             lineHeight: 25,
             weight: 400,
             color: GRAY_001,
-            margins: [-10, 0, 0, 0]
+            margins: [-10, 0, 0, 0],
         },
         cardContainer: {
             width: 1000,
             margins: [60, 0, 0, 0],
-            paddings: [40, 40, 40, 40]
+            paddings: [40, 40, 40, 40],
         },
         button: {
-            size: 'huge',
+            size: "huge",
             margins: [40, 0, 0, 0],
             backgroundColor: MAIN_000,
-        }
+        },
     },
     footer: {
         ...defaultFont,
@@ -200,16 +200,16 @@ export default {
         backgroundColor: GRAY_000,
         column1: {
             imageSrc: logoColor,
-            imageSize: "mini"
+            imageSize: "mini",
         },
         column2: {
             color: TEXT_000,
-            hoverColor: MAIN_000
+            hoverColor: MAIN_000,
         },
         column3: {
             iconColor: MAIN_000,
-            iconSize: 'small'
-        }
+            iconSize: "small",
+        },
     },
     comingSoon: {
         ...defaultFont,
@@ -225,8 +225,8 @@ export default {
         subHeadingMargins: [40, 0, 40, 0],
         signUpWidth: 500,
         button: {
-            size: 'large',
-            margins: [40, 0, 0, 0]
-        }
+            size: "large",
+            margins: [40, 0, 0, 0],
+        },
     },
-}
+};

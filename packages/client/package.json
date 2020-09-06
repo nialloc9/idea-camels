@@ -41,7 +41,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve": "serve dist -p 3000"
+    "serve": "serve dist -p 3000",
+    "p": "prettier --tab-width 4 --write ./src"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -60,10 +61,6 @@
   },
   "lint-staged": {
     "src/*": [
-      "prettier --tab-width 4 --write",
-      "git add"
-    ],
-    "server/*": [
       "prettier --tab-width 4 --write",
       "git add"
     ]
