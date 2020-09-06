@@ -14,7 +14,7 @@ export default () => {
     const handleItemClick = (e, { name }) => setState({ activeItem: name });
 
     return (
-        <Menu display="none" secondary size="huge" backgroundColor={theme.colors.main000} color={theme.colors.white000} anchorColor={theme.colors.white000} fontFamily={theme.defaultFont.fontFamily}>
+        <Menu  display="none" secondary size="huge" backgroundColor={theme.colors.main000} color={theme.colors.white000} anchorColor={theme.colors.white000} fontFamily={theme.defaultFont.fontFamily}>
             <AnalyticsMenuItem
                 name="logo"
                 active={activeItem === "logo"}
