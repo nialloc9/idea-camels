@@ -42,7 +42,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "serve dist -p 3000",
-    "p": "prettier --tab-width 4 --write ./src"
+    "p": "prettier --tab-width 4 --write ./src",
+    "precommit": "lint-staged"
   },
   "eslintConfig": {
     "extends": "react-app"
