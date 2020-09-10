@@ -51,14 +51,13 @@ export const PieChart = ({
   width,
   headerSize,
   showTable = true,
-}) =>
-  console.log(data) || (
-    <Block margin="auto" textAlign="center">
-      <Block width={width} margin="auto">
-        <Header size={headerSize}>{title}</Header>
-        <Chart data={data} />
-      </Block>
-
-      {showTable && <DataTable data={data} />}
+}) => (
+  <Block margin="auto" textAlign="center">
+    <Block width={width} margin="auto">
+      <Header size={headerSize}>{title}</Header>
+      <Chart data={data} />
     </Block>
-  );
+
+    {showTable && <DataTable data={data} />}
+  </Block>
+);
