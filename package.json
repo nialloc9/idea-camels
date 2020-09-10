@@ -1,0 +1,32 @@
+{
+  "name": "idea-camels",
+  "version": "1.0.0",
+  "description": "To run frontend locally docker-compose up",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nialloc9/idea-camels.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nialloc9/idea-camels/issues"
+  },
+  "homepage": "https://github.com/nialloc9/idea-camels#readme",
+  "devDependencies": {
+    "husky": "^4.2.5",
+    "lint-staged": "^10.3.0",
+    "prettier": "^2.1.1"
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
