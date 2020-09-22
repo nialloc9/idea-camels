@@ -1,13 +1,9 @@
-import whiteLogo from "../static/whiteLogo.png";
-import logoColor from "../static/logoColor.png";
-import block2Image from "../static/block2Image.webp";
-import block4FirstImage from "../static/block4FirstImage.png";
-import dragAndDrop from "../static/dragAndDrop.png";
-import keywordBudget from "../static/keywordBudget.png";
-import results from "../static/results.png";
+import placeholder from "../static/placeholder.png";
+import placeholder2 from "../static/placeholder2.png";
+import placeholder4 from "../static/placeholder4.jpeg";
 
-const MAIN_000 = "#f7c545";
-const MAIN_001 = "#DEAC2C";
+const MAIN_000 = "lightgrey";
+const MAIN_001 = "grey";
 
 const TEXT_000 = "#2a2a2a";
 
@@ -25,7 +21,7 @@ const defaultFont = {
   fontFamily: FONT_000,
 };
 
-export default {
+export const templateOneDefaultTheme = {
   colors: {
     main000: MAIN_000,
     main001: MAIN_001,
@@ -44,7 +40,7 @@ export default {
     fontFamily: FONT_000,
   },
   logos: {
-    main000: whiteLogo,
+    main000: placeholder,
   },
   // landing page
   breakpoints: {
@@ -68,7 +64,7 @@ export default {
     },
     logoSize: 23,
     logo: {
-      src: whiteLogo,
+      src: placeholder,
     },
   },
   block1: {
@@ -76,7 +72,7 @@ export default {
     width: 728,
     paddings: [0, 20, 0, 20],
     backgroundColor: WHITE_000,
-    logo: logoColor,
+    logo: placeholder,
     headingSize: 60,
     headingLineHeight: 66,
     headingMargins: [40, 0, 0, 0],
@@ -88,8 +84,8 @@ export default {
   },
   block2: {
     height: 700,
-    image: block2Image,
-    backgroundRepeat: "no-repeat",
+    image: placeholder4,
+    backgroundRepeat: "repeat",
   },
   block3: {
     ...defaultFont,
@@ -150,7 +146,7 @@ export default {
     },
     firstCard: {
       image: {
-        src: block4FirstImage,
+        src: placeholder,
         size: "small",
       },
     },
@@ -172,9 +168,9 @@ export default {
     carousel: {
       size: "huge",
       textAlign: "center",
-      image1: dragAndDrop,
-      image2: keywordBudget,
-      image3: results,
+      image1: placeholder2,
+      image2: placeholder2,
+      image3: placeholder2,
     },
     quote: {
       size: 50,
@@ -206,7 +202,7 @@ export default {
     paddings: [60, 0, 0, 0],
     backgroundColor: GRAY_000,
     column1: {
-      imageSrc: logoColor,
+      imageSrc: placeholder,
       imageSize: "mini",
     },
     column2: {
@@ -237,3 +233,57 @@ export default {
     },
   },
 };
+
+export const templateOptions = [
+  {
+    key: "Template 1",
+    text: "Default",
+    value: 1,
+  },
+  {
+    key: "Template 2",
+    text: "Template 2",
+    value: 2,
+  },
+  {
+    key: "Template 3",
+    text: "Template 3",
+    value: 3,
+  },
+];
+
+export const activeExperiments = [
+  {
+    key: "Experiment 1",
+    text: "Experiment 1",
+    value: 1,
+  },
+  {
+    key: "Experiment 2",
+    text: "Experiment 2",
+    value: 2,
+  },
+  {
+    key: "Experiment 3",
+    text: "Experiment 3",
+    value: 3,
+  },
+];
+
+export const themeOptions = [
+  {
+    key: "Theme 1",
+    text: "Default",
+    value: 1,
+  },
+  {
+    key: "Theme 2",
+    text: "Theme 2",
+    value: 2,
+  },
+  {
+    key: "Theme 3",
+    text: "Theme 3",
+    value: 3,
+  },
+];

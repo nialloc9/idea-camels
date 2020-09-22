@@ -4,11 +4,12 @@ import { ThemeProvider } from "./utils/style";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import { theme } from "./config";
-import Landing from "./pages/landing";
-import Home from "./pages/home";
-import Demo from "./pages/demo";
-import ComingSoon from "./pages/coming-soon";
-import NotFound from "./pages/not-found";
+import Landing from "./pages/Landing";
+import Home from "./pages/Home";
+import Demo from "./pages/Demo";
+import ComingSoon from "./pages/ComingSoon";
+import ExperimentDesign from "./pages/ExperimentDesign";
+import NotFound from "./pages/NotFound";
 
 export default () => (
   <Router>
@@ -23,6 +24,9 @@ export default () => (
         </Route>
         <Route path="/demo">
           <Demo />
+        </Route>
+        <Route path="/experiment-design">
+          <ExperimentDesign />
         </Route>
         <Route path="/404">
           <NotFound />

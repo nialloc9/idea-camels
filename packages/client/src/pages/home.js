@@ -89,16 +89,14 @@ export default withPageAnalytics(() => (
               <Table basic="very" celled>
                 <TableHeader>
                   <TableRow>
-                    <TableHeaderCell>Number of clicks</TableHeaderCell>
-                    <TableHeaderCell>Number of impressions</TableHeaderCell>
-                    <TableHeaderCell>Number of emails gathered</TableHeaderCell>
+                    <TableHeaderCell>Impressions</TableHeaderCell>
+                    <TableHeaderCell>Clicks</TableHeaderCell>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   <TableRow>
-                    <TableCell>1</TableCell>
-                    <TableCell>10</TableCell>
-                    <TableCell>1</TableCell>
+                    <TableCell>12</TableCell>
+                    <TableCell>2</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

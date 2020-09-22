@@ -3,14 +3,13 @@ import withAnalytics from "../../hoc/withAnalytics";
 import { Menu, Item, MenuMenu } from "../Styled/Menu";
 import { Image } from "../Styled/Image";
 import { Dropdown, DropdownMenu, DropdownItem } from "../Dropdown";
-import { Button } from "../Styled/Button";
 import { remCalc } from "../../utils/style";
 import { items } from "./utils";
-import { theme } from "../../config";
+import { theme as defaultTheme } from "../../config";
 
 const AnalyticsMenuItem = withAnalytics(Item);
 
-const NotLoggedIn = () => {
+const NotLoggedIn = ({ theme }) => {
   const [{ activeItem }, setState] = useState({ activeItem: "home" });
 
   const handleItemClick = (e, { name }) => setState({ activeItem: name });
@@ -54,7 +53,7 @@ const NotLoggedIn = () => {
   );
 };
 
-const LoggedIn = () => {
+const LoggedIn = ({ theme }) => {
   const [{ activeItem }, setState] = useState({ activeItem: "home" });
 
   const handleItemClick = (e, { name }) => setState({ activeItem: name });
@@ -123,5 +122,5 @@ const LoggedIn = () => {
   );
 };
 
-export default ({ isLoggedIn = true }) =>
-  isLoggedIn ? <LoggedIn /> : <NotLoggedIn />;
+export default ({ isLoggedIn = false, theme = defaultTheme }) =>
+  isLoggedIn ? <LoggedIn theme={theme} /> : <NotLoggedIn theme={theme} />;

@@ -4,4 +4,8 @@ import { styled } from "../../utils/style";
 
 export const Segment = styled(({ height, ...rest }) => <Seg {...rest} />)`
   ${({ height }) => height && `height: ${height};`}
+  ${({ maxHeight }) => maxHeight && `max-height: ${maxHeight};`}
+  ${({
+    overflow,
+  }) => overflow && `overflow: ${overflow};`}
 `;

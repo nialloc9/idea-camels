@@ -11,6 +11,7 @@ import { Segment } from "../../Styled/Segment";
 import { Divider } from "../../Divider";
 import { Image } from "../../Image";
 import { Button } from "../../Button";
+import withEditable from "../../../hoc/withEditable";
 
 const AnalyticsButton = withAnalytics(Button);
 
@@ -143,55 +144,57 @@ const ButtonContainer = styled.div`
   }) => (button.width ? remCalc(button.width) : "auto")};
 `;
 
-export default withTheme(({ theme: { block4 } }) => (
-  <Container>
-    <HeadingContainer>
-      <Heading>Start Creating!</Heading>
-      <SubHeading>
-        Don't waste time on development and validate your idea now.
-      </SubHeading>
-    </HeadingContainer>
+export default withTheme(
+  withEditable(({ theme: { block4 } }) => (
+    <Container>
+      <HeadingContainer>
+        <Heading>Start Creating!</Heading>
+        <SubHeading>
+          Don't waste time on development and validate your idea now.
+        </SubHeading>
+      </HeadingContainer>
 
-    <CardContainer>
-      <SplitCard>
-        <Segment>
-          <Grid columns={2} stackable textAlign="center">
-            <Divider vertical />
+      <CardContainer>
+        <SplitCard>
+          <Segment>
+            <Grid columns={2} stackable textAlign="center">
+              <Divider vertical />
 
-            <GridRow verticalAlign="middle">
-              <GridColumn>
-                <ImageContainer>
-                  <ImageInnerContainer>
-                    <Image
-                      size={block4.firstCard.image.size}
-                      src={block4.firstCard.image.src}
-                    />
-                  </ImageInnerContainer>
-                </ImageContainer>
-              </GridColumn>
+              <GridRow verticalAlign="middle">
+                <GridColumn>
+                  <ImageContainer>
+                    <ImageInnerContainer>
+                      <Image
+                        size={block4.firstCard.image.size}
+                        src={block4.firstCard.image.src}
+                      />
+                    </ImageInnerContainer>
+                  </ImageContainer>
+                </GridColumn>
 
-              <GridColumn>
-                <Heading>Test your ideas</Heading>
-                <SubHeading>
-                  Rapidly test an idea by creating a landing page and testing
-                  adwords to see if it is worth continuing. All in one place.
-                </SubHeading>
-                <ButtonContainer>
-                  <AnalyticsButton
-                    href="/coming-soon"
-                    color="black"
-                    size={block4.button.size}
-                    basic
-                    action="block4-button"
-                  >
-                    Get Started
-                  </AnalyticsButton>
-                </ButtonContainer>
-              </GridColumn>
-            </GridRow>
-          </Grid>
-        </Segment>
-      </SplitCard>
-    </CardContainer>
-  </Container>
-));
+                <GridColumn>
+                  <Heading>Test your ideas</Heading>
+                  <SubHeading>
+                    Rapidly test an idea by creating a landing page and testing
+                    adwords to see if it is worth continuing. All in one place.
+                  </SubHeading>
+                  <ButtonContainer>
+                    <AnalyticsButton
+                      href="/coming-soon"
+                      color="black"
+                      size={block4.button.size}
+                      basic
+                      action="block4-button"
+                    >
+                      Get Started
+                    </AnalyticsButton>
+                  </ButtonContainer>
+                </GridColumn>
+              </GridRow>
+            </Grid>
+          </Segment>
+        </SplitCard>
+      </CardContainer>
+    </Container>
+  ))
+);
