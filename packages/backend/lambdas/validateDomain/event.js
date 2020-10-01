@@ -1,5 +1,5 @@
 module.exports = {
   body: JSON.stringify({
-    domain: "gfgsfsgfdgsdf.com",
+    domain: "example.com",
   }),
 };
