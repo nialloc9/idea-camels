@@ -1,6 +1,4 @@
 const {
-  AWS_ACCESS_KEY,
-  AWS_SECRET_KEY,
   AWS_REGION,
   STRIPE_SECRET_KEY,
   STRIPE_MONTHLY_PLAN,
@@ -20,8 +18,6 @@ const {
 const localhost = {
   name: "idea-camels-server",
   aws: {
-    accessKeyId: AWS_ACCESS_KEY,
-    secretAccessKey: AWS_SECRET_KEY,
     region: AWS_REGION,
     buckets: {},
   },
@@ -30,7 +26,6 @@ const localhost = {
     monthlyPlan: STRIPE_MONTHLY_PLAN,
     semiAnnualPlan: STRIPE_SEMI_ANNUAL_PLAN,
     annualPlan: STRIPE_ANNUAL_PLAN,
-    trialDays: STRIPE_TRIAL_DAYS,
   },
   db: {
     host: DB_HOST,
@@ -59,8 +54,9 @@ const production = {
   },
 };
 
-export default {
-  localhost,
-  staging,
-  production,
-}[ENV];
+module.exports =
+  {
+    localhost,
+    staging,
+    production,
+  }[ENV] || localhost;

@@ -1,22 +1,18 @@
 const AWS = require("aws-sdk");
-const testEvent = require("./event");
-const { registerDomain } = require("../../utils/aws");
+const { validateDomain: onValidateDoman } = require("../../utils/aws");
 const { logger: log, handleSuccess } = require("../../utils/utils");
 const errors = require("../../utils/errors");
 
 const logger = log();
 
-// set region if not set (as not set by the SDK by default)
-if (!AWS.config.region) {
-  AWS.config.update({
-    region: "us-east-1",
-    profile: "idea-camels",
-  });
-}
+AWS.config.update({
+  region: "us-east-1",
+});
 
 const provider = new AWS.Route53Domains();
 
-exports.purchaseDomain = async (event) => {
+exports.validateDomain = async (event) => {
+  console.log("here", event);
   const { caller, domain } = JSON.parse(event.body);
 
   const response = {
@@ -29,7 +25,7 @@ exports.purchaseDomain = async (event) => {
   };
 
   try {
-    const { Availability: availability } = await registerDomain(provider, {
+    const { Availability: availability } = await onValidateDoman(provider, {
       domain,
     });
 
@@ -49,7 +45,7 @@ exports.purchaseDomain = async (event) => {
 
     response.body = errors[2001]({
       caller,
-      endpoint: "purchaseDomain",
+      endpoint: "validateDomain",
       data: {
         error,
       },

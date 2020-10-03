@@ -28,5 +28,9 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "dependencies": {
+    "aws-sdk": "^2.766.0",
+    "mysql": "^2.18.1"
   }
 }

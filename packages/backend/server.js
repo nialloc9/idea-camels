@@ -1,8 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { config } = require("./config");
-const { validateDomain } = require("../lambdas/validateDomain/validateDomain");
-const { purchaseDomain } = require("../lambdas/purchaseDomain/purchaseDomain");
+const { validateDomain } = require("./functions/validateDomain/validateDomain");
+const { purchaseDomain } = require("./functions/purchaseDomain/purchaseDomain");
 
 const app = express();
 

@@ -1,5 +1,5 @@
 const myql = require("mysql");
-const { config } = require("../utils/config");
+const config = require("../utils/config");
 const errors = require("../utils/errors");
 
 const {
@@ -14,14 +14,14 @@ const DatabasePool = myql.createPool({
   port,
 });
 
-const getConnection = async (caller, dataLayer) =>
+const getConnection = async (caller) =>
   new Promise((resolve, reject) => {
     DatabasePool.getConnection((error, connection) => {
+      console.log("error1", error);
       if (error) {
         return reject(
           errors["4000"]({
             caller,
-            dataLayer,
             reason: error.message,
           })
         );
@@ -33,12 +33,11 @@ const getConnection = async (caller, dataLayer) =>
 
 const query = async (query, data, caller, dataLayer, newConnection) => {
   const connection = newConnection || (await getConnection(caller, dataLayer));
-
   connection.query(query, data, (error, results) => {
     connection.release();
-
+    console.log("results", results);
     if (error) {
-      return reject(
+      return Promise.reject(
         errors["4001"]({
           dataLayer,
           caller,
@@ -47,7 +46,7 @@ const query = async (query, data, caller, dataLayer, newConnection) => {
       );
     }
 
-    return resolve(results);
+    return Promise.resolve(results);
   });
 };
 

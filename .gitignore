@@ -6,6 +6,6 @@ artifacts/
 tmp/
 .terraform/
 scripts/setEnvVariables.sh
-.env
+*.env
 
 backend/dist

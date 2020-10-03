@@ -7,3 +7,22 @@ services:
     volumes:
     - ./packages/client:/usr/src/app:cached
     command: npm run start
+  idea-camels-server:
+    build: ./packages/backend
+    ports:
+    - "3001:3001"
+    volumes:
+    - ./packages/backend:/usr/src/app:cached
+    env_file:
+      - ./packages/backend/.dev.env
+    command: npm run start
+  idea-camels-db:
+    image: mysql:5.7
+    volumes:
+      - /var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: idea_camels
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
