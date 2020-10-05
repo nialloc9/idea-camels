@@ -3,6 +3,14 @@ const bodyParser = require("body-parser");
 const { config } = require("./config");
 const { validateDomain } = require("./functions/validateDomain/validateDomain");
 const { purchaseDomain } = require("./functions/purchaseDomain/purchaseDomain");
+const { fetchDomains } = require("./functions/fetchDomains/fetchDomains");
+const {
+  createExperiment,
+} = require("./functions/createExperiment/createExperiment");
+const {
+  fetchExperiments,
+} = require("./functions/fetchExperiments/fetchExperiments");
+const { createAccount } = require("./functions/createAccount/createAccount");
 
 const app = express();
 
@@ -14,11 +22,35 @@ app.use(
   })
 );
 
-app.post("/validate-domain", async ({ body }, res) =>
-  res.send(await validateDomain({ body: JSON.stringify(body) }))
-);
-app.post("/purchase-domain", async ({ body }, res) =>
-  res.send(await purchaseDomain({ body: JSON.stringify(body) }))
+[
+  {
+    uri: "/validate-domain",
+    func: validateDomain,
+  },
+  {
+    uri: "/purchase-domain",
+    func: purchaseDomain,
+  },
+  {
+    uri: "/fetch-domains",
+    func: fetchDomains,
+  },
+  {
+    uri: "/create-experiment",
+    func: createExperiment,
+  },
+  {
+    uri: "/fetch-experiments",
+    func: fetchExperiments,
+  },
+  {
+    uri: "/create-account",
+    func: createAccount,
+  },
+].forEach(({ uri, func }) =>
+  app.post(uri, async ({ body }, res) =>
+    res.send(await func({ body: JSON.stringify(body) }))
+  )
 );
 
 app.listen(config.port, () =>

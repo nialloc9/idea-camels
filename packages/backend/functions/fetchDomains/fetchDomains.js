@@ -1,17 +1,9 @@
-const AWS = require("aws-sdk");
-const { registerDomain } = require("../../utils/aws");
 const { handleSuccess, logger } = require("../../utils/utils");
-const { validateAndParse } = require("../../utils/security");
 const { query } = require("../../utils/database");
 const errors = require("../../utils/errors");
+const { validateAndParse } = require("../../utils/security");
 
-AWS.config.update({
-  region: "us-east-1",
-});
-
-const provider = new AWS.Route53Domains();
-
-exports.purchaseDomain = async (event) => {
+exports.fetchDomains = async (event) => {
   const response = {
     statusCode: 200,
     headers: {
@@ -24,28 +16,22 @@ exports.purchaseDomain = async (event) => {
   try {
     const {
       caller,
-      domain,
       decodedToken: { accountRef },
     } = await validateAndParse({
-      service: "purchaseDomain",
+      service: "fetchDomain",
       event,
-      required: ["caller", "domain"],
+      required: ["caller"],
     });
 
-    await registerDomain(provider, {
-      domain,
-    });
+    const domains = query(
+      `SELECT * FROM domains WHERE account_ref=${accountRef};`,
+      undefined,
+      "fetchDomains"
+    );
 
-    const data = {
-      domain_name: domain.domainName,
-      domain_ref: results.insertId,
-      account_ref: accountRef,
-    };
-
-    const results = await query(`INSERT INTO domains SET ?`, data, caller);
-
-    response.body = handleSuccess(`${domain} purchased`, {
-      domain: { ...data, domain_ref: results.insertId },
+    response.body = handleSuccess("domains found", {
+      domains,
+      accountRef,
       caller,
     });
   } catch (error) {
@@ -53,7 +39,7 @@ exports.purchaseDomain = async (event) => {
 
     response.body = errors[2001]({
       caller: event.caller,
-      endpoint: "purchaseDomain",
+      endpoint: "fetchDomains",
       data: {
         error,
       },

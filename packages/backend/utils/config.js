@@ -13,10 +13,14 @@ const {
   PORT,
   NODE_ENV,
   ENV,
+  PASSWORD_SECRET,
 } = process.env;
 
 const localhost = {
   name: "idea-camels-server",
+  security: {
+    password_secret: PASSWORD_SECRET,
+  },
   aws: {
     region: AWS_REGION,
     buckets: {},

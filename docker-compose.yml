@@ -17,12 +17,11 @@ services:
       - ./packages/backend/.dev.env
     command: npm run start
   idea-camels-db:
-    image: mysql:5.7
-    volumes:
-      - /var/lib/mysql
-    restart: always
+    image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: idea_camels
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "33061:3306"

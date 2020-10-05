@@ -1,9 +1,8 @@
 const AWS = require("aws-sdk");
 const { validateDomain: onValidateDoman } = require("../../utils/aws");
-const { logger: log, handleSuccess } = require("../../utils/utils");
+const { handleSuccess, logger } = require("../../utils/utils");
+const { validateAndParse } = require("../../utils/security");
 const errors = require("../../utils/errors");
-
-const logger = log();
 
 AWS.config.update({
   region: "us-east-1",
@@ -12,9 +11,6 @@ AWS.config.update({
 const provider = new AWS.Route53Domains();
 
 exports.validateDomain = async (event) => {
-  console.log("here", event);
-  const { caller, domain } = JSON.parse(event.body);
-
   const response = {
     statusCode: 200,
     headers: {
@@ -25,32 +21,37 @@ exports.validateDomain = async (event) => {
   };
 
   try {
+    const { caller, domain } = await validateAndParse({
+      service: "validateDomain",
+      event,
+      required: ["caller", "domain"],
+      isAuth: false,
+    });
+
     const { Availability: availability } = await onValidateDoman(provider, {
       domain,
     });
 
     const isAvailable = availability !== "UNAVAILABLE";
 
-    response.body = handleSuccess({ isAvailable, domain, caller });
-
-    logger.info("======================");
-    logger.info(response);
-    logger.info("======================");
+    response.body = handleSuccess("domain available", {
+      isAvailable,
+      domain,
+      caller,
+    });
   } catch (error) {
-    logger.error("======================");
-    logger.error(error);
-    logger.error("======================");
-
     response.statusCode = 500;
 
     response.body = errors[2001]({
-      caller,
+      caller: event.caller,
       endpoint: "validateDomain",
       data: {
         error,
       },
     });
-  } finally {
-    return response;
+
+    logger.error(response);
   }
+
+  return response;
 };

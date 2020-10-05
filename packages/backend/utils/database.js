@@ -17,7 +17,6 @@ const DatabasePool = myql.createPool({
 const getConnection = async (caller) =>
   new Promise((resolve, reject) => {
     DatabasePool.getConnection((error, connection) => {
-      console.log("error1", error);
       if (error) {
         return reject(
           errors["4000"]({
@@ -31,24 +30,29 @@ const getConnection = async (caller) =>
     });
   });
 
-const query = async (query, data, caller, dataLayer, newConnection) => {
-  const connection = newConnection || (await getConnection(caller, dataLayer));
-  connection.query(query, data, (error, results) => {
-    connection.release();
-    console.log("results", results);
-    if (error) {
-      return Promise.reject(
-        errors["4001"]({
-          dataLayer,
-          caller,
-          reason: error.message,
-        })
-      );
-    }
+const query = async (query, data, caller, dataLayer, newConnection) =>
+  new Promise(async (resolve, reject) => {
+    const connection =
+      newConnection || (await getConnection(caller, dataLayer));
+    connection.query(query, data, (error, results) => {
+      connection.release();
 
-    return Promise.resolve(results);
+      if (error) {
+        console.log("================");
+        console.log(query);
+        console.log("================");
+        reject(
+          errors["4001"]({
+            dataLayer,
+            caller,
+            reason: error.message,
+          })
+        );
+      }
+
+      return resolve(results);
+    });
   });
-};
 
 module.exports = {
   getConnection,
