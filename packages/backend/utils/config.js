@@ -14,6 +14,12 @@ const {
   NODE_ENV,
   ENV,
   PASSWORD_SECRET,
+  GOOGLE_ADS_API_TOKEN,
+  GOOGLE_ADS_CLIENT_ID,
+  GOOGLE_ADS_CLIENT_SECRET,
+  GOOGLE_ADS_REFRESH_TOKEN,
+  GOOGLE_ADS_DEVELOPER_TOKEN,
+  GOOGLE_ADS_CUSTOMER_ID,
 } = process.env;
 
 const localhost = {
@@ -40,6 +46,14 @@ const localhost = {
   },
   jwt: {
     secret: JSWT_SECRET,
+  },
+  googleAds: {
+    token: GOOGLE_ADS_API_TOKEN,
+    clientId: GOOGLE_ADS_CLIENT_ID,
+    clientSecret: GOOGLE_ADS_CLIENT_SECRET,
+    refreshToken: GOOGLE_ADS_REFRESH_TOKEN,
+    developerToken: GOOGLE_ADS_DEVELOPER_TOKEN,
+    customerId: GOOGLE_ADS_CUSTOMER_ID,
   },
   port: PORT,
   env: NODE_ENV,

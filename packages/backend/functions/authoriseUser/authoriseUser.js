@@ -1,7 +1,11 @@
 const { handleSuccess, logger } = require("../../utils/utils");
 const { query, getConnection } = require("../../utils/database");
 const { scrubAccount } = require("../../utils/accounts");
-const { createHash, validateAndParse } = require("../../utils/security");
+const {
+  createHash,
+  validateAndParse,
+  createJwToken,
+} = require("../../utils/security");
 const errors = require("../../utils/errors");
 
 exports.authoriseUser = async (event) => {

@@ -32,7 +32,7 @@ const jwtVerify = (jwToken) => {
  * @param {string} expiry
  * @returns {*}
  */
-const createJwToken = (data, expiry) =>
+const createJwToken = (data, expiry = "1d") =>
   jwt.sign(
     {
       data,
@@ -103,6 +103,10 @@ const validateAndParse = async ({ event, service, required, isAuth }) => {
   const body = parseBody(event);
 
   logger.info({ service, body }, "INCOMING");
+
+  if (isAuth) {
+    body.token = event.headers["Authorisation"];
+  }
 
   await requiredParams({ service, params: body, required, isAuth });
 

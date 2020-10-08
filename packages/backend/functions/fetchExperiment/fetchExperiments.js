@@ -16,10 +16,9 @@ exports.fetchExperiments = async (event) => {
   try {
     const {
       caller,
-      experimentId,
       decodedToken: { accountRef },
     } = await validateAndParse({
-      service: "fetchExperiment",
+      service: "fetchExperiments",
       event,
       required: ["caller"],
     });

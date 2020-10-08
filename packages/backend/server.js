@@ -11,6 +11,7 @@ const {
   fetchExperiments,
 } = require("./functions/fetchExperiments/fetchExperiments");
 const { createAccount } = require("./functions/createAccount/createAccount");
+const { listCampaigns } = require("./utils/googleAds");
 
 const app = express();
 
@@ -52,6 +53,8 @@ app.use(
     res.send(await func({ body: JSON.stringify(body) }))
   )
 );
+
+console.log(listCampaigns());
 
 app.listen(config.port, () =>
   console.info(`Listening on port: ${config.port}`)
