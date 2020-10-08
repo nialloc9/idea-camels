@@ -1,11 +1,12 @@
 const { GoogleAdsApi } = require("google-ads-api");
 const config = require("./config");
+const { logger } = require("./utils");
 
 /**
  * https://opteo.com/dev/google-ads-api/#authentication
  * https://console.cloud.google.com/apis/credentials?highlightClient=541455512087-4b4kco7v5ajd7sae6m44f0sd5qac6hqt.apps.googleusercontent.com&project=idea-camels&supportedpurview=project
  */
-console.log(config);
+
 const client = new GoogleAdsApi({
   client_id: config.googleAds.clientId,
   client_secret: config.googleAds.clientSecret,
@@ -18,6 +19,11 @@ const customer = client.Customer({
 });
 
 const createCampaign = async ({ name, budget, type, status }) => {
+  if (config.noInternet) {
+    logger.warn("warn", "========= SIMULATION - campaign created =========");
+    return {};
+  }
+
   const { results } = await customer.campaigns.create({
     name,
     campaign_budget: budget,

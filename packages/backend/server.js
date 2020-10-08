@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const { config } = require("./config");
+const config = require("./utils/config");
 const { validateDomain } = require("./functions/validateDomain/validateDomain");
 const { purchaseDomain } = require("./functions/purchaseDomain/purchaseDomain");
 const { fetchDomains } = require("./functions/fetchDomains/fetchDomains");
@@ -11,11 +11,11 @@ const {
   fetchExperiments,
 } = require("./functions/fetchExperiments/fetchExperiments");
 const { createAccount } = require("./functions/createAccount/createAccount");
-const { listCampaigns } = require("./utils/googleAds");
 
 const app = express();
 
 app.use(bodyParser.json()); // to support JSON-encoded bodies
+
 app.use(
   bodyParser.urlencoded({
     // to support URL-encoded bodies
@@ -53,8 +53,6 @@ app.use(
     res.send(await func({ body: JSON.stringify(body) }))
   )
 );
-
-console.log(listCampaigns());
 
 app.listen(config.port, () =>
   console.info(`Listening on port: ${config.port}`)

@@ -82,6 +82,16 @@ const misc = {
     reason,
     data,
   }),
+  2004: ({ endpoint, service, dataLayer, caller, reason, data }) => ({
+    message: "could not send mail",
+    code: 2004,
+    endpoint,
+    service,
+    dataLayer,
+    caller,
+    reason,
+    data,
+  }),
 };
 
 const database = {

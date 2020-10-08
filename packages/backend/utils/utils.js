@@ -5,6 +5,7 @@ const defaultLogger = bunyan.createLogger({ name: config.name });
 
 const logger = {
   info: (data, message) => defaultLogger.info(data, message),
+  warn: (data, message) => defaultLogger.warn(data, message),
   error: (data, message = "ERROR") => defaultLogger.error(data, message),
 };
 

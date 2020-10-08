@@ -1,5 +1,9 @@
 const {
+  SERVER_PORT,
+  ENV,
   AWS_REGION,
+  AWS_ACCESS_KEY,
+  AWS_SECRET_KEY,
   STRIPE_SECRET_KEY,
   STRIPE_MONTHLY_PLAN,
   STRIPE_SEMI_ANNUAL_PLAN,
@@ -10,9 +14,6 @@ const {
   DB_NAME,
   DB_PORT,
   JSWT_SECRET,
-  PORT,
-  NODE_ENV,
-  ENV,
   PASSWORD_SECRET,
   GOOGLE_ADS_API_TOKEN,
   GOOGLE_ADS_CLIENT_ID,
@@ -23,11 +24,16 @@ const {
 } = process.env;
 
 const localhost = {
+  port: SERVER_PORT,
+  webAddress: "https://ideacamels.com",
+  env: ENV,
   name: "idea-camels-server",
   security: {
     password_secret: PASSWORD_SECRET,
   },
   aws: {
+    accessKeyId: AWS_ACCESS_KEY,
+    secretAccessKey: AWS_SECRET_KEY,
     region: AWS_REGION,
     buckets: {},
   },
@@ -55,8 +61,6 @@ const localhost = {
     developerToken: GOOGLE_ADS_DEVELOPER_TOKEN,
     customerId: GOOGLE_ADS_CUSTOMER_ID,
   },
-  port: PORT,
-  env: NODE_ENV,
   noInternet: true,
 };
 
