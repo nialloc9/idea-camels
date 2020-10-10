@@ -1,10 +1,11 @@
-const { GoogleAdsApi } = require("google-ads-api");
+const { GoogleAdsApi, enums } = require("google-ads-api");
 const config = require("./config");
 const { logger } = require("./utils");
 
 /**
  * https://opteo.com/dev/google-ads-api/#authentication
  * https://console.cloud.google.com/apis/credentials?highlightClient=541455512087-4b4kco7v5ajd7sae6m44f0sd5qac6hqt.apps.googleusercontent.com&project=idea-camels&supportedpurview=project
+ * https://opteo.com/dev/google-ads-api/#ad
  */
 
 const client = new GoogleAdsApi({
@@ -39,4 +40,5 @@ const listCampaigns = () => customer.campaigns.list();
 module.exports = {
   createCampaign,
   listCampaigns,
+  enums
 };

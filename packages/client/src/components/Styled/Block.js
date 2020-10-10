@@ -109,6 +109,8 @@ export const Block = styled.div`
         zIndex && `z-index: ${zIndex};`}
     ${({ justifyContent = false }) =>
         justifyContent && `justify-content: ${justifyContent};`}
+    ${({ flexDirection = false }) =>
+        flexDirection && `flex-direction: ${flexDirection};`}
     ${({
         borderBottom = false,
     }) => borderBottom && `border-bottom: ${borderBottom};`}

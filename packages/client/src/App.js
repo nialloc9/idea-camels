@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Demo from "./pages/Demo";
 import ComingSoon from "./pages/ComingSoon";
 import ExperimentDesign from "./pages/ExperimentDesign";
+import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 
 export default () => (
@@ -27,6 +28,9 @@ export default () => (
         </Route>
         <Route path="/experiment-design">
           <ExperimentDesign />
+        </Route>
+        <Route path="/sign-up">
+          <SignUp />
         </Route>
         <Route path="/404">
           <NotFound />

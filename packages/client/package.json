@@ -19,6 +19,7 @@
     "pure-react-carousel": "^1.27.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^6.9.2",
     "react-hotjar": "^2.2.1",
     "react-minimal-pie-chart": "^8.0.1",
     "react-router-dom": "^5.2.0",

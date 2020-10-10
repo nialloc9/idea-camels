@@ -2,7 +2,7 @@ import React from "react";
 import Default from "../templates/Default";
 import { Grid, GridRow, GridColumn } from "../components/Grid";
 import { Segment } from "../components/Styled/Segment";
-import { Dropdown } from "../components/Styled/Dropdown.js";
+import { Dropdown } from "../components/Styled/Dropdown";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import withPageAnalytics from "../hoc/withPageAnalytics";
