@@ -41,17 +41,17 @@ export default () => {
         />
       </Item>
       {isOpen &&
-        items.map((o) => (
+        items.map(({ text, href }) => (
           <AnalyticsMenuItem
-            key={o}
-            name={o}
-            active={activeItem === { o }}
+            key={text}
+            name={text}
+            active={activeItem === text}
             onClick={handleItemClick}
-            action="navigation-logo-click"
-            href="/coming-soon"
+            action={`${text.replace(" ", "-")}-click`.toLowerCase()}
+            href={href}
           >
             <Block textAlign="center" width="100%">
-              {o}
+              {text}
             </Block>
           </AnalyticsMenuItem>
         ))}

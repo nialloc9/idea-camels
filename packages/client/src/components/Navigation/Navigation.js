@@ -38,14 +38,14 @@ const NotLoggedIn = ({ theme }) => {
         />
       </AnalyticsMenuItem>
       <MenuMenu position="right">
-        {items.map((o) => (
+        {items.map(({ text, href }) => (
           <AnalyticsMenuItem
-            key={o}
-            name={o}
-            href="/coming-soon"
-            active={activeItem === o}
+            key={text}
+            name={text}
+            href={href}
+            active={activeItem === text}
             onClick={handleItemClick}
-            action={`${o.replace(" ", "-")}-click`.toLowerCase()}
+            action={`${text.replace(" ", "-")}-click`.toLowerCase()}
           />
         ))}
       </MenuMenu>

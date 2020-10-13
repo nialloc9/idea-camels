@@ -14,10 +14,7 @@ export default (WrappedComponent) =>
             return <Controller
                     name={name}
                     control={control}
-                    rules={{ required: 'Required', maxLength: {
-                        value: 20,
-                        message: 'Max length is 20',
-                    } }}
+                    rules={rules}
                     defaultValue={defaultValue}
                     render={props =>
                         <WrappedComponent {...rest} {...props} error={errors[name]}/>

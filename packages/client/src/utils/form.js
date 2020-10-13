@@ -1,7 +1,56 @@
 import { useForm,
     Controller } from "react-hook-form";
+    import {
+        validatePhoneNumber,
+        validateRequired,
+        validateMaxLength,
+        validateNumber,
+        validateMinValue,
+        validateMaxValue,
+        validateEmail,
+        validateRequiredCountry,
+        validateRequiredNumber,
+        validateRequiredName,
+        validateRequiredLastName,
+        validateRequiredAddress,
+        validateRequiredPostCode,
+        validateAcceptedTerms,
+        validateRequiredEmail,
+        validateRequiredPassword,
+        validateRequiredPasswordConfirmation,
+        validateRequiredDay,
+        validateRequiredTime,
+        validateTelephoneNumber,
+        validateMinLength,
+        validateRequiredMessage
+    } from "@nialloc9/vcheck";
+
+    import { pipeline } from "@nialloc9/vcheck/lib/validation"
 
 export {
     useForm,
-    Controller
+    Controller,
+    validatePhoneNumber,
+        validateRequired,
+        validateMaxLength,
+        validateNumber,
+        validateMinValue,
+        validateMaxValue,
+        validateEmail,
+        validateRequiredCountry,
+        validateRequiredNumber,
+        validateRequiredName,
+        validateRequiredLastName,
+        validateRequiredAddress,
+        validateRequiredPostCode,
+        validateAcceptedTerms,
+        validateRequiredEmail,
+        validateRequiredPassword,
+        validateRequiredPasswordConfirmation,
+        validateRequiredDay,
+        validateRequiredTime,
+        validateTelephoneNumber,
+        validateMinLength,
+        validateRequiredMessage,
+        pipeline
 }
