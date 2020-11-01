@@ -56,5 +56,5 @@ app.use(
 );
 
 app.listen(config.port, async () =>
-  console.info(`Listening on port: ${config.port}`, await createBudget())
+  console.info(`Listening on port: ${config.port}`)
 );

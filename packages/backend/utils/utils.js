@@ -75,14 +75,14 @@ const replaceSubString = (target, subString, newString = "") =>
   target.replace(subString, newString);
 
 /**
- * gets the time in seconds
+ * @description gets the time in seconds
  * @param {string} date
  * @returns {int}
  */
 const getDateInSeconds = (date) => new Date(date).getTime();
 
 /**
- * parses body
+ * @description parses body
  * @param {} body
  */
 const parseBody = (event = {}) => {
@@ -90,6 +90,26 @@ const parseBody = (event = {}) => {
 
   return JSON.parse(body);
 };
+
+/**
+ * @description changes key/value to value/key
+ * @param {*} obj 
+ */
+const reverseObjectKeyValues = (obj) => Object.keys(obj).reduce((total, curr) => {
+  total[obj[curr]] = curr;
+
+  return total;
+}, {});
+
+/**
+ * @description changes object keys to match what is in map
+ * @param {*} obj 
+ * @param {*} keyMap 
+ */
+const changeKeys = (obj, keyMap) => Object.keys(obj).reduce((total, curr) => {
+  total[keyMap[curr] || curr] = obj[curr];
+  return total;
+}, {})
 
 module.exports = {
   logger,
@@ -102,4 +122,6 @@ module.exports = {
   replaceSubString,
   getDateInSeconds,
   parseBody,
+  reverseObjectKeyValues,
+  changeKeys
 };

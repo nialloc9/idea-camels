@@ -15,7 +15,6 @@ const {
   DB_PORT,
   JSWT_SECRET,
   PASSWORD_SECRET,
-  GOOGLE_ADS_API_TOKEN,
   GOOGLE_ADS_CLIENT_ID,
   GOOGLE_ADS_CLIENT_SECRET,
   GOOGLE_ADS_REFRESH_TOKEN,
@@ -27,6 +26,7 @@ const localhost = {
   port: SERVER_PORT,
   webAddress: "https://ideacamels.com",
   env: ENV,
+  isProd: ENV === "production",
   name: "idea-camels-server",
   security: {
     password_secret: PASSWORD_SECRET,
@@ -54,7 +54,6 @@ const localhost = {
     secret: JSWT_SECRET,
   },
   googleAds: {
-    token: GOOGLE_ADS_API_TOKEN,
     clientId: GOOGLE_ADS_CLIENT_ID,
     clientSecret: GOOGLE_ADS_CLIENT_SECRET,
     refreshToken: GOOGLE_ADS_REFRESH_TOKEN,

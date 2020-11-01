@@ -1,6 +1,30 @@
 const { GoogleAdsApi, enums } = require("google-ads-api");
 const config = require("./config");
-const { logger } = require("./utils");
+const { logger, reverseObjectKeyValues, changeKeys } = require("./utils");
+
+// https://opteo.com/dev/google-ads-api/#budget
+const budgetMap = {
+  amount_micros: "amountMicros",
+  delivery_method: "deliveryMethod",
+  name: "name",
+};
+
+const budgetMapReversed = reverseObjectKeyValues(budgetMap);
+
+// https://opteo.com/dev/google-ads-api/#campaign
+const campaignMap = {
+  advertising_channel_type: "advertisingChannelType",
+  bidding_strategy_type: "biddingStrategyType",
+  campaign_budget: "campaignBudget",
+  end_date: 'endDate',
+  name: 'name',
+  paymentMode: 'paymentMode',
+  start_date: 'startDate',
+  status: 'status',
+  target_spend: "targetSpend"
+};
+
+const campaignMapReversed = reverseObjectKeyValues(campaignMap);
 
 /**
  * https://opteo.com/dev/google-ads-api/#authentication
@@ -19,65 +43,48 @@ const customer = client.Customer({
     refresh_token: config.googleAds.refreshToken,
 })
 
-// const client = new GoogleAdsApi({
-//   client_id: config.googleAds.clientId,
-//   client_secret: config.googleAds.clientSecret,
-//   developer_token: config.googleAds.developerToken,
-// });
-
-// const customer = client.Customer({
-//   customer_account_id: config.googleAds.customerId,
-//   refresh_token: config.googleAds.refreshToken,
-// });
-
-// const createCampaign = async ({ name, budget, type, status }) => {
-//   if (config.noInternet) {
-//     logger.warn("warn", "========= SIMULATION - campaign created =========");
-//     return {};
-//   }
-
-//   const { results } = await customer.campaigns.create({
-//     name,
-//     campaign_budget: budget,
-//     advertising_channel_type: type,
-//     status,
-//   });
-
-//   return results;
-// };
-
-console.log({
-    lient_id: config.googleAds.clientId,
-  client_secret: config.googleAds.clientSecret,
-  developer_token: config.googleAds.developerToken,
-    customer_account_id: "776-083-777",
-    refresh_token: config.googleAds.refreshToken,
-  })
-const listCampaigns = async () => await customer.customerClients.list();
 /**
- * https://opteo.com/dev/google-ads-api/#campaignbudget
+ * @description https://opteo.com/dev/google-ads-api/#create-campaign
+ * @param {name, budget, type, status } param0 
  */
-const createBudget = async () => {
-    // Creating the entity
+const createCampaign = async campaign => {
 
-    
-    const campaign_budget = {
-        amount_micros: '12000000',
-        delivery_method: '2',
-        name: 'dnjkasfkjnaddfnjkadnbjkas gmkflsgklmfamklgkl mfskt4535'
-    }
-  
-  // Passing in a single entity to create
+  const { results } = await customer.campaigns.update(changeKeys(campaign, campaignMapReversed), { validate_only: !config.isProd });
+
+  return results;
+};
+
+/**
+ * @description https://opteo.com/dev/google-ads-api/#update-campaign
+ * @param {name, budget, type, status } param0 
+ */
+const updateCampaign = async campaign => {
+
+  const { results } = await customer.campaigns.create(changeKeys(campaign, campaignMapReversed), { validate_only: !config.isProd });
+
+  return results;
+};
+
+/**
+ * @description https://opteo.com/dev/google-ads-api/#list-campaignbudget
+ */
+const listCampaigns = async () => await customer.customerClients.list();
+
+/**
+ * @description https://opteo.com/dev/google-ads-api/#campaignbudget
+ */
+const createBudget = async budget => {  
   try {
-    const result = await customer.campaignBudgets.create([campaign_budget], {validate_only: true})
+    const { results } = await customer.campaignBudgets.create(changeKeys(budget, budgetMapReversed), { validate_only: !config.isProd })
 
-    console.log(result)
+    return results;
   } catch (e) {
       console.error(e)
   }
 }
 module.exports = {
-//   createCampaign,
+  createCampaign,
+  updateCampaign,
   listCampaigns,
   createBudget,
   enums
