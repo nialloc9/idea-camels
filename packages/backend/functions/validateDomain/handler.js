@@ -1,7 +1,7 @@
-const { purchaseDomain } = require("./purchaseDomain");
+const { validateDomain } = require("./validateDomain");
 
 exports.handler = async (event, context, callback) => {
-  const response = await purchaseDomain(event);
+  const response = await validateDomain(event);
 
   callback(null, response);
 };

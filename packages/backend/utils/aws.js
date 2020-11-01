@@ -2,7 +2,7 @@
  *
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#checkDomainAvailability-property
  */
-module.exports.validateDomain = async (provider, { domain }) =>
+module.exports.validateDomain = (provider, { domain }) =>
   new Promise((resolve, reject) => {
     provider.checkDomainAvailability({ DomainName: domain }, (err, data) => {
       if (err) {

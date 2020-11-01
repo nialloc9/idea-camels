@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Grid, GridColumn} from '../Grid';
 import {remCalc} from '../../utils/style';
 import {Input, FormInput} from '../Form/Input';
-import {Form} from '../Form/Form';
+import {Form, Field} from '../Form/Form';
 import {Checkbox} from '../Form/Checkbox';
 import {
     validateEmail,
@@ -42,7 +42,6 @@ export class LoginForm extends Component {
             errorMessage,
             submitting,
             onModalCancel,
-            handleSubmit,
             onResetPasswordClick,
         } = this.props;
 

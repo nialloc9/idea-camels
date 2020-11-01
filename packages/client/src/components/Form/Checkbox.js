@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {Checkbox as StyledCheckbox} from '../Styled/Checkbox';
 import {Icon} from '../Styled/Icon';
 import {Field} from './Form';
-import Error from './Error';
-import Warning from './Warning';
+import {Error} from './Error';
+import {Warning} from './Warning';
 import {remCalc} from '../../utils/style';
 import withToolTip from '../../hoc/withToolTip';
 
@@ -33,7 +33,7 @@ export class Checkbox extends PureComponent {
     };
 
     render = () => {
-        const { label, info, error, warn, value, ...rest } = this.props;
+        const { label, inlineLabel, info, error, warn, value, ...rest } = this.props;
 
         const Label = (
             <label>

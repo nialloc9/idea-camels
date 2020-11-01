@@ -17,6 +17,7 @@
     "google-ads-api": "^4.0.1",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
+    "node-adwords": "^201809.0.2",
     "nodemailer": "^6.4.13",
     "nodemailer-ses-transport": "^1.5.1"
   },

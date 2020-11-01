@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Modal} from '../Modal';
-import LoginForm from './LoginForm';
-import ForgottenPasswordForm from './ForgottenPasswordForm';
-import Block from '../../Styled/Block';
+import {Modal, ModalContent} from '../Modal';
+import {LoginForm} from './LoginForm';
+// import {ForgottenPasswordForm} from './ForgottenPasswordForm';
+import {Block} from '../Styled/Block';
 
 export class Login extends Component {
     static propTypes = {
@@ -70,7 +70,7 @@ export class Login extends Component {
                             onSubmit={onSetLogin}
                         />
                     )}
-                    {openForm === 2 && (
+                    {/* {openForm === 2 && (
                         <ForgottenPasswordForm
                             errorMessage={forgottonPasswordErrorMessage}
                             isSuccess={isForgottenPasswordSuccess}
@@ -78,7 +78,7 @@ export class Login extends Component {
                             onModalBack={this.handleBack}
                             onSubmit={onSetForgottenPassword}
                         />
-                    )}
+                    )} */}
                 </ModalContent>
             </Modal>
         );
