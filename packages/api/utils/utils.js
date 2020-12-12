@@ -82,16 +82,6 @@ const replaceSubString = (target, subString, newString = "") =>
 const getDateInSeconds = (date) => new Date(date).getTime();
 
 /**
- * @description parses body
- * @param {} body
- */
-const parseBody = (event = {}) => {
-  const body = event.body || {};
-
-  return JSON.parse(body);
-};
-
-/**
  * @description changes key/value to value/key
  * @param {*} obj 
  */
@@ -121,7 +111,6 @@ module.exports = {
   checkDateIsBefore,
   replaceSubString,
   getDateInSeconds,
-  parseBody,
   reverseObjectKeyValues,
   changeKeys
 };

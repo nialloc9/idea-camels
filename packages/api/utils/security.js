@@ -5,7 +5,6 @@ const errors = require("./errors");
 const {
   generateRandomId,
   createTimestamp,
-  parseBody,
   logger,
 } = require("./utils");
 
@@ -25,6 +24,8 @@ const jwtVerify = (jwToken) => {
     return Promise.reject(errors["1004"]());
   }
 };
+
+const scrubAccount = ({ password, ...rest } = {}) => ({ ...rest });
 
 /**
  * creates a json web token
@@ -97,9 +98,21 @@ const requiredParams = ({ endpoint, body, headers, isAuth = false, required }) =
     resolve(body);
   });
 
-const createHash = (secret, data, algo = "sha256") =>
+const createHash = ({ secret, data, algo = "sha256" }) =>
   crypto.createHmac(algo, secret).update(data).digest("hex");
 
+const validatePassword = ({ password, hashedPassword, caller, service = 'login service' }) => new Promise((resolve, reject) => {
+  const inputHash = createHash({ secret: config.security.password_secret, data: password });
+
+  if(inputHash !== hashedPassword) {
+    return reject(errors["1003"]({
+      service,
+      caller
+    }))
+  }
+
+  return resolve();
+})
 /**
  * @description validates and parses req
  * @param {*} param0
@@ -132,4 +145,6 @@ module.exports = {
   requiredParams,
   createHash,
   validateAndParse,
+  validatePassword,
+  scrubAccount
 };

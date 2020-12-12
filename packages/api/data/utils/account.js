@@ -4,6 +4,9 @@ const dbNames = {
   lastName: "last_name",
   password: "password",
   phone: "phone",
+  deletedFlag: 'deleted_flag',
+  lastUpdatedAt: 'last_updated_at',
+  lastUpdatedBy: 'last_updated_by'
 };
 
 const mapAccountToDb = (account) =>
@@ -16,6 +19,4 @@ const mapAccountToDb = (account) =>
     return total;
   }, {});
 
-const scrubAccount = ({ account_ref, password, ...rest } = {}) => ({ ...rest });
-
-module.exports = { mapAccountToDb, scrubAccount };
+module.exports = { mapAccountToDb };

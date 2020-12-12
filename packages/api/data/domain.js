@@ -1,25 +1,24 @@
 const { query } = require('../utils/database');
 const { handleSuccess } = require('../utils/utils');
-const { mapAccountToDb: mapper } = require('./utils/account');
-const { scrubAccount } = require('../utils/security');
+const { mapDomainToDb: mapper } = require('./utils/domain');
 const {now} = require('../utils/date');
 
 /**
- * gets a account
+ * gets domains by domain name
  */
-const onGet = ({ data: { email }, caller }) =>
+const onGetByName = ({ data: { name }, caller }) =>
   new Promise (async (resolve, reject) => {
     try {
 
-      const getQuery = `SELECT * FROM accounts WHERE email=${email}`;  
+      const getQuery = `SELECT * FROM domains WHERE name=${name}`;  
 
-      const results = await query(getQuery, undefined, caller, "GET_ACCOUNT")
+      const results = await query(getQuery, undefined, caller, "GET_DOMAIN_BY_NAME")
 
       resolve (
         handleSuccess (
-          'account found',
+          'domains found',
           results,
-          `DATA - GET_ACCOUNT - FROM ${caller}`
+          `DATA - GET_DOMAIN_BY_NAME - FROM ${caller}`
         )
       );
     } catch(error) {
@@ -28,30 +27,53 @@ const onGet = ({ data: { email }, caller }) =>
   });
 
 /**
- * creates a new account
+ * gets domains by account ref
+ */
+const onGetByAccountRef = ({ data: { accountRef }, caller }) =>
+  new Promise (async (resolve, reject) => {
+    try {
+
+      const getQuery = `SELECT * FROM domains WHERE account_ref=${accountRef}`;  
+
+      const results = await query(getQuery, undefined, caller, "GET_DOMAIN_BY_ACCOUNT_REF")
+
+      resolve (
+        handleSuccess (
+          'domains found',
+          results,
+          `DATA - GET_DOMAIN_BY_ACCOUNT_REF - FROM ${caller}`
+        )
+      );
+    } catch(error) {
+      reject(error);
+    }
+  });
+
+/**
+ * creates a new domain
  */
 const onCreate = ({ data, caller }) =>
   new Promise (async (resolve, reject) => {
     try {
 
-      const createQuery = 'INSERT INTO accounts SET ?';
+      const createQuery = 'INSERT INTO domains SET ?';
 
       const mappedData = mapper(data);
      
-      const results = await query(createQuery, mappedData, caller, "CREATE_ACCOUNT")
+      const results = await query(createQuery, mappedData, caller, "CREATE_DOMAIN")
       const timestamp = now();
 
-      scrubAccount
+    
       resolve (
         handleSuccess (
-          'account created',
+          'domain created',
           {
-            ...scrubAccount(mappedData),
+            ...mappedData,
             created_at: timestamp,
             last_updated_at: timestamp,
-            account_ref: results.insertId,
+            domain_ref: results.insertId,
           },
-          `DATA - CREATE_ACCOUNT - FROM ${caller}`
+          `DATA - CREATE_DOMAIN - FROM ${caller}`
         )
       );
     } catch(error) {
@@ -96,7 +118,8 @@ new Promise (async (resolve, reject) => {
 
 
 module.exports = { 
-  onGet,
+    onGetByName,
+    onGetByAccountRef,
   onCreate,
     onUpdate
 };

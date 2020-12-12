@@ -1,5 +1,6 @@
 const config = require('./config')
-const { onCreate: onCreateAccount } = require("../service/account")
+const { onCreate: onCreateAccount, onLogin, onDelete, onUpdate } = require("../service/account")
+const { onGetAccountDomains } = require("../service/domain")
 const { logger } = require("./utils")
 
 /**
@@ -28,10 +29,30 @@ const sendError = (res, error) => {
 
 const endpoints = [
     {
-      uri: "/create-account",
+      uri: "/account/create",
       func: onCreateAccount,
-      required: [ "email", "firstName", "password", "phone", "caller" ],
-      isAuth: false
+      required: [ "email", "firstName", "password", "phone", "caller" ]
+    },
+    {
+      uri: "/account/login",
+      func: onLogin,
+      required: [ "email", "password", "caller" ]
+    },
+    {
+      uri: "/account/update",
+      func: onUpdate,
+      required: [ "updateData", "caller" ],
+      isAuth: true
+    },
+    {
+      uri: "/account/delete",
+      func: onDelete,
+      isAuth: true
+    },
+    {
+      uri: "/domain/get-by-account",
+      func: onGetAccountDomains,
+      isAuth: true
     },
   ]
 

@@ -17,7 +17,7 @@ app.use(
 
 app.get('/health-check', (req, res) => res.send({ status: 200 }));
 
-endpoints.forEach(({ uri, required, isAuth = false, func }) =>
+endpoints.forEach(({ uri, required = [], isAuth = false, func }) =>
   app.post(uri, async (req, res) =>
     {
         try {
