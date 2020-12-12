@@ -7,17 +7,17 @@ services:
     volumes:
     - ./packages/client:/usr/src/app:cached
     command: npm run start
-  idea-camels-server:
-    build: ./packages/backend
+  idea-camels-api:
+    build: ./packages/api
     ports:
     - "3001:3001"
     volumes:
-    - ./packages/backend:/usr/src/app:cached
+    - ./packages/api:/usr/src/app:cached
     env_file:
-      - ./packages/backend/.dev.env
+      - ./packages/api/.dev.env
     command: npm run start
   idea-camels-db:
-    image: mysql
+    build: ./packages/db
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: idea_camels
@@ -25,3 +25,7 @@ services:
       MYSQL_PASSWORD: root
     ports:
       - "33061:3306"
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    volumes:
+    - ./packages/db/sql:/docker-entrypoint-initdb.d

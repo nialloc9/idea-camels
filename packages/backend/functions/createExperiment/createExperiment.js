@@ -45,7 +45,7 @@ exports.createExperiment = async (event) => {
       connection
     );
 
-    if (!domains.length > 0) {
+    if (domains.length === 0) {
       connection.release();
       response.statusCode = 401;
 
@@ -53,7 +53,7 @@ exports.createExperiment = async (event) => {
         caller,
         endpoint: "createExperiment",
         data: {
-          error,
+          error: 'domain not owned by account',
           accountRef,
           domainRef,
         },
@@ -70,7 +70,7 @@ exports.createExperiment = async (event) => {
       domain_ref: domainRef,
       created_by: accountRef,
       last_updated_at: accountRef,
-      expiry: formatToUtc(expiry),
+      expiry: formatToUtc(new Date(expiry)),
     };
 
     const results = query(
@@ -88,7 +88,7 @@ exports.createExperiment = async (event) => {
     });
   } catch (error) {
     response.statusCode = 500;
-
+    console.log(error)
     response.body = errors[2001]({
       caller: event.caller,
       endpoint: "createExperiment",

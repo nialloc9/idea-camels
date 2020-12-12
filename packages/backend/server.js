@@ -24,6 +24,8 @@ app.use(
   })
 );
 
+app.get('/health-check', (req, res) => res.send({ status: 200 }));
+
 [
   {
     uri: "/validate-domain",
@@ -50,8 +52,8 @@ app.use(
     func: createAccount,
   },
 ].forEach(({ uri, func }) =>
-  app.post(uri, async ({ body }, res) =>
-    res.send(await func({ body: JSON.stringify(body) }))
+  app.post(uri, async ({ body, headers }, res) =>
+    res.send(await func({ body: JSON.stringify(body), headers }))
   )
 );
 

@@ -64,24 +64,29 @@ const requiredParam = ({ serviceName, paramName, param, caller }) => {
 
 /**
  * @description checks required params
- * @param {string} service
- * @param {[*]} params
- * @param {[string]} required
- * @param {bool} isAuth
  * @returns {<Promise>}
  */
-const requiredParams = ({ service, params, required, isAuth = true }) =>
+const requiredParams = ({ endpoint, body, headers, isAuth = false, required }) =>
   new Promise((resolve, reject) => {
-    const mandatory = isAuth ? [...required, "token"] : required;
 
-    const { caller } = params;
+    const { caller } = body;
 
-    mandatory.forEach((o) => {
-      const target = params[o];
+    if(isAuth && !headers.authorization) {
+      return reject(
+        errors["2003"]({
+          endpoint,
+          caller,
+          data: { "authorisation token": "undefined" },
+        })
+      );
+    }  
+
+    required.forEach((o) => {
+      const target = body[o];
       if (target === undefined || (!target && target !== 0)) {
         return reject(
           errors["2003"]({
-            service,
+            endpoint,
             caller,
             data: { [o]: "undefined" },
           })
@@ -89,37 +94,35 @@ const requiredParams = ({ service, params, required, isAuth = true }) =>
       }
     });
 
-    resolve(params);
+    resolve(body);
   });
 
 const createHash = (secret, data, algo = "sha256") =>
   crypto.createHmac(algo, secret).update(data).digest("hex");
 
 /**
- * @description validates and parses event
+ * @description validates and parses req
  * @param {*} param0
  */
-const validateAndParse = async ({ event, service, required, isAuth = true }) => {
-  const body = parseBody(event);
+const validateAndParse = async ({ uri: endpoint, req: { headers, body }, required, isAuth = true }) => {
+  
+  logger.info({ endpoint, headers, body }, "INCOMING");
 
-  logger.info({ service, event }, "INCOMING");
+  await requiredParams({ endpoint, body, headers, required, isAuth });
 
-  if (isAuth) {
-    body.token = event.headers["authorization"];
-  }
-
-  await requiredParams({ service, params: body, required, isAuth });
+  const response = { ...body };
 
   if (isAuth) {
-    const { token } = body;
-   
+    const { authorization } = headers;
+    
+    const [,token] = authorization.split(" ");
+
     const decodedToken = jwtVerify(token);
-    console.log({decodedToken})
-    body.decodedToken = decodedToken;
-    delete body.token;
+ 
+    response.decodedToken = decodedToken;
   }
 
-  return Promise.resolve(body);
+  return Promise.resolve(response);
 };
 
 module.exports = {
