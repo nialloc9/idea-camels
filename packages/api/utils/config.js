@@ -36,6 +36,7 @@ const localhost = {
     secretAccessKey: AWS_SECRET_KEY,
     region: AWS_REGION,
     buckets: {},
+    contact: 'ideacamels@gmail.com'
   },
   stripe: {
     secretKey: STRIPE_SECRET_KEY,

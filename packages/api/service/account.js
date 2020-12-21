@@ -1,30 +1,48 @@
 const { onGet, onCreate: onCreateAccount, onUpdate: onUpdateAccount } = require('../data/account')
-const { handleSuccess } = require('../utils/utils')
-const { validatePassword, scrubAccount } = require('../utils/security')
+const { validatePassword, scrubAccount, createJwToken } = require('../utils/security')
 
 const onLogin = ({data: { email, password }, caller}) => new Promise(async (resolve, reject) => {
     try {
-        const { data: account } = await onGet({ data: { email }, caller });
         
-        await validatePassword({ password, hashedPassword: account.password , caller });
-
+        const response = await onGet({ data: { email }, caller });
+        console.log(1, response.data[0])
+        await validatePassword({ password, hashedPassword: response.data.account.password , caller });
+        
         // TODO Add remember me
         // TODO Add last loggedin at
-        resolve(handleSuccess('account found', { account: scrubAccount(account) }))
+        response.data.account = scrubAccount(response.data[0], ["password"]);
+        response.data.token = createJwToken({ accountRef: account.account_ref });
+
+        resolve(response)
     } catch (error) {
-        resolve(reject)
+        reject(error)
+    }
+});
+
+const onReauthorise = ({data: { decodedToken: { accountRef } }, caller}) => new Promise(async (resolve, reject) => {
+    try {
+        const response = await onGet({ data: { accountRef }, caller });
+
+        response.data.account = scrubAccount(response.data.account, ["password"]);
+        response.data.token = createJwToken({ accountRef: account.account_ref });
+
+        resolve(response)
+    } catch (error) {
+        reject(error)
     }
 });
 
 const onCreate = ({data, caller}) => new Promise(async (resolve, reject) => {
     try {
-        const { data: account } = await onCreateAccount({ data, caller });
+        const response = await onCreateAccount({ data, caller });
         
         // TODO Create stripe account
         // TODO send onboarding email
-        resolve(handleSuccess('account created', { account }))
+        response.data.token = createJwToken({ accountRef: account.account_ref });
+
+        resolve(response)
     } catch (error) {
-        resolve(reject)
+        reject(error)
     }
 });
 
@@ -34,7 +52,7 @@ const onUpdate = ({data: { updateData }, caller}) => new Promise(async (resolve,
       
         resolve(response)
     } catch (error) {
-        resolve(reject)
+        reject(error)
     }
 });
 
@@ -45,12 +63,13 @@ const onDelete = ({data: { decodedToken: { accountRef }, lastUpdatedBy }, caller
         
         resolve(response)
     } catch (error) {
-        resolve(reject)
+        reject(error)
     }
 });
 
 module.exports = {
     onLogin,
+    onReauthorise,
     onCreate,
     onUpdate,
     onDelete

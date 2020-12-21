@@ -7,19 +7,19 @@ const {now} = require('../utils/date');
 /**
  * gets a account
  */
-const onGet = ({ data: { email }, caller }) =>
+const onGet = ({ data: { email, accountRef }, caller }) =>
   new Promise (async (resolve, reject) => {
     try {
-
-      const getQuery = `SELECT * FROM accounts WHERE email=${email}`;  
-
+      const whereClause = email ? `email='${email}';` : `account_ref='${accountRef}';`
+      const getQuery = `SELECT * FROM accounts WHERE ${whereClause}`;  
+      
       const results = await query(getQuery, undefined, caller, "GET_ACCOUNT")
 
       resolve (
         handleSuccess (
-          'account found',
+          `DATA - GET_ACCOUNT - FROM ${caller}`,
           results,
-          `DATA - GET_ACCOUNT - FROM ${caller}`
+          ['password']
         )
       );
     } catch(error) {
@@ -44,14 +44,13 @@ const onCreate = ({ data, caller }) =>
       scrubAccount
       resolve (
         handleSuccess (
-          'account created',
+          `DATA - CREATE_ACCOUNT - FROM ${caller}`,
           {
             ...scrubAccount(mappedData),
             created_at: timestamp,
             last_updated_at: timestamp,
             account_ref: results.insertId,
-          },
-          `DATA - CREATE_ACCOUNT - FROM ${caller}`
+          }
         )
       );
     } catch(error) {
@@ -79,13 +78,12 @@ new Promise (async (resolve, reject) => {
 
     resolve (
       handleSuccess (
-        'account updated',
+        `DATA - UPDATE - FROM ${caller}`,
         {
           ...data,
           account_ref: accountRef,
           last_updated_at: now()
-        },
-        `DATA - UPDATE - FROM ${caller}`
+        }
       )
     );
   } catch(error) {

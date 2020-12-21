@@ -22,11 +22,12 @@ endpoints.forEach(({ uri, required = [], isAuth = false, func }) =>
     {
         try {
             const data = await validateAndParse({ uri, req, required, isAuth })
-            const response = await func({ data, req, uri });
-          
-            return sendResponse(res, response)
+            
+            const response = await func({ data, req, uri, caller: data.caller });
+            
+            return sendResponse(res, { response, uri })
         } catch(error) {
-            return sendError(res,error)
+            return sendError(res, { error, uri })
         }
     }
   )

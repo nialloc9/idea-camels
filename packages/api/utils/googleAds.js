@@ -1,6 +1,6 @@
 const { GoogleAdsApi, enums } = require("google-ads-api");
 const config = require("./config");
-const { logger, reverseObjectKeyValues, changeKeys } = require("./utils");
+const { reverseObjectKeyValues, changeKeys } = require("./utils");
 
 // https://opteo.com/dev/google-ads-api/#budget
 const budgetMap = {

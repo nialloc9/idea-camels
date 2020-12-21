@@ -5,7 +5,7 @@ const errors = require("./errors");
 const {
   generateRandomId,
   createTimestamp,
-  logger,
+  logger
 } = require("./utils");
 
 const {
@@ -25,7 +25,15 @@ const jwtVerify = (jwToken) => {
   }
 };
 
-const scrubAccount = ({ password, ...rest } = {}) => ({ ...rest });
+const scrubAccount = (account = {}, scrub = ["password"]) => {
+  const newAccount = {...account};
+
+  scrub.forEach(o => {
+    delete newAccount[o]
+  })
+
+  return newAccount
+};
 
 /**
  * creates a json web token
@@ -118,13 +126,13 @@ const validatePassword = ({ password, hashedPassword, caller, service = 'login s
  * @param {*} param0
  */
 const validateAndParse = async ({ uri: endpoint, req: { headers, body }, required, isAuth = true }) => {
-  
+ 
   logger.info({ endpoint, headers, body }, "INCOMING");
-
+  
   await requiredParams({ endpoint, body, headers, required, isAuth });
 
   const response = { ...body };
-
+ 
   if (isAuth) {
     const { authorization } = headers;
     

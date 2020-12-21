@@ -18,11 +18,18 @@ const logger = {
  * @returns {{result: {successMessage: string, data: *}}}
  * @private
  */
-const handleSuccess = (message, data) => {
+const handleSuccess = (message, data = {}, scrub = []) => {
+
+  const newData = {...data};
+
+  scrub.forEach(o => {
+    delete newData[o]
+  })
+
   const response = {
     code: 200,
     message,
-    data,
+    data: newData
   };
 
   logger.info(response, "SUCCESS");
@@ -102,7 +109,6 @@ const changeKeys = (obj, keyMap) => Object.keys(obj).reduce((total, curr) => {
 }, {})
 
 module.exports = {
-  logger,
   handleSuccess,
   generateRandomNumber,
   generateRandomId,
@@ -112,5 +118,6 @@ module.exports = {
   replaceSubString,
   getDateInSeconds,
   reverseObjectKeyValues,
-  changeKeys
+  changeKeys,
+  logger
 };

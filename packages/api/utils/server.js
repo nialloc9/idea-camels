@@ -1,6 +1,7 @@
 const config = require('./config')
 const { onCreate: onCreateAccount, onLogin, onDelete, onUpdate } = require("../service/account")
-const { onGetAccountDomains } = require("../service/domain")
+const { onGetAccountDomains, onPurchaseDomain } = require("../service/domain")
+const { onGetAccountExperiments, onCreateExperiment } = require("../service/experiment")
 const { logger } = require("./utils")
 
 /**
@@ -10,9 +11,8 @@ const { logger } = require("./utils")
  * @param {int} code default 200
  * @returns {func}
  */
-const sendResponse = (res, payload, code = 200) => {
-    const level = code !== 200 ? "error" : "info";
-    logger.info(level, "OUTGOING RPC", res.req.originalUrl, payload);
+const sendResponse = (res, { payload, code = 200, uri, message }) => {
+    logger.info({ payload, code, uri }, "SUCCESS OUTGOING RPC");
     return res.status(code).send(payload);
 };
 
@@ -22,9 +22,12 @@ const sendResponse = (res, payload, code = 200) => {
  * @param {*} error
  * @return {func}
  */
-const sendError = (res, error) => {
-    if(config.isProd) delete error.reason;
-    return sendResponse(res, error);
+const sendError = (res, { error, uri, status = 500 }) => {
+    
+    logger.error({ error, uri, status }, "ERROR OUTGOING RPC");
+    if(config.isProd && error.reason) delete error.reason;
+  
+    return res.status(status).send(error);
 };
 
 const endpoints = [
@@ -46,12 +49,32 @@ const endpoints = [
     },
     {
       uri: "/account/delete",
+      required: [ "caller" ],
       func: onDelete,
       isAuth: true
     },
     {
       uri: "/domain/get-by-account",
+      required: [ "caller" ],
       func: onGetAccountDomains,
+      isAuth: true
+    },
+    {
+      uri: "/domain/purchase",
+      func: onPurchaseDomain,
+      required: [ "domain", "caller" ],
+      isAuth: true
+    },
+    {
+      uri: "/experiment/get-by-account",
+      required: [ "caller" ],
+      func: onGetAccountExperiments,
+      isAuth: true
+    },
+    {
+      uri: "/experiment/create",
+      func: onCreateExperiment,
+      required: [ "domainRef", "templateRef", "content", "theme", "expiry", "name", "caller" ],
       isAuth: true
     },
   ]

@@ -1,44 +1,22 @@
 const { query } = require('../utils/database');
 const { handleSuccess } = require('../utils/utils');
-const { mapDomainToDb: mapper } = require('./utils/domain');
+const { mapExperimentToDb: mapper } = require('./utils/experiment');
 const {now} = require('../utils/date');
 
 /**
- * gets domains by domain name
- */
-const onGetByName = ({ data: { name }, caller }) =>
-  new Promise (async (resolve, reject) => {
-    try {
-
-      const getQuery = `SELECT * FROM domains WHERE name=${name}`;  
-
-      const results = await query(getQuery, undefined, caller, "GET_DOMAIN_BY_NAME")
-
-      resolve (
-        handleSuccess (
-          `DATA - GET_DOMAIN_BY_NAME - FROM ${caller}`,
-          results
-        )
-      );
-    } catch(error) {
-      reject(error);
-    }
-  });
-
-/**
- * gets domains by account ref
+ * gets experiments by account ref
  */
 const onGetByAccountRef = ({ data: { accountRef }, caller }) =>
   new Promise (async (resolve, reject) => {
     try {
 
-      const getQuery = `SELECT * FROM domains WHERE account_ref=${accountRef}`;  
+      const getQuery = `SELECT * FROM experiments WHERE account_ref=${accountRef}`;  
 
-      const results = await query(getQuery, undefined, caller, "GET_DOMAIN_BY_ACCOUNT_REF")
+      const results = await query(getQuery, undefined, caller, "GET_EXPERIMENTS_BY_ACCOUNT_REF")
 
       resolve (
         handleSuccess (
-          `DATA - GET_DOMAIN_BY_ACCOUNT_REF - FROM ${caller}`,
+          `DATA - GET_EXPERIMENTS_BY_ACCOUNT_REF - FROM ${caller}`,
           results
         )
       );
@@ -54,22 +32,22 @@ const onCreate = ({ data, caller }) =>
   new Promise (async (resolve, reject) => {
     try {
 
-      const createQuery = 'INSERT INTO domains SET ?';
+      const createQuery = 'INSERT INTO experiments SET ?';
 
       const mappedData = mapper(data);
      
-      const results = await query(createQuery, mappedData, caller, "CREATE_DOMAIN")
+      const results = await query(createQuery, mappedData, caller, "CREATE_EXPERIMENT")
       const timestamp = now();
 
     
       resolve (
         handleSuccess (
-          `DATA - CREATE_DOMAIN - FROM ${caller}`,
+          `DATA - CREATE_EXPERIMENT - FROM ${caller}`,
           {
             ...mappedData,
             created_at: timestamp,
             last_updated_at: timestamp,
-            domain_ref: results.insertId,
+            experiment_ref: results.insertId,
           }
         )
       );
@@ -86,7 +64,7 @@ new Promise (async (resolve, reject) => {
   try {
 
     const updateQuery =
-  `UPDATE accounts SET ? WHERE account_ref='${accountRef}'`;
+  `UPDATE experiments SET ? WHERE account_ref='${accountRef}'`;
 
     const data = {
       last_updated_by: lastUpdatedBy,
@@ -94,11 +72,11 @@ new Promise (async (resolve, reject) => {
       ...mapper(updateData),
   };
 
-    await query(updateQuery, data, caller, "UPDATE_ACCOUNT")
+    await query(updateQuery, data, caller, "UPDATE_EXPERIMENT")
 
     resolve (
       handleSuccess (
-        `DATA - UPDATE - FROM ${caller}`,
+        `DATA - UPDATE_EXPERIMENT - FROM ${caller}`,
         {
           ...data,
           account_ref: accountRef,
@@ -114,7 +92,6 @@ new Promise (async (resolve, reject) => {
 
 
 module.exports = { 
-    onGetByName,
     onGetByAccountRef,
   onCreate,
     onUpdate

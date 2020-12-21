@@ -36,7 +36,7 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
       newConnection || (await getConnection(caller, dataLayer));
     connection.query(query, data, (error, results) => {
       connection.release();
-
+      console.log(query, error)
       if (error) {
         reject(
           errors["4001"]({
