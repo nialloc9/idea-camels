@@ -29,3 +29,12 @@ services:
       - SYS_NICE  # CAP_SYS_NICE
     volumes:
     - ./packages/db/sql:/docker-entrypoint-initdb.d
+  idea-camels-builder:
+    build: ./packages/builder
+    ports:
+    - "3002:3002"
+    volumes:
+    - ./packages/builder:/usr/src/app:cached
+    env_file:
+      - ./packages/builder/.dev.env
+    command: npm run start

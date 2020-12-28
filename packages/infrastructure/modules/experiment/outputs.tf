@@ -34,10 +34,3 @@ output "acm_certificate_arn" {
   value = aws_acm_certificate_validation.cert.certificate_arn
 }
 
-output "base_url" {
-  value = module.api.base_url
-}
-
-output "coming_soon_base_url" {
-  value = module.api.coming_soon_base_url
-}
