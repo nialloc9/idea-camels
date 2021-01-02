@@ -5,7 +5,7 @@ const onLogin = ({data: { email, password }, caller}) => new Promise(async (reso
     try {
         
         const response = await onGet({ data: { email }, caller });
-        console.log(1, response.data[0])
+        
         await validatePassword({ password, hashedPassword: response.data.account.password , caller });
         
         // TODO Add remember me

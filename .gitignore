@@ -8,4 +8,6 @@ tmp/
 scripts/setEnvVariables.sh
 *.env
 
-backend/dist
+packages/backend/dist
+
+packages/builder/experiments

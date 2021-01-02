@@ -1,5 +1,6 @@
 const { onGetByAccountRef, onCreate: onCreateDomain } = require('../data/domain')
 const { validateDomain, registerDomain } = require('../utils/aws')
+const { logger } = require('../utils/utils')
 const errors = require('../utils/errors')
 const config = require('../utils/config')
 
@@ -15,7 +16,7 @@ const onGetAccountDomains = ({data: { decodedToken: { accountRef } }, caller}) =
     }
 });
 
-const onPurchaseDomain = ({data: { domain, decodedToken: { accountRef } }, caller}) => new Promise(async (resolve, reject) => {
+const onPurchaseDomain = ({data: { domain, durationInYears = 1, autoRenew = false, decodedToken: { accountRef } }, caller}) => new Promise(async (resolve, reject) => {
     try {
         const { error } = await validateDomain({ domain });
 
@@ -23,10 +24,11 @@ const onPurchaseDomain = ({data: { domain, decodedToken: { accountRef } }, calle
             return reject(errors["1005"]({ service: 'onPurchaseDomain', caller, reason: error.stack }))
         }
 
-        const { error: registerError } = await registerDomain({ domain, contact: config.aws.email, durationInYears = 1, autoRenew = false });
+        const { error: registerError } = await registerDomain({ domain, durationInYears, autoRenew });
 
-        if(error) {
-            return reject(errors["1006"]({ service: 'onPurchaseDomain', caller, reason: registerError.stack }))
+        if(registerError) {
+            const code = registerError.message === 'Given domain is unavailable' ? '1005' : '1006';
+            return reject(errors[code]({ service: 'onPurchaseDomain', caller, reason: registerError.stack }))
         }
 
         const response = await onCreateDomain({ data: { accountRef, domain }, caller });

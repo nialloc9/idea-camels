@@ -1,6 +1,6 @@
 const { query } = require('../utils/database');
 const { handleSuccess } = require('../utils/utils');
-const { mapAccountToDb: mapper } = require('./utils/account');
+const {  mapper } = require('./utils/account');
 const { scrubAccount } = require('../utils/security');
 const {now} = require('../utils/date');
 
@@ -78,7 +78,7 @@ new Promise (async (resolve, reject) => {
 
     resolve (
       handleSuccess (
-        `DATA - UPDATE - FROM ${caller}`,
+        `DATA - UPDATE_ACCOUNT - FROM ${caller}`,
         {
           ...data,
           account_ref: accountRef,

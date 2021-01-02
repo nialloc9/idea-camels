@@ -1,4 +1,18 @@
 const { onGetByAccountRef, onCreate } = require('../data/experiment')
+const { onGetByAccountRef: onGetDomainByAccountRef } = require('../data/domain')
+const { onCreate: onCreateTheme } = require('../data/theme')
+const { uppercaseSentenceWords } = require('../utils/utils')
+
+const dbNames = {
+    themeRef: "theme_ref",
+    name: "name",
+    content: "content",
+    theme: 'theme',
+    lastUpdatedAt: 'last_updated_at',
+    lastUpdatedBy: 'last_updated_by',
+    createdBy: 'created_by',
+    deletedFlag: 'deleted_flag'
+  };
 
 const onGetAccountExperiments = ({data: { decodedToken: { accountRef } }, caller}) => new Promise(async (resolve, reject) => {
     try {
@@ -12,9 +26,28 @@ const onGetAccountExperiments = ({data: { decodedToken: { accountRef } }, caller
     }
 });
 
-const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, templateRef, content, theme, expiry, name }, caller}) => new Promise(async (resolve, reject) => {
+const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, content, theme, expiry, name }, caller}) => new Promise(async (resolve, reject) => {
     try {
-        const response = await onCreate({ data: { accountRef, domainRef, templateRef, content, theme, expiry, name }, caller });
+
+        const themeData = {
+            name: uppercaseSentenceWords(`${name} theme`),
+            content,
+            theme,
+            lastUpdatedBy: accountRef,
+            createdBy: accountRef
+        }
+
+        const { data: { theme_ref: themeRef } } = await onCreateTheme({ data: themeData, caller })
+        
+        const experiment = {
+            themeRef,
+            accountRef,
+            domainRef,
+            expiry,
+            name
+        }
+
+        const response = await onCreate({ data: experiment, caller });
         
         // TODO add ability to add budget
         // TODO add other system that creates ads after website has been created

@@ -18,9 +18,16 @@ const formatToUtc = (date = createDate()) => {
 
 const now = () => new Date ().toISOString ();
 
+const getYearsFromDate = (years = 1, date = new Date()) => {
+  date.setFullYear(date.getFullYear() + years);
+  return date;
+}
+
+
 module.exports = {
   createDate,
   formatToUtc,
-  now
+  now,
+  getYearsFromDate
 };
 

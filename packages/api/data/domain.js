@@ -1,7 +1,7 @@
 const { query } = require('../utils/database');
 const { handleSuccess } = require('../utils/utils');
-const { mapDomainToDb: mapper } = require('./utils/domain');
-const {now} = require('../utils/date');
+const { mapper } = require('./utils/domain');
+const {now, getYearsFromDate} = require('../utils/date');
 
 /**
  * gets domains by domain name
@@ -35,7 +35,7 @@ const onGetByAccountRef = ({ data: { accountRef }, caller }) =>
       const getQuery = `SELECT * FROM domains WHERE account_ref=${accountRef}`;  
 
       const results = await query(getQuery, undefined, caller, "GET_DOMAIN_BY_ACCOUNT_REF")
-
+      
       resolve (
         handleSuccess (
           `DATA - GET_DOMAIN_BY_ACCOUNT_REF - FROM ${caller}`,
@@ -56,8 +56,13 @@ const onCreate = ({ data, caller }) =>
 
       const createQuery = 'INSERT INTO domains SET ?';
 
+      if(!data.createdBy) data.createdBy = data.accountRef
+
       const mappedData = mapper(data);
      
+      // add default of 1 year. Cannot be done in my MYSQL as defaults cannot be functions or variables.
+      if(!mappedData.expiry) mappedData.expiry = getYearsFromDate(1);
+
       const results = await query(createQuery, mappedData, caller, "CREATE_DOMAIN")
       const timestamp = now();
 
@@ -86,7 +91,7 @@ new Promise (async (resolve, reject) => {
   try {
 
     const updateQuery =
-  `UPDATE accounts SET ? WHERE account_ref='${accountRef}'`;
+  `UPDATE domains SET ? WHERE account_ref='${accountRef}'`;
 
     const data = {
       last_updated_by: lastUpdatedBy,
@@ -94,11 +99,11 @@ new Promise (async (resolve, reject) => {
       ...mapper(updateData),
   };
 
-    await query(updateQuery, data, caller, "UPDATE_ACCOUNT")
+    await query(updateQuery, data, caller, "UPDATE_DOMAIN")
 
     resolve (
       handleSuccess (
-        `DATA - UPDATE - FROM ${caller}`,
+        `DATA - UPDATE_DOMAIN - FROM ${caller}`,
         {
           ...data,
           account_ref: accountRef,

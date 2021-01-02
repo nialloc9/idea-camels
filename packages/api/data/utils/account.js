@@ -9,7 +9,7 @@ const dbNames = {
   lastUpdatedBy: 'last_updated_by'
 };
 
-const mapAccountToDb = (account) =>
+const mapper = (account) =>
   Object.keys(account).reduce((total, curr) => {
 
     if(dbNames[curr]) {
@@ -19,4 +19,4 @@ const mapAccountToDb = (account) =>
     return total;
   }, {});
 
-module.exports = { mapAccountToDb };
+module.exports = { mapper };

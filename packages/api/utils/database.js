@@ -1,4 +1,4 @@
-const myql = require("mysql");
+const mysql = require("mysql");
 const config = require("./config");
 const errors = require("./errors");
 
@@ -6,7 +6,7 @@ const {
   db: { host, user, password, database, port },
 } = config;
 
-const DatabasePool = myql.createPool({
+const DatabasePool = mysql.createPool({
   host,
   user,
   password,
@@ -36,7 +36,7 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
       newConnection || (await getConnection(caller, dataLayer));
     connection.query(query, data, (error, results) => {
       connection.release();
-      console.log(query, error)
+      
       if (error) {
         reject(
           errors["4001"]({
@@ -51,8 +51,8 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
       return resolve(results);
     });
   });
-
+  
 module.exports = {
   getConnection,
-  query,
+  query
 };

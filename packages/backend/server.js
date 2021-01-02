@@ -11,7 +11,6 @@ const {
   fetchExperiments,
 } = require("./functions/fetchExperiments/fetchExperiments");
 const { createAccount } = require("./functions/createAccount/createAccount");
-const { createBudget, listCampaigns } = require("./utils/googleAds")
 
 const app = express();
 

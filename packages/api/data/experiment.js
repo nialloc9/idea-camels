@@ -1,6 +1,6 @@
 const { query } = require('../utils/database');
 const { handleSuccess } = require('../utils/utils');
-const { mapExperimentToDb: mapper } = require('./utils/experiment');
+const { mapper } = require('./utils/experiment');
 const {now} = require('../utils/date');
 
 /**

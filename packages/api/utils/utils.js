@@ -1,7 +1,9 @@
 const bunyan = require("bunyan");
 const config = require("./config");
 
-const defaultLogger = bunyan.createLogger({ name: config.name });
+const defaultLogger = bunyan.createLogger({ name: config.name, serializers: {
+  err: bunyan.stdSerializers.err
+} });
 
 const logger = {
   info: (data, message) => defaultLogger.info(data, message),
@@ -108,6 +110,18 @@ const changeKeys = (obj, keyMap) => Object.keys(obj).reduce((total, curr) => {
   return total;
 }, {})
 
+/**
+ * @description uppercases all words in a sentance
+ * @param {string} str 
+ */
+const uppercaseSentenceWords = str => {
+  let splitStr = str.toLowerCase().split(' ');
+  for (var i = 0; i < splitStr.length; i++) {
+      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+  }
+  return splitStr.join(' '); 
+}
+
 module.exports = {
   handleSuccess,
   generateRandomNumber,
@@ -119,5 +133,6 @@ module.exports = {
   getDateInSeconds,
   reverseObjectKeyValues,
   changeKeys,
+  uppercaseSentenceWords,
   logger
 };

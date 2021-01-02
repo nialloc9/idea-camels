@@ -4,18 +4,19 @@ const dbNames = {
     name: "name",
     deletedFlag: 'deleted_flag',
     lastUpdatedAt: 'last_updated_at',
-    lastUpdatedBy: 'last_updated_by'
+    lastUpdatedBy: 'last_updated_by',
+    createdBy: 'created_by',
   };
   
-  const mapDomainToDb = (domain) =>
+  const mapper = (domain) =>
     Object.keys(domain).reduce((total, curr) => {
   
       if(dbNames[curr]) {
-        total[dbNames[curr]] = account[curr];
+        total[dbNames[curr]] = domain[curr];
       }
   
       return total;
     }, {});
-  
-  module.exports = { mapDomainToDb };
+
+  module.exports = { mapper };
   

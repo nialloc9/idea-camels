@@ -22,10 +22,10 @@ const sendResponse = (res, { payload, code = 200, uri, message }) => {
  * @param {*} error
  * @return {func}
  */
-const sendError = (res, { error, uri, status = 500 }) => {
+const sendError = (res, { error = {}, uri, status = 500 }) => {
+    logger.error({ err: error, uri, status }, "ERROR OUTGOING RPC");
     
-    logger.error({ error, uri, status }, "ERROR OUTGOING RPC");
-    if(config.isProd && error.reason) delete error.reason;
+    if(config.isProd && newError.reason) delete error.reason
   
     return res.status(status).send(error);
 };
@@ -74,7 +74,7 @@ const endpoints = [
     {
       uri: "/experiment/create",
       func: onCreateExperiment,
-      required: [ "domainRef", "templateRef", "content", "theme", "expiry", "name", "caller" ],
+      required: [ "domainRef", "content", "theme", "expiry", "name", "caller" ],
       isAuth: true
     },
   ]

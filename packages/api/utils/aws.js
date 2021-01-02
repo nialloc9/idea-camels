@@ -1,11 +1,24 @@
-const AWS = requir('aws-sdk')
+const AWS = require('aws-sdk')
+const config = require('./config')
+const { logger } = require('./utils')
+
+const defaultProvider = new AWS.Route53Domains({ region: 'us-east-1' }) // Needs to be explicitly us-east-1 as RDS is global
 
 /**
  *
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#checkDomainAvailability-property
  */
-module.exports.validateDomain = ({ domain }, provider = new AWS.Route53Domains()) =>
+module.exports.validateDomain = ({ domain }, 
+  newProvider
+  ) =>
   new Promise((resolve) => {
+
+    if(!config.isProd || config.noInternet) {
+      logger.warn({ domain }, "Env is not prod or there is no internet")
+      return resolve({ error: undefined, data: {} })
+    }
+    const provider = newProvider || defaultProvider
+
     provider.checkDomainAvailability({ DomainName: domain }, (err, data) => resolve({data, error: err}));
   });
 
@@ -13,23 +26,54 @@ module.exports.validateDomain = ({ domain }, provider = new AWS.Route53Domains()
  *
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#getDomainSuggestions-property
  */
-module.exports.fetchDomainSuggestions = async ({ domain, count }, provider = new AWS.Route53Domains()) =>
+module.exports.fetchDomainSuggestions = async ({ domain, count }, 
+  newProvider
+  ) =>
   new Promise((resolve) => {
+
+    if(!config.isProd || config.noInternet) {
+      logger.warn({ domain, count }, "Env is not prod or there is no internet")
+      return resolve({ error: undefined, data: {} })
+    }
+
+    const provider = newProvider || defaultProvider
+
     provider.checkDomainAvailability(
       { DomainName: domain, OnlyAvailable: true, SuggestionCount: count },
       (err, data) => resolve({ error: err, data })
     );
   });
 
+  const defaultContact = {
+    AddressLine1: config.company.addressLine1,
+    AddressLine2: config.company.addressLine2,
+    City: config.company.city,
+    ContactType: "COMPANY",
+    CountryCode: config.company.countryCode,
+    Email: config.company.email,
+    ExtraParams: [],
+    FirstName: config.company.contact.firstName,
+    LastName: config.company.contact.lastName,
+    OrganizationName: config.company.name,
+    ZipCode: config.company.postCode,
+    PhoneNumber: config.company.phone
+  }
 /**
  *
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#registerDomain-property
  */
 module.exports.registerDomain = async (
-  { contact, domain, durationInYears = 1, autoRenew = false },
-  provider = new AWS.Route53Domains()
+  { contact = defaultContact, domain, durationInYears = 1, autoRenew = false },
+  newProvider
 ) =>
   new Promise((resolve) => {
+    if(!config.isProd || config.noInternet) {
+      logger.warn({ contact, domain, durationInYears, autoRenew }, "Env is not prod or there is no internet")
+      return resolve({ error: undefined, data: {} })
+    }
+
+    const provider = newProvider || defaultProvider
+
     provider.registerDomain(
       {
         AdminContact: contact,

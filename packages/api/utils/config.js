@@ -1,3 +1,5 @@
+const { config } = require("aws-sdk");
+
 const {
   SERVER_PORT,
   ENV,
@@ -31,12 +33,26 @@ const localhost = {
   security: {
     password_secret: PASSWORD_SECRET,
   },
+  company: {
+    addressLine1: '87C',
+    addressLine2: 'melrose avenue',
+    city: 'london',
+    countryCode: "GB",
+    phone: '+44.7532722266',
+    email: 'ideacamels@gmail.com',
+    name: 'Idea Camels',
+    state: 'london',
+    postCode: 'NW2 4LR',
+    contact: {
+      firstName: 'Niall',
+      lastName: "O' Connor",
+    }
+  },
   aws: {
     accessKeyId: AWS_ACCESS_KEY,
     secretAccessKey: AWS_SECRET_KEY,
     region: AWS_REGION,
-    buckets: {},
-    contact: 'ideacamels@gmail.com'
+    buckets: {}
   },
   stripe: {
     secretKey: STRIPE_SECRET_KEY,

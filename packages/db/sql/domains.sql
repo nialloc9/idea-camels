@@ -1,3 +1,5 @@
+use idea_camels;
+
 USE idea_camels;
 
 DROP TABLE IF EXISTS domains;
@@ -7,10 +9,10 @@ CREATE TABLE domains
   domain_ref int NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) DEFAULT '',
   account_ref int NOT NULL,
-  expiry: TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  created_by TIMESTAMP NOT NULL DEFAULT YEAR(CURDATE() + INTERVAL 1 YEAR),
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  last_updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  expiry TIMESTAMP DEFAULT NULL,
+  created_by int(9) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   last_updated_by int(9),
   deleted_flag int(1) DEFAULT 0,
   PRIMARY KEY (domain_ref)
@@ -42,3 +44,5 @@ VALUES
     1,
     0
 );
+
+UPDATE domains SET expiry = (CURDATE() + INTERVAL 1 YEAR) WHERE domain_ref = 1;
