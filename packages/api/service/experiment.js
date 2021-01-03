@@ -1,7 +1,8 @@
 const { onGetByAccountRef, onCreate } = require('../data/experiment')
-const { onGetByAccountRef: onGetDomainByAccountRef } = require('../data/domain')
 const { onCreate: onCreateTheme } = require('../data/theme')
 const { uppercaseSentenceWords } = require('../utils/utils')
+const { runTask } = require('../utils/aws')
+const config = require('../utils/config')
 
 const dbNames = {
     themeRef: "theme_ref",
@@ -26,7 +27,7 @@ const onGetAccountExperiments = ({data: { decodedToken: { accountRef } }, caller
     }
 });
 
-const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, content, theme, expiry, name }, caller}) => new Promise(async (resolve, reject) => {
+const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, content, theme, expiry, name, templateRef }, caller}) => new Promise(async (resolve, reject) => {
     try {
 
         const themeData = {
@@ -43,6 +44,7 @@ const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, co
             themeRef,
             accountRef,
             domainRef,
+            templateRef,
             expiry,
             name
         }
@@ -50,7 +52,12 @@ const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, co
         const response = await onCreate({ data: experiment, caller });
         
         // TODO add ability to add budget
-        // TODO add other system that creates ads after website has been created
+
+        await runTask({ cluster: config.aws.cluster.builder.name, taskDefinition: config.aws.cluster.builder.taskDefinition, environmentVariables: [
+            { name: "EXPERIMENT_REF", value: response.data.experiment_ref },
+            { name: "TEMPLATE_REF", value: templateRef }
+        ]})
+    
         resolve(response)
     } catch (error) {
         reject(error)

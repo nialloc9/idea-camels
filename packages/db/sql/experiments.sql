@@ -9,6 +9,7 @@ CREATE TABLE experiments
   account_ref int NOT NULL,
   domain_ref int NOT NULL,
   theme_ref int NOT NULL,
+  template_ref int NOT NULL,
   expiry TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   created_by int(9),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -27,6 +28,7 @@ INSERT INTO `idea_camels`.`experiments`
   `account_ref`,
   `domain_ref`,
   `theme_ref`,
+  `template_ref`,
   `expiry`,
   `created_by`,
   `created_at`,
@@ -41,6 +43,7 @@ VALUES
     1,
     1,
     1,
+    1,
     CURRENT_TIMESTAMP,
     1,
     CURRENT_TIMESTAMP,
@@ -48,4 +51,3 @@ VALUES
     1,
     0
 );
-SELECT * from experiments;

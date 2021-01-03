@@ -1,6 +1,7 @@
 const dbNames = {
     domainRef: "domain_ref",
     accountRef: "account_ref",
+    templateRef: "template_ref",
     name: "name",
     themeRef: "theme_ref",
     deletedFlag: 'deleted_flag',

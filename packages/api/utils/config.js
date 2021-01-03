@@ -22,6 +22,8 @@ const {
   GOOGLE_ADS_REFRESH_TOKEN,
   GOOGLE_ADS_DEVELOPER_TOKEN,
   GOOGLE_ADS_CUSTOMER_ID,
+  BUILDER_CLUSTER_NAME,
+  BUILDER_TASK_NAME
 } = process.env;
 
 const localhost = {
@@ -52,7 +54,13 @@ const localhost = {
     accessKeyId: AWS_ACCESS_KEY,
     secretAccessKey: AWS_SECRET_KEY,
     region: AWS_REGION,
-    buckets: {}
+    buckets: {},
+    clusters: {
+      builder: {
+        name: BUILDER_CLUSTER_NAME,
+        taskDefinition: BUILDER_TASK_NAME
+      }
+    }
   },
   stripe: {
     secretKey: STRIPE_SECRET_KEY,
