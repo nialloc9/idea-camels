@@ -17,7 +17,6 @@ export default withPageAnalytics(() => {
         if(data.password !== data.confirmPassword) {
             setError("password", {message: "Passwords must match"});
             setError("confirmPassword", {message: "Passwords must match"});
-            return;
         }
     };
     
