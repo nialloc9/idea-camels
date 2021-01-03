@@ -18,7 +18,7 @@ provider "aws" {
 }
 
 module "domain" {
-  source = "git@github.com:nialloc9/idea-camels.git//packages/infrastructure/modules/experiment?ref=builder"
+  source = "git@github.com:nialloc9/idea-camels.git//packages/infrastructure/modules/experiment?ref=master"
 }
 
 module "database" {

@@ -13,6 +13,7 @@ services:
     - "3001:3001"
     volumes:
     - ./packages/api:/usr/src/app:cached
+    - $HOME/.aws/credentials:/home/app/.aws/credentials:ro
     env_file:
       - ./packages/api/.dev.env
     command: npm run start
@@ -29,23 +30,12 @@ services:
       - SYS_NICE  # CAP_SYS_NICE
     volumes:
     - ./packages/db/sql:/docker-entrypoint-initdb.d
-  idea-camels-builder-client:
-    build:
-      context: ./packages/builder
-      dockerfile: client.Dockerfile
+  idea-camels-builder:
+    build: ./packages/builder
     ports:
     - "3002:3002"
     volumes:
     - ./packages/builder:/usr/src/app:cached
-    env_file:
-      - ./packages/builder/.dev.env
-  idea-camels-builder-infra:
-    build:
-      context: ./packages/builder
-      dockerfile: infra.Dockerfile
-    ports:
-    - "3002:3002"
-    volumes:
-    - ./packages/builder:/usr/src/app:cached
+    - $HOME/.aws/credentials:/home/app/.aws/credentials:ro
     env_file:
       - ./packages/builder/.dev.env
