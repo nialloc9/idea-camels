@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Segment } from "../components/Styled/Segment";
 import { Grid, GridColumn } from "../components/Grid";
 import { List, ListItem } from "../components/List";
-import { Input } from "../components/Input";
+import { Input } from "../components/Form/Input";
 import { Button } from "../components/Button";
 import { Header } from "../components/Header";
 import { Progress } from "../components/Progress";

@@ -40,7 +40,7 @@ class Login extends Component {
     }
 
     get loginFormProps() {
-        const { fetchErrorMessage, fetchAccount } = this.props;
+        const { fetchErrorMessage } = this.props;
 
         return {
             errorMessage: fetchErrorMessage,
@@ -67,10 +67,10 @@ class Login extends Component {
         }
     }
 
-    onFetchAccount = (data) => {
+    onFetchAccount = async ({ email, password, rememberMe }) => {
         const { fetchAccount } = this.props;
 
-        console.log(data)
+        await fetchAccount({ email, password, rememberMe })
     }
 
     handleBack = () => this.setState({openForm: 1});

@@ -5,7 +5,7 @@ import { Input as StyledInput } from "../Styled/Input";
 import {Error} from "./Error";
 import {Warning} from "./Warning";
 import withToolTip from "../../hoc/withToolTip";
-import withFormController from "../../hoc/withFormController";
+import {withField} from "../../hoc/withForm";
 
 const ToolTipIcon = withToolTip(Icon);
 export class Input extends Component {
@@ -20,7 +20,7 @@ export class Input extends Component {
 
     render() {
         const { label, info, error, warn, ...rest } = this.props;
-        console.log("error", error)
+
         return (
             <Form.Field>
                 <label style={{ fontWeight: 800, marginBottom: "10px" }}>
@@ -41,4 +41,4 @@ export class Input extends Component {
     }
 }
 
-export const FormInput = withFormController(Input);
+export const FormInput = withField(Input);

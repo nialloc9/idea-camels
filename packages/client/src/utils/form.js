@@ -1,5 +1,3 @@
-import { useForm,
-    Controller } from "react-hook-form";
     import {
         validatePhoneNumber,
         validateRequired,
@@ -27,9 +25,10 @@ import { useForm,
 
     import { pipeline } from "@nialloc9/vcheck/lib/validation"
 
+    const composeValidators = (...validators) => value =>
+  validators.reduce((error, validator) => error || validator(value), undefined)
+
 export {
-    useForm,
-    Controller,
     validatePhoneNumber,
     validateRequired,
     validateMaxLength,
@@ -52,5 +51,6 @@ export {
     validateTelephoneNumber,
     validateMinLength,
     validateRequiredMessage,
-    pipeline
+    pipeline,
+    composeValidators
 }

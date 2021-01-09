@@ -10,7 +10,7 @@ import {
   TableCell,
   TableBody,
 } from "../components/Styled/Table";
-import { Input } from "../components/Input";
+import { Input } from "../components/Form/Input";
 import { Button } from "../components/Button";
 import { PieChart } from "../components/PieChart";
 import { Header } from "../components/Header";

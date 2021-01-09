@@ -4,6 +4,7 @@ import SemanticForm from 'semantic-ui-react/dist/commonjs/collections/Form';
 import {Error} from './Error';
 import {Warning} from './Warning';
 import {Success} from './Success';
+import {withForm} from '../../hoc/withForm'
 
 export const Field = SemanticForm.Field;
 
@@ -54,3 +55,5 @@ export class Form extends PureComponent {
         );
     }
 }
+
+export const ValidationForm = withForm(Form)

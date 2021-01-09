@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Input } from "../Input";
+import { Input } from "../Form/Input";
 import { Message } from "../Message";
 import { withEnterKey } from "../../utils/utils";
 import { handleEvent } from "../../utils/analytics";

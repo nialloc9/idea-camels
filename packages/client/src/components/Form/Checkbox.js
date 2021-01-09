@@ -7,6 +7,7 @@ import {Error} from './Error';
 import {Warning} from './Warning';
 import {remCalc} from '../../utils/style';
 import withToolTip from '../../hoc/withToolTip';
+import {withField} from "../../hoc/withForm";
 
 const ToolTipIcon = withToolTip(Icon);
 
@@ -22,13 +23,11 @@ export class Checkbox extends PureComponent {
 
     static defaultProps = {
         inlineLabel: false,
-        info: '',
-        input: {},
-        meta: {},
+        info: ''
     };
 
     handleChange = (e, {checked}) => {
-        const {input: {onChange}} = this.props;
+        const {onChange} = this.props;
         onChange(checked);
     };
 
@@ -58,9 +57,11 @@ export class Checkbox extends PureComponent {
                     onChange={this.handleChange}
                     margin={`${remCalc(4)} 0 0 ${remCalc(5)}`}
                 />
-                <Error error={error.message} />
-                <Warning warn={warn.message} />
+                <Error error={error} />
+                <Warning warn={warn} />
             </Field>
         );
     };
 }
+
+export const FormCheckbox = withField(Checkbox)
