@@ -6,7 +6,7 @@ services:
     - "3000:3000"
     volumes:
     - ./packages/client:/usr/src/app:cached
-    command: npm run start
+    command: tail -f /dev/null
   idea-camels-api:
     build: ./packages/api
     ports:

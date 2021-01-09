@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
 import {Modal, ModalContent} from '../Modal';
-import {LoginForm} from './LoginForm';
+import LoginForm from './LoginForm';
 // import {ForgottenPasswordForm} from './ForgottenPasswordForm';
-import {Block} from '../Styled/Block';
+import {onFetchAccount} from '../../store/actions/account';
+import {onSetIsLogin} from '../../store/actions/app';
 
-export class Login extends Component {
+class Login extends Component {
     static propTypes = {
         isOpen: PropTypes.bool.isRequired,
         forgottonPasswordErrorMessage: PropTypes.string.isRequired,
@@ -20,6 +22,57 @@ export class Login extends Component {
         openForm: 1,
     };
 
+    get modelProps() {
+        const {
+            isLoginOpen,
+            size,
+            Trigger
+        } = this.props;
+
+        return {
+            open: isLoginOpen,
+            onClose: this.handleModalOpen,
+            onActionClick: this.handleModalOpen,
+            closeOnEscape: true,
+            trigger: <Trigger onClick={this.handleModalOpen} />,
+            size: size
+        }
+    }
+
+    get loginFormProps() {
+        const { fetchErrorMessage, fetchAccount } = this.props;
+
+        return {
+            errorMessage: fetchErrorMessage,
+            onSubmit: this.onFetchAccount,
+            onModalCancel: this.handleModalOpen,
+            onResetPasswordClick: this.handleForward,
+        }
+    }
+
+    get forgottonPasswordFormProps() {
+        const { 
+            forgottonPasswordErrorMessage,
+            isForgottenPasswordSuccess,
+            isForgottenPasswordLoading,
+            onSetForgottenPassword
+         } = this.props;
+
+        return {
+            errorMessage: forgottonPasswordErrorMessage,
+            isSuccess: isForgottenPasswordSuccess,
+            isLoading: isForgottenPasswordLoading,
+            onModalBack: this.handleBack,
+            onSubmit: onSetForgottenPassword
+        }
+    }
+
+    onFetchAccount = (data) => {
+        const { fetchAccount } = this.props;
+
+        console.log(data)
+    }
+
     handleBack = () => this.setState({openForm: 1});
 
     handleForward = () => this.setState({openForm: 2});
@@ -29,58 +82,29 @@ export class Login extends Component {
     };
 
     handleModalOpen = () => {
-        const {isOpen, onSetLoginModal} = this.props;
-        onSetLoginModal(!isOpen);
+        const {isOpen, onOpen} = this.props;
+        onOpen(!isOpen);
     };
 
     render() {
-        const {
-            isOpen,
-            errorMessage,
-            size,
-            forgottonPasswordErrorMessage,
-            isForgottenPasswordSuccess,
-            isForgottenPasswordLoading,
-            onSetLogin,
-            onSetForgottenPassword,
-            children,
-        } = this.props;
-
         const {openForm} = this.state;
 
         return (
-            <Modal
-                open={isOpen}
-                onClose={this.handleModalOpen}
-                onActionClick={this.handleModalOpen}
-                closeOnEscape
-                trigger={
-                    <Block cursor="pointer" onClick={this.handleModalOpen}>
-                        {children}
-                    </Block>
-                }
-                size={size}
-            >
+            <Modal {...this.modelProps}>
                 <ModalContent>
-                    {openForm === 1 && (
-                        <LoginForm
-                            errorMessage={errorMessage}
-                            onModalCancel={this.handleModalOpen}
-                            onResetPasswordClick={this.handleForward}
-                            onSubmit={onSetLogin}
-                        />
-                    )}
-                    {/* {openForm === 2 && (
-                        <ForgottenPasswordForm
-                            errorMessage={forgottonPasswordErrorMessage}
-                            isSuccess={isForgottenPasswordSuccess}
-                            isLoading={isForgottenPasswordLoading}
-                            onModalBack={this.handleBack}
-                            onSubmit={onSetForgottenPassword}
-                        />
-                    )} */}
+                    {openForm === 1 && <LoginForm {...this.loginFormProps}/>}
+                    {/* {openForm === 2 && <ForgottenPasswordForm {...this.forgottonPasswordFormProps} />} */}
                 </ModalContent>
             </Modal>
         );
     }
 }
+
+const mapStateToProps = ({ app: { isLoginOpen } }) => ({
+    isLoginOpen
+  })
+  
+export default connect(
+    mapStateToProps,
+    { fetchAccount: onFetchAccount, onOpen: onSetIsLogin }
+)(Login)

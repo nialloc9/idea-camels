@@ -50,9 +50,9 @@ const NotLoggedIn = ({ theme }) => {
               action={`${text.replace(" ", "-")}-click`.toLowerCase()}
             />
           ))}
+          <Login Trigger={({ onClick }) => <AnalyticsMenuItem onClick={onClick} name="login" />}/>
         </MenuMenu>
       </Menu>
-      <Login />
     </Fragment>
   );
 };

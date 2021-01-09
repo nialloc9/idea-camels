@@ -27,5 +27,3 @@ ENV TERRAFORM_VERSION 0.13.5
 RUN wget -O terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
   unzip terraform.zip -d /usr/local/bin && \
   rm -f terraform.zip
-
-ENTRYPOINT ["sh", "entrypoint.sh"]

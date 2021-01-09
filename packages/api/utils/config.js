@@ -34,6 +34,8 @@ const localhost = {
   name: "idea-camels-server",
   security: {
     password_secret: PASSWORD_SECRET,
+    default_token_expiration: "1d",
+    extended_token_expiration: "30d",
   },
   company: {
     addressLine1: '87C',

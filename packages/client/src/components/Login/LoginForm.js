@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { Form as ReactFinalForm, Field as ReactFinalField } from 'react-final-form'
 import {Grid, GridColumn} from '../Grid';
 import {remCalc} from '../../utils/style';
-import {Input, FormInput} from '../Form/Input';
+import {Input} from '../Form/Input';
 import {Form, Field} from '../Form/Form';
 import {Checkbox} from '../Form/Checkbox';
 import {
@@ -15,8 +16,49 @@ import {
 import {Block} from '../Styled/Block';
 import {Button} from '../Styled/Button';
 import {Header} from '../Styled/Header';
+const required = value => (value ? undefined : 'Required')
+const composeValidators = (...validators) => value =>
+  validators.reduce((error, validator) => error || validator(value), undefined)
 
-export class LoginForm extends Component {
+const withForm = (WrappedComponent) =>
+    class Event extends Component {
+        static propTypes = {
+            onSubmit: PropTypes.func.isRequired
+        };
+
+        render() {
+            const { onSubmit, ...rest } = this.props;
+
+            return (
+                <ReactFinalForm onSubmit={onSubmit}>
+                    {({ handleSubmit }) => <WrappedComponent {...rest} onSubmit={handleSubmit} />}
+                </ReactFinalForm>
+            );
+        }
+    };
+
+const withField = (WrappedComponent) =>
+    class WrappedField extends Component {
+        static propTypes = {
+            onSubmit: PropTypes.func.isRequired
+        };
+
+        render() {
+            const { name, validate, ...rest } = this.props;
+
+            return (
+                <ReactFinalField name="firstName" validate={validate}>
+                    {({ input, meta }) => <WrappedComponent {...rest} name={name} {...input} {...meta} />}
+                </ReactFinalField>
+            );
+        }
+    };
+
+const FormInput = withField(Input)
+
+const FinalForm = withForm(Form);
+
+class LoginForm extends Component {
     static propTypes = {
         pristine: PropTypes.bool.isRequired,
         submitting: PropTypes.bool.isRequired,
@@ -35,8 +77,9 @@ export class LoginForm extends Component {
 
     render() {
 
-        const { control, handleSubmit, errors } = useForm();
+        const { control, handleSubmit = ()=> {}, errors } = {};
 
+        
         const {
             pristine,
             errorMessage,
@@ -44,7 +87,12 @@ export class LoginForm extends Component {
             onModalCancel,
             onResetPasswordClick,
         } = this.props;
-
+        
+        return (
+            <FinalForm onSubmit={handleSubmit}>
+                <FormInput validate={composeValidators(validateRequiredEmail,validateEmail)} />    
+            </FinalForm>
+        )
         return (
             <Form error={errorMessage} onSubmit={handleSubmit(this.onSubmit)}>
                 <Grid stackable container columns={1}>
@@ -130,3 +178,5 @@ export class LoginForm extends Component {
         );
     }
 }
+
+export default withForm(LoginForm)

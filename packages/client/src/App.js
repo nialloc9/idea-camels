@@ -1,5 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ConnectedRouter } from 'connected-react-router'
+import { Switch, Route } from "react-router-dom";
+import { Provider } from 'react-redux'
 import { ThemeProvider } from "./utils/style";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
@@ -11,9 +13,12 @@ import ComingSoon from "./pages/ComingSoon";
 import ExperimentDesign from "./pages/ExperimentDesign";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
+import store from "./store";
+import {history} from "./store/middleware/history";
 
 export default () => (
-  <Router>
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
     <ThemeProvider theme={theme}>
       <Navigation />
       <Switch>
@@ -41,5 +46,6 @@ export default () => (
       </Switch>
       <Footer />
     </ThemeProvider>
-  </Router>
+  </ConnectedRouter>
+  </Provider>
 );

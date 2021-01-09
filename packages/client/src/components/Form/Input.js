@@ -11,20 +11,16 @@ const ToolTipIcon = withToolTip(Icon);
 export class Input extends Component {
     static propTypes = {
         label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        error: PropTypes.string,
-        warn: PropTypes.string,
         info: PropTypes.string
     };
 
     static defaultProps = {
-        info: "",
-        error: {message: ""},
-        warn: {message: ""}
-    };
+        info: ""
+    }
 
     render() {
         const { label, info, error, warn, ...rest } = this.props;
-    
+        console.log("error", error)
         return (
             <Form.Field>
                 <label style={{ fontWeight: 800, marginBottom: "10px" }}>
@@ -38,8 +34,8 @@ export class Input extends Component {
                     )}
                 </label>
                 <StyledInput {...rest} />
-                <Error error={error.message} />
-                <Warning warn={warn.message} />
+                <Error error={error} />
+                <Warning warn={warn} />
             </Form.Field>
         );
     }

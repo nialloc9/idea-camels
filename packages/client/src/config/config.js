@@ -1,12 +1,12 @@
-const { NODE_ENV } = process.env;
+const { REACT_APP_ENV } = process.env;
 
 const {
     location: { pathname },
 } = window;
 
-export default {
-    env: NODE_ENV,
-    isProd: NODE_ENV === "production",
+const localhost = {
+    env: REACT_APP_ENV,
+    isProd: REACT_APP_ENV === "production",
     pathname,
     social: {
         facebook: "https://facebook.com",
@@ -20,4 +20,19 @@ export default {
         id: 1710788,
         version: 6,
     },
+    api: {
+        base: 'http://localhost:3001',
+    },
+    security: {
+        default_cookie_expiration: null,
+        extended_cookie_expiration: 30
+    }
 };
+
+const staging = { ...localhost };
+const production = { ...staging };
+
+export default {
+    staging,
+    production
+}[REACT_APP_ENV] || localhost;

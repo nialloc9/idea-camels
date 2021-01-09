@@ -1,7 +1,8 @@
 const { onGet, onCreate: onCreateAccount, onUpdate: onUpdateAccount } = require('../data/account')
 const { validatePassword, scrubAccount, createJwToken } = require('../utils/security')
+const config = require('../utils/config')
 
-const onLogin = ({data: { email, password }, caller}) => new Promise(async (resolve, reject) => {
+const onLogin = ({data: { email, password, rememberMe = false }, caller}) => new Promise(async (resolve, reject) => {
     try {
         
         const response = await onGet({ data: { email }, caller });
@@ -11,7 +12,7 @@ const onLogin = ({data: { email, password }, caller}) => new Promise(async (reso
         // TODO Add remember me
         // TODO Add last loggedin at
         response.data.account = scrubAccount(response.data[0], ["password"]);
-        response.data.token = createJwToken({ accountRef: account.account_ref });
+        response.data.token = createJwToken({ accountRef: account.account_ref }, rememberMe ? config.security.extended_token_expiration : config.security.default_token_expiration);
 
         resolve(response)
     } catch (error) {

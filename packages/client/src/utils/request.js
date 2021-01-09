@@ -1,3 +1,5 @@
+import { config } from '../config'
+
 export const post = async (
     url,
     body,
@@ -16,3 +18,5 @@ export const post = async (
 
     return content;
 };
+
+export const postApi = (uri, body, headers) => post(`${config.api.base}/${uri}`, body, headers);
