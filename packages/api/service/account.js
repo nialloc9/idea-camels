@@ -4,16 +4,15 @@ const config = require('../utils/config')
 
 const onLogin = ({data: { email, password, rememberMe = false }, caller}) => new Promise(async (resolve, reject) => {
     try {
-        
         const response = await onGet({ data: { email }, caller });
-        
+ 
         await validatePassword({ password, hashedPassword: response.data.account.password , caller });
-        
+     
         // TODO Add remember me
         // TODO Add last loggedin at
         response.data.account = scrubAccount(response.data[0], ["password"]);
         response.data.token = createJwToken({ accountRef: account.account_ref }, rememberMe ? config.security.extended_token_expiration : config.security.default_token_expiration);
-
+      
         resolve(response)
     } catch (error) {
         reject(error)
@@ -57,6 +56,15 @@ const onUpdate = ({data: { updateData }, caller}) => new Promise(async (resolve,
     }
 });
 
+const onForgottonPassword = ({data: { email }, caller}) => new Promise(async (resolve, reject) => {
+    try {
+
+        resolve({email, caller})
+    } catch (error) {
+        reject(error)
+    }
+});
+
 const onDelete = ({data: { decodedToken: { accountRef }, lastUpdatedBy }, caller}) => new Promise(async (resolve, reject) => {
     try {
         const updatedData = { accountRef, deletedFlag: 1, lastUpdatedBy: lastUpdatedBy || accountRef }
@@ -73,5 +81,6 @@ module.exports = {
     onReauthorise,
     onCreate,
     onUpdate,
+    onForgottonPassword,
     onDelete
 }

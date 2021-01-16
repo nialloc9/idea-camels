@@ -5,9 +5,13 @@ import {getCookie, decodecookie} from '../../utils/cookie';
 const initialState = {
     jwToken: '',
     data: {},
-    rememberMe: false,
     isFetchLoading: false,
     fetchErrorMessage: '',
+    isCreateLoading: false,
+    createErrorMessage: '',
+    isForgottonPasswordLoading: true, 
+    forgottonPasswordErrorMessage: '', 
+    forgottonPasswordSuccessMessage: ''
 };
 
 const cookie = getCookie('account');

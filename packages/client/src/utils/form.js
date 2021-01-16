@@ -22,10 +22,11 @@
         validateMinLength,
         validateRequiredMessage
     } from "@nialloc9/vcheck";
-
     import { pipeline } from "@nialloc9/vcheck/lib/validation"
+    export { connect } from 'react-redux'
+    
 
-    const composeValidators = (...validators) => value =>
+    const composeValidators = validators => value =>
   validators.reduce((error, validator) => error || validator(value), undefined)
 
 export {

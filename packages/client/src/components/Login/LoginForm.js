@@ -4,21 +4,19 @@ import {Grid, GridColumn} from '../Grid';
 import {remCalc} from '../../utils/style';
 import {FormInput} from '../Form/Input';
 import {FormCheckbox} from '../Form/Checkbox';
-import {ValidationForm} from '../Form/Form';
+import {Form} from '../Form/Form';
 import {
     validateEmail,
     validateRequiredEmail,
-    validateRequiredPassword,
-    composeValidators
+    validateRequiredPassword
 } from '../../utils/form';
 import {Block} from '../Styled/Block';
 import {Button} from '../Styled/Button';
 import {Header} from '../Styled/Header';
+import {withForm} from '../../hoc/withForm';
 
 class LoginForm extends Component {
     static propTypes = {
-        pristine: PropTypes.bool.isRequired,
-        submitting: PropTypes.bool.isRequired,
         errorMessage: PropTypes.string.isRequired,
         onModalCancel: PropTypes.func.isRequired,
         handleSubmit: PropTypes.func.isRequired,
@@ -33,16 +31,17 @@ class LoginForm extends Component {
     render() {
         
         const {
+            submitting,
+            valid,
             pristine,
             errorMessage,
-            submitting,
             onModalCancel,
             onResetPasswordClick,
             onSubmit
         } = this.props;
-        
+       
         return (
-            <ValidationForm error={errorMessage} onSubmit={onSubmit}>
+            <Form error={errorMessage} onSubmit={onSubmit}>
                 <Grid stackable container columns={1}>
                     <GridColumn>
                         <Grid columns={2} stackable>
@@ -57,7 +56,8 @@ class LoginForm extends Component {
                                     type="text"
                                     placeholder="Email*"
                                     maxLength={40}
-                                    validate={composeValidators(validateRequiredEmail,validateEmail)}
+                                    rules={[validateRequiredEmail,validateEmail]}
+                                    pristine={pristine}
                                 />
                             </GridColumn>
                             <GridColumn>
@@ -67,15 +67,15 @@ class LoginForm extends Component {
                                     type="password"
                                     placeholder="Password*"
                                     maxLength={40}
-                                    validate={composeValidators(validateRequiredPassword)}
+                                    rules={[validateRequiredPassword]}
                                 />
                             </GridColumn>
                         </Grid>
                     </GridColumn>
 
                     <GridColumn>
-                        <Block margin={`${remCalc(-15)} 0`}>
-                            <Block display="inline-block">
+                        <Block margin={`${remCalc(-15)} 0`} display="flex" flexDirection="row">
+                            <Block>
                                 <FormCheckbox
                                     name="rememberMe"
                                     size="small"
@@ -85,13 +85,19 @@ class LoginForm extends Component {
                             <Block
                                 margin={`0 ${remCalc(10)}`}
                                 display="inline-block"
+                                display="flex" 
+                                justifyContent="center" 
+                                flexDirection="column"
                             >
                                 Remember Me -
                             </Block>
                             <Block
-                                display="inline-block"
                                 onClick={onResetPasswordClick}
                                 cursor="pointer"
+                                color="blue"
+                                display="flex" 
+                                justifyContent="center" 
+                                flexDirection="column"
                             >
                                 Forgotton password?
                             </Block>
@@ -100,7 +106,7 @@ class LoginForm extends Component {
 
                     <GridColumn>
                         <Button
-                            disabled={pristine || submitting}
+                            disabled={submitting || !valid}
                             loading={submitting}
                             primary
                             type="submit"
@@ -108,12 +114,12 @@ class LoginForm extends Component {
                         >
                             Submit
                         </Button>
-                        <Button onClick={onModalCancel}>Cancel</Button>
+                        <Button type="button" onClick={onModalCancel}>Cancel</Button>
                     </GridColumn>
                 </Grid>
-            </ValidationForm>
+            </Form>
         );
     }
 }
 
-export default LoginForm
+export default withForm(LoginForm)

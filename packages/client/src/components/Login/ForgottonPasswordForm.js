@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {remCalc} from '../../utils/utils';
+import {remCalc} from '../../utils/style';
 import {FormInput} from '../Form/Input';
-import Form from '../Form/Form';
+import {Form} from '../Form/Form';
 import {Grid, GridColumn} from '../Grid';
-import {validateEmail, validateRequiredEmail, pipeline, useForm} from '../../utils/form';
-import Block from '../Styled/Block';
-import Button from '../Styled/Button';
-import Header from '../Styled/Header';
+import {validateEmail, validateRequiredEmail} from '../../utils/form';
+import {Block} from '../Styled/Block';
+import {Button} from '../Styled/Button';
+import {Header} from '../Styled/Header';
+import {withForm} from '../../hoc/withForm';
 
-export class ForgottenPasswordForm extends Component {
+class ForgottenPasswordForm extends Component {
     static propTypes = {
         pristine: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool.isRequired,
         errorMessage: PropTypes.string.isRequired,
-        isSuccess: PropTypes.bool.isRequired,
+        successMessage: PropTypes.string.isRequired,
         onModalBack: PropTypes.func.isRequired,
-        handleSubmit: PropTypes.func.isRequired,
+        onSubmit: PropTypes.func.isRequired,
         size: PropTypes.string,
     };
 
@@ -30,15 +31,10 @@ export class ForgottenPasswordForm extends Component {
         const {
             isLoading,
             errorMessage,
-            isSuccess,
-            onModalBack
+            successMessage,
+            onModalBack,
+            onSubmit
         } = this.props;
-
-        const { control, handleSubmit, errors } = useForm();
-
-        const successMessage = isSuccess
-            ? 'An email has been sent to the address provided.'
-            : '';
 
         return (
             <Grid container stackable columns={1}>
@@ -46,7 +42,7 @@ export class ForgottenPasswordForm extends Component {
                     <Form
                         error={errorMessage}
                         success={successMessage}
-                        onSubmit={handleSubmit(this.onSubmit)}
+                        onSubmit={onSubmit}
                     >
                         <Grid stackable columns={1}>
                             <GridColumn>
@@ -62,9 +58,7 @@ export class ForgottenPasswordForm extends Component {
                                     type="text"
                                     placeholder="Email*"
                                     maxLength={40}
-                                    rules={{validate: value => pipeline([validateRequiredEmail, validateEmail], value) }}
-                                    control={control}
-                                    errors={errors}
+                                    rules={[validateRequiredEmail, validateEmail]}
                                 />
                             </GridColumn>
                             <GridColumn>
@@ -85,3 +79,5 @@ export class ForgottenPasswordForm extends Component {
         );
     }
 }
+
+export default withForm(ForgottenPasswordForm)

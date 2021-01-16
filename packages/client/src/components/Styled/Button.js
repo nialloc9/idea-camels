@@ -1,7 +1,7 @@
 import React from "react";
 import { styled, createMediaQuery } from "../../utils/style";
 import withAnalytics from "../../hoc/withAnalytics";
-import SemanticButton from "semantic-ui-react/dist/commonjs/elements/Button";
+import {Button as SemanticButton} from "semantic-ui-react";
 
 export const Button = withAnalytics(styled(
   ({ backgroundColor, color, display, margin, top, ...rest }) => (

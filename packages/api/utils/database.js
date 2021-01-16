@@ -25,31 +25,42 @@ const getConnection = async (caller) =>
           })
         );
       }
-
+      
       return resolve(connection);
     });
   });
 
 const query = async (query, data, caller, dataLayer, newConnection) =>
   new Promise(async (resolve, reject) => {
-    const connection =
+    try {
+      const connection =
       newConnection || (await getConnection(caller, dataLayer));
-    connection.query(query, data, (error, results) => {
-      connection.release();
-      
-      if (error) {
-        reject(
-          errors["4001"]({
-            dataLayer,
-            reason: `FAILED QUERY: ${query}`,
-            caller,
-            reason: error.message,
-          })
-        );
-      }
+      connection.query(query, data, (error, results) => {
+        connection.release();
+        
+        if (error) {
+          return reject(
+            errors["4001"]({
+              dataLayer,
+              reason: `FAILED QUERY: ${query}`,
+              caller,
+              reason: error.message,
+            })
+          );
+        }
 
-      return resolve(results);
-    });
+        return resolve(results);
+      });
+    } catch(error) {
+      return reject(
+        errors["4001"]({
+          dataLayer,
+          reason: `FAILED QUERY: ${query}`,
+          caller,
+          reason: error.message,
+        })
+      );
+    }
   });
   
 module.exports = {

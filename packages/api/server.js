@@ -1,19 +1,15 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+const middleware = require("./middleware");
 const config = require("./utils/config");
 const { sendResponse, sendError, endpoints } = require('./utils/server');
 const { validateAndParse } = require('./utils/security');
 
 const app = express();
 
-app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(...middleware)
 
-app.use(
-  bodyParser.urlencoded({
-    // to support URL-encoded bodies
-    extended: true,
-  })
-);
+// Don't expose any software information to potential hackers.
+app.disable("x-powered-by");
 
 app.get('/health-check', (req, res) => res.send({ status: 200 }));
 

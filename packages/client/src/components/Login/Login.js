@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux'
+import { connect } from '../../utils/form'
 import {Modal, ModalContent} from '../Modal';
 import LoginForm from './LoginForm';
-// import {ForgottenPasswordForm} from './ForgottenPasswordForm';
-import {onFetchAccount} from '../../store/actions/account';
+import ForgottenPasswordForm from './ForgottonPasswordForm';
+import {onFetchAccount, onForgottonPassword} from '../../store/actions/account';
 import {onSetIsLogin} from '../../store/actions/app';
 
 class Login extends Component {
@@ -14,7 +14,7 @@ class Login extends Component {
         isForgottenPasswordSuccess: PropTypes.bool.isRequired,
         isForgottenPasswordLoading: PropTypes.bool.isRequired,
         errorMessage: PropTypes.string.isRequired,
-        onSetForgottenPassword: PropTypes.func.isRequired,
+        resetPassword: PropTypes.func.isRequired,
         size: PropTypes.string,
     };
 
@@ -24,13 +24,13 @@ class Login extends Component {
 
     get modelProps() {
         const {
-            isLoginOpen,
+            isOpen,
             size,
             Trigger
         } = this.props;
 
         return {
-            open: isLoginOpen,
+            open: isOpen,
             onClose: this.handleModalOpen,
             onActionClick: this.handleModalOpen,
             closeOnEscape: true,
@@ -40,11 +40,12 @@ class Login extends Component {
     }
 
     get loginFormProps() {
-        const { fetchErrorMessage } = this.props;
+        const { fetchErrorMessage, isFetchLoading, fetchAccount } = this.props;
 
         return {
+            isLoading: isFetchLoading,
             errorMessage: fetchErrorMessage,
-            onSubmit: this.onFetchAccount,
+            onSubmit: fetchAccount,
             onModalCancel: this.handleModalOpen,
             onResetPasswordClick: this.handleForward,
         }
@@ -55,7 +56,7 @@ class Login extends Component {
             forgottonPasswordErrorMessage,
             isForgottenPasswordSuccess,
             isForgottenPasswordLoading,
-            onSetForgottenPassword
+            forgottonPassword
          } = this.props;
 
         return {
@@ -63,14 +64,8 @@ class Login extends Component {
             isSuccess: isForgottenPasswordSuccess,
             isLoading: isForgottenPasswordLoading,
             onModalBack: this.handleBack,
-            onSubmit: onSetForgottenPassword
+            onSubmit: forgottonPassword
         }
-    }
-
-    onFetchAccount = async ({ email, password, rememberMe }) => {
-        const { fetchAccount } = this.props;
-
-        await fetchAccount({ email, password, rememberMe })
     }
 
     handleBack = () => this.setState({openForm: 1});
@@ -88,23 +83,26 @@ class Login extends Component {
 
     render() {
         const {openForm} = this.state;
-
+        
         return (
             <Modal {...this.modelProps}>
                 <ModalContent>
                     {openForm === 1 && <LoginForm {...this.loginFormProps}/>}
-                    {/* {openForm === 2 && <ForgottenPasswordForm {...this.forgottonPasswordFormProps} />} */}
+                    {openForm === 2 && <ForgottenPasswordForm {...this.forgottonPasswordFormProps} />}
                 </ModalContent>
             </Modal>
         );
     }
 }
 
-const mapStateToProps = ({ app: { isLoginOpen } }) => ({
-    isLoginOpen
+const mapStateToProps = ({ app: { isLoginOpen }, account: { isFetchLoading, fetchErrorMessage, forgottonPasswordErrorMessage } }) => ({
+    isOpen: isLoginOpen,
+    isFetchLoading,
+    fetchErrorMessage,
+    forgottonPasswordErrorMessage
   })
   
 export default connect(
     mapStateToProps,
-    { fetchAccount: onFetchAccount, onOpen: onSetIsLogin }
+    { fetchAccount: onFetchAccount, onOpen: onSetIsLogin, forgottonPassword: onForgottonPassword }
 )(Login)

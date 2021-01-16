@@ -19,7 +19,7 @@ export class Input extends Component {
     }
 
     render() {
-        const { label, info, error, warn, ...rest } = this.props;
+        const { label, info,  error, warn, touched, ...rest } = this.props;
 
         return (
             <Form.Field>
@@ -34,8 +34,8 @@ export class Input extends Component {
                     )}
                 </label>
                 <StyledInput {...rest} />
-                <Error error={error} />
-                <Warning warn={warn} />
+                <Error error={error && touched ? error : ""} />
+                <Warning warn={warn && touched ? warn : ""} />
             </Form.Field>
         );
     }

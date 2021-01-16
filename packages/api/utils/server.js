@@ -1,5 +1,5 @@
 const config = require('./config')
-const { onCreate: onCreateAccount, onLogin, onDelete, onUpdate } = require("../service/account")
+const { onCreate: onCreateAccount, onLogin, onDelete, onUpdate, onForgottonPassword } = require("../service/account")
 const { onGetAccountDomains, onPurchaseDomain } = require("../service/domain")
 const { onGetAccountExperiments, onCreateExperiment } = require("../service/experiment")
 const { logger } = require("./utils")
@@ -26,7 +26,7 @@ const sendError = (res, { error = {}, uri, status = 500 }) => {
     logger.error({ err: error, uri, status }, "ERROR OUTGOING RPC");
     
     if(config.isProd && newError.reason) delete error.reason
-  
+    
     return res.status(status).send(error);
 };
 
@@ -52,6 +52,11 @@ const endpoints = [
       required: [ "caller" ],
       func: onDelete,
       isAuth: true
+    },
+    {
+      uri: "/account/forgotton-password",
+      required: [ "caller", "email" ],
+      func: onForgottonPassword
     },
     {
       uri: "/domain/get-by-account",
