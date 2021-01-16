@@ -51,7 +51,12 @@ const localhost = {
     contact: {
       firstName: 'Niall',
       lastName: "O' Connor",
-    }
+    },
+    support: {
+      email: "support@ideacamels.com",
+      name: "Idea Camels Support Team"
+    },
+    tagLine: 'Carrying your ideas to reality'
   },
   aws: {
     accessKeyId: AWS_ACCESS_KEY,

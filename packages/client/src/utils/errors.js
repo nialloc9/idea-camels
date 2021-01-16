@@ -8,6 +8,6 @@ const errors = {
     1006: "Failed to register domain. Please try again."
   };
   
-const defaultError = ({ code }) => `An error has occured. Please reload your browser. Code: ${code}.`;
+const defaultError = ({ code = 500 }) => `An error has occured. Please reload your browser. Code: ${code}.`;
 
 export const getError = ({ code }) => errors[code] || defaultError({ code });  

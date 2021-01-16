@@ -1,19 +1,35 @@
 const { onGet, onCreate: onCreateAccount, onUpdate: onUpdateAccount } = require('../data/account')
+const { onCreate: onCreateToken } = require('../data/token')
 const { validatePassword, scrubAccount, createJwToken } = require('../utils/security')
+const { handleSuccess } = require('../utils/utils')
+const { now } = require('../utils/date')
+const errors = require('../utils/errors')
 const config = require('../utils/config')
+const {sendEmail} = require('../utils/mailer/mailer')
+const {resetPassword} = require('../utils/mailer/templates/resetPassword')
 
 const onLogin = ({data: { email, password, rememberMe = false }, caller}) => new Promise(async (resolve, reject) => {
     try {
         const response = await onGet({ data: { email }, caller });
- 
-        await validatePassword({ password, hashedPassword: response.data.account.password , caller });
-     
-        // TODO Add remember me
-        // TODO Add last loggedin at
-        response.data.account = scrubAccount(response.data[0], ["password"]);
-        response.data.token = createJwToken({ accountRef: account.account_ref }, rememberMe ? config.security.extended_token_expiration : config.security.default_token_expiration);
       
-        resolve(response)
+        const account = response.data[0];
+ 
+        if(!account) {
+            return reject(errors["1003"]({ service: "FETCH_ACCOUNT", caller, reason: "Account not found", data: { email } }))
+        }
+       
+        await validatePassword({ password, hashedPassword: account.password , caller });
+        
+        const timestamp = now();
+
+        await onUpdateAccount({ data: { accountRef: account.account_ref, lastUpdatedBy: account.account_ref, data: { lastLoggedin: timestamp } }, caller })
+        
+        const responseData = {
+            account: scrubAccount({...account, last_logged_in: timestamp}, ["password"]),
+            token:  createJwToken({ accountRef: account.account_ref }, rememberMe ? config.security.extended_token_expiration : config.security.default_token_expiration)
+        }
+
+        resolve(handleSuccess("account found", responseData))
     } catch (error) {
         reject(error)
     }
@@ -21,12 +37,16 @@ const onLogin = ({data: { email, password, rememberMe = false }, caller}) => new
 
 const onReauthorise = ({data: { decodedToken: { accountRef } }, caller}) => new Promise(async (resolve, reject) => {
     try {
-        const response = await onGet({ data: { accountRef }, caller });
+        const { data } = await onGet({ data: { accountRef }, caller });
+        
+        const account = data[0];
 
-        response.data.account = scrubAccount(response.data.account, ["password"]);
-        response.data.token = createJwToken({ accountRef: account.account_ref });
+        const responseData = {
+            account: scrubAccount(account, ["password"]),
+            token: createJwToken({ accountRef: account.account_ref })
+        }
 
-        resolve(response)
+        resolve(handleSuccess("account reauthorised", responseData))
     } catch (error) {
         reject(error)
     }
@@ -34,13 +54,25 @@ const onReauthorise = ({data: { decodedToken: { accountRef } }, caller}) => new 
 
 const onCreate = ({data, caller}) => new Promise(async (resolve, reject) => {
     try {
-        const response = await onCreateAccount({ data, caller });
+
+        const { data: existing } = await onGet({ data: { email: data.email }, caller });
+        
+        if(existing[0]) {
+            return reject(errors["1000"]({ service: "CREATE_ACCOUNT", caller, reason: "Email already in use", data: { email: data.email } }))
+        }
+
+        const { data: account } = await onCreateAccount({ data, caller });
         
         // TODO Create stripe account
         // TODO send onboarding email
-        response.data.token = createJwToken({ accountRef: account.account_ref });
+        
+        const responeData = {
+            account: scrubAccount(account, ["password"]),
+            token: createJwToken({ accountRef: account.account_ref })
+        }
+      
+        resolve(handleSuccess("account created", responeData));
 
-        resolve(response)
     } catch (error) {
         reject(error)
     }
@@ -58,12 +90,55 @@ const onUpdate = ({data: { updateData }, caller}) => new Promise(async (resolve,
 
 const onForgottonPassword = ({data: { email }, caller}) => new Promise(async (resolve, reject) => {
     try {
+        const { data: userData } = await onGet({
+            data: { email },
+            caller
+        });
 
-        resolve({email, caller})
+        if(!userData[0]) {
+            return resolve(
+                handleSuccess(
+                    `email not sent to ${email}`,
+                    {
+                        email
+                    }
+                )
+            );
+        }
+        
+        const { user_ref: userRef } = userData[0];
+
+        const token = createJwToken({ userRef });
+
+        await onCreateToken({
+            data: {
+                token,
+            type: RESET_PASSWORD_EMAIL,
+            email,
+            },
+            caller
+        });
+
+        await sendEmail({
+            to: email,
+            from: config.supportEmail,
+            subject: `${name} Reset Password`,
+            html: resetPassword(token)
+        });
+
+        resolve(
+            handleSuccess(
+                `email sent to ${email}`,
+                {
+                    email
+                }
+            )
+        );
     } catch (error) {
         reject(error)
     }
 });
+
 
 const onDelete = ({data: { decodedToken: { accountRef }, lastUpdatedBy }, caller}) => new Promise(async (resolve, reject) => {
     try {

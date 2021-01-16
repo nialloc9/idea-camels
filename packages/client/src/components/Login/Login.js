@@ -54,14 +54,14 @@ class Login extends Component {
     get forgottonPasswordFormProps() {
         const { 
             forgottonPasswordErrorMessage,
-            isForgottenPasswordSuccess,
+            forgottonPasswordSuccessMessage,
             isForgottenPasswordLoading,
             forgottonPassword
          } = this.props;
 
         return {
             errorMessage: forgottonPasswordErrorMessage,
-            isSuccess: isForgottenPasswordSuccess,
+            successMessage: forgottonPasswordSuccessMessage,
             isLoading: isForgottenPasswordLoading,
             onModalBack: this.handleBack,
             onSubmit: forgottonPassword
@@ -95,11 +95,12 @@ class Login extends Component {
     }
 }
 
-const mapStateToProps = ({ app: { isLoginOpen }, account: { isFetchLoading, fetchErrorMessage, forgottonPasswordErrorMessage } }) => ({
+const mapStateToProps = ({ app: { isLoginOpen }, account: { isFetchLoading, fetchErrorMessage, forgottonPasswordErrorMessage, forgottonPasswordSuccessMessage } }) => ({
     isOpen: isLoginOpen,
     isFetchLoading,
     fetchErrorMessage,
-    forgottonPasswordErrorMessage
+    forgottonPasswordErrorMessage,
+    forgottonPasswordSuccessMessage
   })
   
 export default connect(

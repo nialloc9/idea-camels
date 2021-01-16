@@ -5,22 +5,14 @@ import { Form } from "../Form/Form";
 import { FormInput } from "../Form/Input";
 import { withForm } from "../../hoc/withForm";
 import { connect, validateRequiredName, validateRequiredLastName, validateRequiredEmail, validateEmail, validateRequired, validateMaxLength, validateRequiredPassword, validateRequiredPasswordConfirmation, validatePhoneNumber } from '../../utils/form'
-import { onCreateAccount, setError } from "../../store/actions/account";
+import { onCreateAccount } from "../../store/actions/account";
 import { validateMinLength } from "@nialloc9/vcheck/lib/validation";
 
 
-const SignUp = ({ onSubmit, isLoading, errorMessage, setErrorMessage, submitting, valid }) => {
-    
-    const handleSubmit = data => {
-        if([data.password !== data.confirmPassword, !data.password, data.confirmPassword].some(o => o)) {
-            setErrorMessage("Passwords do not match");
-        } else {
-            onSubmit(data)
-        }
-    }
+const SignUp = ({ onSubmit, isLoading, errorMessage, submitting, valid }) => {
     
     return (
-        <Form error={errorMessage} onSubmit={handleSubmit}>
+        <Form error={errorMessage} onSubmit={onSubmit}>
                     <Grid container centered stackable>
                         <GridRow centered columns={2}>
                             <GridColumn>
@@ -82,7 +74,7 @@ const SignUp = ({ onSubmit, isLoading, errorMessage, setErrorMessage, submitting
                             </GridColumn>
                         </GridRow>
                         <GridRow>
-                            <GridColumn><Button disabled={submitting || !valid} isLoading={isLoading} onClick={handleSubmit}>Sign Up</Button></GridColumn>
+                            <GridColumn><Button disabled={submitting || !valid} isLoading={isLoading}>Sign Up</Button></GridColumn>
                         </GridRow>
                     </Grid>
                 </Form>
@@ -96,5 +88,5 @@ const mapStateToProps = ({ account: { isCreateLoading, createErrorMessage } }) =
   
 export default connect(
     mapStateToProps,
-    { onSubmit: onCreateAccount, setErrorMessage: setError }
+    { onSubmit: onCreateAccount }
 )(withForm(SignUp))

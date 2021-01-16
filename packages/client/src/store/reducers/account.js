@@ -3,7 +3,7 @@ import {STORE_RESET} from '../constants/store';
 import {getCookie, decodecookie} from '../../utils/cookie';
 
 const initialState = {
-    jwToken: '',
+    token: '',
     data: {},
     isFetchLoading: false,
     fetchErrorMessage: '',

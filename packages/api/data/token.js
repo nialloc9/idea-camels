@@ -1,25 +1,23 @@
 const { query } = require('../utils/database');
 const { handleSuccess } = require('../utils/utils');
-const {  mapper } = require('./utils/account');
-const { scrubAccount } = require('../utils/security');
+const {  mapper } = require('./utils/token');
 const {now} = require('../utils/date');
 
 /**
- * gets a account
+ * gets a token
  */
 const onGet = ({ data: { email, accountRef }, caller }) =>
   new Promise (async (resolve, reject) => {
     try {
       const whereClause = email ? `email='${email}';` : `account_ref='${accountRef}';`
-      const getQuery = `SELECT * FROM accounts WHERE ${whereClause}`;  
+      const getQuery = `SELECT * FROM tokens WHERE ${whereClause}`;  
   
-      const results = await query(getQuery, undefined, caller, "GET_ACCOUNT")
-      
+      const results = await query(getQuery, undefined, caller, "GET_TOKEN")
+     
       resolve (
         handleSuccess (
-          `DATA - GET_ACCOUNT - FROM ${caller}`,
-          results,
-          ['password']
+          `DATA - GET_TOKEN - FROM ${caller}`,
+          results
         )
       );
     } catch(error) {
@@ -28,25 +26,24 @@ const onGet = ({ data: { email, accountRef }, caller }) =>
   });
 
 /**
- * creates a new account
+ * creates a new token
  */
 const onCreate = ({ data, caller }) =>
   new Promise (async (resolve, reject) => {
     try {
 
-      const createQuery = 'INSERT INTO accounts SET ?';
+      const createQuery = 'INSERT INTO tokens SET ?';
 
       const mappedData = mapper(data);
      
-      const results = await query(createQuery, mappedData, caller, "CREATE_ACCOUNT")
+      const results = await query(createQuery, mappedData, caller, "CREATE_TOKEN")
       const timestamp = now();
 
-      scrubAccount
       resolve (
         handleSuccess (
-          `DATA - CREATE_ACCOUNT - FROM ${caller}`,
+          `DATA - CREATE_TOKEN - FROM ${caller}`,
           {
-            ...scrubAccount(mappedData),
+            ...mappedData,
             created_at: timestamp,
             last_updated_at: timestamp,
             account_ref: results.insertId,
@@ -59,14 +56,14 @@ const onCreate = ({ data, caller }) =>
   });
 
   /**
- * updates an account
+ * updates a token using token identify
  */
-const onUpdate = ({ data: {accountRef, lastUpdatedBy, data: updateData}, caller  }) =>
+const onUpdate = ({ data: {token, lastUpdatedBy, data: updateData}, caller  }) =>
 new Promise (async (resolve, reject) => {
   try {
 
     const updateQuery =
-  `UPDATE accounts SET ? WHERE account_ref='${accountRef}'`;
+  `UPDATE tokens SET ? WHERE token='${token}'`;
 
     const data = {
       last_updated_by: lastUpdatedBy,
@@ -74,14 +71,14 @@ new Promise (async (resolve, reject) => {
       ...mapper(updateData),
   };
 
-    await query(updateQuery, data, caller, "UPDATE_ACCOUNT")
+    await query(updateQuery, data, caller, "UPDATE_TOKEN")
 
     resolve (
       handleSuccess (
-        `DATA - UPDATE_ACCOUNT - FROM ${caller}`,
+        `DATA - UPDATE_TOKEN - FROM ${caller}`,
         {
           ...data,
-          account_ref: accountRef,
+          token,
           last_updated_at: now()
         }
       )
@@ -96,5 +93,5 @@ new Promise (async (resolve, reject) => {
 module.exports = { 
   onGet,
   onCreate,
-    onUpdate
+onUpdate
 };

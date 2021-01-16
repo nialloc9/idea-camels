@@ -1,6 +1,5 @@
 import {ACCOUNT_SET} from '../constants/account';
 import {postApi} from '../../utils/request';
-import {getError} from '../../utils/errors';
 
 /**
  * sets the loading state
@@ -18,23 +17,28 @@ export const onFetchAccount = ({ email, password, rememberMe = false }) => async
         onSetState(payload);
         
         const response = await postApi(`account/login`, { email, password, rememberMe });
-
-        const { data: { token, ...rest } } = response
+        console.log("Res", response)
+        const { data: { token, account } } = response
+         
         payload.token = token;
-        payload.data = rest;
+        payload.data = account;
         payload.fetchErrorMessage = '';
-    } catch (error) {
-        payload.fetchErrorMessage = getError(error);
+    } catch ({ message }) {
+        payload.fetchErrorMessage = message;
     } finally {
         payload.isFetchLoading = false;
         onSetState(payload)
     }
 };
 
-export const onCreateAccount = ({ firstName, lastName, phone, email, password }) => async dispatch => {
+export const onCreateAccount = ({ firstName, lastName, phone, email, password, confirmPassword }) => async dispatch => {
     const onSetState = setState(dispatch);
     const payload = { isCreateLoading: true, createErrorMessage: '' };
     try {
+
+        if(password !== confirmPassword) {
+            return onSetState({ createErrorMessage: "Passwords do not match" })
+        }
         onSetState(payload);
         
         const response = await postApi(`account/create`, { firstName, lastName, phone, email, password });
@@ -49,8 +53,8 @@ export const onCreateAccount = ({ firstName, lastName, phone, email, password })
             password
         };
         payload.createErrorMessage = '';
-    } catch (error) {
-        payload.createErrorMessage = getError(error);
+    } catch ({ message }) {
+        payload.createErrorMessage = message;
     } finally {
         payload.isCreateLoading = false;
         onSetState(payload)
@@ -68,18 +72,11 @@ export const onForgottonPassword = ({ email }) => async dispatch => {
         const { data: { token } } = response
         payload.token = token;
         payload.createErrorMessage = '';
-    } catch (error) {
-        payload.forgottonPasswordErrorMessage = getError(error);;
+    } catch ({ message }) {
+        payload.forgottonPasswordErrorMessage = message;
     } finally {
         payload.isForgottonPasswordLoading = false;
         payload.forgottonPasswordSuccessMessage = `An email has been sent to ${email}.`;
         onSetState(payload)
     }
 };
-
-export const setError = (createErrorMessage) => dispatch => dispatch({
-    type: ACCOUNT_SET,
-    payload: {
-        createErrorMessage
-    }
-})

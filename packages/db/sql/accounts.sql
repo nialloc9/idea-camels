@@ -10,9 +10,10 @@ CREATE TABLE accounts
   last_name VARCHAR(200) DEFAULT '',
   password VARCHAR(200) DEFAULT '',
   phone VARCHAR(200) DEFAULT '',
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  last_updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   last_updated_by int(9),
+  last_logged_in TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   deleted_flag int(1) DEFAULT 0,
   PRIMARY KEY (account_ref)
 );
@@ -29,6 +30,7 @@ INSERT INTO `idea_camels`.`accounts`
   `phone`,
   `created_at`,
   `last_updated_at`,
+  `last_logged_in`,
   `deleted_flag`
 )
 VALUES
@@ -37,10 +39,10 @@ VALUES
     'ideacamels@gmail.com',
     'Niall',
     "O' Connor",
-    '$2a$10$yZSzm8lYu3gtVQ7XRVHh2.vFVw1B/LIZZ/A6WMX0wrGGNBvyDsfLa',
+    '68ec070dd9e988dfc12c55e5dfa9612e5645e47a9f908be62e8d56f26c8a109b',
     '1',
     null,
     null,
-    1,
+    null,
     0
 );
