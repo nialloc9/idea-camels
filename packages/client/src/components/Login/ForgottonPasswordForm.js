@@ -25,8 +25,6 @@ class ForgottenPasswordForm extends Component {
         size: 'tiny',
     };
 
-    onSubmit = data => console.log(data)
-
     render() {
         const {
             isLoading,

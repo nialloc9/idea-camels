@@ -31,7 +31,7 @@ const account = (state = persistedState, { type, payload }) => {
     const map = {
         [ACCOUNT_SET]: () => ({ ...state, ...payload }),
         [ACCOUNT_RESET]: () => ({ ...state }),
-        [STORE_RESET]: () => ({ ...state })
+        [STORE_RESET]: () => ({ ...initialState })
     }
 
     return map[type] ? map[type]() : state;

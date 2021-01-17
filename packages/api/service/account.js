@@ -35,12 +35,13 @@ const onLogin = ({data: { email, password, rememberMe = false }, caller}) => new
     }
 });
 
-const onReauthorise = ({data: { decodedToken: { accountRef } }, caller}) => new Promise(async (resolve, reject) => {
+const onReauthorise = ({data: { decodedToken: { data: { accountRef } } }, caller}) => new Promise(async (resolve, reject) => {
     try {
+        
         const { data } = await onGet({ data: { accountRef }, caller });
         
         const account = data[0];
-
+        
         const responseData = {
             account: scrubAccount(account, ["password"]),
             token: createJwToken({ accountRef: account.account_ref })
@@ -140,7 +141,7 @@ const onForgottonPassword = ({data: { email }, caller}) => new Promise(async (re
 });
 
 
-const onDelete = ({data: { decodedToken: { accountRef }, lastUpdatedBy }, caller}) => new Promise(async (resolve, reject) => {
+const onDelete = ({data: { decodedToken: { data: { accountRef } }, lastUpdatedBy }, caller}) => new Promise(async (resolve, reject) => {
     try {
         const updatedData = { accountRef, deletedFlag: 1, lastUpdatedBy: lastUpdatedBy || accountRef }
         const response = await onUpdateAccount({ data: updatedData, caller });

@@ -5,6 +5,8 @@ import { Image } from "../Styled/Image";
 import { Dropdown, DropdownMenu, DropdownItem } from "../Dropdown";
 import { Login } from '../Login';
 import { remCalc } from "../../utils/style";
+import { connect } from "../../store";
+import { onLogout } from "../../store/actions/account";
 import { items } from "./utils";
 import { theme as defaultTheme } from "../../config";
 
@@ -57,7 +59,7 @@ const NotLoggedIn = ({ theme }) => {
   );
 };
 
-const LoggedIn = ({ theme }) => {
+const LoggedIn = ({ theme, logout }) => {
   const [{ activeItem }, setState] = useState({ activeItem: "home" });
 
   const handleItemClick = (e, { name }) => setState({ activeItem: name });
@@ -117,7 +119,10 @@ const LoggedIn = ({ theme }) => {
       <MenuMenu position="right">
         <AnalyticsMenuItem
           name="Log Out"
-          onClick={() => console.log("SIMULATE LOGOUT")}
+          onClick={() => { 
+            handleItemClick({}, { item: 'logout' });
+            logout()
+          }}
           action="navigation-logout"
           label="click"
         />
@@ -126,5 +131,7 @@ const LoggedIn = ({ theme }) => {
   );
 };
 
-export default ({ isLoggedIn = false, theme = defaultTheme }) =>
-  isLoggedIn ? <LoggedIn theme={theme} /> : <NotLoggedIn theme={theme} />;
+const mapStateToProps = ({ account: { token } }) => ({ isLoggedIn: token !== "" });
+
+export default connect(mapStateToProps, { logout: onLogout })(({ isLoggedIn = false, theme = defaultTheme, logout }) =>
+isLoggedIn ? <LoggedIn theme={theme} logout={logout} /> : <NotLoggedIn theme={theme} />);

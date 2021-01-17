@@ -1,5 +1,5 @@
 const config = require('./config')
-const { onCreate: onCreateAccount, onLogin, onDelete, onUpdate, onForgottonPassword } = require("../service/account")
+const { onCreate: onCreateAccount, onLogin, onDelete, onUpdate, onForgottonPassword, onReauthorise } = require("../service/account")
 const { onGetAccountDomains, onPurchaseDomain } = require("../service/domain")
 const { onGetAccountExperiments, onCreateExperiment } = require("../service/experiment")
 const { logger } = require("./utils")
@@ -57,6 +57,12 @@ const endpoints = [
       uri: "/account/forgotton-password",
       required: [ "caller", "email" ],
       func: onForgottonPassword
+    },
+    {
+      uri: "/account/reauthorise",
+      required: [ "caller" ],
+      func: onReauthorise,
+      isAuth: true
     },
     {
       uri: "/domain/get-by-account",

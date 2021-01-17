@@ -139,7 +139,7 @@ const validateAndParse = async ({ uri: endpoint, req: { headers, body }, require
     const [,token] = authorization.split(" ");
 
     const decodedToken = jwtVerify(token);
- 
+    
     response.decodedToken = decodedToken;
   }
 

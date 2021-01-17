@@ -22,4 +22,6 @@ store.subscribe(() => {
     );
 });
 
+export { Provider, connect } from 'react-redux'
 export default store;
+

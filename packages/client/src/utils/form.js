@@ -23,7 +23,6 @@
         validateRequiredMessage
     } from "@nialloc9/vcheck";
     import { pipeline } from "@nialloc9/vcheck/lib/validation"
-    export { connect } from 'react-redux'
     
 
     const composeValidators = validators => value =>

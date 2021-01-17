@@ -4,8 +4,9 @@ import { Button } from "../Styled/Button";
 import { Form } from "../Form/Form";
 import { FormInput } from "../Form/Input";
 import { withForm } from "../../hoc/withForm";
-import { connect, validateRequiredName, validateRequiredLastName, validateRequiredEmail, validateEmail, validateRequired, validateMaxLength, validateRequiredPassword, validateRequiredPasswordConfirmation, validatePhoneNumber } from '../../utils/form'
+import { validateRequiredName, validateRequiredLastName, validateRequiredEmail, validateEmail, validateRequired, validateMaxLength, validateRequiredPassword, validateRequiredPasswordConfirmation, validatePhoneNumber } from '../../utils/form'
 import { onCreateAccount } from "../../store/actions/account";
+import { connect } from "../../store";
 import { validateMinLength } from "@nialloc9/vcheck/lib/validation";
 
 
@@ -47,7 +48,6 @@ const SignUp = ({ onSubmit, isLoading, errorMessage, submitting, valid }) => {
                                         label="Phone"
                                         name="phone"
                                         type="phone"
-                                        type="number"
                                         defaultValue=""
                                         validate={[validateRequired, validatePhoneNumber]}
                                     />

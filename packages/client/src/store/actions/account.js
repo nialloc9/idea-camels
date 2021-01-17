@@ -1,4 +1,5 @@
 import {ACCOUNT_SET} from '../constants/account';
+import {onResetStore} from './store';
 import {postApi} from '../../utils/request';
 
 /**
@@ -16,8 +17,8 @@ export const onFetchAccount = ({ email, password, rememberMe = false }) => async
     try {
         onSetState(payload);
         
-        const response = await postApi(`account/login`, { email, password, rememberMe });
-        console.log("Res", response)
+        const response = await postApi({ uri: `account/login`, body: { email, password, rememberMe } });
+        
         const { data: { token, account } } = response
          
         payload.token = token;
@@ -31,6 +32,25 @@ export const onFetchAccount = ({ email, password, rememberMe = false }) => async
     }
 };
 
+export const onReAuthAccount = (originalToken) => async (dispatch) => {
+    if(originalToken === "") return;
+
+    try {
+        const onSetState = setState(dispatch)
+    
+        const response = await postApi({ uri: `account/reauthorise`, token: originalToken });
+        
+        const { data: { token, account } } = response
+         
+        onSetState({
+            token,
+            account
+        })
+    } catch (error) {
+        dispatch(onResetStore())
+    }
+};
+
 export const onCreateAccount = ({ firstName, lastName, phone, email, password, confirmPassword }) => async dispatch => {
     const onSetState = setState(dispatch);
     const payload = { isCreateLoading: true, createErrorMessage: '' };
@@ -41,7 +61,7 @@ export const onCreateAccount = ({ firstName, lastName, phone, email, password, c
         }
         onSetState(payload);
         
-        const response = await postApi(`account/create`, { firstName, lastName, phone, email, password });
+        const response = await postApi({ uri: `account/create`, body: { firstName, lastName, phone, email, password } });
 
         const { data: { token } } = response
         payload.token = token;
@@ -67,7 +87,7 @@ export const onForgottonPassword = ({ email }) => async dispatch => {
     try {
         onSetState(payload);
         
-        const response = await postApi(`account/forgotton-password`, { email });
+        const response = await postApi({ uri: `account/forgotton-password`, body: { email } });
 
         const { data: { token } } = response
         payload.token = token;
@@ -80,3 +100,5 @@ export const onForgottonPassword = ({ email }) => async dispatch => {
         onSetState(payload)
     }
 };
+
+export const onLogout = () => dispatch => dispatch(onResetStore())

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from '../../utils/form'
 import {Modal, ModalContent} from '../Modal';
 import LoginForm from './LoginForm';
 import ForgottenPasswordForm from './ForgottonPasswordForm';
 import {onFetchAccount, onForgottonPassword} from '../../store/actions/account';
+import { connect } from '../../store'
 import {onSetIsLogin} from '../../store/actions/app';
 
 class Login extends Component {

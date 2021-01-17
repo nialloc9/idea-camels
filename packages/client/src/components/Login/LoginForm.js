@@ -84,7 +84,6 @@ class LoginForm extends Component {
                             </Block>
                             <Block
                                 margin={`0 ${remCalc(10)}`}
-                                display="inline-block"
                                 display="flex" 
                                 justifyContent="center" 
                                 flexDirection="column"
