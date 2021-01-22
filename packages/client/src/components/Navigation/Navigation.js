@@ -4,6 +4,7 @@ import { Menu, Item, MenuMenu } from "../Styled/Menu";
 import { Image } from "../Styled/Image";
 import { Dropdown, DropdownMenu, DropdownItem } from "../Dropdown";
 import { Login } from '../Login';
+import { SoftLink } from '../Link';
 import { remCalc } from "../../utils/style";
 import { connect } from "../../store";
 import { onLogout } from "../../store/actions/account";
@@ -59,11 +60,11 @@ const NotLoggedIn = ({ theme }) => {
   );
 };
 
-const LoggedIn = ({ theme, logout }) => {
+const LoggedIn = ({ theme, logout, experiments }) => {
   const [{ activeItem }, setState] = useState({ activeItem: "home" });
 
   const handleItemClick = (e, { name }) => setState({ activeItem: name });
-
+  
   return (
     <Menu
       display="none"
@@ -90,9 +91,7 @@ const LoggedIn = ({ theme, logout }) => {
       <AnalyticsMenuItem action="navigation-experiments" label="click">
         <Dropdown pointing text="Experiments">
           <DropdownMenu size="mini">
-            <DropdownItem>Experiment 1</DropdownItem>
-            <DropdownItem>Experiment 2</DropdownItem>
-            <DropdownItem>Experiment 3</DropdownItem>
+            {experiments.map(({ experiment_ref, name }) => <SoftLink to={`/experiment/${experiment_ref}`}><DropdownItem key={`experiment-${experiment_ref}`}>{name}</DropdownItem></SoftLink>)}
           </DropdownMenu>
         </Dropdown>
       </AnalyticsMenuItem>
@@ -131,7 +130,7 @@ const LoggedIn = ({ theme, logout }) => {
   );
 };
 
-const mapStateToProps = ({ account: { token } }) => ({ isLoggedIn: token !== "" });
+const mapStateToProps = ({ account: { token }, experiment: { data: experiments } }) => ({ isLoggedIn: token !== "", experiments });
 
-export default connect(mapStateToProps, { logout: onLogout })(({ isLoggedIn = false, theme = defaultTheme, logout }) =>
-isLoggedIn ? <LoggedIn theme={theme} logout={logout} /> : <NotLoggedIn theme={theme} />);
+export default connect(mapStateToProps, { logout: onLogout })(({ isLoggedIn = false, theme = defaultTheme, logout, experiments }) =>
+isLoggedIn ? <LoggedIn theme={theme} logout={logout} experiments={experiments} /> : <NotLoggedIn theme={theme} />);

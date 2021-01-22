@@ -15,7 +15,7 @@ const dbNames = {
     deletedFlag: 'deleted_flag'
   };
 
-const onGetAccountExperiments = ({data: { decodedToken: { accountRef } }, caller}) => new Promise(async (resolve, reject) => {
+const onGetAccountExperiments = ({data: { decodedToken: { data: { accountRef } } }, caller}) => new Promise(async (resolve, reject) => {
     try {
         const response = await onGetByAccountRef({ data: { accountRef }, caller });
         

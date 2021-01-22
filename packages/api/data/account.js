@@ -12,7 +12,7 @@ const onGet = ({ data: { email, accountRef }, caller }) =>
     try {
       const whereClause = email ? `email='${email}';` : `account_ref='${accountRef}';`
       const getQuery = `SELECT * FROM accounts WHERE ${whereClause}`;  
-  
+     
       const results = await query(getQuery, undefined, caller, "GET_ACCOUNT")
       
       resolve (

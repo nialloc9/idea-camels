@@ -2,6 +2,7 @@ const config = require('./config')
 const { onCreate: onCreateAccount, onLogin, onDelete, onUpdate, onForgottonPassword, onReauthorise } = require("../service/account")
 const { onGetAccountDomains, onPurchaseDomain } = require("../service/domain")
 const { onGetAccountExperiments, onCreateExperiment } = require("../service/experiment")
+const { onGet: onGetTemplates } = require("../service/template")
 const { logger } = require("./utils")
 
 /**
@@ -86,6 +87,12 @@ const endpoints = [
       uri: "/experiment/create",
       func: onCreateExperiment,
       required: [ "domainRef", "content", "theme", "expiry", "name", "templateRef", "caller" ],
+      isAuth: true
+    },
+    {
+      uri: "/template/get-with-theme",
+      required: [ "caller" ],
+      func: onGetTemplates,
       isAuth: true
     },
   ]

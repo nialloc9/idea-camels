@@ -11,13 +11,13 @@ const onGetByAccountRef = ({ data: { accountRef }, caller }) =>
     try {
 
       const getQuery = `SELECT * FROM experiments WHERE account_ref=${accountRef}`;  
-
+      
       const results = await query(getQuery, undefined, caller, "GET_EXPERIMENTS_BY_ACCOUNT_REF")
-
+      
       resolve (
         handleSuccess (
           `DATA - GET_EXPERIMENTS_BY_ACCOUNT_REF - FROM ${caller}`,
-          results
+          { experiments: results }
         )
       );
     } catch(error) {

@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeProvider } from "./utils/style";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
+import {Initialise} from "./components/Initialise";
 import { theme } from "./config";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
@@ -52,7 +53,7 @@ export default () => (
     <ThemeProvider theme={theme}>
       <Navigation />
       <Switch>
-        {routes.map(({ path, component, isAuth }) => isAuth ? <PrivateRoute key={path} path={path} component={component} /> : <OpenRoute key={path} path={path} component={component} />)}
+        {routes.map(({ path, component, isAuth }) => isAuth ? <Initialise><PrivateRoute key={path} path={path} component={component} /></Initialise> : <OpenRoute key={path} path={path} component={component} />)}
       </Switch>
       <Footer />
     </ThemeProvider>
