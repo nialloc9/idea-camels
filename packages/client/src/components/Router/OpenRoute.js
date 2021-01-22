@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from "react-router-dom";
+import Navigation from "../Navigation";
 import {connect} from '../../store';
 
 export class OpenRoute extends Component {
@@ -39,7 +40,7 @@ export class OpenRoute extends Component {
         path={path}
         render={props =>
             token === ''
-            ? <Component {...props} />
+            ? <Fragment><Navigation {...props} /><Component {...props} /></Fragment>
             : <Redirect
                 to={{
                   pathname: this.pathname,

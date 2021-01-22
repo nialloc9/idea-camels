@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "./utils/style";
-import Navigation from "./components/Navigation";
+
 import Footer from "./components/Footer";
 import {Initialise} from "./components/Initialise";
 import { theme } from "./config";
@@ -21,7 +21,7 @@ const routes = [
     component: ComingSoon
   },
   {
-    path: "/home",
+    path: "/home/:experimentId",
     component: Home,
     isAuth: true
   }
@@ -51,7 +51,6 @@ export default () => (
   <Provider store={store}>
     <Router history={history}>
     <ThemeProvider theme={theme}>
-      <Navigation />
       <Switch>
         {routes.map(({ path, component, isAuth }) => isAuth ? <Initialise><PrivateRoute key={path} path={path} component={component} /></Initialise> : <OpenRoute key={path} path={path} component={component} />)}
       </Switch>

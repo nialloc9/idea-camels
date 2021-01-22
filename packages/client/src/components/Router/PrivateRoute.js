@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {Route, Redirect} from 'react-router';
+import Navigation from "../Navigation";
 import {connect} from '../../store';
 import {onReAuthAccount} from '../../store/actions/account';
 import {withLoader} from '../../hoc/withLoader';
@@ -31,7 +32,6 @@ export class PrivateRoute extends Component {
 
     render() {
         const {
-            isFetchLoading,
             component: Component,
             exact,
             path,
@@ -46,7 +46,7 @@ export class PrivateRoute extends Component {
                 path={path}
                 render={props =>
                     token !== '' ? (
-                        <LoadingComponent {...props} isLoading={isFetchLoading} />
+                        <Fragment><Navigation {...props} /><Component /></Fragment>
                     ) : (
                         <Redirect
                             to={{
@@ -65,6 +65,6 @@ export class PrivateRoute extends Component {
  * @param token
  * @returns {{token: *}}
  */
-const mapStateToProps = ({ account: { token, isFetchLoading } }) => ({token, isFetchLoading});
+const mapStateToProps = ({ account: { token } }) => ({token});
 
 export default connect(mapStateToProps, { onReAuth: onReAuthAccount })(PrivateRoute);

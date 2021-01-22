@@ -5,6 +5,7 @@ import { Image } from "../Styled/Image";
 import { Dropdown, DropdownMenu, DropdownItem } from "../Dropdown";
 import { Login } from '../Login';
 import { SoftLink } from '../Link';
+import { Experiments } from './Experiments';
 import { remCalc } from "../../utils/style";
 import { connect } from "../../store";
 import { onLogout } from "../../store/actions/account";
@@ -60,7 +61,7 @@ const NotLoggedIn = ({ theme }) => {
   );
 };
 
-const LoggedIn = ({ theme, logout, experiments }) => {
+const LoggedIn = ({ theme, logout, experiments, match, isFetchExperimentsLoading }) => {
   const [{ activeItem }, setState] = useState({ activeItem: "home" });
 
   const handleItemClick = (e, { name }) => setState({ activeItem: name });
@@ -88,13 +89,7 @@ const LoggedIn = ({ theme, logout, experiments }) => {
           src={theme.logos.main000}
         />
       </AnalyticsMenuItem>
-      <AnalyticsMenuItem action="navigation-experiments" label="click">
-        <Dropdown pointing text="Experiments">
-          <DropdownMenu size="mini">
-            {experiments.map(({ experiment_ref, name }) => <SoftLink to={`/experiment/${experiment_ref}`}><DropdownItem key={`experiment-${experiment_ref}`}>{name}</DropdownItem></SoftLink>)}
-          </DropdownMenu>
-        </Dropdown>
-      </AnalyticsMenuItem>
+      <Experiments isLoading={isFetchExperimentsLoading} experiments={experiments} match={match} />
       <AnalyticsMenuItem
         name="logo"
         active={activeItem === "logo"}
@@ -130,7 +125,7 @@ const LoggedIn = ({ theme, logout, experiments }) => {
   );
 };
 
-const mapStateToProps = ({ account: { token }, experiment: { data: experiments } }) => ({ isLoggedIn: token !== "", experiments });
+const mapStateToProps = ({ account: { token }, experiment: { data: experiments, isFetchLoading: isFetchExperimentsLoading } }) => ({ isLoggedIn: token !== "", experiments, isFetchExperimentsLoading });
 
-export default connect(mapStateToProps, { logout: onLogout })(({ isLoggedIn = false, theme = defaultTheme, logout, experiments }) =>
-isLoggedIn ? <LoggedIn theme={theme} logout={logout} experiments={experiments} /> : <NotLoggedIn theme={theme} />);
+export default connect(mapStateToProps, { logout: onLogout })(({ isLoggedIn = false, theme = defaultTheme, logout, experiments, ...rest }) =>
+isLoggedIn ? <LoggedIn theme={theme} logout={logout} experiments={experiments} {...rest} /> : <NotLoggedIn theme={theme} {...rest} />);
