@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Menu, Item } from "../Styled/Menu";
 import { Block } from "../Styled/Block";
 import { Button } from "../Styled/Button";
-import { items } from "./utils";
-import { theme } from "../../config";
+import { theme, content } from "../../config";
 import withAnalytics from "../../hoc/withAnalytics";
 
 const AnalyticsMenuItem = withAnalytics(Item);
@@ -13,8 +12,6 @@ export default () => {
     activeItem: "home",
     isOpen: false,
   });
-
-  const handleItemClick = (e, { name }) => setState({ activeItem: name });
 
   const handleMenuClick = () => setState({ isOpen: !isOpen });
 
@@ -41,12 +38,11 @@ export default () => {
         />
       </Item>
       {isOpen &&
-        items.map(({ text, href }) => (
+        content.navigation.items.map(({ text, href }) => (
           <AnalyticsMenuItem
             key={text}
             name={text}
             active={activeItem === text}
-            onClick={handleItemClick}
             action={`${text.replace(" ", "-")}-click`.toLowerCase()}
             href={href}
           >

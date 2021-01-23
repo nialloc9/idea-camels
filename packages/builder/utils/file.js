@@ -38,6 +38,16 @@ module.exports = ${theme}
     logger.info({ templateRef }, "Finished writing theme")
 }
 
+const writeContent = ({ content, templateRef }) => {
+    logger.info({ templateRef }, "Writing content")
+    const path = `./templates/${templateRef}/src/config/content.js`
+    const str = `
+module.exports = ${content}
+    `
+    writeToFile(path, str);
+    logger.info({ templateRef }, "Finished writing content")
+}
+
 const copyClient = ({ experimentRef, templateRef }) => {
     logger.info({ experimentRef, templateRef }, "Copying client")
     copyDir(`./templates/${templateRef}`, `./experiments/${experimentRef}/client`)
@@ -48,7 +58,8 @@ module.exports = {
     writeBackendVars,
     writeTfVars,
     writeTheme,
-    copyClient
+    copyClient,
+    writeContent
 }
 
 

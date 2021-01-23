@@ -1,63 +1,33 @@
 import React from "react";
-import { remCalc, styled, withTheme } from "../../../utils/style";
+import { remCalc, styled } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
-import withEditable from "../../../hoc/withEditable";
 import { Image } from "../../Image";
 import { Button } from "../../Button";
+import {theme, content} from '../../../config'
+
+const { block1: { height, paddings, backgroundColor, color, fontFamily, width, headingSize, headingLineHeight, headingMargins, subHeadingLineHeight, subHeadingSize, subHeadingMargins, buttonWidth } } = theme;
 
 const Container = styled.section`
-  min-height: ${({
-    theme: {
-      block1: { height },
-    },
-  }) => remCalc(height)};
-  padding: ${({
-    theme: {
-      block1: { paddings },
-    },
-  }) =>
+  min-height: ${remCalc(height)};
+  padding: ${
     `${remCalc(paddings[0])} ${remCalc(paddings[1])} ${remCalc(
       paddings[2]
     )} ${remCalc(paddings[3])}`};
   box-sizing: border-box;
-  background-color: ${({
-    theme: {
-      block1: { backgroundColor },
-    },
-  }) => backgroundColor};
-  color: ${({
-    theme: {
-      block1: { color },
-    },
-  }) => color};
-  font-family: ${({
-    theme: {
-      block1: { fontFamily },
-    },
-  }) => fontFamily};
+  background-color: ${backgroundColor};
+  color: ${color};
+  font-family: ${fontFamily};
   display: flex;
   justify-content: center;
-  color: ${({
-    theme: {
-      block1: { color },
-    },
-  }) => color};
-  font-family: ${({
-    theme: {
-      block1: { fontFamily },
-    },
-  }) => fontFamily};
+  color: ${color};
+  font-family: ${fontFamily};
 `;
 
 const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: ${({
-    theme: {
-      block1: { width },
-    },
-  }) => remCalc(width)};
+  max-width: ${remCalc(width)};
   text-align: center;
 `;
 
@@ -68,21 +38,9 @@ const ImageContainer = styled.div`
 
 const Heading = styled.h1`
   display: block;
-  font-size: ${({
-    theme: {
-      block1: { headingSize },
-    },
-  }) => remCalc(headingSize)};
-  line-height: ${({
-    theme: {
-      block1: { headingLineHeight },
-    },
-  }) => remCalc(headingLineHeight)};
-  margin: ${({
-    theme: {
-      block1: { headingMargins },
-    },
-  }) =>
+  font-size: ${remCalc(headingSize)};
+  line-height: ${remCalc(headingLineHeight)};
+  margin: ${
     `${remCalc(headingMargins[0])} ${remCalc(headingMargins[1])} ${remCalc(
       headingMargins[2]
     )} ${remCalc(headingMargins[3])}`};
@@ -90,70 +48,51 @@ const Heading = styled.h1`
 
 const SubHeading = styled.p`
   display: block;
-  line-height: ${({
-    theme: {
-      block1: { subHeadingLineHeight },
-    },
-  }) => remCalc(subHeadingLineHeight)};
-  font-size: ${({
-    theme: {
-      block1: { subHeadingSize },
-    },
-  }) => remCalc(subHeadingSize)};
-  margin: ${({
-    theme: {
-      block1: { subHeadingMargins },
-    },
-  }) =>
+  line-height: ${remCalc(subHeadingLineHeight)};
+  font-size: ${remCalc(subHeadingSize)};
+  margin: ${
     `${remCalc(subHeadingMargins[0])} ${remCalc(
       subHeadingMargins[1]
     )} ${remCalc(subHeadingMargins[2])} ${remCalc(subHeadingMargins[3])}`};
 `;
 
 const ButtonContainer = styled.div`
-  max-width: ${({
-    theme: {
-      block1: { buttonWidth },
-    },
-  }) => (buttonWidth ? remCalc(buttonWidth) : "auto")};
+  max-width: ${buttonWidth ? remCalc(buttonWidth) : "auto"};
 `;
 
 const AnalyticsImage = withAnalytics(Image);
 
 const AnalyticsButton = withAnalytics(Button);
 
-export default withTheme(
-  withEditable(({ theme: { block1 } }) => (
-    <Container>
-      <InnerContainer>
-        <ImageContainer>
-          <AnalyticsImage
-            alt="idea camels logo"
-            size="small"
-            src={block1.logo}
-            action="block1-logo"
-          />
-        </ImageContainer>
-        <Heading>
-          Have an idea? <br /> Not sure if it's worth doing?
-        </Heading>
-        <SubHeading>
-          Find out are people searching for your idea.
-          <p>All in under 1 hour!!</p>
-        </SubHeading>
+export default () => (
+  <Container>
+    <InnerContainer>
+      <ImageContainer>
+        <AnalyticsImage
+          alt={content.block1.logo.alt}
+          size="small"
+          src={content.block1.logo.src}
+          action="block1-logo"
+        />
+      </ImageContainer>
+      <Heading>
+        {content.block1.heading.text}
+      </Heading>
+      <SubHeading>
+        {content.block1.subHeading.text}
+      </SubHeading>
 
-        <ButtonContainer>
-          <AnalyticsButton
-            href="/coming-soon"
-            action="block1-button"
-            color="black"
-            size={block1.buttonSize}
-            basic
-          >
-            Buy Now
-          </AnalyticsButton>
-        </ButtonContainer>
-      </InnerContainer>
-    </Container>
-  ))
-);
+      <ButtonContainer>
+        <AnalyticsButton
+          href="/coming-soon"
+          action="block1-button"
+          color="black"
+          size={theme.block1.buttonSize}
+          basic
+        >
+          {content.block1.button.text}
+        </AnalyticsButton>
+      </ButtonContainer>
+    </InnerContainer>
+  </Container>
+)

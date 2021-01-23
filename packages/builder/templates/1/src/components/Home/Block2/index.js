@@ -1,24 +1,14 @@
-import React from "react";
 import { remCalc, styled } from "../../../utils/style";
-import withEditable from "../../../hoc/withEditable";
+import {theme, content} from '../../../config'
+
+const { block2: { height, backgroundRepeat } } = theme;
+const { block2: { image: { src, } } } = content;
 
 const Container = styled.section`
-  min-height: ${({
-    theme: {
-      block2: { height },
-    },
-  }) => remCalc(height)};
-  background-image: url(${({
-    theme: {
-      block2: { image },
-    },
-  }) => image});
+  min-height: ${remCalc(height)};
+  background-image: url(${src});
   background-position: center;
-  background-repeat: ${({
-    theme: {
-      block2: { backgroundRepeat = "no-repeat" },
-    },
-  }) => backgroundRepeat};
+  background-repeat: ${backgroundRepeat};
 `;
 
-export default withEditable(() => <Container />);
+export default Container;

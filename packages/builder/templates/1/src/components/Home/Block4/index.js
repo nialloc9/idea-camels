@@ -2,7 +2,6 @@ import React from "react";
 import {
   remCalc,
   styled,
-  withTheme,
   getMarginsOrPaddings,
 } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
@@ -11,31 +10,17 @@ import { Segment } from "../../Styled/Segment";
 import { Divider } from "../../Divider";
 import { Image } from "../../Image";
 import { Button } from "../../Button";
-import withEditable from "../../../hoc/withEditable";
+import {theme, content} from '../../../config'
 
 const AnalyticsButton = withAnalytics(Button);
 
+const { block4: { height, paddings, backgroundColor, fontFamily, heading, subHeading,cardContainer, button, firstCard } } = theme;
+
 const Container = styled.section`
-  min-height: ${({
-    theme: {
-      block4: { height },
-    },
-  }) => remCalc(height)};
-  padding: ${({
-    theme: {
-      block4: { paddings },
-    },
-  }) => getMarginsOrPaddings(paddings)};
-  background-color: ${({
-    theme: {
-      block4: { backgroundColor },
-    },
-  }) => backgroundColor};
-  font-family: ${({
-    theme: {
-      block4: { fontFamily },
-    },
-  }) => fontFamily};
+  min-height: ${remCalc(height)};
+  padding: ${getMarginsOrPaddings(paddings)};
+  background-color: ${backgroundColor};
+  font-family: ${fontFamily};
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -48,81 +33,37 @@ const HeadingContainer = styled.div`
 
 const Heading = styled.h1`
   display: block;
-  font-size: ${({
-    theme: {
-      block4: { heading },
-    },
-  }) => remCalc(heading.size)};
-  font-weight: ${({
-    theme: {
-      block4: { heading },
-    },
-  }) => heading.weight};
-  line-height: ${({
-    theme: {
-      block4: { heading },
-    },
-  }) => remCalc(heading.lineHeight)};
+  font-size: ${remCalc(heading.size)};
+  font-weight: ${heading.weight};
+  line-height: ${remCalc(heading.lineHeight)};
 `;
 
 const SubHeading = styled.p`
   display: block;
-  font-size: ${({
-    theme: {
-      block4: { subHeading },
-    },
-  }) => remCalc(subHeading.size)};
-  color: ${({
-    theme: {
-      block4: { subHeading },
-    },
-  }) => subHeading.color};
-  font-weight: ${({
-    theme: {
-      block4: { subHeading },
-    },
-  }) => subHeading.weight};
-  line-height: ${({
-    theme: {
-      block4: { subHeading },
-    },
-  }) => remCalc(subHeading.lineHeight)};
-  margin: ${({
-    theme: {
-      block4: { subHeading },
-    },
-  }) => getMarginsOrPaddings(subHeading.margins)};
+  font-size: ${remCalc(subHeading.size)};
+  color: ${subHeading.color};
+  font-weight: ${subHeading.weight};
+  line-height: ${remCalc(subHeading.lineHeight)};
+  margin: ${getMarginsOrPaddings(subHeading.margins)};
 `;
 
 const SplitCard = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: ${({
-    theme: {
-      block4: { cardContainer },
-    },
-  }) => remCalc(cardContainer.width)};
+  max-width: ${remCalc(cardContainer.width)};
 `;
 
 const CardContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin: ${({
-    theme: {
-      block4: { cardContainer },
-    },
-  }) => getMarginsOrPaddings(cardContainer.margins)};
+  margin: ${getMarginsOrPaddings(cardContainer.margins)};
 `;
 
 const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: ${({
-    theme: {
-      block4: { cardContainer },
-    },
-  }) => getMarginsOrPaddings(cardContainer.paddings)};
+  padding: ${getMarginsOrPaddings(cardContainer.paddings)};
 `;
 
 const ImageInnerContainer = styled.div`
@@ -132,25 +73,16 @@ const ImageInnerContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin: ${({
-    theme: {
-      block4: { button },
-    },
-  }) => getMarginsOrPaddings(button.margins)};
-  max-width: ${({
-    theme: {
-      block4: { button },
-    },
-  }) => (button.width ? remCalc(button.width) : "auto")};
+  margin: ${getMarginsOrPaddings(button.margins)};
+  max-width: ${button.width ? remCalc(button.width) : "auto"};
 `;
 
-export default withTheme(
-  withEditable(({ theme: { block4 } }) => (
-    <Container>
+export default () => (
+  <Container>
       <HeadingContainer>
-        <Heading>Start Creating!</Heading>
+        <Heading>{content.block4.heading.text}</Heading>
         <SubHeading>
-          Don't waste time on development and validate your idea now.
+          {content.block4.subHeading.text}
         </SubHeading>
       </HeadingContainer>
 
@@ -165,28 +97,28 @@ export default withTheme(
                   <ImageContainer>
                     <ImageInnerContainer>
                       <Image
-                        size={block4.firstCard.image.size}
-                        src={block4.firstCard.image.src}
+                        size={firstCard.image.size}
+                        src={content.block4.card.image.src}
+                        alt={content.block4.card.image.alt}
                       />
                     </ImageInnerContainer>
                   </ImageContainer>
                 </GridColumn>
 
                 <GridColumn>
-                  <Heading>Test your ideas</Heading>
+                  <Heading></Heading>
                   <SubHeading>
-                    Rapidly test an idea by creating a landing page and testing
-                    adwords to see if it is worth continuing. All in one place.
+                    
                   </SubHeading>
                   <ButtonContainer>
                     <AnalyticsButton
                       href="/coming-soon"
                       color="black"
-                      size={block4.button.size}
+                      size={button.size}
                       basic
                       action="block4-button"
                     >
-                      Get Started
+                      {content.block4.card.button.text}
                     </AnalyticsButton>
                   </ButtonContainer>
                 </GridColumn>
@@ -196,5 +128,4 @@ export default withTheme(
         </SplitCard>
       </CardContainer>
     </Container>
-  ))
-);
+)

@@ -2,35 +2,20 @@ import React, { Fragment } from "react";
 import {
   remCalc,
   styled,
-  withTheme,
   getMarginsOrPaddings,
 } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
-import withEditable from "../../../hoc/withEditable";
 import { Button } from "../../Button";
 import Carausel from "./Carousel";
+import {theme, content} from '../../../config'
+
+const { block5: { height, paddings, backgroundColor, fontFamily, card, quoteContainerPaddings, quote, author, button } } = theme;
 
 const Container = styled.section`
-  min-height: ${({
-    theme: {
-      block5: { height },
-    },
-  }) => remCalc(height)};
-  padding: ${({
-    theme: {
-      block5: { paddings },
-    },
-  }) => getMarginsOrPaddings(paddings)};
-  background-color: ${({
-    theme: {
-      block5: { backgroundColor },
-    },
-  }) => backgroundColor};
-  font-family: ${({
-    theme: {
-      block5: { fontFamily },
-    },
-  }) => fontFamily};
+  min-height: ${remCalc(height)};
+  padding: ${getMarginsOrPaddings(paddings)};
+  background-color: ${backgroundColor};
+  font-family: ${fontFamily};
   display: flex;
   justify-content: center;
 `;
@@ -39,114 +24,69 @@ const InnerContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  max-width: ${({ theme: { block5 } }) => remCalc(block5.card.width)};
+  max-width: ${remCalc(card.width)};
 `;
 
 const QuoteContainer = styled.div`
   width: 100%;
   text-align: center;
-  padding: ${({ theme: { block5 } }) =>
-    getMarginsOrPaddings(block5.quoteContainerPaddings)};
+  padding: ${getMarginsOrPaddings(quoteContainerPaddings)};
 `;
 
 const Quote = styled.h1`
   display: block;
-  font-size: ${({
-    theme: {
-      block5: { quote },
-    },
-  }) => remCalc(quote.size)};
-  font-weight: ${({
-    theme: {
-      block5: { quote },
-    },
-  }) => quote.weight};
-  line-height: ${({
-    theme: {
-      block5: { quote },
-    },
-  }) => remCalc(quote.lineHeight)};
+  font-size: ${remCalc(quote.size)};
+  font-weight: ${quote.weight};
+  line-height: ${remCalc(quote.lineHeight)};
 `;
 
 const Author = styled.p`
   display: block;
-  font-size: ${({
-    theme: {
-      block5: { author },
-    },
-  }) => remCalc(author.size)};
-  color: ${({
-    theme: {
-      block5: { author },
-    },
-  }) => author.color};
+  font-size: ${remCalc(author.size)};
+  color: ${author.color};
   font-weight: ${({
     theme: {
       block5: { author },
     },
   }) => author.weight};
-  line-height: ${({
-    theme: {
-      block5: { author },
-    },
-  }) => remCalc(author.lineHeight)};
-  margin: ${({
-    theme: {
-      block5: { author },
-    },
-  }) => getMarginsOrPaddings(author.margins)};
+  line-height: ${remCalc(author.lineHeight)};
+  margin: ${getMarginsOrPaddings(author.margins)};
 `;
 
 const ButtonContainer = styled.div`
-  margin: ${({
-    theme: {
-      block5: { button },
-    },
-  }) => getMarginsOrPaddings(button.margins)};
-
+  margin: ${getMarginsOrPaddings(button.margins)};
   display: flex;
   justify-content: center;
 `;
 
 const StyledButton = styled(Button)`
-  background-color: ${({
-    theme: {
-      block5: { button },
-    },
-  }) => button.backgroundColor} !important;
-  color: ${({
-    theme: {
-      block5: { button },
-    },
-  }) => button.color} !important;
+  background-color: ${button.backgroundColor} !important;
+  color: ${button.color} !important;
 `;
 
 const AnalyticsButton = withAnalytics(StyledButton);
 
-export default withTheme(
-  withEditable(({ theme: { block5 } }) => (
-    <Fragment>
+export default () => (
+  <Fragment>
       <Carausel />
       <Container>
         <InnerContainer>
           <QuoteContainer>
             <Quote>
-              "Gut feelings have no place in a world where data driven
-              assumptions can be made."
+              {content.block5.quote.text}
             </Quote>
-            <Author>- Tim Ford, Marketing Director</Author>
+            <Author>- {content.block5.author.text}</Author>
           </QuoteContainer>
           <ButtonContainer>
             <AnalyticsButton
               href="/coming-soon"
-              size={block5.button.size}
+              size={button.size}
               action="block5-button"
             >
-              JOIN US
+              {content.block5.button.text}
             </AnalyticsButton>
           </ButtonContainer>
         </InnerContainer>
       </Container>
     </Fragment>
-  ))
-);
+)

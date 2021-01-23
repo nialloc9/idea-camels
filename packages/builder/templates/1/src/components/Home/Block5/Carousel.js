@@ -2,9 +2,11 @@ import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { withTheme } from "../../../utils/style";
 import { Image } from "../../Image";
 import { Header } from "../../Header";
+import {theme, content} from '../../../config'
+
+const { block5 } = theme;
 
 const settings = {
   dots: true,
@@ -15,37 +17,22 @@ const settings = {
   autoplay: true,
 };
 
-export default withTheme(({ theme: { block5 } }) => (
+const Slide = ({ image, header }) => (
+  <div>
+      <Image
+        centered
+        size={block5.carousel.size}
+        src={image.src}
+        alt={image.alt}
+      />
+      <Header textAlign={block5.carousel.textAlign}>
+        {header.text}
+      </Header>
+    </div>
+)
+
+export default () => (
   <Slider {...settings}>
-    <div>
-      <Image
-        centered
-        size={block5.carousel.size}
-        src={block5.carousel.image1}
-      />
-      <Header textAlign={block5.carousel.textAlign}>
-        Create a landing page in minutes from our predesigned templates
-      </Header>
-    </div>
-    <div>
-      <Image
-        centered
-        size={block5.carousel.size}
-        src={block5.carousel.image2}
-      />
-      <Header textAlign={block5.carousel.textAlign}>
-        Register keywords and a budget to drive traffic to your landing page
-      </Header>
-    </div>
-    <div>
-      <Image
-        centered
-        size={block5.carousel.size}
-        src={block5.carousel.image3}
-      />
-      <Header textAlign={block5.carousel.textAlign}>
-        Analysis the results and build an email list of interested customers
-      </Header>
-    </div>
+    {content.block5.carousel.map(o => <Slide key={o.image.src} {...o} />)}
   </Slider>
-));
+);
