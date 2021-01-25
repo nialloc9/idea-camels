@@ -2,8 +2,6 @@ const {
   SERVER_PORT,
   ENV,
   AWS_REGION,
-  AWS_ACCESS_KEY,
-  AWS_SECRET_KEY,
   STRIPE_SECRET_KEY,
   STRIPE_MONTHLY_PLAN,
   STRIPE_SEMI_ANNUAL_PLAN,
@@ -20,7 +18,7 @@ const {
   GOOGLE_ADS_REFRESH_TOKEN,
   GOOGLE_ADS_DEVELOPER_TOKEN,
   GOOGLE_ADS_CUSTOMER_ID,
-  EXPERIMENT_ID
+  EXPERIMENT_REF
 } = process.env;
 
 const localhost = {
@@ -48,8 +46,6 @@ const localhost = {
     }
   },
   aws: {
-    accessKeyId: AWS_ACCESS_KEY,
-    secretAccessKey: AWS_SECRET_KEY,
     region: AWS_REGION,
     buckets: {}
   },
@@ -77,7 +73,7 @@ const localhost = {
     customerId: GOOGLE_ADS_CUSTOMER_ID,
   },
   experiment: {
-    experimentRef: EXPERIMENT_ID
+    experimentRef: EXPERIMENT_REF
   },
   noInternet: true,
 };

@@ -3,6 +3,7 @@ import {
   remCalc,
   styled,
   getMarginsOrPaddings,
+  withTheme
 } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
 import { Grid, GridRow, GridColumn } from "../../Grid";
@@ -17,10 +18,10 @@ const AnalyticsButton = withAnalytics(Button);
 const { block4: { height, paddings, backgroundColor, fontFamily, heading, subHeading,cardContainer, button, firstCard } } = theme;
 
 const Container = styled.section`
-  min-height: ${remCalc(height)};
-  padding: ${getMarginsOrPaddings(paddings)};
-  background-color: ${backgroundColor};
-  font-family: ${fontFamily};
+  min-height: ${({ theme: { block4: { height } } }) => remCalc(height)};
+  padding: ${({ theme: { block4: { paddings } } }) => getMarginsOrPaddings(paddings)};
+  background-color: ${({ theme: { block4: { backgroundColor } } }) => backgroundColor};
+  font-family: ${({ theme: { block4: { fontFamily } } }) => fontFamily};
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -33,37 +34,37 @@ const HeadingContainer = styled.div`
 
 const Heading = styled.h1`
   display: block;
-  font-size: ${remCalc(heading.size)};
-  font-weight: ${heading.weight};
-  line-height: ${remCalc(heading.lineHeight)};
+  font-size: ${({ theme: { block4: { heading } } }) => remCalc(heading.size)};
+  font-weight: ${({ theme: { block4: { heading } } }) => heading.weight};
+  line-height: ${({ theme: { block4: { heading } } }) => remCalc(heading.lineHeight)};
 `;
 
 const SubHeading = styled.p`
   display: block;
-  font-size: ${remCalc(subHeading.size)};
-  color: ${subHeading.color};
-  font-weight: ${subHeading.weight};
-  line-height: ${remCalc(subHeading.lineHeight)};
-  margin: ${getMarginsOrPaddings(subHeading.margins)};
+  font-size: ${({ theme: { block4: { subHeading } } }) => remCalc(subHeading.size)};
+  color: ${({ theme: { block4: { subHeading } } }) => subHeading.color};
+  font-weight: ${({ theme: { block4: { subHeading } } }) => subHeading.weight};
+  line-height: ${({ theme: { block4: { subHeading } } }) => remCalc(subHeading.lineHeight)};
+  margin: ${({ theme: { block4: { subHeading } } }) => getMarginsOrPaddings(subHeading.margins)};
 `;
 
 const SplitCard = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: ${remCalc(cardContainer.width)};
+  max-width: ${({ theme: { block4: { cardContainer } } }) => remCalc(cardContainer.width)};
 `;
 
 const CardContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin: ${getMarginsOrPaddings(cardContainer.margins)};
+  margin: ${({ theme: { block4: { cardContainer } } }) => getMarginsOrPaddings(cardContainer.margins)};
 `;
 
 const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: ${getMarginsOrPaddings(cardContainer.paddings)};
+  padding: ${({ theme: { block4: { cardContainer } } }) => getMarginsOrPaddings(cardContainer.paddings)};
 `;
 
 const ImageInnerContainer = styled.div`
@@ -73,11 +74,11 @@ const ImageInnerContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin: ${getMarginsOrPaddings(button.margins)};
-  max-width: ${button.width ? remCalc(button.width) : "auto"};
+  margin: ${({ theme: { block4: { button } } }) => getMarginsOrPaddings(button.margins)};
+  max-width: ${({ theme: { block4: { button } } }) => button.width ? remCalc(button.width) : "auto"};
 `;
 
-export default () => (
+export default withTheme(({ theme: { block4: { button, firstCard } } }) => (
   <Container>
       <HeadingContainer>
         <Heading>{content.block4.heading.text}</Heading>
@@ -128,4 +129,5 @@ export default () => (
         </SplitCard>
       </CardContainer>
     </Container>
+)
 )

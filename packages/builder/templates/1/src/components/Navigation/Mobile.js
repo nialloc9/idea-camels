@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Menu, Item } from "../Styled/Menu";
 import { Block } from "../Styled/Block";
 import { Button } from "../Styled/Button";
-import { theme, content } from "../../config";
+import { content } from "../../config";
+import { withTheme } from "../../utils/style";
 import withAnalytics from "../../hoc/withAnalytics";
 
 const AnalyticsMenuItem = withAnalytics(Item);
 
-export default () => {
+export default withTheme(({ theme }) => {
   const [{ isOpen, activeItem }, setState] = useState({
     activeItem: "home",
     isOpen: false,
@@ -53,4 +54,4 @@ export default () => {
         ))}
     </Menu>
   );
-};
+});

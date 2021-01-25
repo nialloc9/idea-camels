@@ -3,7 +3,9 @@ const { onCreate: onCreateAccount, onLogin, onDelete, onUpdate, onForgottonPassw
 const { onGetAccountDomains, onPurchaseDomain } = require("../service/domain")
 const { onGetAccountExperiments, onCreateExperiment } = require("../service/experiment")
 const { onGet: onGetTemplates } = require("../service/template")
+const { uploadImage } = require("../service/upload")
 const { logger } = require("./utils")
+const { uploadFile } = require('./upload')
 
 /**
  * @description sends a response and logs the response
@@ -93,6 +95,12 @@ const endpoints = [
       uri: "/template/get-with-theme",
       required: [ "caller" ],
       func: onGetTemplates,
+      isAuth: true
+    },
+    {
+      uri: "/upload/image",
+      required: [ "caller", "file" ],
+      func: uploadFile,
       isAuth: true
     },
   ]

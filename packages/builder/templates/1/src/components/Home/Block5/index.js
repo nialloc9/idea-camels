@@ -3,19 +3,18 @@ import {
   remCalc,
   styled,
   getMarginsOrPaddings,
+  withTheme
 } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
 import { Button } from "../../Button";
 import Carausel from "./Carousel";
-import {theme, content} from '../../../config'
-
-const { block5: { height, paddings, backgroundColor, fontFamily, card, quoteContainerPaddings, quote, author, button } } = theme;
+import {content} from '../../../config'
 
 const Container = styled.section`
-  min-height: ${remCalc(height)};
-  padding: ${getMarginsOrPaddings(paddings)};
-  background-color: ${backgroundColor};
-  font-family: ${fontFamily};
+  min-height: ${({ theme: { block5: { height } } }) => remCalc(height)};
+  padding: ${({ theme: { block5: { paddings } } }) => getMarginsOrPaddings(paddings)};
+  background-color: ${({ theme: { block5: { backgroundColor } } }) => backgroundColor};
+  font-family: ${({ theme: { block5: { fontFamily } } }) => fontFamily};
   display: flex;
   justify-content: center;
 `;
@@ -24,49 +23,49 @@ const InnerContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  max-width: ${remCalc(card.width)};
+  max-width: ${({ theme: { block5: { card } } }) => remCalc(card.width)};
 `;
 
 const QuoteContainer = styled.div`
   width: 100%;
   text-align: center;
-  padding: ${getMarginsOrPaddings(quoteContainerPaddings)};
+  padding: ${({ theme: { block5: { quoteContainerPaddings } } }) => getMarginsOrPaddings(quoteContainerPaddings)};
 `;
 
 const Quote = styled.h1`
   display: block;
-  font-size: ${remCalc(quote.size)};
-  font-weight: ${quote.weight};
-  line-height: ${remCalc(quote.lineHeight)};
+  font-size: ${({ theme: { block5: { quote } } }) => remCalc(quote.size)};
+  font-weight: ${({ theme: { block5: { quote } } }) => quote.weight};
+  line-height: ${({ theme: { block5: { quote } } }) => remCalc(quote.lineHeight)};
 `;
 
 const Author = styled.p`
   display: block;
-  font-size: ${remCalc(author.size)};
-  color: ${author.color};
+  font-size: ${({ theme: { block5: { author } } }) => remCalc(author.size)};
+  color: ${({ theme: { block5: { author } } }) => author.color};
   font-weight: ${({
     theme: {
       block5: { author },
     },
   }) => author.weight};
-  line-height: ${remCalc(author.lineHeight)};
-  margin: ${getMarginsOrPaddings(author.margins)};
+  line-height: ${({ theme: { block5: { author } } }) => remCalc(author.lineHeight)};
+  margin: ${({ theme: { block5: { author } } }) => getMarginsOrPaddings(author.margins)};
 `;
 
 const ButtonContainer = styled.div`
-  margin: ${getMarginsOrPaddings(button.margins)};
+  margin: ${({ theme: { block5: { button } } }) => getMarginsOrPaddings(button.margins)};
   display: flex;
   justify-content: center;
 `;
 
 const StyledButton = styled(Button)`
-  background-color: ${button.backgroundColor} !important;
-  color: ${button.color} !important;
+  background-color: ${({ theme: { block5: { button } } }) => button.backgroundColor} !important;
+  color: ${({ theme: { block5: { button } } }) => button.color} !important;
 `;
 
 const AnalyticsButton = withAnalytics(StyledButton);
 
-export default () => (
+export default withTheme(({ theme: { block5: { button } } }) => (
   <Fragment>
       <Carausel />
       <Container>
@@ -89,4 +88,4 @@ export default () => (
         </InnerContainer>
       </Container>
     </Fragment>
-)
+))

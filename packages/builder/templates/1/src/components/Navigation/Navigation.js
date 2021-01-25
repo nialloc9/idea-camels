@@ -2,12 +2,12 @@ import React, { Fragment } from "react";
 import withAnalytics from "../../hoc/withAnalytics";
 import { Menu, Item, MenuMenu } from "../Styled/Menu";
 import { Image } from "../Styled/Image";
-import { remCalc } from "../../utils/style";
-import {content, theme} from "../../config";
+import { remCalc, withTheme } from "../../utils/style";
+import {content} from "../../config";
 
 const AnalyticsMenuItem = withAnalytics(Item);
 
-const Navigation = () => {
+const Navigation = withTheme(({ theme }) => {
 
   return (
     <Fragment>
@@ -45,6 +45,6 @@ const Navigation = () => {
       </Menu>
     </Fragment>
   );
-};
+});
 
 export default Navigation

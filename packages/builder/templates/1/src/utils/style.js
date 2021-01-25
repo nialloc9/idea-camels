@@ -1,5 +1,5 @@
-export { default as styled } from "@emotion/styled";
-export { ThemeProvider } from "emotion-theming";
+export { default as styled} from "@emotion/styled";
+export { ThemeProvider, withTheme } from "emotion-theming";
 
 /**
  * turns px into rem

@@ -23,7 +23,8 @@ const {
   GOOGLE_ADS_DEVELOPER_TOKEN,
   GOOGLE_ADS_CUSTOMER_ID,
   BUILDER_CLUSTER_NAME,
-  BUILDER_TASK_NAME
+  BUILDER_TASK_NAME,
+  USER_IMAGE_BUCKET
 } = process.env;
 
 const localhost = {
@@ -62,7 +63,9 @@ const localhost = {
     accessKeyId: AWS_ACCESS_KEY,
     secretAccessKey: AWS_SECRET_KEY,
     region: AWS_REGION,
-    buckets: {},
+    buckets: {
+      userImageBucket: USER_IMAGE_BUCKET
+    },
     clusters: {
       builder: {
         name: BUILDER_CLUSTER_NAME,

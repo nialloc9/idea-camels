@@ -1,48 +1,46 @@
 import React from "react";
 import withAnalytics from "../../hoc/withAnalytics";
-import { styled, remCalc } from "../../utils/style";
+import { styled, remCalc, withTheme } from "../../utils/style";
 import { Grid, GridColumn } from "../Grid";
 import { Image } from "../Image";
 import { List, ListItem } from "../List";
 import { Icon } from "../Icon";
-import { theme, content } from "../../config"
-
-const { footer: { height, paddings, backgroundColor, color, fontFamily, size,column3, column2, column1 } } = theme;
+import { content } from "../../config"
 
 const Container = styled.section`
-  min-height: ${remCalc(height)};
-  padding: ${`${remCalc(paddings[0])} ${remCalc(paddings[1])} ${remCalc(
+  min-height: ${({ theme: { footer: { height } } }) => remCalc(height)};
+  padding: ${({ theme: { footer: { paddings } } }) => `${remCalc(paddings[0])} ${remCalc(paddings[1])} ${remCalc(
       paddings[2]
     )} ${remCalc(paddings[3])}`};
   box-sizing: border-box;
-  background-color: ${backgroundColor};
-  color: ${color};
-  font-family: ${fontFamily};
+  background-color: ${({ theme: { footer: { backgroundColor } } }) => backgroundColor};
+  color: ${({ theme: { footer: { color } } }) => color};
+  font-family: ${({ theme: { footer: { fontFamily } } }) => fontFamily};
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: ${color};
-  font-size: ${remCalc(size)};
+  color: ${({ theme: { footer: { color } } }) => color};
+  font-size: ${({ theme: { footer: { size } } }) => remCalc(size)};
 `;
 
 const StyledIcon = styled(Icon)`
-  color: ${column3.iconColor};
+  color: ${({ theme: { footer: { column3 } } }) => column3.iconColor};
 `;
 
 const StyledListItem = styled(ListItem)`
-  color: ${column2.color} !important;
+  color: ${({ theme: { footer: { column2 } } }) => column2.color} !important;
   text-decoration: none;
 
   &:hover {
     text-decoration: underline;
-    color: ${column2.hoverColor} !important;
+    color: ${({ theme: { footer: { column2 } } }) => column2.hoverColor} !important;
   }
 `;
 
 const AnalyticsIcon = withAnalytics(StyledIcon);
 const AnalyticsListItem = withAnalytics(StyledListItem);
 
-export default () => (
+export default withTheme(({ theme: { footer: { column1, column3 } } }) => (
   <Container>
     <Grid stackable container columns={3}>
       <GridColumn>
@@ -76,4 +74,4 @@ export default () => (
       </GridColumn>
     </Grid>
   </Container>
-)
+))

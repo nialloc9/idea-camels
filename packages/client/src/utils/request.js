@@ -5,6 +5,8 @@ import { getError } from './errors'
 export const post = async ({
     url,
     body,
+    cache,
+    mode,
     originalHeaders = {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -18,6 +20,8 @@ export const post = async ({
         method: "POST",
         headers,
         body: JSON.stringify({...body, caller: generateRandomId()}),
+        cache,
+        mode
     });
 
     const content = await rawResponse.json();
@@ -29,4 +33,26 @@ export const post = async ({
     return content
 };
 
-export const postApi = ({ uri, body, headers, token }) => post({ url: `${config.api.base}/${uri}`, body, headers, token });
+export const postApi = ({ uri, body, headers, token, cache, mode }) => post({ url: `${config.api.base}/${uri}`, body, originalHeaders: headers, token, cache, mode });
+
+/**
+ * @description uploads a file to the server
+ * @param {*} payload
+ * @returns {<Promise>}
+ */
+export const upload =  async ({ type, folder, file, token, caller }) => {
+    const data = new FormData();
+    data.append("image", file);
+    data.append("folder", folder);
+    data.append("caller", caller);
+
+    return postApi({
+        uri: `upload/${type}`,
+        headers: {},
+        cache: "no-cache",
+        mode: "cors",
+        method: "POST",
+        body: data,
+        token
+    })
+};

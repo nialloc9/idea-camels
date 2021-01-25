@@ -1,8 +1,3 @@
-terraform {
-  backend "s3" {
-  }
-}
-
 # AWS Region for S3 and other resources
 provider "aws" {
   region = var.region
@@ -15,11 +10,4 @@ provider "aws" {
   region = var.cloudfront_region
   alias = "cloudfront"
   profile = var.profile
-}
-
-module "experiment" {
-  source = "./modules/experiment"
-
-  domain=var.domain
-  fqdn=var.fqdn
 }

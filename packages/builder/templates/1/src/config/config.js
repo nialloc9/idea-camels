@@ -1,4 +1,4 @@
-const { NODE_ENV } = process.env;
+const { NODE_ENV, EXPERIMENT_REF } = process.env;
 
 const {
     location: { pathname },
@@ -6,6 +6,7 @@ const {
 
 export default {
     env: NODE_ENV,
+    experimentRef: EXPERIMENT_REF,
     isProd: NODE_ENV === "production",
     pathname,
     social: {

@@ -1,33 +1,31 @@
 import React from "react";
-import { remCalc, styled } from "../../../utils/style";
+import { remCalc, styled, withTheme } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
 import { Image } from "../../Image";
 import { Button } from "../../Button";
-import {theme, content} from '../../../config'
-
-const { block1: { height, paddings, backgroundColor, color, fontFamily, width, headingSize, headingLineHeight, headingMargins, subHeadingLineHeight, subHeadingSize, subHeadingMargins, buttonWidth } } = theme;
+import { content } from '../../../config'
 
 const Container = styled.section`
-  min-height: ${remCalc(height)};
+  min-height: ${({ theme: { block1: { height } } }) => remCalc(height)};
   padding: ${
-    `${remCalc(paddings[0])} ${remCalc(paddings[1])} ${remCalc(
+    ({ theme: { block1: { paddings } } }) => `${remCalc(paddings[0])} ${remCalc(paddings[1])} ${remCalc(
       paddings[2]
     )} ${remCalc(paddings[3])}`};
   box-sizing: border-box;
-  background-color: ${backgroundColor};
-  color: ${color};
-  font-family: ${fontFamily};
+  background-color: ${({ theme: { block1: { backgroundColor } } }) => backgroundColor};
+  color: ${({ theme: { block1: { color } } }) => color};
+  font-family: ${({ theme: { block1: { fontFamily } } }) => fontFamily};
   display: flex;
   justify-content: center;
-  color: ${color};
-  font-family: ${fontFamily};
+  color: ${({ theme: { block1: { color } } }) => color};
+  font-family: ${({ theme: { block1: { fontFamily } } }) => fontFamily};
 `;
 
 const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: ${remCalc(width)};
+  max-width: ${({ theme: { block1: { width } } }) => remCalc(width)};
   text-align: center;
 `;
 
@@ -38,33 +36,33 @@ const ImageContainer = styled.div`
 
 const Heading = styled.h1`
   display: block;
-  font-size: ${remCalc(headingSize)};
-  line-height: ${remCalc(headingLineHeight)};
+  font-size: ${({ theme: { block1: { headingSize } } }) => remCalc(headingSize)};
+  line-height: ${({ theme: { block1: { headingLineHeight } } }) => remCalc(headingLineHeight)};
   margin: ${
-    `${remCalc(headingMargins[0])} ${remCalc(headingMargins[1])} ${remCalc(
+    ({ theme: { block1: { headingMargins } } }) => `${remCalc(headingMargins[0])} ${remCalc(headingMargins[1])} ${remCalc(
       headingMargins[2]
     )} ${remCalc(headingMargins[3])}`};
 `;
 
 const SubHeading = styled.p`
   display: block;
-  line-height: ${remCalc(subHeadingLineHeight)};
-  font-size: ${remCalc(subHeadingSize)};
-  margin: ${
+  line-height: ${({ theme: { block1: { subHeadingLineHeight } } }) => remCalc(subHeadingLineHeight)};
+  font-size: ${({ theme: { block1: { subHeadingSize } } }) => remCalc(subHeadingSize)};
+  margin: ${({ theme: { block1: { subHeadingMargins } } }) => 
     `${remCalc(subHeadingMargins[0])} ${remCalc(
       subHeadingMargins[1]
     )} ${remCalc(subHeadingMargins[2])} ${remCalc(subHeadingMargins[3])}`};
 `;
 
 const ButtonContainer = styled.div`
-  max-width: ${buttonWidth ? remCalc(buttonWidth) : "auto"};
+  max-width: ${({ theme: { block1: { buttonWidth } } }) => buttonWidth ? remCalc(buttonWidth) : "auto"};
 `;
 
 const AnalyticsImage = withAnalytics(Image);
 
 const AnalyticsButton = withAnalytics(Button);
 
-export default () => (
+export default withTheme(({ theme: { block1: { buttonSize } } }) => (
   <Container>
     <InnerContainer>
       <ImageContainer>
@@ -87,7 +85,7 @@ export default () => (
           href="/coming-soon"
           action="block1-button"
           color="black"
-          size={theme.block1.buttonSize}
+          size={buttonSize}
           basic
         >
           {content.block1.button.text}
@@ -95,4 +93,4 @@ export default () => (
       </ButtonContainer>
     </InnerContainer>
   </Container>
-)
+))
