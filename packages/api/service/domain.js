@@ -1,4 +1,4 @@
-const { onGetByAccountRef, onCreate: onCreateDomain } = require('../data/domain')
+const { onGet: onGetDomain, onCreate: onCreateDomain } = require('../data/domain')
 const { validateDomain, registerDomain } = require('../utils/aws')
 const { logger } = require('../utils/utils')
 const errors = require('../utils/errors')
@@ -6,7 +6,7 @@ const config = require('../utils/config')
 
 const onGetAccountDomains = ({data: { decodedToken: { accountRef } }, caller}) => new Promise(async (resolve, reject) => {
     try {
-        const response = await onGetByAccountRef({ data: { accountRef }, caller });
+        const response = await onGetDomain({ data: { accountRef }, caller });
         
         // TODO run cron to update database to expired for domains going to expire tomorrow
         // TODO run cron to send email for domains going to expire in 1 month and in 1 week

@@ -6,11 +6,11 @@ const {now} = require('../utils/date');
 /**
  * gets experiments by account ref
  */
-const onGetByAccountRef = ({ data: { accountRef }, caller }) =>
+const onGetWithThemeByAccountRef = ({ data: { accountRef }, caller }) =>
   new Promise (async (resolve, reject) => {
     try {
 
-      const getQuery = `SELECT * FROM experiments WHERE account_ref=${accountRef}`;  
+      const getQuery = `SELECT e.experiment_ref, e.name, e.theme_ref, e.expiry, e.created_at, e.last_updated_at, e.deleted_flag, t.name as theme_name, t.content, t.theme FROM experiments as e INNER JOIN themes as t ON e.theme_ref = t.theme_ref WHERE account_ref=${accountRef}`;  
       
       const results = await query(getQuery, undefined, caller, "GET_EXPERIMENTS_BY_ACCOUNT_REF")
       
@@ -92,7 +92,7 @@ new Promise (async (resolve, reject) => {
 
 
 module.exports = { 
-    onGetByAccountRef,
+  onGetWithThemeByAccountRef,
   onCreate,
     onUpdate
 };

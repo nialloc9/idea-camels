@@ -1,5 +1,3 @@
-const { config } = require("aws-sdk");
-
 const {
   SERVER_PORT,
   ENV,
@@ -31,7 +29,7 @@ const localhost = {
   port: SERVER_PORT,
   webAddress: "https://ideacamels.com",
   env: ENV,
-  isProd: ENV === "production",
+  isProd: true,
   name: "idea-camels-server",
   security: {
     password_secret: PASSWORD_SECRET,
@@ -95,6 +93,7 @@ const localhost = {
     refreshToken: GOOGLE_ADS_REFRESH_TOKEN,
     developerToken: GOOGLE_ADS_DEVELOPER_TOKEN,
     customerId: GOOGLE_ADS_CUSTOMER_ID,
+    customerIdSplit: GOOGLE_ADS_CUSTOMER_ID.split("-").join("")
   },
   noInternet: true,
 };

@@ -7,7 +7,6 @@ import {
   createMediaQuery,
 } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
-import withEditable from "../../../hoc/withEditable";
 import { Button } from "../../Button";
 import { Grid, GridColumn } from "../../Grid";
 import { Card } from "../../Card";
@@ -188,7 +187,7 @@ const features = [
 const AnalyticsButton = withAnalytics(Button);
 
 export default withTheme(
-  withEditable(({ theme: { block3 } }) => (
+  ({ theme: { block3 } }) => (
     <Container>
       <Overlay>
         <TextContainer>
@@ -226,5 +225,5 @@ export default withTheme(
         </FeaturesContainer>
       </Overlay>
     </Container>
-  ))
+  )
 );

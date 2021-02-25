@@ -1,8 +1,6 @@
-import React from "react";
 import { remCalc, styled } from "../../../utils/style";
-import withEditable from "../../../hoc/withEditable";
 
-const Container = styled.section`
+export default styled.section`
   min-height: ${({
     theme: {
       block2: { height },
@@ -20,5 +18,3 @@ const Container = styled.section`
     },
   }) => backgroundRepeat};
 `;
-
-export default withEditable(() => <Container />);

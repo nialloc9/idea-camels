@@ -1,24 +1,10 @@
-import Analytics from "analytics";
-import googleAnalytics from "@analytics/google-analytics";
-import { hotjar } from "react-hotjar";
 import { config } from "../config";
 import { logger } from "../utils/utils";
 
-const analytics = Analytics({
-    app: "idea-camels",
-    plugins: [
-        googleAnalytics({
-            trackingId: config.ga.uaId,
-        }),
-    ],
-});
-
-if (config.isProd) {
-    hotjar.initialize(config.hotjar.id, config.hotjar.version);
-} else {
-    logger.info("SIMULATED HOTJAR INITIALIZATION");
+const analytics = {
+    track: (action, options) => logger.info('ANALYTICS', action, options),
+    page: () => logger.info('ANALYTICS - PAGE_VIEW')
 }
-
 /**
  * handles events
  * @param {string} action

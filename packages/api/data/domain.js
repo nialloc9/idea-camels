@@ -2,37 +2,31 @@ const { query } = require('../utils/database');
 const { handleSuccess } = require('../utils/utils');
 const { mapper } = require('./utils/domain');
 const {now, getYearsFromDate} = require('../utils/date');
-
-/**
- * gets domains by domain name
- */
-const onGetByName = ({ data: { name }, caller }) =>
-  new Promise (async (resolve, reject) => {
-    try {
-
-      const getQuery = `SELECT * FROM domains WHERE name=${name}`;  
-
-      const results = await query(getQuery, undefined, caller, "GET_DOMAIN_BY_NAME")
-
-      resolve (
-        handleSuccess (
-          `DATA - GET_DOMAIN_BY_NAME - FROM ${caller}`,
-          results
-        )
-      );
-    } catch(error) {
-      reject(error);
-    }
-  });
+const domain = require('./utils/domain');
 
 /**
  * gets domains by account ref
  */
-const onGetByAccountRef = ({ data: { accountRef }, caller }) =>
+const onGet = ({ data: { accountRef, domainRef, name }, caller }) =>
   new Promise (async (resolve, reject) => {
     try {
 
-      const getQuery = `SELECT * FROM domains WHERE account_ref=${accountRef}`;  
+      let getQuery = `SELECT * FROM domains`;  
+
+      switch(true) {
+        case domainRef && !accountRef:
+          getQuery = `${getQuery} WHERE domain_ref=${domainRef}`
+        break;
+        case !domainRef && accountRef:
+          getQuery = `${getQuery} WHERE account_ref=${accountRef}`;
+        break;
+        case !domainRef && !accountRef && name:
+          getQuery = `${getQuery} WHERE name=${name}`;
+        break;
+        case domainRef && accountRef:
+          getQuery = `${getQuery} WHERE account_ref=${accountRef} AND domain_ref=${domainRef}`
+        break;
+      }
 
       const results = await query(getQuery, undefined, caller, "GET_DOMAIN_BY_ACCOUNT_REF")
       
@@ -118,9 +112,8 @@ new Promise (async (resolve, reject) => {
 
 
 
-module.exports = { 
-    onGetByName,
-    onGetByAccountRef,
+module.exports = {
+    onGet,
   onCreate,
     onUpdate
 };

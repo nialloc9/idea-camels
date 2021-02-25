@@ -1,7 +1,6 @@
 import React from "react";
 import { remCalc, styled, withTheme } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
-import withEditable from "../../../hoc/withEditable";
 import { Image } from "../../Image";
 import { Button } from "../../Button";
 
@@ -122,9 +121,8 @@ const AnalyticsImage = withAnalytics(Image);
 
 const AnalyticsButton = withAnalytics(Button);
 
-export default withTheme(
-  withEditable(({ theme: { block1 } }) => (
-    <Container>
+export default withTheme(({ theme: { block1 } }) => (
+  <Container>
       <InnerContainer>
         <ImageContainer>
           <AnalyticsImage
@@ -155,5 +153,4 @@ export default withTheme(
         </ButtonContainer>
       </InnerContainer>
     </Container>
-  ))
-);
+));

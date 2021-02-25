@@ -23,11 +23,20 @@ const getYearsFromDate = (years = 1, date = new Date()) => {
   return date;
 }
 
+const getDate = ({ timestamp, format, date }) => {
+  const newDate = date || new Date();
+  console.log(newDate, newDate.getFullYear())
+  return {
+    "YYYY-MM-DD": dateObject => `${dateObject.getFullYear()}-${dateObject.getMonth()}-${dateObject.getDate()}`,
+    "DD-MM-YYYY": dateObject => `${dateObject.getDate()}-${dateObject.getMonth()}-${dateObject.getFullYear()}`
+  }[format](newDate) || `${dateObject.getDate()}-${dateObject.getMonth()}-${dateObject.getFullYear()}`
+}
 
 module.exports = {
   createDate,
   formatToUtc,
   now,
+  getDate,
   getYearsFromDate
 };
 

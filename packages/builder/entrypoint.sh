@@ -1,24 +1,23 @@
 #!/bin/bash
-
-# echo "====== INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
-# rm -rf ./experiments
+echo "Starting ${ENV} build..."
+echo "====== INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 # rm -rf experiments/${EXPERIMENT_REF}/infrastructure 
 # mkdir -p experiments/${EXPERIMENT_REF}/infrastructure 
 # cd ./infrastructure 
 # cp -r ./ ../experiments/${EXPERIMENT_REF}/infrastructure 
 # cd ..
 
-# echo "====== FINISHED INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
+echo "====== FINISHED INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 
-# echo "====== INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
-# rm -rf experiments/${EXPERIMENT_REF}/client
-# mkdir -p experiments/${EXPERIMENT_REF}/client
-# cd templates/${TEMPLATE_REF}
-# cp -r ./ ../../experiments/${EXPERIMENT_REF}/client 
-# cd ../../
-# echo "====== FINISHED INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
+echo "====== INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
+rm -rf experiments/${EXPERIMENT_REF}/client
+mkdir -p experiments/${EXPERIMENT_REF}/client
+cd templates/${TEMPLATE_REF}
+cp -r ./ ../../experiments/${EXPERIMENT_REF}/client 
+cd ../../
+echo "====== FINISHED INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
 
-# node ./configureExperiment.js
+node ./configureExperiment.js
 
 # echo "====== BUILDING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 
@@ -39,11 +38,11 @@
 # echo "====== FINISHED DEPLOYING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 # fi
 
-echo "====== BUILDING CLIENT FOR ${EXPERIMENT_REF} ======"
+# echo "====== BUILDING CLIENT FOR ${EXPERIMENT_REF} ======"
 
 cd experiments/${EXPERIMENT_REF}/client 
 rm -rf ./build
-# npm install 
+npm install 
 npm run build 
 
 echo "====== FINISHED BUILDING CLIENT FOR ${EXPERIMENT_REF} ======"

@@ -5,3 +5,5 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN apt-get update
+
+RUN npm rebuild

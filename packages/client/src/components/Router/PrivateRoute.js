@@ -27,7 +27,10 @@ export class PrivateRoute extends Component {
     componentDidMount() {
         const {token, onReAuth} = this.props;
 
-        token !== '' && onReAuth(token);
+        if(token !== '') {
+            onReAuth(token);
+        }
+
     }
 
     render() {
@@ -36,17 +39,18 @@ export class PrivateRoute extends Component {
             exact,
             path,
             token,
+            isFetchLoading
         } = this.props;
         
         const LoadingComponent = withLoader(Component);
-
+      
         return (
             <Route
                 exact={exact}
                 path={path}
                 render={props =>
                     token !== '' ? (
-                        <Fragment><Navigation {...props} /><Component /></Fragment>
+                        <Fragment><Navigation {...props} /><LoadingComponent isLoading={isFetchLoading} /></Fragment>
                     ) : (
                         <Redirect
                             to={{
@@ -65,6 +69,6 @@ export class PrivateRoute extends Component {
  * @param token
  * @returns {{token: *}}
  */
-const mapStateToProps = ({ account: { token } }) => ({token});
+const mapStateToProps = ({ account: { token, isFetchLoading } }) => ({token, isFetchLoading});
 
 export default connect(mapStateToProps, { onReAuth: onReAuthAccount })(PrivateRoute);

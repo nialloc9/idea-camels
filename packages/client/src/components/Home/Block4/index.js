@@ -11,7 +11,6 @@ import { Segment } from "../../Styled/Segment";
 import { Divider } from "../../Divider";
 import { Image } from "../../Image";
 import { Button } from "../../Button";
-import withEditable from "../../../hoc/withEditable";
 
 const AnalyticsButton = withAnalytics(Button);
 
@@ -145,7 +144,7 @@ const ButtonContainer = styled.div`
 `;
 
 export default withTheme(
-  withEditable(({ theme: { block4 } }) => (
+  ({ theme: { block4 } }) => (
     <Container>
       <HeadingContainer>
         <Heading>Start Creating!</Heading>
@@ -196,5 +195,5 @@ export default withTheme(
         </SplitCard>
       </CardContainer>
     </Container>
-  ))
+  )
 );

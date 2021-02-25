@@ -3,6 +3,7 @@ const { onCreate: onCreateAccount, onLogin, onDelete, onUpdate, onForgottonPassw
 const { onGetAccountDomains, onPurchaseDomain } = require("../service/domain")
 const { onGetAccountExperiments, onCreateExperiment } = require("../service/experiment")
 const { onGet: onGetTemplates } = require("../service/template")
+const { onCreateCampaign } = require("../service/campaign")
 const { uploadImage } = require("../service/upload")
 const { logger } = require("./utils")
 const { uploadFile } = require('./upload')
@@ -28,7 +29,7 @@ const sendResponse = (res, { payload, code = 200, uri, message }) => {
 const sendError = (res, { error = {}, uri, status = 500 }) => {
     logger.error({ err: error, uri, status }, "ERROR OUTGOING RPC");
     
-    if(config.isProd && newError.reason) delete error.reason
+    if(config.isProd && error.reason) delete error.reason
     
     return res.status(status).send(error);
 };
@@ -95,6 +96,12 @@ const endpoints = [
       uri: "/template/get-with-theme",
       required: [ "caller" ],
       func: onGetTemplates,
+      isAuth: true
+    },
+    {
+      uri: "/campaign/create",
+      required: [ "caller", "amount", "maxCostPerClick", "maxCostPer1000Impressions", "adDescription", "adHeadlinePart1", "adHeadlinePart2", "targetSpend" ],
+      func: onCreateCampaign,
       isAuth: true
     },
     {

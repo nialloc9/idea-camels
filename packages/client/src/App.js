@@ -2,7 +2,6 @@ import React from "react";
 import { ThemeProvider } from "./utils/style";
 
 import Footer from "./components/Footer";
-import {Initialise} from "./components/Initialise";
 import { theme } from "./config";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
@@ -22,6 +21,11 @@ const routes = [
   },
   {
     path: "/home/:experimentId",
+    component: Home,
+    isAuth: true
+  },
+  {
+    path: "/home",
     component: Home,
     isAuth: true
   }
@@ -52,7 +56,7 @@ export default () => (
     <Router history={history}>
     <ThemeProvider theme={theme}>
       <Switch>
-        {routes.map(({ path, component, isAuth }) => isAuth ? <Initialise><PrivateRoute key={path} path={path} component={component} /></Initialise> : <OpenRoute key={path} path={path} component={component} />)}
+        {routes.map(({ path, component, isAuth }) => isAuth ? <PrivateRoute key={path} path={path} component={component} /> : <OpenRoute key={path} path={path} component={component} />)}
       </Switch>
       <Footer />
     </ThemeProvider>

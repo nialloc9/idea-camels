@@ -18,7 +18,7 @@ export const onFetch = () => async (dispatch, getState) => {
         onSetState(payload);
         
         const { account: { token } } = getState();
-
+        
         const response = await postApi({ uri: `experiment/get-by-account`, token });
         
         const { data: { experiments } } = response

@@ -5,12 +5,12 @@ import Block3 from "../components/Home/Block3";
 import Block4 from "../components/Home/Block4";
 import Block5 from "../components/Home/Block5";
 
-export default ({ isEditable = false }) => (
+export default () => (
   <Fragment>
-    <Block1 isEditable={isEditable} />
-    <Block2 isEditable={isEditable} />
-    <Block3 isEditable={isEditable} />
-    <Block4 isEditable={isEditable} />
-    <Block5 isEditable={isEditable} />
+    <Block1 />
+    <Block2 />
+    <Block3 />
+    <Block4 />
+    <Block5 />
   </Fragment>
 );

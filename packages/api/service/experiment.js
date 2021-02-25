@@ -1,6 +1,7 @@
-const { onGetByAccountRef, onCreate } = require('../data/experiment')
+const { onGetWithThemeByAccountRef, onCreate } = require('../data/experiment')
 const { onCreate: onCreateTheme } = require('../data/theme')
 const { uppercaseSentenceWords } = require('../utils/utils')
+const { listCampaigns, getMetrics } = require('../utils/googleAds')
 const { runTask } = require('../utils/aws')
 const config = require('../utils/config')
 
@@ -17,8 +18,12 @@ const dbNames = {
 
 const onGetAccountExperiments = ({data: { decodedToken: { data: { accountRef } } }, caller}) => new Promise(async (resolve, reject) => {
     try {
-        const response = await onGetByAccountRef({ data: { accountRef }, caller });
+        const metrics = await getMetrics({ metrics: ['clicks', 'impressions'], orderBy: 'clicks', adGroupResourceName: 'customers/9074082905/adGroups/108117690178' });
+      
+        const response = await onGetWithThemeByAccountRef({ data: { accountRef }, caller });
         
+        const campaigns = await listCampaigns();
+        console.log('campaigns', campaigns)
         // TODO run cron to update database to expired for domains going to expire tomorrow
         // TODO run cron to send email for domains going to expire in 1 month and in 1 week
         resolve(response)

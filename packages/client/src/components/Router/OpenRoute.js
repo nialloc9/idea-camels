@@ -33,7 +33,7 @@ export class OpenRoute extends Component {
 
   render () {
     const {component: Component, exact, path, token, location} = this.props;
-    
+
     return (
       <Route
         exact={exact}

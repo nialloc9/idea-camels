@@ -69,6 +69,16 @@ const service = {
     reason,
     data,
   }),
+  1007: ({ endpoint, service, dataLayer, caller, reason, data } = {}) => ({
+    message: "failed to create campaign",
+    code: 1007,
+    endpoint,
+    service,
+    dataLayer,
+    caller,
+    reason,
+    data,
+  }),
 };
 
 const misc = {

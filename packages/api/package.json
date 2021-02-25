@@ -25,7 +25,8 @@
     "mysql": "^2.18.1",
     "node-adwords": "^201809.0.2",
     "nodemailer": "^6.4.13",
-    "nodemailer-ses-transport": "^1.5.1"
+    "nodemailer-ses-transport": "^1.5.1",
+    "tmp": "^0.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

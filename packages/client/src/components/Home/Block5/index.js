@@ -6,7 +6,6 @@ import {
   getMarginsOrPaddings,
 } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
-import withEditable from "../../../hoc/withEditable";
 import { Button } from "../../Button";
 import Carausel from "./Carousel";
 
@@ -124,7 +123,7 @@ const StyledButton = styled(Button)`
 const AnalyticsButton = withAnalytics(StyledButton);
 
 export default withTheme(
-  withEditable(({ theme: { block5 } }) => (
+  ({ theme: { block5 } }) => (
     <Fragment>
       <Carausel />
       <Container>
@@ -148,5 +147,5 @@ export default withTheme(
         </InnerContainer>
       </Container>
     </Fragment>
-  ))
+  )
 );
