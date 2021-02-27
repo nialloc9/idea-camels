@@ -115,14 +115,14 @@ class LoggedIn extends Component {
           Experiment Design
         </AnalyticsMenuItem>
         <AnalyticsMenuItem
-          name="new-experiment"
-          active={activeItem === "new-experiment"}
+          name="create-experiment"
+          active={activeItem === "create-experiment"}
           onClick={this.handleItemClick}
-          action="navigation-new-experiment"
+          action="navigation-create-experiment"
           label="click"
-          href="/new-experiment"
+          href="/create-experiment"
         >
-          New Experiment
+          Create Experiment
         </AnalyticsMenuItem>
         <MenuMenu position="right">
           <AnalyticsMenuItem

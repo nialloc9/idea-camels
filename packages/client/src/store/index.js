@@ -10,7 +10,7 @@ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers(history), composeEnhancer(middleware));
 
 store.subscribe(() => {
-    const { account } = store.getState();
+    const { account, experiment: { experiment } } = store.getState();
 
     const { token, rememberMe, data } = account;
 
@@ -19,6 +19,13 @@ store.subscribe(() => {
         encodeCookie({ token, rememberMe, data }),
         "/",
         rememberMe ? config.security.extended_cookie_expiration : config.security.default_cookie_expiration
+    );
+
+    setCookie(
+        "experiment",
+        encodeCookie({ experiment }),
+        "/",
+        config.security.default_cookie_expiration
     );
 });
 

@@ -15,20 +15,73 @@ export const onFetch = () => async (dispatch, getState) => {
     const onSetState = setState(dispatch);
     const payload = { isFetchLoading: true, fetchErrorMessage: '' };
     try {
+       
+        const { account: { token }, experiment: { isFetchInitialised } } = getState();
+        
+        if(isFetchInitialised) return;
+
         onSetState(payload);
-        
-        const { account: { token } } = getState();
-        
+
         const response = await postApi({ uri: `experiment/get-by-account`, token });
         
         const { data: { experiments } } = response
          
         payload.data = experiments;
         payload.fetchErrorMessage = '';
+        payload.isFetchInitialised = true;
     } catch ({ message }) {
         payload.fetchErrorMessage = message;
     } finally {
         payload.isFetchLoading = false;
+        onSetState(payload)
+    }
+};
+
+export const onFetchTemplates = () => async (dispatch, getState) => {
+
+    const onSetState = setState(dispatch);
+    const payload = { isFetchTemplatesLoading: true, fetchTemplatesErrorMessage: '' };
+    try {
+        const { account: { token }, experiment: { isFetchTemplatesInitialised } } = getState();
+
+        if(isFetchTemplatesInitialised) return;
+
+        onSetState(payload);
+        
+        const response = await postApi({ uri: `template/get-with-theme`, token });
+        console.log("res", response)
+        const { data: { templates } } = response
+         
+        payload.templates = templates;
+        payload.fetchTemplatesErrorMessage = '';
+        payload.isFetchTemplatesInitialised = true;
+    } catch ({ message }) {
+        payload.fetchTemplatesErrorMessage = message;
+    } finally {
+        payload.isFetchTemplatesLoading = false;
+        onSetState(payload)
+    }
+};
+
+export const onCreate = ({ content, theme, expiry, name, templateRef, domainRef }) => async (dispatch, getState) => {
+
+    const onSetState = setState(dispatch);
+    const payload = { isCreateLoading: true, createErrorMessage: '' };
+    try {
+        onSetState(payload);
+        
+        const { account: { token }, experiments: { data } } = getState();
+        
+        const response = await postApi({ uri: `experiment/create`, token, body: { content, theme, expiry, name, templateRef, domainRef } });
+        
+        const { data: { experiment } } = response
+         
+        payload.data = [experiment, ...data];
+        payload.createErrorMessage = '';
+    } catch ({ message }) {
+        payload.createErrorMessage = message;
+    } finally {
+        payload.isCreateLoading = false;
         onSetState(payload)
     }
 };

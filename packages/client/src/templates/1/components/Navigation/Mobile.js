@@ -3,9 +3,6 @@ import { Menu, Item } from "../Styled/Menu";
 import { Block } from "../Styled/Block";
 import { Button } from "../Styled/Button";
 import { withTheme } from "../../utils/style";
-import withAnalytics from "../../hoc/withAnalytics";
-
-const AnalyticsMenuItem = withAnalytics(Item);
 
 export default withTheme(({ theme, content }) => {
   const [{ isOpen, activeItem }, setState] = useState({
@@ -33,23 +30,19 @@ export default withTheme(({ theme, content }) => {
           icon="align justify"
           backgroundColor={theme.colors.main001}
           color={theme.colors.white000}
-          action="navigation-mobile-button"
-          label="click"
         />
       </Item>
       {isOpen &&
-        content.navigation.items.map(({ text, href }) => (
-          <AnalyticsMenuItem
+        content.navigation.items.map(({ text }) => (
+          <Item
             key={text}
             name={text}
             active={activeItem === text}
-            action={`${text.replace(" ", "-")}-click`.toLowerCase()}
-            href={href}
           >
             <Block textAlign="center" width="100%">
               {text}
             </Block>
-          </AnalyticsMenuItem>
+          </Item>
         ))}
     </Menu>
   );

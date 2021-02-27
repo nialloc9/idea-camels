@@ -6,12 +6,12 @@ import Block3 from "../components/Home/Block3";
 import Block4 from "../components/Home/Block4";
 import Block5 from "../components/Home/Block5";
 
-export default withPageAnalytics(() => (
+export default withPageAnalytics(({ content }) => (
     <Fragment>
-        <Block1 />
-        <Block2 />
-        <Block3 />
-        <Block4 />
-        <Block5 />
+        <Block1 content={content} />
+        <Block2 content={content} />
+        <Block3 content={content} />
+        <Block4 content={content} />
+        <Block5 content={content} />
     </Fragment>
 ));

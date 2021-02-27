@@ -1,6 +1,5 @@
 import React from "react";
 import { remCalc, styled, withTheme } from "../../../utils/style";
-import withAnalytics from "../../../hoc/withAnalytics";
 import { Image } from "../../Image";
 import { Button } from "../../Button";
 
@@ -57,19 +56,14 @@ const ButtonContainer = styled.div`
   max-width: ${({ theme: { block1: { buttonWidth } } }) => buttonWidth ? remCalc(buttonWidth) : "auto"};
 `;
 
-const AnalyticsImage = withAnalytics(Image);
-
-const AnalyticsButton = withAnalytics(Button);
-
 export default withTheme(({ theme: { block1: { buttonSize } }, content }) => (
   <Container>
     <InnerContainer>
       <ImageContainer>
-        <AnalyticsImage
+        <Image
           alt={content.block1.logo.alt}
           size="small"
           src={content.block1.logo.src}
-          action="block1-logo"
         />
       </ImageContainer>
       <Heading>
@@ -80,15 +74,13 @@ export default withTheme(({ theme: { block1: { buttonSize } }, content }) => (
       </SubHeading>
 
       <ButtonContainer>
-        <AnalyticsButton
-          href="/coming-soon"
-          action="block1-button"
+        <Button
           color="black"
           size={buttonSize}
           basic
         >
           {content.block1.button.text}
-        </AnalyticsButton>
+        </Button>
       </ButtonContainer>
     </InnerContainer>
   </Container>

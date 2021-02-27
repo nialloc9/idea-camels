@@ -7,7 +7,7 @@ import { SoftLink } from '../Link';
 
 const AnalyticsMenuItem = withAnalytics(Item);
 
-export const Experiments = ({ experiments, match, isLoading }) => {
+export const Experiments = ({ experiments, match = {}, isLoading }) => {
 
     if(isLoading) {
         return <Item><Loader size="mini"/></Item>
@@ -15,7 +15,7 @@ export const Experiments = ({ experiments, match, isLoading }) => {
 
     if(experiments.length === 0) return null;
     
-    const { params: { experimentId } } = match;
+    const { params: { experimentId } = {} } = match;
 
     const experimentText = experimentId && experiments.length > 0 ? experiments.find(({ experiment_ref }) => experiment_ref === parseInt(experimentId)).name : "Experiments";
     

@@ -1,5 +1,4 @@
 import React from "react";
-import withAnalytics from "../../hoc/withAnalytics";
 import { styled, remCalc, withTheme } from "../../utils/style";
 import { Grid, GridColumn } from "../Grid";
 import { Image } from "../Image";
@@ -36,9 +35,6 @@ const StyledListItem = styled(ListItem)`
   }
 `;
 
-const AnalyticsIcon = withAnalytics(StyledIcon);
-const AnalyticsListItem = withAnalytics(StyledListItem);
-
 export default withTheme(({ theme: { footer: { column1, column3 } }, content }) => (
   <Container>
     <Grid stackable container columns={3}>
@@ -49,26 +45,22 @@ export default withTheme(({ theme: { footer: { column1, column3 } }, content }) 
       <GridColumn>
         <List>
           {content.footer.column2.map(({ text, ...rest }) => (
-            <AnalyticsListItem
+            <StyledListItem
               key={text}
               {...rest}
-              as="a"
             >
               {text}
-            </AnalyticsListItem>
+            </StyledListItem>
           ))}
         </List>
       </GridColumn>
       <GridColumn>
-      {content.footer.column3.map(({ href, action, name }) => (
-            <a href={href}>
-              <AnalyticsIcon
-                bordered
-                size={column3.iconSize}
-                action={action}
-                name={name}
-              />
-            </a>
+      {content.footer.column3.map(({ name }) => (
+            <StyledIcon
+            bordered
+            size={column3.iconSize}
+            name={name}
+          />
           ))}
       </GridColumn>
     </Grid>

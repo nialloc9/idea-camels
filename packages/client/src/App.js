@@ -7,7 +7,7 @@ import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import Demo from "./pages/Demo";
 import ComingSoon from "./pages/ComingSoon";
-import ExperimentDesign from "./pages/ExperimentDesign";
+import CreateExperiment from "./pages/CreateExperiment";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import store, {Provider} from "./store";
@@ -34,8 +34,9 @@ const routes = [
     component: Demo
   }
   ,{
-    path: "/experiment-design",
-    component: ExperimentDesign
+    path: "/create-experiment",
+    component: CreateExperiment,
+    isAuth: true
   },
   {
     path: "/sign-up",

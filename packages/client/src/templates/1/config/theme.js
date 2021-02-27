@@ -1,7 +1,3 @@
-import placeholder from "../static/placeholder.png";
-import placeholder2 from "../static/placeholder2.png";
-import placeholder4 from "../static/placeholder4.jpeg";
-
 const MAIN_000 = "lightgrey";
 const MAIN_001 = "grey";
 
@@ -21,7 +17,7 @@ const defaultFont = {
   fontFamily: FONT_000,
 };
 
-export const templateOneDefaultTheme = {
+export default {
   colors: {
     main000: MAIN_000,
     main001: MAIN_001,
@@ -38,9 +34,6 @@ export const templateOneDefaultTheme = {
   defaultFont: {
     color: TEXT_000,
     fontFamily: FONT_000,
-  },
-  logos: {
-    main000: placeholder,
   },
   // landing page
   breakpoints: {
@@ -62,17 +55,13 @@ export const templateOneDefaultTheme = {
       backgroundColor: MAIN_001,
       color: WHITE_000,
     },
-    logoSize: 23,
-    logo: {
-      src: placeholder,
-    },
+    logoSize: 23
   },
   block1: {
     height: 700,
     width: 728,
     paddings: [0, 20, 0, 20],
     backgroundColor: WHITE_000,
-    logo: placeholder,
     headingSize: 60,
     headingLineHeight: 66,
     headingMargins: [40, 0, 0, 0],
@@ -84,7 +73,6 @@ export const templateOneDefaultTheme = {
   },
   block2: {
     height: 700,
-    image: placeholder4,
     backgroundRepeat: "repeat",
   },
   block3: {
@@ -146,7 +134,6 @@ export const templateOneDefaultTheme = {
     },
     firstCard: {
       image: {
-        src: placeholder,
         size: "small",
       },
     },
@@ -168,9 +155,6 @@ export const templateOneDefaultTheme = {
     carousel: {
       size: "huge",
       textAlign: "center",
-      image1: placeholder2,
-      image2: placeholder2,
-      image3: placeholder2,
     },
     quote: {
       size: 50,
@@ -202,7 +186,6 @@ export const templateOneDefaultTheme = {
     paddings: [60, 0, 0, 0],
     backgroundColor: GRAY_000,
     column1: {
-      imageSrc: placeholder,
       imageSize: "mini",
     },
     column2: {
@@ -233,57 +216,3 @@ export const templateOneDefaultTheme = {
     },
   },
 };
-
-export const templateOptions = [
-  {
-    key: "Template 1",
-    text: "Default",
-    value: 1,
-  },
-  {
-    key: "Template 2",
-    text: "Template 2",
-    value: 2,
-  },
-  {
-    key: "Template 3",
-    text: "Template 3",
-    value: 3,
-  },
-];
-
-export const activeExperiments = [
-  {
-    key: "Experiment 1",
-    text: "Experiment 1",
-    value: 1,
-  },
-  {
-    key: "Experiment 2",
-    text: "Experiment 2",
-    value: 2,
-  },
-  {
-    key: "Experiment 3",
-    text: "Experiment 3",
-    value: 3,
-  },
-];
-
-export const themeOptions = [
-  {
-    key: "Theme 1",
-    text: "Default",
-    value: 1,
-  },
-  {
-    key: "Theme 2",
-    text: "Theme 2",
-    value: 2,
-  },
-  {
-    key: "Theme 3",
-    text: "Theme 3",
-    value: 3,
-  },
-];

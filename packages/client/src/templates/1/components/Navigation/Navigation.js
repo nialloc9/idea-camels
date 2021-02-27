@@ -1,10 +1,7 @@
 import React, { Fragment } from "react";
-import withAnalytics from "../../hoc/withAnalytics";
 import { Menu, Item, MenuMenu } from "../Styled/Menu";
 import { Image } from "../Styled/Image";
 import { remCalc, withTheme } from "../../utils/style";
-
-const AnalyticsMenuItem = withAnalytics(Item);
 
 const Navigation = withTheme(({ theme, content }) => {
 
@@ -19,25 +16,21 @@ const Navigation = withTheme(({ theme, content }) => {
         anchorColor={theme.colors.white000}
         fontFamily={theme.defaultFont.fontFamily}
       >
-        <AnalyticsMenuItem
+        <Item
           name="logo"
           active
-          action="navigation-logo-click"
-          href="/"
         >
           <Image
             maxWidth={remCalc(23)}
             alt={content.navigation.logo.alt}
             src={theme.logos.main000}
           />
-        </AnalyticsMenuItem>
+        </Item>
         <MenuMenu position="right">
-          {content.navigation.items.map(({ text, href }) => (
-            <AnalyticsMenuItem
+          {content.navigation.items.map(({ text }) => (
+            <Item
               key={text}
               name={text}
-              href={href}
-              action={`${text.replace(" ", "-")}-click`.toLowerCase()}
             />
           ))}
         </MenuMenu>

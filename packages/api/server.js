@@ -23,6 +23,7 @@ endpoints.forEach(({ uri, required = [], isAuth = false, func }) =>
             
             return sendResponse(res, { payload, uri })
         } catch(error) {
+            console.log("ero", error)
             return sendError(res, { error, uri })
         }
     }
