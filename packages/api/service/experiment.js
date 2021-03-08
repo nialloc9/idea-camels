@@ -23,7 +23,7 @@ const onGetAccountExperiments = ({data: { decodedToken: { data: { accountRef } }
         const response = await onGetWithThemeByAccountRef({ data: { accountRef }, caller });
         
         const campaigns = await listCampaigns();
-        console.log('campaigns', campaigns)
+       
         // TODO run cron to update database to expired for domains going to expire tomorrow
         // TODO run cron to send email for domains going to expire in 1 month and in 1 week
         resolve(response)

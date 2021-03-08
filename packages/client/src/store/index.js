@@ -4,6 +4,7 @@ import { history } from "./middleware/history";
 import reducers from "./reducers";
 import {config} from "../config";
 import { setCookie, encodeCookie } from "../utils/cookie";
+import { setCache } from "../utils/cache";
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -20,12 +21,10 @@ store.subscribe(() => {
         "/",
         rememberMe ? config.security.extended_cookie_expiration : config.security.default_cookie_expiration
     );
-
-    setCookie(
+  
+    setCache(
         "experiment",
-        encodeCookie({ experiment }),
-        "/",
-        config.security.default_cookie_expiration
+        {experiment, test: 'test'}
     );
 });
 

@@ -2,7 +2,7 @@ import React from "react";
 import Navigation from "./Navigation";
 import Mobile from "./Mobile";
 
-export default ({ content }) => [
-  <Navigation content={content} />,
-  <Mobile content={content} />,
+export default ({ content, onSetExperiment }) => [
+  <Navigation content={content} onSetExperiment={onSetExperiment} />,
+  <Mobile content={content} onSetExperiment={onSetExperiment}  />,
 ]

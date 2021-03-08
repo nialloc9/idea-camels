@@ -1,16 +1,14 @@
 import React from "react";
-import { styled, remCalc } from "../../utils/style";
+import { styled } from "../../utils/style";
 
 const StyledLabel = styled.label`
   ${({ fontWeight }) => fontWeight && `font-weight: ${fontWeight};`}
   ${({ marginBottom }) => marginBottom && `margin-bottom: ${marginBottom};`}
+  ${({ cursor }) => cursor && `cursor: ${cursor};`}
 `;
 
-export const Label = ({ fontWeight = 800 }) => (
-  <label fontWeight={800}>
+export const Label = ({ label = "", ...rest }) => label !== "" && (
+  <StyledLabel {...rest}>
     {label}
-    {info !== "" && (
-      <ToolTipIcon name="info circle" tooltip={info} color="orange" />
-    )}
-  </label>
+  </StyledLabel>
 );

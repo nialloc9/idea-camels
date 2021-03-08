@@ -2,6 +2,7 @@ import React from "react";
 import { remCalc, styled, withTheme } from "../../../utils/style";
 import { Image } from "../../Image";
 import { Button } from "../../Button";
+import { EditableText, EditableButton, EditableImage, createImagePreview } from "../../Edit";
 
 const Container = styled.section`
   min-height: ${({ theme: { block1: { height } } }) => remCalc(height)};
@@ -56,31 +57,33 @@ const ButtonContainer = styled.div`
   max-width: ${({ theme: { block1: { buttonWidth } } }) => buttonWidth ? remCalc(buttonWidth) : "auto"};
 `;
 
-export default withTheme(({ theme: { block1: { buttonSize } }, content }) => (
+export default withTheme(({ theme: { block1: { buttonSize }}, content, onSetExperiment }) => (
   <Container>
     <InnerContainer>
       <ImageContainer>
-        <Image
+        <EditableImage
           alt={content.block1.logo.alt}
           size="small"
           src={content.block1.logo.src}
+          test={content.block1.logo.src}
+          onSubmit={file => onSetExperiment({ content: { block1: { logo: { src: createImagePreview(file) } } }, imageFiles: { block1: { logo: file } } })}
         />
       </ImageContainer>
       <Heading>
-        {content.block1.heading.text}
+        <EditableText initialText={content.block1.heading.text} onSubmit={text => onSetExperiment({ content: { block1: { heading: { text } } } })} />
       </Heading>
       <SubHeading>
-        {content.block1.subHeading.text}
+      <EditableText initialText={content.block1.subHeading.text} onSubmit={text => onSetExperiment({ content: { block1: { subHeading: { text } } } })} />
       </SubHeading>
 
       <ButtonContainer>
-        <Button
+        <EditableButton
           color="black"
           size={buttonSize}
           basic
-        >
-          {content.block1.button.text}
-        </Button>
+          initialText={content.block1.button.text}
+          onSubmit={text => onSetExperiment({ content: { block1: { button: { text } } } })}
+        />
       </ButtonContainer>
     </InnerContainer>
   </Container>

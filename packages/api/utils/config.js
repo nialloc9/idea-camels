@@ -29,7 +29,7 @@ const localhost = {
   port: SERVER_PORT,
   webAddress: "https://ideacamels.com",
   env: ENV,
-  isProd: true,
+  isProd: ENV==="production",
   name: "idea-camels-server",
   security: {
     password_secret: PASSWORD_SECRET,

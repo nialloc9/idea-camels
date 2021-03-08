@@ -1,6 +1,6 @@
 const { GoogleAdsApi, enums, toMicros, fromMicros } = require("google-ads-api");
 const config = require("./config");
-const { reverseObjectKeyValues, changeKeys } = require("./utils");
+const { reverseObjectKeyValues, changeKeys, logger } = require("./utils");
 const { campaignBudget: campaignBudgetMock, campaign: campaignMock, adGroup: adGroupMock, adGroupAd: adGroupAdMock } = require("./mocks/googleAds");
 
 /**
@@ -84,6 +84,11 @@ const customer = client.Customer({
  */
 const createCampaign = async campaign => {
   
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO CREATE CAMPAIGN")
+    return {}
+  };
+
   const { results } = await customer.campaigns.create({ ...changeKeys(campaign, campaignMapReversed), target_spend: {}}, { validate_only: !config.isProd });
 
   return config.isProd ? results[0] : campaignMock.resource_name;
@@ -95,6 +100,11 @@ const createCampaign = async campaign => {
  */
 const updateCampaign = async campaign => {
 
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO UPDATE CAMPAIGN")
+    return {}
+  };
+
   const { results } = await customer.campaigns.update(changeKeys(campaign, campaignMapReversed), { validate_only: !config.isProd });
 
   return config.isProd ? results[0] : campaignMock;
@@ -103,17 +113,39 @@ const updateCampaign = async campaign => {
 /**
  * @description https://opteo.com/dev/google-ads-api/#list-campaignbudget
  */
-const listCampaigns = async () => await customer.customerClients.list();
+const listCampaigns = async () => {
+
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO LIST CAMPAIGNS")
+    return []
+  };
+
+  return await customer.customerClients.list()
+};
 
 /**
  * @description https://opteo.com/dev/google-ads-api/#delete-campaign
  */
-const deleteCampaign = async name => await customer.campaigns.delete(name, { validate_only: !config.isProd });
+const deleteCampaign = async name => {
+
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO DELETE CAMPAIGN")
+    return {}
+  };
+
+  return await customer.campaigns.delete(name, { validate_only: !config.isProd });
+}
 
 /**
  * @description https://opteo.com/dev/google-ads-api/#campaignbudget
  */
 const createBudget = async budget => {  
+
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO CREATE BUDGET")
+    return {}
+  };
+
   const { results } = await customer.campaignBudgets.create(changeKeys(budget, budgetMapReversed), { validate_only: !config.isProd })
 
   return config.isProd ? results[0] : campaignBudgetMock.resource_name;
@@ -122,18 +154,39 @@ const createBudget = async budget => {
 /**
  * @description https://opteo.com/dev/google-ads-api/#list-campaignbudget
  */
-const listBudgets = async () => await customer.campaignBudgets.list()
+const listBudgets = async () => {
+
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO LIST BUDGETS")
+    return []
+  };
+
+  return await customer.campaignBudgets.list()
+}
 
 /**
  * @description https://opteo.com/dev/google-ads-api/#delete-campaignbudget
  */
-const deleteBudget = async name => await customer.campaignBudgets.delete(name, { validate_only: !config.isProd });
+const deleteBudget = async name => {
+
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO DELETE BUDGET")
+    return {}
+  };
+
+  return await customer.campaignBudgets.delete(name, { validate_only: !config.isProd });
+}
 
 /**
  * @description https://opteo.com/dev/google-ads-api/#create-adgroup
  * @param { campaign, maxCostPerClick, maxCostPer1000Impressions, status, type } param0 
  */
 const createAdGroup = async adGroup => {
+
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO CREATE ADGROUP")
+    return {}
+  };
 
   const { results } = await customer.adGroups.create(changeKeys(adGroup, adGroupMapReversed), { validate_only: !config.isProd });
 
@@ -146,6 +199,11 @@ const createAdGroup = async adGroup => {
  */
 const updateAdGroup = async adGroup => {
 
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO UPDATE ADGROUP")
+    return {}
+  };
+
   const { results } = await customer.adGroups.update(changeKeys(adGroup, adGroupMapReversed), { validate_only: !config.isProd });
 
   return config.isProd ? results[0] : adGroupMock;
@@ -156,6 +214,12 @@ const updateAdGroup = async adGroup => {
  * @param { ad, adGroup, adStrength, policySummary, resourceName, type } param0 
  */
 const createAdGroupAd = async adGroupAd => {
+
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO CREATE ADGROUPAD")
+    return {}
+  };
+
   const { results } = await customer.adGroupAds.create(changeKeys(adGroupAd, adGroupAdMapReversed), { validate_only: !config.isProd });
   
   return config.isProd ? results[0] : adGroupAdMock.resource_name;
@@ -167,12 +231,22 @@ const createAdGroupAd = async adGroupAd => {
  */
 const updateAdGroupAd = async adGroupAd => {
 
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO UPDATE ADGROUPAD")
+    return {}
+  };
+
   const { results } = await customer.adGroupAds.update(changeKeys(adGroupAd, adGroupAdMapReversed), { validate_only: !config.isProd });
 
   return config.isProd ? results[0] : adGroupAdMock;
 };
 
 const getMetrics = async ({ metrics, orderBy, adGroupResourceName }) => {
+
+  if(config.noInternet) {
+    logger.info("NO INTERNET TO GET AGGROUP METRICS")
+    return {}
+  };
 
   const mappedMetrics = metrics.map(o => metricMap[o]);
 

@@ -1,5 +1,6 @@
 import {EXPERIMENT_SET} from '../constants/experiment';
 import {postApi} from '../../utils/request';
+import {deepMerge} from '../../utils/utils';
 
 /**
  * sets the loading state
@@ -49,7 +50,7 @@ export const onFetchTemplates = () => async (dispatch, getState) => {
         onSetState(payload);
         
         const response = await postApi({ uri: `template/get-with-theme`, token });
-        console.log("res", response)
+        
         const { data: { templates } } = response
          
         payload.templates = templates;
@@ -85,3 +86,12 @@ export const onCreate = ({ content, theme, expiry, name, templateRef, domainRef 
         onSetState(payload)
     }
 };
+
+export const onSetExperiment = newExperiment => (dispatch, getState) => {
+
+    const onSetState = setState(dispatch);
+
+    const { experiment: { experiment } } = getState();
+    
+    onSetState({ experiment: deepMerge(experiment, newExperiment) })
+}

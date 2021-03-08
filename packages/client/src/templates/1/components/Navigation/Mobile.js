@@ -2,15 +2,22 @@ import React, { useState } from "react";
 import { Menu, Item } from "../Styled/Menu";
 import { Block } from "../Styled/Block";
 import { Button } from "../Styled/Button";
+import { EditableText } from "../Edit";
 import { withTheme } from "../../utils/style";
 
-export default withTheme(({ theme, content }) => {
+export default withTheme(({ theme, content, onSetExperiment }) => {
   const [{ isOpen, activeItem }, setState] = useState({
     activeItem: "home",
     isOpen: false,
   });
 
   const handleMenuClick = () => setState({ isOpen: !isOpen });
+
+  const handleTextSubmit = index => value => {  
+    const items = [ ...content.navigation.items ];
+    items[index] = { ...items[index], text: value };
+    onSetExperiment({ content: { navigation: { items } } })
+  }
 
   return (
     <Menu
@@ -33,14 +40,14 @@ export default withTheme(({ theme, content }) => {
         />
       </Item>
       {isOpen &&
-        content.navigation.items.map(({ text }) => (
+        content.navigation.items.map(({ text }, i) => (
           <Item
             key={text}
             name={text}
             active={activeItem === text}
           >
             <Block textAlign="center" width="100%">
-              {text}
+              <EditableText initialText={text} onSubmit={handleTextSubmit(i)} />
             </Block>
           </Item>
         ))}

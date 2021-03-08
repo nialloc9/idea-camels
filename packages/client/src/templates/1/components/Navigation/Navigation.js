@@ -1,9 +1,15 @@
 import React, { Fragment } from "react";
 import { Menu, Item, MenuMenu } from "../Styled/Menu";
-import { Image } from "../Styled/Image";
+import { EditableText, EditableImage, createImagePreview } from "../Edit";
 import { remCalc, withTheme } from "../../utils/style";
 
-const Navigation = withTheme(({ theme, content }) => {
+const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
+
+  const handleTextSubmit = index => value => {  
+    const items = [ ...content.navigation.items ];
+    items[index] = { ...items[index], text: value };
+    onSetExperiment({ content: { navigation: { items } } })
+  }
 
   return (
     <Fragment>
@@ -20,18 +26,23 @@ const Navigation = withTheme(({ theme, content }) => {
           name="logo"
           active
         >
-          <Image
+          <EditableImage
+            iconSize="small"
             maxWidth={remCalc(23)}
             alt={content.navigation.logo.alt}
-            src={theme.logos.main000}
+            src={content.navigation.logo.src}
+            label=""
+            border="none"
+            padding={0}
+            onSubmit={file => onSetExperiment({ content: { navigation: { logo: { src: createImagePreview(file) } } }, imageFiles: { navigation: { logo: file } } })}
           />
         </Item>
         <MenuMenu position="right">
-          {content.navigation.items.map(({ text }) => (
+          {content.navigation.items.map(({ text }, i) => (
             <Item
               key={text}
               name={text}
-            />
+            ><EditableText initialText={text} onSubmit={handleTextSubmit(i)} /></Item>
           ))}
         </MenuMenu>
       </Menu>

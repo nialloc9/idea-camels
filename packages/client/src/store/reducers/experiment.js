@@ -1,6 +1,6 @@
 import {EXPERIMENT_SET} from '../constants/experiment';
 import {STORE_RESET} from '../constants/store';
-import {getCookie, decodecookie} from '../../utils/cookie';
+import { getCache } from "../../utils/cache";
 
 const initialState = {
     data: [],
@@ -9,10 +9,12 @@ const initialState = {
     experiment: {
         name: '',
         expiry: undefined,
-        content: {},
-        theme: {},
+        content: undefined,
+        theme: undefined,
         templateRef: undefined,
-        domainRef: undefined
+        themeRef: undefined,
+        domainRef: undefined,
+        imageFiles: {},
     },
     isFetchLoading: false,
     isFetchInitialised: false,
@@ -24,9 +26,7 @@ const initialState = {
     fetchTemplatesErrorMessage: ''
 };
 
-const cookie = getCookie('experiment');
-
-const cache = cookie ? decodecookie(cookie) : {};
+const cache = getCache('experiment') || {};
 
 const persistedState = cache ? {...initialState, ...cache} : initialState;
 
@@ -39,7 +39,7 @@ const persistedState = cache ? {...initialState, ...cache} : initialState;
 const experiment = (state = persistedState, { type, payload }) => {
 
     const map = {
-        [EXPERIMENT_SET]: () => ({ ...state, ...payload }),
+        [EXPERIMENT_SET]: () => JSON.parse(JSON.stringify({ ...state, ...payload })),
         [STORE_RESET]: () => initialState
     }
 

@@ -27,6 +27,9 @@ export const Button = styled(
   }
 
   &:hover {
-    filter: brightness(0.96);
+    ${({ hoverFilter = 'brightness(0.96)' }) =>
+      hoverFilter && `filter: ${hoverFilter};`}
+    ${({ hoverOpacity = false }) =>
+      hoverOpacity && `opacity: ${hoverOpacity};`}
   }
 `;

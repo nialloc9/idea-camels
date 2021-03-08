@@ -40,11 +40,12 @@ export const postApi = ({ uri, body, headers, token, cache, mode }) => post({ ur
  * @param {*} payload
  * @returns {<Promise>}
  */
-export const upload =  async ({ type, folder, file, token, caller }) => {
-    const data = new FormData();
-    data.append("image", file);
-    data.append("folder", folder);
-    data.append("caller", caller);
+export const upload = ({ type, folder, file, token, data, caller }) => {
+    const body = new FormData();
+    body.append("file", file);
+    body.append("folder", folder);
+    body.append("data", data);
+    body.append("caller", caller);
 
     return postApi({
         uri: `upload/${type}`,
@@ -52,7 +53,7 @@ export const upload =  async ({ type, folder, file, token, caller }) => {
         cache: "no-cache",
         mode: "cors",
         method: "POST",
-        body: data,
+        body,
         token
     })
 };

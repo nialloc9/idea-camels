@@ -8,15 +8,15 @@ import Block4 from "./components/Home/Block4";
 import Block5 from "./components/Home/Block5";
 import Footer from "./components/Footer";
 
-export default ({ theme, content }) => (
+export default ({ theme, content, onSetExperiment }) => (
   <ThemeProvider theme={theme}>
-      <Navigation content={content} />
-        <Block1 content={content}  />
-        <Block2 content={content} />
-        <Block3 content={content} />
-        <Block4 content={content} />
-        <Block5 content={content} />
-      <Footer content={content} />
+      <Navigation content={content} onSetExperiment={onSetExperiment} />
+        <Block1 content={content} onSetExperiment={onSetExperiment}  />
+        <Block2 content={content} onSetExperiment={onSetExperiment} />
+        <Block3 content={content} onSetExperiment={onSetExperiment} />
+        <Block4 content={content} onSetExperiment={onSetExperiment} />
+        <Block5 content={content} onSetExperiment={onSetExperiment} />
+      <Footer content={content} onSetExperiment={onSetExperiment} />
     </ThemeProvider>
 );
 

@@ -37,3 +37,33 @@ export default (WrappedComponent) => ({
       </ControlsContainer>
     </EditableContainer>
   );
+
+
+const Edit = styled.span`
+  cursor: pointer;
+  :hover {
+    opacity: 0.5
+  }
+`;
+
+export class EditableText extends React.Component {
+
+  constructor({ initialText }) {
+    this.state = {
+      text: initialText,
+      isOpen: false
+    }
+  }
+
+  handleOpenClick = () => this.setState({ isOpen: !this.state.isOpen })
+
+  handleChange = (e, { value }) => this.setState({ text: value })
+  
+  render() {
+    const { isOpen, text } = this.state;
+    
+    return (
+      <Edit>{text}</Edit>
+    )
+  }
+}
