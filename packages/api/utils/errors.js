@@ -124,6 +124,29 @@ const misc = {
   }),
 };
 
+const file = {
+  3001: ({ endpoint, service, dataLayer, caller, reason, data } = {}) => ({
+    message: "could not read file",
+    code: 3001,
+    endpoint,
+    service,
+    dataLayer,
+    caller,
+    reason,
+    data,
+  }),
+  3002: ({ endpoint, service, dataLayer, caller, reason, data } = {}) => ({
+    message: "could not upload to S3",
+    code: 3002,
+    endpoint,
+    service,
+    dataLayer,
+    caller,
+    reason,
+    data,
+  }),
+};
+
 const database = {
   4000: ({ endpoint, service, dataLayer, caller, reason, data } = {}) => ({
     message: "could not connect to database",
@@ -150,5 +173,6 @@ const database = {
 module.exports = {
   ...service,
   ...misc,
+  ...file,
   ...database,
 };

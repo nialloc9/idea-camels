@@ -1,5 +1,5 @@
 const { generateRandomId } = require('../utils/utils')
-const { uploadFile } = require('../utils/upload');
+const { uploadToS3 } = require('../utils/aws');
 const config = require('../utils/config')
 
 const {
@@ -15,12 +15,10 @@ const {
  */
 const uploadImage = async ({ file, decodedToken: { accountRef }, caller }) => new Promise(async (resolve, reject) => {
     try {
-        const response = await uploadFile({
-            bucketName: userImageBucket,
-            folder: `${accountRef}/images`,
+        const response = await uploadToS3({
+            bucket: userImageBucket,
             file,
-            type: "image",
-            name: generateRandomId(),
+            path: generateRandomId(),
             caller
         });
 

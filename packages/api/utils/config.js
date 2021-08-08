@@ -29,7 +29,7 @@ const localhost = {
   port: SERVER_PORT,
   webAddress: "https://ideacamels.com",
   env: ENV,
-  isProd: ENV==="production",
+  isProd: ENV==="prod",
   name: "idea-camels-server",
   security: {
     password_secret: PASSWORD_SECRET,
@@ -95,7 +95,12 @@ const localhost = {
     customerId: GOOGLE_ADS_CUSTOMER_ID,
     customerIdSplit: GOOGLE_ADS_CUSTOMER_ID.split("-").join("")
   },
-  noInternet: true,
+  builder: {
+    themes: {
+      bucketName: `prod-themes`
+    }
+  },
+  noInternet: false,
 };
 
 const staging = {
@@ -103,7 +108,7 @@ const staging = {
   noInternet: false,
 };
 
-const production = {
+const prod = {
   ...staging,
   aws: {
     ...staging.aws,
@@ -114,5 +119,5 @@ module.exports =
   {
     localhost,
     staging,
-    production,
+    prod,
   }[ENV] || localhost;

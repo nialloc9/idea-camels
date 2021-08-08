@@ -66,7 +66,7 @@ export default withTheme(({ theme: { block1: { buttonSize }}, content, onSetExpe
           size="small"
           src={content.block1.logo.src}
           test={content.block1.logo.src}
-          onSubmit={file => onSetExperiment({ content: { block1: { logo: { src: createImagePreview(file) } } }, imageFiles: { block1: { logo: file } } })}
+          onSubmit={file => onSetExperiment({ content: { block1: { logo: { src: createImagePreview(file) } } }, imageFiles: { block1: { logo: { src: file } } } })}
         />
       </ImageContainer>
       <Heading>

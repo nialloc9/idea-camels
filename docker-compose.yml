@@ -13,7 +13,7 @@ services:
     - "3001:3001"
     volumes:
     - ./packages/api:/usr/src/app:cached
-    - $HOME/.aws/credentials:/home/app/.aws/credentials:ro
+    - $HOME/.aws/credentials:/root/.aws/credentials:ro
     env_file:
       - ./packages/api/.dev.env
     command: npm run start

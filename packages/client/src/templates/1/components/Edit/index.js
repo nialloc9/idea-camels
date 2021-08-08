@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TextArea, Form, Input } from 'semantic-ui-react'
 import { Button } from '../Styled/Button'
-import { Image } from '../Styled/Image'
+import { Image, BackgroundImage } from '../Styled/Image'
 import { FileUpload } from '../Form/FileUpload'
 import { styled } from "../../utils/style";
 
@@ -12,6 +12,11 @@ const Edit = styled.span`
   }
 `;
 
+const FileUploadContainer = styled.span`
+  margin: auto;
+  display: flex;
+  justify-content: center;
+`;
 export class EditableText extends Component {
 
   constructor(props) {
@@ -145,6 +150,54 @@ export class EditableImage extends Component {
     
     return (
       <FileUpload iconSize={iconSize} borderStyle={borderStyle} border={border} padding={padding}  label={label} accept="image/jpeg, image/png" error={error} onSubmit={this.handleSubmit} onError={this.handeError} />
+    )
+  }
+}
+
+export class EditableBackgroundImage extends Component {
+  constructor(props) {
+    super(props)
+    
+    this.state = {
+      error: undefined,
+      isOpen: false,
+      src: props.src
+    }
+  }
+  
+  get imageProps() {
+    const { iconSize, borderStyle, border, padding, label = "Upload Image", ...rest } = this.props;
+
+    return rest
+  }
+
+  handleOpen = () => this.setState({ isOpen: !this.state.isOpen })
+
+  handleSubmit = (files) => {
+    const { onSubmit } = this.props;
+    onSubmit(files[0]);
+    this.setState({ isOpen: false })
+  }
+  
+  handeError = files => {
+    const { errors } = files[0];
+
+    const { message } = errors[0];
+
+    this.setState({ error: message })
+  }
+
+  render() {
+    const { isOpen, error, src } = this.state;
+    
+    const { iconSize, borderStyle, border, padding, label = "Upload Image" } = this.props;
+    
+    if(!isOpen) {
+        return <Edit onClick={this.handleOpen}><BackgroundImage {...this.imageProps} src={src} key={src} /></Edit>
+    }
+    
+    return (
+      <FileUploadContainer><FileUpload iconSize={iconSize} borderStyle={borderStyle} border={border} padding={padding}  label={label} accept="image/jpeg, image/png" error={error} onSubmit={this.handleSubmit} onError={this.handeError} /></FileUploadContainer>
     )
   }
 }

@@ -1,8 +1,9 @@
 const { onGetWithThemeByAccountRef, onCreate } = require('../data/experiment')
 const { onCreate: onCreateTheme } = require('../data/theme')
-const { uppercaseSentenceWords } = require('../utils/utils')
+const { uppercaseSentenceWords, generateRandomId } = require('../utils/utils')
 const { listCampaigns, getMetrics } = require('../utils/googleAds')
-const { runTask } = require('../utils/aws')
+const { runTask, uploadToS3 } = require('../utils/aws')
+const { writeToTmpFile } = require('../utils/file')
 const config = require('../utils/config')
 
 const dbNames = {
@@ -32,13 +33,31 @@ const onGetAccountExperiments = ({data: { decodedToken: { data: { accountRef } }
     }
 });
 
+/**
+ * @description Creates an experiment by uploading theme/content files to s3 and storing config in db before starting ecs task to create website
+ * @param {*} param0 
+ * @returns 
+ */
 const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, content, theme, expiry, name, templateRef }, caller}) => new Promise(async (resolve, reject) => {
     try {
 
+        const { path: contentPath, cleanup: onContentCleanUp } = await writeToTmpFile({data: content});
+        const { path: themePath, cleanup: onThemeCleanUp } = await writeToTmpFile({data: theme});
+
+        const filename = `${generateRandomId()}.json`;
+
+        const { key: themeKey } = await uploadToS3({ path: themePath, key: `themes/${filename}`, bucket: config.builder.themes.bucketName, caller });
+
+        const { key: contentKey } = await uploadToS3({ path: contentPath, key: `contents/${filename}`, bucket: config.builder.themes.bucketName, caller });
+
+        // remove tmp files
+        onContentCleanUp();
+        onThemeCleanUp();
+
         const themeData = {
             name: uppercaseSentenceWords(`${name} theme`),
-            content,
-            theme,
+            content: contentKey,
+            theme: themeKey,
             lastUpdatedBy: accountRef,
             createdBy: accountRef
         }

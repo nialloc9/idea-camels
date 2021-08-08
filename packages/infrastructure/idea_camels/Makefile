@@ -34,7 +34,7 @@ init:
 
 plan:
 	export AWS_PROFILE=$(AWS_PROFILE) \
-	&& terraform plan --var-file=environments/$(ENV)/variables.tfvars -lock=false
+	&& terraform plan --var-file=environments/$(ENV)/variables.tfvars
 
 apply:
 	export AWS_PROFILE=$(AWS_PROFILE) \

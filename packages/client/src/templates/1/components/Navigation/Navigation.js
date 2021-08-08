@@ -34,7 +34,7 @@ const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
             label=""
             border="none"
             padding={0}
-            onSubmit={file => onSetExperiment({ content: { navigation: { logo: { src: createImagePreview(file) } } }, imageFiles: { navigation: { logo: file } } })}
+            onSubmit={file => onSetExperiment({ content: { navigation: { logo: { src: createImagePreview(file) } } }, imageFiles: { navigation: { logo: { src: file } } } })}
           />
         </Item>
         <MenuMenu position="right">

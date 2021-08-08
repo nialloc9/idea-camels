@@ -1,7 +1,8 @@
 const AWS = require('aws-sdk')
 const fs = require('fs')
 const config = require('./config')
-const { logger } = require('./utils')
+const errors = require('./errors')
+const { logger, handleSuccess } = require('./utils')
 
 const defaultRoute53Provider = new AWS.Route53Domains({ region: 'us-east-1' }) // Needs to be explicitly us-east-1 as RDS is global
 const defaultECSProvider = new AWS.ECS({ region: config.aws.region })
@@ -109,7 +110,7 @@ const registerDomain = async (
   });
 
 const uploadToS3 = async ({
-  file: FileToUpload,
+  path,
   bucket: Bucket,
   key: Key,
   acl: ACL = "public-read",
@@ -118,51 +119,44 @@ const uploadToS3 = async ({
   new Promise((resolve, reject) => {
 
     if(config.noInternet) {
-      logger.warn({ contact, domain, durationInYears, autoRenew }, "There is no internet")
-      return resolve({ error: undefined, data: {} })
+      logger.warn({ path, bucket: Bucket, key: Key, acl: ACL = "public-read" }, "There is no internet")
+      return resolve(
+          handleSuccess(
+              `SERVICE_UPLOAD - FROM ${caller} - file uploaded`,
+              {}
+          )
+      );
     }
 
     const provider = newProvider || defaultS3Provider
 
-      if (noInternet) {
-          return resolve(
-              handleSuccess(
-                  `SERVICE_UPLOAD - FROM ${caller} - file uploaded`,
-                  {}
-              )
-          );
-      }
-
-      fs.readFile(FileToUpload, (error, data) => {
+      fs.readFile(path, (error, data) => {
           if (error) {
               return reject(
-                  errors["3004"]({
+                  errors["3001"]({
                       service: "SERVICE_UPLOAD",
                       caller,
                       reason: error.message,
-                      data: { file: FileToUpload }
+                      data: { path }
                   })
               );
           }
-
-          // convert file to base64
-          var base64data = new Buffer(data, "binary");
 
           provider.putObject(
               {
                   Bucket,
                   Key,
-                  Body: base64data,
+                  Body: data.toString(),
                   ACL
               },
               error => {
                   if (error) {
                       return reject(
-                          errors["3006"]({
+                          errors["3002"]({
                               service: "SERVICE_UPLOAD",
                               caller,
                               reason: error.message || error.code,
-                              data: { Key }
+                              data: { Key, Bucket }
                           })
                       );
                   }
@@ -170,7 +164,10 @@ const uploadToS3 = async ({
                   resolve(
                       handleSuccess(
                           `SERVICE_UPLOAD - FROM ${caller} - file uploaded`,
-                          {}
+                          {
+                            bucket: Bucket,
+                            key: Key
+                          }
                       )
                   );
               }

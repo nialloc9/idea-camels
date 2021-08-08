@@ -6,7 +6,6 @@ const { onGet: onGetTemplates } = require("../service/template")
 const { onCreateCampaign } = require("../service/campaign")
 const { uploadImage } = require("../service/upload")
 const { logger } = require("./utils")
-const { uploadFile } = require('./upload')
 
 /**
  * @description sends a response and logs the response
@@ -107,7 +106,7 @@ const endpoints = [
     {
       uri: "/upload/image",
       required: [ "caller", "file" ],
-      func: uploadFile,
+      func: uploadImage,
       isAuth: true
     },
   ]

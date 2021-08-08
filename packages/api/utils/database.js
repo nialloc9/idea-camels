@@ -18,6 +18,7 @@ const getConnection = async (caller) =>
   new Promise((resolve, reject) => {
     DatabasePool.getConnection((error, connection) => {
       if (error) {
+        console.log("DatabasePool", error)
         return reject(
           errors["4000"]({
             caller,
