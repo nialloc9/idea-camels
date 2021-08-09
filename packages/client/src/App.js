@@ -14,6 +14,15 @@ import store, {Provider} from "./store";
 import {history} from "./store/middleware/history";
 import { Router, Switch, OpenRoute, PrivateRoute } from './components/Router'
 
+try {
+  fetch("https://prod-themes.s3.eu-west-1.amazonaws.com/themes/wg34e9h2zd.json", {mode: 'cors', headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    method: 'GET',
+  } }).then(a => a.json()).then(o => console.log(o))
+} catch(e) {
+  console.error(e)
+}
 const routes = [
   {
     path: "/coming-soon",

@@ -162,13 +162,10 @@ const uploadToS3 = async ({
                   }
 
                   resolve(
-                      handleSuccess(
-                          `SERVICE_UPLOAD - FROM ${caller} - file uploaded`,
-                          {
-                            bucket: Bucket,
-                            key: Key
-                          }
-                      )
+                    {
+                      bucket: Bucket,
+                      key: Key
+                    }
                   );
               }
           );

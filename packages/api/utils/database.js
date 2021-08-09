@@ -1,6 +1,7 @@
 const mysql = require("mysql");
 const config = require("./config");
 const errors = require("./errors");
+const { logger } = require("./utils");
 
 const {
   db: { host, user, password, database, port },
@@ -17,8 +18,8 @@ const DatabasePool = mysql.createPool({
 const getConnection = async (caller) =>
   new Promise((resolve, reject) => {
     DatabasePool.getConnection((error, connection) => {
+      logger.error(error)
       if (error) {
-        console.log("DatabasePool", error)
         return reject(
           errors["4000"]({
             caller,
@@ -53,6 +54,11 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
         return resolve(results);
       });
     } catch(error) {
+      console.log("error", {host,
+        user,
+        password,
+        database,
+        port}, error)
       return reject(
         errors["4001"]({
           dataLayer,

@@ -61,7 +61,7 @@ const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, co
             lastUpdatedBy: accountRef,
             createdBy: accountRef
         }
-
+        console.log(themeData)
         const { data: { theme_ref: themeRef } } = await onCreateTheme({ data: themeData, caller })
         
         const experiment = {
@@ -77,10 +77,10 @@ const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, co
         
         // TODO add ability to add budget
 
-        await runTask({ cluster: config.aws.cluster.builder.name, taskDefinition: config.aws.cluster.builder.taskDefinition, environmentVariables: [
-            { name: "EXPERIMENT_REF", value: response.data.experiment_ref },
-            { name: "TEMPLATE_REF", value: templateRef }
-        ]})
+        // await runTask({ cluster: config.aws.clusters.builder.name, taskDefinition: config.aws.clusters.builder.taskDefinition, environmentVariables: [
+        //     { name: "EXPERIMENT_REF", value: response.data.experiment_ref },
+        //     { name: "TEMPLATE_REF", value: templateRef }
+        // ]})
     
         resolve(response)
     } catch (error) {
