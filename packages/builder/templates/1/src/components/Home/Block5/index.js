@@ -8,7 +8,6 @@ import {
 import withAnalytics from "../../../hoc/withAnalytics";
 import { Button } from "../../Button";
 import Carausel from "./Carousel";
-import {content} from '../../../config'
 
 const Container = styled.section`
   min-height: ${({ theme: { block5: { height } } }) => remCalc(height)};
@@ -65,9 +64,9 @@ const StyledButton = styled(Button)`
 
 const AnalyticsButton = withAnalytics(StyledButton);
 
-export default withTheme(({ theme: { block5: { button } } }) => (
+export default withTheme(({ theme: { block5: { button } }, content }) => (
   <Fragment>
-      <Carausel />
+      <Carausel content={content} />
       <Container>
         <InnerContainer>
           <QuoteContainer>

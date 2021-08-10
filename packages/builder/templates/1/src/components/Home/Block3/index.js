@@ -10,7 +10,6 @@ import withAnalytics from "../../../hoc/withAnalytics";
 import { Button } from "../../Button";
 import { Grid, GridColumn } from "../../Grid";
 import { Card } from "../../Card";
-import { content } from '../../../config'
 
 const Container = styled.section`
   min-height: ${({ theme: { block3: { height } } }) => remCalc(height)};
@@ -77,7 +76,7 @@ const FeatureHeader = styled.h1`
 
 const AnalyticsButton = withAnalytics(Button);
 
-export default withTheme(({ theme }) => console.log(content, theme) || (
+export default withTheme(({ theme, content }) => (
   <Container>
       <Overlay>
         <TextContainer>

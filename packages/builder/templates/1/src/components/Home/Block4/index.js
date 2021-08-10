@@ -10,12 +10,9 @@ import { Grid, GridRow, GridColumn } from "../../Grid";
 import { Segment } from "../../Styled/Segment";
 import { Divider } from "../../Divider";
 import { Image } from "../../Image";
-import { Button } from "../../Button";
-import {theme, content} from '../../../config'
+import { Button } from "../../Button"
 
 const AnalyticsButton = withAnalytics(Button);
-
-const { block4: { height, paddings, backgroundColor, fontFamily, heading, subHeading,cardContainer, button, firstCard } } = theme;
 
 const Container = styled.section`
   min-height: ${({ theme: { block4: { height } } }) => remCalc(height)};
@@ -78,7 +75,7 @@ const ButtonContainer = styled.div`
   max-width: ${({ theme: { block4: { button } } }) => button.width ? remCalc(button.width) : "auto"};
 `;
 
-export default withTheme(({ theme: { block4: { button, firstCard } } }) => (
+export default withTheme(({ theme: { block4: { button, firstCard } }, content }) => (
   <Container>
       <HeadingContainer>
         <Heading>{content.block4.heading.text}</Heading>

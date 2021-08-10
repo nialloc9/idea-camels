@@ -4,7 +4,6 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { Image } from "../../Image";
 import { Header } from "../../Header";
-import {content} from '../../../config'
 import {withTheme} from '../../../utils/style'
 
 const settings = {
@@ -16,7 +15,7 @@ const settings = {
   autoplay: true,
 };
 
-const Slide = withTheme(({ image, header, theme: { block5 } }) => (
+const Slide = withTheme(({ image, header, theme: { block5 }, content }) => (
   <div>
       <Image
         centered
@@ -30,8 +29,8 @@ const Slide = withTheme(({ image, header, theme: { block5 } }) => (
     </div>
 ))
 
-export default () => (
+export default ({ content }) => (
   <Slider {...settings}>
-    {content.block5.carousel.map(o => <Slide key={o.image.src} {...o} />)}
+    {content.block5.carousel.map(o => <Slide key={o.image.src} {...o} content={content} />)}
   </Slider>
 );

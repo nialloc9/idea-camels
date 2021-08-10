@@ -16,5 +16,7 @@ export default {
     },
     ga: {
         uaId: "UA-173719058-1",
-    }
+    },
+    themeUrl: "https://prod-themes.s3.eu-west-1.amazonaws.com/themes/wg34e9h2zd.json",
+    contentUrl: "https://prod-themes.s3.eu-west-1.amazonaws.com/contents/wg34e9h2zd.json"
 };
