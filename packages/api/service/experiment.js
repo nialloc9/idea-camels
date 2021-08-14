@@ -44,7 +44,7 @@ const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, co
         const { path: contentPath, cleanup: onContentCleanUp } = await writeToTmpFile({data: content});
         const { path: themePath, cleanup: onThemeCleanUp } = await writeToTmpFile({data: theme});
 
-        const filename = `${generateRandomId()}.json`;
+        const filename = `${generateRandomId()}.js`;
 
         const { key: themeKey } = await uploadToS3({ path: themePath, key: `themes/${filename}`, bucket: config.builder.themes.bucketName, caller });
 

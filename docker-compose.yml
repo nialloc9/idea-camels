@@ -39,4 +39,4 @@ services:
     - $HOME/.aws/credentials:/root/.aws/credentials:ro
     env_file:
       - ./packages/builder/.dev.env
-    command: sh ./entrypoint.sh
+    command: tail -f /dev/null

@@ -1,4 +1,4 @@
 
-fqdn=ideacamels.com
-domain=ideacamels.com
+fqdn="ideacamels.com"
+domain="ideacamels.com"
     

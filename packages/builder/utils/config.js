@@ -47,7 +47,9 @@ const localhost = {
   },
   aws: {
     region: AWS_REGION,
-    buckets: {}
+    buckets: {
+      themesAndContents: "prod-themes" 
+    }
   },
   stripe: {
     secretKey: STRIPE_SECRET_KEY,

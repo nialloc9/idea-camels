@@ -11,7 +11,7 @@ provider "aws" {
 }
 
 # AWS Region for Cloudfront (ACM certs only supports us-east-1)
-provider "aws" {
+provider "cloudfront" {
   region = var.cloudfront_region
   alias = "cloudfront"
   profile = var.profile

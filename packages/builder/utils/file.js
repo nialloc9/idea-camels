@@ -1,5 +1,18 @@
 const fs = require('fs');
 const { logger } = require('./utils')
+const config = require('./config')
+
+const AWS = require('aws-sdk');
+
+
+const downloadFileFromStorage = (bucket, key, pathToDownloadTo) => new Promise((resolve, reject) => {
+    const s3 = new AWS.S3({apiVersion: '2006-03-01'});
+    const params = {bucket, key};
+    const file = fs.createWriteStream(pathToDownloadTo);
+    const pipe = s3.getObject(params).createReadStream().pipe(file);
+    pipe.on('error', reject);
+    pipe.on('close', resolve);
+  });
 
 const writeToFile = (path, str) => fs.writeFileSync(path, str); 
 
@@ -27,31 +40,46 @@ domain="${domain}"
     logger.info({ experimentRef }, "Finished writing TF vars")
 }
 
-const writeTheme = ({ theme, experimentRef }) => {
-    logger.info({ experimentRef }, "Writing theme")
-    const path = `./experiments/${experimentRef}/client/src/config/theme.js`
-    const str = `
-module.exports = ${theme}
-    `
-    writeToFile(path, str);
-    logger.info({ experimentRef }, "Finished writing theme")
-}
+const writeConfig = async ({ bucket = config.aws.buckets.themesAndContents, themeKey, contentKey, experimentRef  }) => {
+    logger.info({ experimentRef }, "Writing config")
 
-const writeContent = ({ content, experimentRef }) => {
-    logger.info({ experimentRef }, "Writing content")
-    const path = `./experiments/${experimentRef}/client//src/config/content.js`
+    await downloadFileFromStorage(bucket, contentKey, `./experiments/${experimentRef}/client/src/config/content.js`)
+    await downloadFileFromStorage(bucket, themeKey, `./experiments/${experimentRef}/client/src/config/theme.js`)
+
+    const path = `./experiments/${experimentRef}/client//src/config/config.js`
+
     const str = `
-module.exports = ${content}
+import content from "./content";
+import theme from "./theme";
+
+export default {
+    env: "prod",
+    experimentRef: ${experimentRef},
+    isProd: true,
+    pathname,
+    social: {
+        facebook: "https://facebook.com",
+        twitter: "https://twitter.com",
+        linkedin: "https://linkedin.com",
+    },
+    ga: {
+        uaId: "UA-173719058-1",
+    },
+    themeKey: ${themeKey},
+    contentKey: ${contentKey},
+    theme,
+    content
+};    
     `
+
     writeToFile(path, str);
     logger.info({ experimentRef }, "Finished writing content")
 }
-
 module.exports = {
+    downloadFileFromStorage,
     writeBackendVars,
     writeTfVars,
-    writeTheme,
-    writeContent
+    writeConfig
 }
 
 

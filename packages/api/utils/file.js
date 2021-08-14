@@ -5,7 +5,7 @@ const { open } = require("fs/promises");
 const writeToTmpFile = ({ data }) => new Promise((resolve, reject)=> tmp.file((err, path, fd, cleanup) => {
     if (err) throw reject(err);
     
-    appendFile(path, JSON.stringify(data), () => {
+    appendFile(path, `export default ${JSON.stringify(data)}`, () => {
         resolve({
             path,
             fd,
