@@ -61,7 +61,7 @@ const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, co
             lastUpdatedBy: accountRef,
             createdBy: accountRef
         }
-        console.log(themeData)
+       
         const { data: { theme_ref: themeRef } } = await onCreateTheme({ data: themeData, caller })
         
         const experiment = {

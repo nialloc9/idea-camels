@@ -7,7 +7,8 @@ const AWS = require('aws-sdk');
 
 const downloadFileFromStorage = (bucket, key, pathToDownloadTo) => new Promise((resolve, reject) => {
     const s3 = new AWS.S3({apiVersion: '2006-03-01'});
-    const params = {bucket, key};
+    const params = {Bucket: bucket, Key: key};
+    logger.info(params, "Downloading file from storage")
     const file = fs.createWriteStream(pathToDownloadTo);
     const pipe = s3.getObject(params).createReadStream().pipe(file);
     pipe.on('error', reject);
@@ -41,8 +42,8 @@ domain="${domain}"
 }
 
 const writeConfig = async ({ bucket = config.aws.buckets.themesAndContents, themeKey, contentKey, experimentRef  }) => {
-    logger.info({ experimentRef }, "Writing config")
-
+    logger.info({ experimentRef, bucket }, "Writing config")
+    
     await downloadFileFromStorage(bucket, contentKey, `./experiments/${experimentRef}/client/src/config/content.js`)
     await downloadFileFromStorage(bucket, themeKey, `./experiments/${experimentRef}/client/src/config/theme.js`)
 
@@ -56,7 +57,6 @@ export default {
     env: "prod",
     experimentRef: ${experimentRef},
     isProd: true,
-    pathname,
     social: {
         facebook: "https://facebook.com",
         twitter: "https://twitter.com",
@@ -65,8 +65,8 @@ export default {
     ga: {
         uaId: "UA-173719058-1",
     },
-    themeKey: ${themeKey},
-    contentKey: ${contentKey},
+    themeKey: "${themeKey}",
+    contentKey: "${contentKey}",
     theme,
     content
 };    

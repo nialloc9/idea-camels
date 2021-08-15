@@ -18,20 +18,5 @@ const dbNames = {
   
       return total;
     }, {});
-  
-  const transform = data => {
 
-    const escapedJsonKeys = ['content', 'theme'];
-
-    const newData = { ...data }
-
-    escapedJsonKeys.forEach(o => {
-      if(newData[o]) {
-        newData[o] = JSON.stringify(newData[o])
-      }
-    });
-
-    return newData;
-  }
-
-  module.exports = { mapper, transform };
+  module.exports = { mapper };

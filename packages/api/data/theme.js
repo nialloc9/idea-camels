@@ -1,6 +1,6 @@
 const { query } = require('../utils/database');
 const { handleSuccess } = require('../utils/utils');
-const { mapper, transform } = require('./utils/theme');
+const { mapper } = require('./utils/theme');
 const {now} = require('../utils/date');
 
 /**
@@ -35,10 +35,8 @@ const onCreate = ({ data, caller }) =>
       const createQuery = 'INSERT INTO themes SET ?';
 
       if(!data.createdBy) data.createdBy = data.accountRef
-        
-      const transformedData = transform(data);
 
-      const mappedData = mapper(transformedData);
+      const mappedData = mapper(data);
       
       const results = await query(createQuery, mappedData, caller, "CREATE_THEME")
       const timestamp = now();
