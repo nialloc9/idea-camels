@@ -6,17 +6,6 @@ const { runTask, uploadToS3 } = require('../utils/aws')
 const { writeToTmpFile } = require('../utils/file')
 const config = require('../utils/config')
 
-const dbNames = {
-    themeRef: "theme_ref",
-    name: "name",
-    content: "content",
-    theme: 'theme',
-    lastUpdatedAt: 'last_updated_at',
-    lastUpdatedBy: 'last_updated_by',
-    createdBy: 'created_by',
-    deletedFlag: 'deleted_flag'
-  };
-
 const onGetAccountExperiments = ({data: { decodedToken: { data: { accountRef } } }, caller}) => new Promise(async (resolve, reject) => {
     try {
         const metrics = await getMetrics({ metrics: ['clicks', 'impressions'], orderBy: 'clicks', adGroupResourceName: 'customers/9074082905/adGroups/108117690178' });
@@ -49,7 +38,7 @@ const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, co
         const { key: themeKey } = await uploadToS3({ path: themePath, key: `themes/${filename}`, bucket: config.builder.themes.bucketName, caller });
 
         const { key: contentKey } = await uploadToS3({ path: contentPath, key: `contents/${filename}`, bucket: config.builder.themes.bucketName, caller });
-
+        
         // remove tmp files
         onContentCleanUp();
         onThemeCleanUp();
@@ -61,7 +50,7 @@ const onCreateExperiment = ({data: { decodedToken: { accountRef }, domainRef, co
             lastUpdatedBy: accountRef,
             createdBy: accountRef
         }
-       
+        
         const { data: { theme_ref: themeRef } } = await onCreateTheme({ data: themeData, caller })
         
         const experiment = {

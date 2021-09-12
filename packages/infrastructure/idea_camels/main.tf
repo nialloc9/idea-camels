@@ -10,15 +10,11 @@ provider "aws" {
   profile = var.profile
 }
 
-# AWS Region for Cloudfront (ACM certs only supports us-east-1)
-provider "aws" {
-  region = var.cloudfront_region
-  alias = "cloudfront"
-  profile = var.profile
-}
-
 module "domain" {
   source = "../modules/experiment"
+
+  domain = var.domain
+  fqdn = var.fqdn
 }
 
 module "database" {
@@ -27,7 +23,6 @@ module "database" {
   providers = {
     "aws.main" = "aws.main"
   }
-  
 }
 
 module "api" {

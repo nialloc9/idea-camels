@@ -8,8 +8,7 @@ import {
 import { Grid, GridRow, GridColumn } from "../../Grid";
 import { Segment } from "../../Styled/Segment";
 import { Divider } from "../../Divider";
-import { Image } from "../../Image";
-import { Button } from "../../Button";
+import { EditableText, EditableImage, EditableButton, createImagePreview } from "../../Edit";
 
 const Container = styled.section`
   min-height: ${({ theme: { block4: { height } } }) => remCalc(height)};
@@ -72,12 +71,14 @@ const ButtonContainer = styled.div`
   max-width: ${({ theme: { block4: { button } } }) => button.width ? remCalc(button.width) : "auto"};
 `;
 
-export default withTheme(({ theme: { block4: { button, firstCard } }, content}) => (
+export default withTheme(({ theme: { block4: { button, firstCard } }, content, onSetExperiment}) => (
   <Container>
       <HeadingContainer>
-        <Heading>{content.block4.heading.text}</Heading>
+        <Heading>
+          <EditableText initialText={content.block4.heading.text} onSubmit={text => onSetExperiment({ content: { block4: { heading: { text } } } })} />
+        </Heading>
         <SubHeading>
-          {content.block4.subHeading.text}
+          <EditableText initialText={content.block4.subHeading.text} onSubmit={text => onSetExperiment({ content: { block4: { subHeading: { text } } } })} />
         </SubHeading>
       </HeadingContainer>
 
@@ -91,28 +92,25 @@ export default withTheme(({ theme: { block4: { button, firstCard } }, content}) 
                 <GridColumn>
                   <ImageContainer>
                     <ImageInnerContainer>
-                      <Image
+                      <EditableImage 
                         size={firstCard.image.size}
                         src={content.block4.card.image.src}
                         alt={content.block4.card.image.alt}
+                        onSubmit={file => onSetExperiment({ content: { block4: { card: { image: { src: createImagePreview(file) } } } }, imageFiles: { block4: { card: { image: { src: file } } } } })}
                       />
                     </ImageInnerContainer>
                   </ImageContainer>
                 </GridColumn>
 
                 <GridColumn>
-                  <Heading></Heading>
-                  <SubHeading>
-                    
-                  </SubHeading>
                   <ButtonContainer>
-                    <Button
+                    <EditableButton
                       color="black"
                       size={button.size}
                       basic
-                    >
-                      {content.block4.card.button.text}
-                    </Button>
+                      initialText={content.block4.card.button.text}
+                      onSubmit={text => onSetExperiment({ content: { block4: { button: { text } } } })}
+                    />
                   </ButtonContainer>
                 </GridColumn>
               </GridRow>

@@ -6,6 +6,8 @@ services:
     - "3000:3000"
     volumes:
     - ./packages/client:/usr/src/app:cached
+    env_file:
+      - ./packages/client/.dev.env
     command: tail -f /dev/null
   idea-camels-api:
     build: ./packages/api
@@ -39,4 +41,10 @@ services:
     - $HOME/.aws/credentials:/root/.aws/credentials:ro
     env_file:
       - ./packages/builder/.dev.env
+    command: tail -f /dev/null
+  idea-camels-infra:
+    build: ./packages/infrastructure
+    volumes:
+    - ./packages/infrastructure:/usr/src/app:cached
+    - $HOME/.aws/credentials:/root/.aws/credentials:ro
     command: tail -f /dev/null

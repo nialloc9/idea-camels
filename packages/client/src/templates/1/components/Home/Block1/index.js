@@ -1,7 +1,5 @@
 import React from "react";
 import { remCalc, styled, withTheme } from "../../../utils/style";
-import { Image } from "../../Image";
-import { Button } from "../../Button";
 import { EditableText, EditableButton, EditableImage, createImagePreview } from "../../Edit";
 
 const Container = styled.section`
@@ -65,7 +63,6 @@ export default withTheme(({ theme: { block1: { buttonSize }}, content, onSetExpe
           alt={content.block1.logo.alt}
           size="small"
           src={content.block1.logo.src}
-          test={content.block1.logo.src}
           onSubmit={file => onSetExperiment({ content: { block1: { logo: { src: createImagePreview(file) } } }, imageFiles: { block1: { logo: { src: file } } } })}
         />
       </ImageContainer>

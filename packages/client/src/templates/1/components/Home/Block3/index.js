@@ -6,9 +6,9 @@ import {
   createMediaQuery,
   withTheme
 } from "../../../utils/style";
-import { Button } from "../../Button";
 import { Grid, GridColumn } from "../../Grid";
-import { Card } from "../../Card";
+import { Card, CardHeader, CardDescription } from "../../Card";
+import { EditableText, EditableButton } from "../../Edit";
 
 const Container = styled.section`
   min-height: ${({ theme: { block3: { height } } }) => remCalc(height)};
@@ -73,32 +73,48 @@ const FeatureHeader = styled.h1`
   justify-content: center;
 `;
 
-export default withTheme(({ theme, content }) => (
+const onSetFeatures = ({ features, key, value, index }) => {
+  const newFeatures = [...features];
+
+  newFeatures[index] = {...newFeatures[index], [key]: { text: value }};
+
+  return newFeatures
+}
+
+export default withTheme(({ theme, content, onSetExperiment }) => (
   <Container>
       <Overlay>
         <TextContainer>
-          <Heading>{content.block3.heading.text}</Heading>
+          <Heading><EditableText initialText={content.block3.heading.text} onSubmit={text => onSetExperiment({ content: { block3: { heading: { text } } } })} /></Heading>
           <MainText>
-            {content.block3.mainText.text}
+          <EditableText initialText={content.block3.mainText.text} onSubmit={text => onSetExperiment({ content: { block3: { mainText: { text } } } })} />
           </MainText>
           <ButtonContainer>
-            <Button
+            <EditableButton
               color="black"
               size={theme.block3.overlay.button.size}
               basic
-            >
-              {content.block3.button.text}
-            </Button>
+              initialText={content.block3.button.text}
+              onSubmit={text => onSetExperiment({ content: { block3: { button: { text } } } })}
+            />
           </ButtonContainer>
         </TextContainer>
 
-        <FeatureHeader>{content.block3.featureHeader.text}</FeatureHeader>
+        <FeatureHeader><EditableText initialText={content.block3.featureHeader.text} onSubmit={text => onSetExperiment({ content: { block3: { featureHeader: { text } } } })} /></FeatureHeader>
 
         <FeaturesContainer>
           <Grid centered columns={3} stretched stackable>
-            {content.block3.features.map((o) => (
+            {content.block3.features.map((o, i) => (
               <GridColumn key={o.header.text}>
-                <StyleCard header={o.header.text} description={o.description.text} />
+                {/* <StyleCard header={o.header.text} description={o.description.text} /> */}
+                <StyleCard>
+                  <CardHeader>
+                    <EditableText initialText={o.header.text} onSubmit={text => onSetExperiment({ content: { block3: { features: onSetFeatures({ features: content.block3.features, value: text, key: 'header', index: i }) } } })} />
+                  </CardHeader>
+                  <CardDescription>
+                    <EditableText initialText={o.description.text} onSubmit={text => onSetExperiment({ content: { block3: { features: onSetFeatures({ features: content.block3.features, value: text, key: 'description', index: i }) } } })} />
+                  </CardDescription>
+                </StyleCard>
               </GridColumn>
             ))}
           </Grid>

@@ -38,7 +38,7 @@ variable "domain" {
 }
 
 variable "allowed_ips" {
-  type = "list"
+  type = list(string)
   description = "Allowed IPs that can directly access the S3 bucket"
   default = [
     "0.0.0.0/0"            # public access
@@ -78,4 +78,10 @@ variable "www_record_ttl" {
   description = "TTL of route53 record for www domain"
   default     = 300
   type = number
+}
+
+variable "tags" {
+  description = "tags to add to resources"
+  default = {}
+  type = map(string)
 }

@@ -1,10 +1,11 @@
+S3_BUCKET_NAME:=ideacamels.com
+
 # S3
 deploy_site_to_s3:
 	aws s3 sync ./build s3://ideacamels.com --delete --profile=idea-camels
 	
 invalidate_cdn_cache:
-	# To get distribution id check terraform state file
-	aws cloudfront create-invalidation --distribution-id E3MMNEXFI9AND4 --paths '/*' --profile=idea-camels
+	for id in $(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='${S3_BUCKET_NAME}'].id" --output text);do aws cloudfront create-invalidation --distribution-id $id --paths "/*";done;
 
 deploy:
 	make deploy_site_to_s3

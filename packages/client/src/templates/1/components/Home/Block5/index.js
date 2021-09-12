@@ -7,6 +7,7 @@ import {
 } from "../../../utils/style";
 import { Button } from "../../Button";
 import Carausel from "./Carousel";
+import { EditableText, EditableImage, EditableButton, createImagePreview } from "../../Edit";
 
 const Container = styled.section`
   min-height: ${({ theme: { block5: { height } } }) => remCalc(height)};
@@ -56,28 +57,26 @@ const ButtonContainer = styled.div`
   justify-content: center;
 `;
 
-const StyledButton = styled(Button)`
-  background-color: ${({ theme: { block5: { button } } }) => button.backgroundColor} !important;
-  color: ${({ theme: { block5: { button } } }) => button.color} !important;
-`;
-
-export default withTheme(({ theme: { block5: { button } }, content }) => (
+export default withTheme(({ theme: { block5: { button } }, content, onSetExperiment }) => (
   <Fragment>
-      <Carausel content={content} />
+      <Carausel content={content} onSetExperiment={onSetExperiment} />
       <Container>
         <InnerContainer>
           <QuoteContainer>
             <Quote>
-              {content.block5.quote.text}
+              <EditableText initialText={content.block5.quote.text} onSubmit={text => onSetExperiment({ content: { block5: { quote: { text } } } })} />
             </Quote>
-            <Author>- {content.block5.author.text}</Author>
+            <Author>- <EditableText initialText={content.block5.author.text} onSubmit={text => onSetExperiment({ content: { block5: { author: { text } } } })} /></Author>
           </QuoteContainer>
           <ButtonContainer>
-            <StyledButton
+            <EditableButton
+              color={button.color}
               size={button.size}
-            >
-              {content.block5.button.text}
-            </StyledButton>
+              basic
+              backgroundColor={button.backgroundColor}
+              initialText={content.block5.button.text}
+              onSubmit={text => onSetExperiment({ content: { block5: { button: { text } } } })}
+            />
           </ButtonContainer>
         </InnerContainer>
       </Container>

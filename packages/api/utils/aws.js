@@ -151,6 +151,7 @@ const uploadToS3 = async ({
               },
               error => {
                   if (error) {
+                    console.log(2, error)
                       return reject(
                           errors["3002"]({
                               service: "SERVICE_UPLOAD",
@@ -160,7 +161,7 @@ const uploadToS3 = async ({
                           })
                       );
                   }
-
+                  console.log({ Bucket, Key })
                   resolve(
                     {
                       bucket: Bucket,

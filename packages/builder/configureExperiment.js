@@ -8,8 +8,8 @@ const main = async () => {
         const { experiment: { experimentRef } } = config;
         
         const { data } = await onGetByExperimentRef({ data: { experimentRef }});
-        const { domain, theme: themeKey, content: contentKey } = data[0];
-        console.log({ themeKey, contentKey, experimentRef })
+        const { theme: themeKey, content: contentKey } = data[0];
+        
         // writeBackendVars({ experimentRef, domain })
         // writeTfVars({ experimentRef, domain })
         await writeConfig({ themeKey, contentKey, experimentRef })

@@ -1,8 +1,6 @@
 const { onGet: onGetDomain, onCreate: onCreateDomain } = require('../data/domain')
 const { validateDomain, registerDomain } = require('../utils/aws')
-const { logger } = require('../utils/utils')
 const errors = require('../utils/errors')
-const config = require('../utils/config')
 
 const onGetAccountDomains = ({data: { decodedToken: { accountRef } }, caller}) => new Promise(async (resolve, reject) => {
     try {

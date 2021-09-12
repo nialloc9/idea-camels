@@ -29,3 +29,9 @@ variable "domain" {
   description = "The domain name."
   type = string
 }
+
+variable "tags" {
+  description = "tags to add to resources"
+  default = {}
+  type = map(string)
+}

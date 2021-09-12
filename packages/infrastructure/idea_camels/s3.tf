@@ -5,4 +5,6 @@ resource "aws_s3_bucket" "themes" {
   versioning {
     enabled = true
   }
+
+  tags = var.tags
 }

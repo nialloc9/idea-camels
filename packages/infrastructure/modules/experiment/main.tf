@@ -1,5 +1,5 @@
 module "main" {
-  source = "github.com/riboseinc/terraform-aws-s3-cloudfront-website"
+  source = "github.com/riboseinc/terraform-aws-s3-cloudfront-website?ref=v2.0.0"
 
   fqdn = var.fqdn
   aliases = ["www.${var.fqdn}"]
@@ -19,5 +19,7 @@ module "main" {
     aws.main = aws.main
     aws.cloudfront = aws.cloudfront
   }
+
+  tags = var.tags
 }
 
