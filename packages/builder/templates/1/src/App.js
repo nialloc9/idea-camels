@@ -19,19 +19,18 @@ console.log(theme);
 console.log("============= TEST THEME =============");
 
 export default () => (
-  <div>Template 1</div>
-  // <Router>
-  //   <ThemeProvider theme={theme}>
-  //     <Navigation content={content} />
-  //     <Switch>
-  //       <Route path="/coming-soon">
-  //         <ComingSoon content={content} />
-  //       </Route>
-  //       <Route path="/">
-  //         <Landing content={content} />
-  //       </Route>
-  //     </Switch>
-  //     <Footer content={content} />
-  //   </ThemeProvider>
-  // </Router>
+  <Router>
+    <ThemeProvider theme={theme}>
+      <Navigation content={content} />
+      <Switch>
+        <Route path="/coming-soon">
+          <ComingSoon content={content} />
+        </Route>
+        <Route path="/">
+          <Landing content={content} />
+        </Route>
+      </Switch>
+      <Footer content={content} />
+    </ThemeProvider>
+  </Router>
 );

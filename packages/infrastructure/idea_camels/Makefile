@@ -1,5 +1,6 @@
 PROD=idea-camels
 NON_PROD=idea-camels-dev
+AWS_REGION=eu-west-1
 
 create_state_bucket:
 	aws --profile=idea-camels s3api create-bucket --bucket idea-camels-infrastructure-state --region eu-west-1  --create-bucket-configuration LocationConstraint=eu-west-1
@@ -23,11 +24,15 @@ plan:
 
 apply:
 	export AWS_PROFILE=$(AWS_PROFILE) \
-	&& terraform apply --var-file=environments/$(ENV)/variables.tfvars
+	&& export AWS_REGION=$(AWS_REGION) \
+	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars -target=module.domain.aws_acm_certificate.cert \
+	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars
 
 destroy:
+	# create_cert_validations needed as workaround for validations count need to be set to 0 when destroying
 	export AWS_PROFILE=$(AWS_PROFILE) \
-	&& terraform destroy --var-file=environments/$(ENV)/variables.tfvars
+	&& export AWS_REGION=$(AWS_REGION) \
+	&& terraform destroy -var="create_cert_validations=false" --var-file=environments/$(ENV)/variables.tfvars
 	
 # INFRA
 init-prod:

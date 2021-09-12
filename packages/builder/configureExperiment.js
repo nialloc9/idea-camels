@@ -8,10 +8,11 @@ const main = async () => {
         const { experiment: { experimentRef } } = config;
         
         const { data } = await onGetByExperimentRef({ data: { experimentRef }});
-        const { theme: themeKey, content: contentKey } = data[0];
+       
+        const { theme: themeKey, content: contentKey, domain } = data[0];
         
-        // writeBackendVars({ experimentRef, domain })
-        // writeTfVars({ experimentRef, domain })
+        writeBackendVars({ experimentRef, domain })
+        writeTfVars({ experimentRef, domain })
         await writeConfig({ themeKey, contentKey, experimentRef })
        
         // TODO run cron to update database to expired for domains going to expire tomorrow

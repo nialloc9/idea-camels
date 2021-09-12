@@ -47,4 +47,6 @@ services:
     volumes:
     - ./packages/infrastructure:/usr/src/app:cached
     - $HOME/.aws/credentials:/root/.aws/credentials:ro
+    env_file:
+      - ./packages/infrastructure/.dev.env
     command: tail -f /dev/null

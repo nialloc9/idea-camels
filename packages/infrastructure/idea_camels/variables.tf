@@ -85,3 +85,8 @@ variable "tags" {
   default = {}
   type = map(string)
 }
+
+variable "create_cert_validations" {
+  description = "Set to false when destroying"
+  default = true
+}
