@@ -93,14 +93,15 @@ const localhost = {
     refreshToken: GOOGLE_ADS_REFRESH_TOKEN,
     developerToken: GOOGLE_ADS_DEVELOPER_TOKEN,
     customerId: GOOGLE_ADS_CUSTOMER_ID,
-    customerIdSplit: GOOGLE_ADS_CUSTOMER_ID.split("-").join("")
+    customerIdSplit: "test"
+    // customerIdSplit: GOOGLE_ADS_CUSTOMER_ID.split("-").join("")
   },
   builder: {
     themes: {
       bucketName: `prod-themes`
     }
   },
-  noInternet: false,
+  noInternet: true,
 };
 
 const staging = {

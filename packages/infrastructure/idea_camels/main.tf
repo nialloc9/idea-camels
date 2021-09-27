@@ -11,7 +11,7 @@ provider "aws" {
 
   default_tags {
    tags = var.tags
- }
+  }
 }
 
 module "domain" {
@@ -23,10 +23,13 @@ module "domain" {
   fqdn = var.fqdn
 }
 
-module "database" {
-  source = "../modules/database"
+# Need to recreate to be fargate task
+# module "api" {
+#   source = "../modules/serverless_api"
   
-  providers = {
-    "aws.main" = "aws.main"
-  }
-}
+#   providers = {
+#     "aws.main" = "aws.main"
+#   }
+
+#   coming_soon_table_arn = module.database.coming_soon_table_arn
+# }

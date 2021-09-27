@@ -10,7 +10,7 @@ services:
       - ./packages/client/.dev.env
     command: tail -f /dev/null
   idea-camels-api:
-    build: ./packages/api
+    build: ./packages/api/dev.Dockerfile
     ports:
     - "3001:3001"
     volumes:
@@ -23,7 +23,7 @@ services:
     build: ./packages/db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: idea_camels
+      MYSQL_DATABASE: ideacamels
       MYSQL_USER: root
       MYSQL_PASSWORD: root
     ports:

@@ -26,7 +26,9 @@ apply:
 	export AWS_PROFILE=$(AWS_PROFILE) \
 	&& export AWS_REGION=$(AWS_REGION) \
 	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars -target=module.domain.aws_acm_certificate.cert \
-	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars
+	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars -target=module.ecr.api_ecr.aws_ecr_repository \
+	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars \
+	&& terraform output
 
 destroy:
 	# create_cert_validations needed as workaround for validations count need to be set to 0 when destroying

@@ -134,9 +134,11 @@ const validateAndParse = async ({ uri: endpoint, req: { headers, body }, require
   const response = { ...body };
  
   if (isAuth) {
-    const { authorization } = headers;
+    const { Authorization, authorization } = headers;
     
-    const [,token] = authorization.split(" ");
+    const bearer = Authorization || authorization;
+
+    const [,token] = bearer.split(" ");
 
     const decodedToken = jwtVerify(token);
     

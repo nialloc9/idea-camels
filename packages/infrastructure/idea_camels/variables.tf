@@ -8,7 +8,6 @@ variable account_id {
     type = string
     default = "115830081349"
 }
-
 variable region {
     type = string
     default = "eu-west-1"

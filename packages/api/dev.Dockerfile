@@ -1,7 +1,10 @@
 FROM public.ecr.aws/lambda/nodejs:14
 
-COPY . ./
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN apt-get update
 
 RUN npm install
 
-CMD ["main.handler"]
