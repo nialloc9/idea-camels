@@ -122,6 +122,16 @@ const misc = {
     reason,
     data,
   }),
+  2005: ({ endpoint, service, dataLayer, caller, reason, data }) => ({
+    message: "could not access secret",
+    code: 2005,
+    endpoint,
+    service,
+    dataLayer,
+    caller,
+    reason,
+    data,
+  }),
 };
 
 const file = {

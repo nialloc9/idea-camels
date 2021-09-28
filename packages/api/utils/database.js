@@ -2,6 +2,7 @@ const mysql = require("mysql");
 const config = require("./config");
 const errors = require("./errors");
 const { logger } = require("./utils");
+const { fetchFromParamStore } = require("./aws");
 
 const {
   db: { host, user, password, database, port },

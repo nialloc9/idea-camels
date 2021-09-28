@@ -1,28 +1,25 @@
 const {
-  SERVER_PORT,
+  SERVER_PORT = 80,
   ENV,
   AWS_REGION,
   AWS_ACCESS_KEY,
   AWS_SECRET_KEY,
   STRIPE_SECRET_KEY,
-  STRIPE_MONTHLY_PLAN,
-  STRIPE_SEMI_ANNUAL_PLAN,
-  STRIPE_ANNUAL_PLAN,
   DB_HOST,
   DB_USER,
   DB_PASSWORD,
   DB_NAME,
   DB_PORT,
-  JSWT_SECRET,
+  JWT_SECRET,
   PASSWORD_SECRET,
   GOOGLE_ADS_CLIENT_ID,
   GOOGLE_ADS_CLIENT_SECRET,
   GOOGLE_ADS_REFRESH_TOKEN,
   GOOGLE_ADS_DEVELOPER_TOKEN,
-  GOOGLE_ADS_CUSTOMER_ID,
+  GOOGLE_ADS_CUSTOMER_ID = "123-123-123",
   BUILDER_CLUSTER_NAME,
   BUILDER_TASK_NAME,
-  USER_IMAGE_BUCKET
+  THEMES_BUCKET = `prod-themes`
 } = process.env;
 
 const localhost = {
@@ -62,7 +59,7 @@ const localhost = {
     secretAccessKey: AWS_SECRET_KEY,
     region: AWS_REGION,
     buckets: {
-      userImageBucket: USER_IMAGE_BUCKET
+      userImageBucket: THEMES_BUCKET
     },
     clusters: {
       builder: {
@@ -72,10 +69,7 @@ const localhost = {
     }
   },
   stripe: {
-    secretKey: STRIPE_SECRET_KEY,
-    monthlyPlan: STRIPE_MONTHLY_PLAN,
-    semiAnnualPlan: STRIPE_SEMI_ANNUAL_PLAN,
-    annualPlan: STRIPE_ANNUAL_PLAN,
+    secretKey: STRIPE_SECRET_KEY
   },
   db: {
     host: DB_HOST,
@@ -85,7 +79,7 @@ const localhost = {
     port: DB_PORT,
   },
   jwt: {
-    secret: JSWT_SECRET,
+    secret: JWT_SECRET,
   },
   googleAds: {
     clientId: GOOGLE_ADS_CLIENT_ID,
@@ -93,12 +87,11 @@ const localhost = {
     refreshToken: GOOGLE_ADS_REFRESH_TOKEN,
     developerToken: GOOGLE_ADS_DEVELOPER_TOKEN,
     customerId: GOOGLE_ADS_CUSTOMER_ID,
-    customerIdSplit: "test"
-    // customerIdSplit: GOOGLE_ADS_CUSTOMER_ID.split("-").join("")
+    customerIdSplit: GOOGLE_ADS_CUSTOMER_ID.split("-").join("")
   },
   builder: {
     themes: {
-      bucketName: `prod-themes`
+      bucketName: THEMES_BUCKET
     }
   },
   noInternet: true,

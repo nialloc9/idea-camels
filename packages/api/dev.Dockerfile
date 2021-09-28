@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/nodejs:14
+FROM amazon/aws-lambda-nodejs:14
 
 WORKDIR /usr/src/app
 

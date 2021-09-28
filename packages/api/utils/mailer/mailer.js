@@ -6,12 +6,12 @@ const { logger, handleSuccess } = require("../utils");
 
 const {
     noInternet,
-    aws: { accessKeyId, secretAccessKey, region }
+    aws: { region }
 } = config;
 
 // create transport layer
 const transporter = nodemailer.createTransport(
-    ses({ accessKeyId, secretAccessKey, region })
+    ses({ region })
 );
 
 /**

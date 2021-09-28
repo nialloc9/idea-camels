@@ -52,7 +52,7 @@ resource "aws_iam_role_policy" "builder" {
 }
 
 resource "aws_ecs_task_definition" "builder" {
-  family = "builder"
+  family = "builder-${var.environment}"
   execution_role_arn            = aws_iam_role.builder.arn
   requires_compatibilities = ["FARGATE"]
   cpu                      = 256

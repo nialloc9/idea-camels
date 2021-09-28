@@ -1,27 +1,24 @@
 locals {
   lambda_api = {
-     env_variables = [
-        { "name": "SERVER_PORT", "value": "80" },
-        { "name": "ENV", "value": var.environment },
-        { "name": "AWS_REGION", "value": var.region },
-        { "name": "AWS_ACCESS_KEY", "value": "test" },
-        { "name": "AWS_SECRET_KEY", "value": "test" },
-        { "name": "STRIPE_SECRET_KEY", "value": "test" },
-        { "name": "DB_USER", "value": "${aws_db_instance.ideacamels.username}" },
-        { "name": "DB_PORT", "value": "${aws_db_instance.ideacamels.port}" },
-        { "name": "DB_NAME", "value": "${aws_db_instance.ideacamels.name}" },
-        { "name": "DB_HOST", "value": "${aws_db_instance.ideacamels.address}" },
-        { "name": "JSWT_SECRET", "value": "test" },
-        { "name": "PASSWORD_SECRET", "value": "test" },
-        { "name": "GOOGLE_ADS_CLIENT_ID", "value": "test" },
-        { "name": "GOOGLE_ADS_CLIENT_SECRET", "value": "test" },
-        { "name": "GOOGLE_ADS_REFRESH_TOKEN", "value": "test" },
-        { "name": "GOOGLE_ADS_DEVELOPER_TOKEN", "value": "test" },
-        { "name": "GOOGLE_ADS_CUSTOMER_ID", "value": "test" },
-        { "name": "BUILDER_CLUSTER_NAME", "value": "test" },
-        { "name": "BUILDER_TASK_NAME", "value": "test" },
-        { "name": "USER_IMAGE_BUCKET", "value": "test" },
-     ]
+     env_variables = {
+       ENV = "${var.environment}",
+       DB_USER = "${aws_db_instance.ideacamels.username}",
+       DB_PORT = "${aws_db_instance.ideacamels.port}",
+       DB_NAME = "${aws_db_instance.ideacamels.name}",
+       DB_HOST = "${aws_db_instance.ideacamels.address}",
+       DB_PASSWORD = "${data.aws_ssm_parameter.database_password.value}",
+       GOOGLE_ADS_CUSTOMER_ID = "${data.aws_ssm_parameter.google_ads_customer_id.value}",
+       BUILDER_CLUSTER_NAME = "ideacamels-${var.environment}",
+       BUILDER_TASK_NAME = "builder-${var.environment}",
+       THEMES_BUCKET = "${aws_s3_bucket.themes.id}",
+       STRIPE_SECRET_KEY = "${data.aws_ssm_parameter.stripe_secret_key.value}",
+       JWT_SECRET = "${data.aws_ssm_parameter.api_jwt_secret.value}",
+       PASSWORD_SECRET = "${data.aws_ssm_parameter.api_password_secret.value}",
+       GOOGLE_ADS_CLIENT_ID = "${data.aws_ssm_parameter.google_ads_client_id.value}",
+       GOOGLE_ADS_CLIENT_SECRET = "${data.aws_ssm_parameter.google_ads_client_secret.value}",
+       GOOGLE_ADS_REFRESH_TOKEN = "${data.aws_ssm_parameter.google_ads_refresh_token.value}",
+       GOOGLE_ADS_DEVELOPER_TOKEN = "${data.aws_ssm_parameter.google_ads_developer_token.value}"
+     }
   }
 }
 
@@ -30,7 +27,7 @@ module "lambda_api" {
   name = "ideacamels_api"
   image_repository_url = module.api_ecr.repository_url
   environment = var.environment
-  env_variables = locals.lambda_api.env_variables
+  env_variables = local.lambda_api.env_variables
   timeout = "600"
   depends_on = [
     module.api_ecr

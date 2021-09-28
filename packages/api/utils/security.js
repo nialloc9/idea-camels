@@ -80,7 +80,11 @@ const requiredParams = ({ endpoint, body, headers, isAuth = false, required }) =
 
     const { caller } = body;
 
-    if(isAuth && !headers.authorization) {
+    const { Authorization, authorization } = headers;
+    
+    const bearer = Authorization || authorization;
+
+    if(isAuth && !bearer) {
       return reject(
         errors["2003"]({
           endpoint,

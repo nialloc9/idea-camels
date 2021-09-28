@@ -49,7 +49,7 @@ resource "aws_lambda_function" "lambda" {
    dynamic "environment" {
     for_each = length(var.env_variables) > 0 ? [var.env_variables] : []
     content {
-      key = environment.value
+      variables = environment.value
     }
    }
 }

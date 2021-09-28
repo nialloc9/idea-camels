@@ -19,7 +19,7 @@ endpoints.forEach(({ uri, required = [], isAuth = false, func }) =>
         try {
             const data = await validateAndParse({ uri, req, required, isAuth })
             
-            const payload = await func({ data, req, uri, caller: data.caller });
+            const payload = await func({ data, uri, caller: data.caller });
             
             return sendResponse(res, { payload, uri })
         } catch(error) {
