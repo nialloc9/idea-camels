@@ -30,7 +30,7 @@ const localhost = {
 };
 
 const staging = { ...localhost };
-const production = { ...staging };
+const production = { ...staging, api: { ...staging.api, base: "https://v1xwkm07ta.execute-api.eu-west-1.amazonaws.com/prod" } };
 
 export default {
     staging,

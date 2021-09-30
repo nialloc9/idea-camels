@@ -20,6 +20,14 @@ variable "image_tag" {
     default = "latest"
 }
 
+variable "subnet_ids" {
+  default = []
+}
+
+variable "security_group_ids" {
+  default = []
+}
+
 output "iam_role_name" {
   value = aws_iam_role.lambda.name
 }
@@ -52,6 +60,11 @@ resource "aws_lambda_function" "lambda" {
       variables = environment.value
     }
    }
+
+  vpc_config {
+    subnet_ids         = var.subnet_ids
+    security_group_ids = var.security_group_ids
+  }
 }
 
 resource "aws_iam_role" "lambda" {
@@ -92,6 +105,17 @@ resource "aws_iam_policy" "lambda" {
       ],
       "Resource": "arn:aws:logs:*:*:*",
       "Effect": "Allow"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:CreateNetworkInterface",
+        "ec2:DeleteNetworkInterface",
+        "ec2:DescribeInstances",
+        "ec2:AttachNetworkInterface"
+      ],
+      "Resource": "*"
     }
   ]
 }

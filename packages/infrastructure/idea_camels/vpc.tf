@@ -9,7 +9,7 @@ resource "aws_vpc" "ideacamels_main" {
   tags = var.tags
 }
 # create subnets
-resource "aws_subnet" "idea_camels_main" {
+resource "aws_subnet" "idea_camels_main_public" {
   count = length(data.aws_availability_zones.aws_az.names)
   vpc_id = aws_vpc.ideacamels_main.id
   cidr_block = cidrsubnet(aws_vpc.ideacamels_main.cidr_block, 8, count.index + 1)

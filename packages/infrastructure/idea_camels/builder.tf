@@ -91,6 +91,10 @@ resource "aws_ecs_task_definition" "builder" {
             {
                 "name": "DB_HOST",
                 "value": "${aws_db_instance.ideacamels.address}"
+            },
+            {
+              "name": "DB_PASSWORD",
+              "value": "${data.aws_ssm_parameter.database_password.value}"
             }
     ],
     "entryPoint": [
@@ -110,7 +114,7 @@ resource "aws_ecs_service" "builder" {
 
   network_configuration {
     security_groups = [module.builder_security_group.id]
-    subnets = aws_subnet.idea_camels_main.*.id
+    subnets = aws_subnet.idea_camels_main_public.*.id
   }
 
   depends_on      = [aws_iam_role_policy.builder]
