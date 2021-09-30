@@ -4,6 +4,7 @@ const { onGetAccountDomains, onPurchaseDomain } = require("../service/domain")
 const { onGetAccountExperiments, onCreateExperiment } = require("../service/experiment")
 const { onGet: onGetTemplates } = require("../service/template")
 const { onCreateCampaign } = require("../service/campaign")
+const { onHealthCheck, onDBHealthCheck } = require("../service/healthCheck")
 const { uploadImage } = require("../service/upload")
 const { logger } = require("./utils")
 
@@ -109,6 +110,16 @@ const endpoints = [
       func: uploadImage,
       isAuth: true
     },
+    {
+      uri: "/health-check",
+      required: [],
+      func: onHealthCheck
+    },
+    {
+      uri: "/health-check-2",
+      required: [],
+      func: onDBHealthCheck
+    }
   ]
 
 module.exports = {

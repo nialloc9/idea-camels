@@ -2,29 +2,37 @@ const { endpoints } = require('./utils/server');
 const { validateAndParse } = require('./utils/security');
 const { logger } = require('./utils/utils');
 
-exports.handler = async ({ path, body, headers }) => {
+exports.handler = async (event) => {
     try { 
-       
+        const { path, body, headers } = event;
+
         const endpoint = endpoints.find(({ uri }) => uri === path)
-        logger.info("endpoint: ", endpoint)
 
         const { uri, required = [], isAuth = false, func } = endpoint;
 
-        const data = await validateAndParse({ uri, req: { headers, body }, required, isAuth })
+        const data = await validateAndParse({ uri, req: { headers, body: JSON.parse(body) }, required, isAuth })
             
         const payload = await func({ data, uri, caller: data.caller });
 
         return {
             'statusCode': 200,
-            'headers': {'Content-Type': 'application/json'},
+            'headers': {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+                "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
+            },
             'body': JSON.stringify({ payload, uri })
         }
     } catch(error) {
         logger.error("error", error)
         return {
             'statusCode': 500,
-            'headers': {'Content-Type': 'application/json'},
-            'body': JSON.stringify(error)
+            'headers': {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+                "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
+            },
+            'body': error
         }
     }
 }

@@ -19,9 +19,9 @@ const {
  */
 const jwtVerify = (jwToken) => {
   try {
-    return jwt.verify(jwToken, secret);
+    return [null, jwt.verify(jwToken, secret)];
   } catch (err) {
-    return Promise.reject(errors["1004"]());
+    return [errors["1004"](), null]
   }
 };
 
@@ -85,25 +85,29 @@ const requiredParams = ({ endpoint, body, headers, isAuth = false, required }) =
     const bearer = Authorization || authorization;
 
     if(isAuth && !bearer) {
-      return reject(
+      reject(
         errors["2003"]({
           endpoint,
           caller,
           data: { "authorisation token": "undefined" },
         })
       );
+
+      return
     }  
 
     required.forEach((o) => {
       const target = body[o];
       if (target === undefined || (!target && target !== 0)) {
-        return reject(
+        reject(
           errors["2003"]({
             endpoint,
             caller,
             data: { [o]: "undefined" },
           })
         );
+
+        return
       }
     });
 
@@ -117,10 +121,12 @@ const validatePassword = ({ password, hashedPassword, caller, service = 'login s
   const inputHash = createHash({ secret: config.security.password_secret, data: password });
 
   if(inputHash !== hashedPassword) {
-    return reject(errors["1003"]({
+    reject(errors["1003"]({
       service,
       caller
     }))
+
+    return
   }
 
   return resolve();
@@ -129,28 +135,33 @@ const validatePassword = ({ password, hashedPassword, caller, service = 'login s
  * @description validates and parses req
  * @param {*} param0
  */
-const validateAndParse = async ({ uri: endpoint, req: { headers, body }, required, isAuth = true }) => {
- 
-  logger.info({ endpoint, headers, body }, "INCOMING");
+const validateAndParse = async ({ uri: endpoint, req: { headers, body }, required, isAuth = true }) => new Promise(async (resolve, reject) => {
+  try {
+    logger.info({ endpoint, headers, body }, "INCOMING");
   
-  await requiredParams({ endpoint, body, headers, required, isAuth });
+    await requiredParams({ endpoint, body, headers, required, isAuth });
 
-  const response = { ...body };
- 
-  if (isAuth) {
-    const { Authorization, authorization } = headers;
-    
-    const bearer = Authorization || authorization;
+    const response = { ...body };
+  
+    if (isAuth) {
+      const { Authorization, authorization } = headers;
+      
+      const bearer = Authorization || authorization;
 
-    const [,token] = bearer.split(" ");
+      const [,token] = bearer.split(" ");
 
-    const decodedToken = jwtVerify(token);
-    
-    response.decodedToken = decodedToken;
+      const [error, decodedToken] = jwtVerify(token);
+      
+      if(error) return reject(error);
+
+      response.decodedToken = decodedToken;
+    }
+
+    resolve(response);
+  } catch (error) {
+    reject(error)
   }
-
-  return Promise.resolve(response);
-};
+});
 
 module.exports = {
   jwtVerify,

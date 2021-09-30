@@ -2,7 +2,6 @@ const mysql = require("mysql");
 const config = require("./config");
 const errors = require("./errors");
 const { logger } = require("./utils");
-const { fetchFromParamStore } = require("./aws");
 
 const {
   db: { host, user, password, database, port },
@@ -70,8 +69,28 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
       );
     }
   });
+
+const ping = async (newConnection) => new Promise(async (resolve, reject) => {
+
+  const connection =
+      newConnection || (await getConnection("ping"));
+
+  connection.ping(error => {
+    if(error) {
+      return reject(
+        errors["4000"]({
+          caller,
+          reason: error.message,
+        })
+      );
+    }
+
+    resolve();
+  });
+})
   
 module.exports = {
   getConnection,
-  query
+  query,
+  ping
 };
