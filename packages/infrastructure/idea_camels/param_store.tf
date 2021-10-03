@@ -12,13 +12,13 @@ locals {
   ]
 }
 
-// When updating value in console terraform needs to be redeployed
+// When updating value in console terraform needs to redeployed
 resource "aws_ssm_parameter" "secret" {
     count = length(local.param_store)
     name = local.param_store[count.index]
     description = "Created by terraform in param_store.tf"
     type        = "SecureString"
-    value       = "default"
+    value       = "password"
     overwrite = false
     lifecycle {
         ignore_changes = [value,]

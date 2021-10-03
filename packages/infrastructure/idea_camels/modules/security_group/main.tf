@@ -4,7 +4,7 @@ resource "aws_security_group" "security_group" {
   vpc_id = var.vpc_id
   tags = var.tags
 }
-
+// If issue of rule does not exist appears. Comment out rules below. init. apply. uncomment. init, apply
 resource "aws_security_group_rule" "builder-ingress" {
   security_group_id = aws_security_group.security_group.id
   description = "${var.environment} ${var.name} ingress"
@@ -36,11 +36,11 @@ variable "vpc_id" {}
 variable "environment" {}
 
 variable "ingress_protocol" {
-  default = 0
+  default = "all"
 }
 
 variable "egress_protocol" {
-  default = 0
+  default = "all"
 }
 
 variable "ingress_cidr_block" {
