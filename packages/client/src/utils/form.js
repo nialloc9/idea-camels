@@ -23,7 +23,7 @@
         validateRequiredMessage
     } from "@nialloc9/vcheck";
     import { pipeline } from "@nialloc9/vcheck/lib/validation"
-    
+    import { FORM_ERROR } from 'final-form'
 
     const composeValidators = validators => value =>
   validators.reduce((error, validator) => error || validator(value), undefined)
@@ -52,5 +52,6 @@ export {
     validateMinLength,
     validateRequiredMessage,
     pipeline,
+    FORM_ERROR,
     composeValidators
 }

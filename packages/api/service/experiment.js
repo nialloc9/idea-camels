@@ -4,19 +4,23 @@ const { uppercaseSentenceWords, generateRandomId } = require('../utils/utils')
 const { listCampaigns, getMetrics } = require('../utils/googleAds')
 const { runTask, uploadToS3 } = require('../utils/aws')
 const { writeToTmpFile } = require('../utils/file')
+const { handleSuccess } = require('../utils/utils')
 const config = require('../utils/config')
 
 const onGetAccountExperiments = ({data: { decodedToken: { data: { accountRef } } }, caller}) => new Promise(async (resolve, reject) => {
     try {
         const metrics = await getMetrics({ metrics: ['clicks', 'impressions'], orderBy: 'clicks', adGroupResourceName: 'customers/9074082905/adGroups/108117690178' });
       
-        const response = await onGetWithThemeByAccountRef({ data: { accountRef }, caller });
+        const { data: { experiments } } = await onGetWithThemeByAccountRef({ data: { accountRef }, caller });
         
         const campaigns = await listCampaigns();
        
         // TODO run cron to update database to expired for domains going to expire tomorrow
         // TODO run cron to send email for domains going to expire in 1 month and in 1 week
-        resolve(response)
+        resolve(handleSuccess (
+            `SERVICE - GET_ACCOUNT_EXPERIMENTS - FROM ${caller}`,
+            { experiments, metrics, campaigns }
+          ))
     } catch (error) {
         reject(error)
     }

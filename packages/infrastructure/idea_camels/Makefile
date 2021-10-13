@@ -2,6 +2,14 @@ PROD=idea-camels
 NON_PROD=idea-camels-dev
 AWS_REGION=eu-west-1
 
+PROD_LOCAL_DB_PORT=3307
+PROD_PATH_TO_SSH=./prod_ideacamels.pem
+PROD_REMOTE_DB_HOSTNAME=terraform-20210930174456492900000001.cjqxidwezq2m.eu-west-1.rds.amazonaws.com
+PROD_BASTION_PUBLIC_IP=3.249.245.30
+
+BASTION_USERNAME=ubuntu
+REMOTE_DB_PORT=3306
+
 create_state_bucket:
 	aws --profile=idea-camels s3api create-bucket --bucket idea-camels-infrastructure-state --region eu-west-1  --create-bucket-configuration LocationConstraint=eu-west-1
 
@@ -48,3 +56,9 @@ deploy-prod:
 
 destroy-prod:
 	AWS_PROFILE=${PROD} ENV=prod make destroy
+
+ssh-prod-bastion:
+	ssh -i "${PROD_PATH_TO_SSH}" ${BASTION_USERNAME}@${PROD_BASTION_PUBLIC_IP}
+
+prod-bastion-proxy-db:
+	ssh -i "${PROD_PATH_TO_SSH}" -f -N -L ${PROD_LOCAL_DB_PORT}:${PROD_REMOTE_DB_HOSTNAME}:${REMOTE_DB_PORT} ${BASTION_USERNAME}@${PROD_BASTION_PUBLIC_IP} -v

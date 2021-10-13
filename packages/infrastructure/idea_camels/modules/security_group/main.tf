@@ -6,27 +6,16 @@ resource "aws_security_group" "security_group" {
 }
 // If issue of rule does not exist appears. Comment out rules below. init. apply. uncomment. init, apply
 resource "aws_security_group_rule" "builder-ingress" {
+  count = length(var.rules)
   security_group_id = aws_security_group.security_group.id
-  description = "${var.environment} ${var.name} ingress"
-  type = "ingress"
-  from_port = 0
-  to_port = 0
-  protocol = var.ingress_protocol
-  cidr_blocks = var.ingress_cidr_block
+  description = "${var.environment} ${var.name} ${var.rules[count.index].name} ${var.rules[count.index].type}"
+  type = var.rules[count.index].type
+  from_port = var.rules[count.index].from_port
+  to_port = var.rules[count.index].to_port
+  protocol = var.rules[count.index].protocol
+  cidr_blocks = var.rules[count.index].cidr_blocks
 
-  source_security_group_id = var.security_group_id
-}
-
-resource "aws_security_group_rule" "builder-egress" {
-  security_group_id = aws_security_group.security_group.id
-  description = "${var.environment} ${var.name} egress"
-  type = "egress"
-  from_port = 0
-  to_port = 0
-  protocol = var.egress_protocol
-  cidr_blocks = var.egress_cidr_block
-
-  source_security_group_id = var.security_group_id
+  source_security_group_id = var.rules[count.index].security_group_id
 }
 
 variable "name" {}
@@ -35,24 +24,27 @@ variable "tags" {}
 variable "vpc_id" {}
 variable "environment" {}
 
-variable "ingress_protocol" {
-  default = "all"
-}
-
-variable "egress_protocol" {
-  default = "all"
-}
-
-variable "ingress_cidr_block" {
-    default = ["0.0.0.0/0"]
-}
-
-variable "egress_cidr_block" {
-    default = ["0.0.0.0/0"]
-}
-
-variable security_group_id {
-  default = null
+variable rules {
+  default = [
+    {
+      "name" = "default",
+      "type" = "ingress",
+      "from_port" = 0,
+      "to_port" = 0,
+      "protocol" = "all",
+      "cidr_blocks" = ["0.0.0.0/0"],
+      "security_group_id" = null
+    },
+    {
+      "name" = "default",
+      "type" = "egress",
+      "from_port" = 0,
+      "to_port" = 0,
+      "protocol" = "all",
+      "cidr_blocks" = ["0.0.0.0/0"],
+      "security_group_id" = null
+    }
+  ]
 }
 
 output "id" {

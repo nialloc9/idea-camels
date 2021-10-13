@@ -22,6 +22,10 @@ locals {
   }
 }
 
+output "base_url" {
+  value = aws_api_gateway_deployment.apideploy.invoke_url
+}
+
 module "lambda_api" {
   source = "./modules/lambda"
   name = "ideacamels_api"
@@ -48,22 +52,6 @@ resource "aws_api_gateway_resource" "proxy" {
    path_part   = "{proxy+}"
 }
 
-resource "aws_api_gateway_method" "proxy_method" {
-   rest_api_id   = aws_api_gateway_rest_api.lambda_api.id
-   resource_id   = aws_api_gateway_resource.proxy.id
-   http_method   = "POST"
-   authorization = "NONE"
-}
-resource "aws_api_gateway_integration" "lambda_api" {
-   rest_api_id = aws_api_gateway_rest_api.lambda_api.id
-   resource_id = aws_api_gateway_method.proxy_method.resource_id
-   http_method = aws_api_gateway_method.proxy_method.http_method
-
-   integration_http_method = "POST"
-   type                    = "AWS_PROXY"
-   uri                     = module.lambda_api.invoke_arn
-}
-
 resource "aws_api_gateway_method" "proxy_root" {
    rest_api_id   = aws_api_gateway_rest_api.lambda_api.id
    resource_id   = aws_api_gateway_rest_api.lambda_api.root_resource_id
@@ -84,7 +72,6 @@ resource "aws_api_gateway_integration" "lambda_root" {
 
 resource "aws_api_gateway_deployment" "apideploy" {
    depends_on = [
-     aws_api_gateway_integration.lambda_api,
      aws_api_gateway_integration.lambda_root
    ]
 
@@ -104,7 +91,25 @@ resource "aws_lambda_permission" "lambda_api" {
    source_arn = "${aws_api_gateway_rest_api.lambda_api.execution_arn}/*/*"
 }
 
+module "cors_lambda" {
+  source = "dod-iac/api-gateway-cors-lambda-proxy/aws"
+  version = "1.0.0"
 
-output "base_url" {
-  value = aws_api_gateway_deployment.apideploy.invoke_url
+  api_id            = aws_api_gateway_rest_api.lambda_api.id
+  api_resource_id   = aws_api_gateway_resource.proxy.id
+  http_method       = "POST"
+  invoke_arn        = module.lambda_api.invoke_arn
+  invoke_policy_arn = module.lambda_api.iam_role_arn
+  allow_methods = [
+    "OPTIONS",
+    "POST"
+  ]
+  allow_headers = [
+    "Authorization",
+    "Content-Type",
+    "X-Amz-Date",
+    "X-Amz-Security-Token",
+    "X-Api-Key",
+    "next-query",
+  ]
 }

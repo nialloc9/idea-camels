@@ -18,10 +18,10 @@ export const withForm = (WrappedComponent) =>
 export const withField = (WrappedComponent) =>
     class WrappedField extends Component {
         render() {
-            const { name, rules = [], ...rest } = this.props;
+            const { name, validate = [], ...rest } = this.props;
 
             return (
-                <ReactFinalField name={name} validate={composeValidators(rules)}>
+                <ReactFinalField name={name} validate={composeValidators(validate)}>
                     {({ input, meta }) => <WrappedComponent {...rest} name={name} {...input} {...meta} />}
                 </ReactFinalField>
             );

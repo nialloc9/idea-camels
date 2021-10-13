@@ -5,12 +5,6 @@ import {getCookie, decodecookie} from '../../utils/cookie';
 const initialState = {
     token: '',
     data: {},
-    isFetchLoading: false,
-    fetchErrorMessage: '',
-    isCreateLoading: false,
-    createErrorMessage: '',
-    isForgottonPasswordLoading: true, 
-    forgottonPasswordErrorMessage: '', 
     forgottonPasswordSuccessMessage: ''
 };
 

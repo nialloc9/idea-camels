@@ -77,6 +77,10 @@ resource "aws_ecs_task_definition" "builder" {
     },
     "environment": [
             {
+                "name": "ENV",
+                "value": "${var.environment}"
+            },
+            {
                 "name": "DB_USER",
                 "value": "${aws_db_instance.ideacamels.username}"
             },

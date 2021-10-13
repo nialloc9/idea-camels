@@ -14,10 +14,10 @@ const localhost = {
         linkedin: "https://linkedin.com",
     },
     ga: {
-        uaId: "UA-173719058-1",
+        uaId: "UA-1234567-1",
     },
     hotjar: {
-        id: 1710788,
+        id: 1234567,
         version: 6,
     },
     api: {
@@ -30,7 +30,22 @@ const localhost = {
 };
 
 const staging = { ...localhost };
-const production = { ...staging, api: { ...staging.api, base: "https://v1xwkm07ta.execute-api.eu-west-1.amazonaws.com/prod" } };
+
+const production = { 
+    ...staging, 
+    api: { 
+        ...staging.api, base: "https://v1xwkm07ta.execute-api.eu-west-1.amazonaws.com/prod" 
+    },
+    ga: {
+        ...staging.ga,
+        uaId: "UA-173719058-1"
+    },
+    hotjar: {
+        ...staging.hotjar,
+        id: 1710788,
+        version: 6
+    } 
+};
 
 export default {
     staging,

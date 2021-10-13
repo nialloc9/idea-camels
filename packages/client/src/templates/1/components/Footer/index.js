@@ -1,9 +1,9 @@
 import React from "react";
 import { styled, remCalc, withTheme } from "../../utils/style";
 import { Grid, GridColumn } from "../Grid";
-import { Image } from "../Image";
 import { List, ListItem } from "../List";
 import { Icon } from "../Icon";
+import { EditableText, EditableImage, createImagePreview } from "../Edit";
 
 const Container = styled.section`
   min-height: ${({ theme: { footer: { height } } }) => remCalc(height)};
@@ -35,12 +35,13 @@ const StyledListItem = styled(ListItem)`
   }
 `;
 
-export default withTheme(({ theme: { footer: { column1, column3 } }, content }) => (
+
+export default withTheme(({ theme: { footer: { column1, column3 } }, content, onSetExperiment }) => (
   <Container>
     <Grid stackable container columns={3}>
       <GridColumn>
-        <Image src={content.footer.column1.image.src} size={column1.imageSize} avatar />
-        <span>{content.footer.column1.text.text}</span>
+        <EditableImage src={content.footer.column1.image.src} size={column1.imageSize} avatar onSubmit={file => onSetExperiment({ content: { footer: { column1: { image: { src: createImagePreview(file) } } } }, imageFiles: { footer: { column1: { image: { src: file } } } } })} />
+        <EditableText initialText={content.footer.column1.text.text} onSubmit={text => onSetExperiment({ content: { footer: { column1: { text: { text } } } } })} />
       </GridColumn>
       <GridColumn>
         <List>

@@ -1,1 +1,1 @@
-export { Card, CardHeader, CardDescription } from "semantic-ui-react";
+export { Card, CardHeader, CardDescription, CardContent } from "semantic-ui-react";

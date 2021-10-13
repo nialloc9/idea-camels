@@ -13,7 +13,7 @@ import {withForm} from '../../hoc/withForm';
 class ForgottenPasswordForm extends Component {
     static propTypes = {
         pristine: PropTypes.bool.isRequired,
-        isLoading: PropTypes.bool.isRequired,
+        submitting: PropTypes.bool.isRequired,
         errorMessage: PropTypes.string.isRequired,
         successMessage: PropTypes.string.isRequired,
         onModalBack: PropTypes.func.isRequired,
@@ -27,8 +27,9 @@ class ForgottenPasswordForm extends Component {
 
     render() {
         const {
-            isLoading,
-            errorMessage,
+            submitting,
+            pristine,
+            submitError,
             successMessage,
             onModalBack,
             onSubmit
@@ -38,7 +39,7 @@ class ForgottenPasswordForm extends Component {
             <Grid container stackable columns={1}>
                 <GridColumn>
                     <Form
-                        error={errorMessage}
+                        error={submitError}
                         success={successMessage}
                         onSubmit={onSubmit}
                     >
@@ -56,15 +57,16 @@ class ForgottenPasswordForm extends Component {
                                     type="text"
                                     placeholder="Email*"
                                     maxLength={40}
-                                    rules={[validateRequiredEmail, validateEmail]}
+                                    validate={[validateRequiredEmail, validateEmail]}
                                 />
                             </GridColumn>
                             <GridColumn>
                                 <Button
-                                    loading={isLoading}
+                                    loading={submitting}
                                     primary
                                     type="submit"
                                     margin={`0 ${remCalc(10)} 0 0`}
+                                    disabled={pristine || submitting}
                                 >
                                     Submit
                                 </Button>

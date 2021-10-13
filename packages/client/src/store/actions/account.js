@@ -1,6 +1,7 @@
 import {ACCOUNT_SET} from '../constants/account';
 import {onResetStore} from './store';
 import {postApi} from '../../utils/request';
+import {FORM_ERROR} from '../../utils/form';
 
 /**
  * sets the loading state
@@ -13,7 +14,7 @@ const setState = dispatch => payload => dispatch({
 
 export const onFetchAccount = ({ email, password, rememberMe = false }) => async dispatch => {
     const onSetState = setState(dispatch);
-    const payload = { isFetchLoading: true, fetchErrorMessage: '' };
+    const payload = { isFetchLoading: true };
     try {
         onSetState(payload);
         
@@ -25,7 +26,7 @@ export const onFetchAccount = ({ email, password, rememberMe = false }) => async
         payload.data = account;
         payload.fetchErrorMessage = '';
     } catch ({ message }) {
-        payload.fetchErrorMessage = message;
+        return { [FORM_ERROR]: message }
     } finally {
         payload.isFetchLoading = false;
         onSetState(payload)
@@ -53,12 +54,13 @@ export const onReAuthAccount = (originalToken) => async (dispatch) => {
 
 export const onCreateAccount = ({ firstName, lastName, phone, email, password, confirmPassword }) => async dispatch => {
     const onSetState = setState(dispatch);
-    const payload = { isCreateLoading: true, createErrorMessage: '' };
+    const payload = { isCreateLoading: true };
     try {
-
+        
         if(password !== confirmPassword) {
-            return onSetState({ createErrorMessage: "Passwords do not match" })
+            return { [FORM_ERROR]: "Passwords do not match" }
         }
+
         onSetState(payload);
         
         const response = await postApi({ uri: `account/create`, body: { firstName, lastName, phone, email, password } });
@@ -72,9 +74,9 @@ export const onCreateAccount = ({ firstName, lastName, phone, email, password, c
             email,
             password
         };
-        payload.createErrorMessage = '';
+        
     } catch ({ message }) {
-        payload.createErrorMessage = message;
+        return { [FORM_ERROR]: message }
     } finally {
         payload.isCreateLoading = false;
         onSetState(payload)

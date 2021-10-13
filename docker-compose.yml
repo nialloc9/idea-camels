@@ -10,7 +10,9 @@ services:
       - ./packages/client/.dev.env
     command: tail -f /dev/null
   idea-camels-api:
-    build: ./packages/api/dev.Dockerfile
+    build: 
+      context: ./packages/api
+      dockerfile: dev.Dockerfile
     ports:
     - "3001:3001"
     volumes:
@@ -20,18 +22,14 @@ services:
       - ./packages/api/.dev.env
     command: npm run start
   idea-camels-db:
-    build: ./packages/db
+    image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ideacamels
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: idea_camels
     ports:
-      - "33061:3306"
-    cap_add:
-      - SYS_NICE  # CAP_SYS_NICE
+    - "3306:3306"
     volumes:
-    - ./packages/db/sql:/docker-entrypoint-initdb.d
+      - /var/lib/mysql
   idea-camels-builder:
     build: ./packages/builder
     ports:

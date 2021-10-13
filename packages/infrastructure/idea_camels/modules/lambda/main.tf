@@ -32,6 +32,10 @@ output "iam_role_name" {
   value = aws_iam_role.lambda.name
 }
 
+output "iam_role_arn" {
+  value = aws_iam_role.lambda.arn
+}
+
 output "invoke_arn" {
   value = aws_lambda_function.lambda.invoke_arn
 }

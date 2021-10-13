@@ -10,10 +10,8 @@ import { connect } from "../../store";
 import { validateMinLength } from "@nialloc9/vcheck/lib/validation";
 
 
-const SignUp = ({ onSubmit, isLoading, errorMessage, submitting, valid }) => {
-    
-    return (
-        <Form error={errorMessage} onSubmit={onSubmit}>
+const SignUp = ({ onSubmit, submitError, submitting, pristine }) => (
+    <Form error={submitError} onSubmit={onSubmit}>
                     <Grid container centered stackable>
                         <GridRow centered columns={2}>
                             <GridColumn>
@@ -74,19 +72,13 @@ const SignUp = ({ onSubmit, isLoading, errorMessage, submitting, valid }) => {
                             </GridColumn>
                         </GridRow>
                         <GridRow>
-                            <GridColumn><Button disabled={submitting || !valid} isLoading={isLoading}>Sign Up</Button></GridColumn>
+                            <GridColumn><Button disabled={submitting || pristine} isLoading={submitting}>Sign Up</Button></GridColumn>
                         </GridRow>
                     </Grid>
                 </Form>
     )
-};
-
-const mapStateToProps = ({ account: { isCreateLoading, createErrorMessage } }) => ({
-    isLoading: isCreateLoading,
-    errorMessage: createErrorMessage
-  })
   
 export default connect(
-    mapStateToProps,
+    () => {},
     { onSubmit: onCreateAccount }
 )(withForm(SignUp))

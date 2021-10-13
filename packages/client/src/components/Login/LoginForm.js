@@ -32,7 +32,6 @@ class LoginForm extends Component {
         
         const {
             submitting,
-            valid,
             pristine,
             errorMessage,
             onModalCancel,
@@ -56,8 +55,7 @@ class LoginForm extends Component {
                                     type="text"
                                     placeholder="Email*"
                                     maxLength={40}
-                                    rules={[validateRequiredEmail,validateEmail]}
-                                    pristine={pristine}
+                                    validate={[validateRequiredEmail,validateEmail]}
                                 />
                             </GridColumn>
                             <GridColumn>
@@ -67,7 +65,7 @@ class LoginForm extends Component {
                                     type="password"
                                     placeholder="Password*"
                                     maxLength={40}
-                                    rules={[validateRequiredPassword]}
+                                    validate={[validateRequiredPassword]}
                                 />
                             </GridColumn>
                         </Grid>
@@ -105,7 +103,7 @@ class LoginForm extends Component {
 
                     <GridColumn>
                         <Button
-                            disabled={submitting || !valid}
+                            disabled={submitting || pristine}
                             loading={submitting}
                             primary
                             type="submit"

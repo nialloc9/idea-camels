@@ -7,7 +7,7 @@ import {
   withTheme
 } from "../../../utils/style";
 import { Grid, GridColumn } from "../../Grid";
-import { Card, CardHeader, CardDescription } from "../../Card";
+import { Card, CardHeader, CardDescription, CardContent } from "../../Card";
 import { EditableText, EditableButton } from "../../Edit";
 
 const Container = styled.section`
@@ -106,14 +106,15 @@ export default withTheme(({ theme, content, onSetExperiment }) => (
           <Grid centered columns={3} stretched stackable>
             {content.block3.features.map((o, i) => (
               <GridColumn key={o.header.text}>
-                {/* <StyleCard header={o.header.text} description={o.description.text} /> */}
                 <StyleCard>
-                  <CardHeader>
-                    <EditableText initialText={o.header.text} onSubmit={text => onSetExperiment({ content: { block3: { features: onSetFeatures({ features: content.block3.features, value: text, key: 'header', index: i }) } } })} />
-                  </CardHeader>
-                  <CardDescription>
-                    <EditableText initialText={o.description.text} onSubmit={text => onSetExperiment({ content: { block3: { features: onSetFeatures({ features: content.block3.features, value: text, key: 'description', index: i }) } } })} />
-                  </CardDescription>
+                  <CardContent>
+                    <CardHeader>
+                      <EditableText initialText={o.header.text} onSubmit={text => onSetExperiment({ content: { block3: { features: onSetFeatures({ features: content.block3.features, value: text, key: 'header', index: i }) } } })} />
+                    </CardHeader>
+                    <CardDescription>
+                      <EditableText rows={7} initialText={o.description.text} onSubmit={text => onSetExperiment({ content: { block3: { features: onSetFeatures({ features: content.block3.features, value: text, key: 'description', index: i }) } } })} />
+                    </CardDescription>
+                  </CardContent>
                 </StyleCard>
               </GridColumn>
             ))}

@@ -10,10 +10,7 @@ import {onSetIsLogin} from '../../store/actions/app';
 class Login extends Component {
     static propTypes = {
         isOpen: PropTypes.bool.isRequired,
-        forgottonPasswordErrorMessage: PropTypes.string.isRequired,
         isForgottenPasswordSuccess: PropTypes.bool.isRequired,
-        isForgottenPasswordLoading: PropTypes.bool.isRequired,
-        errorMessage: PropTypes.string.isRequired,
         resetPassword: PropTypes.func.isRequired,
         size: PropTypes.string,
     };
@@ -40,11 +37,9 @@ class Login extends Component {
     }
 
     get loginFormProps() {
-        const { fetchErrorMessage, isFetchLoading, fetchAccount } = this.props;
+        const { fetchAccount } = this.props;
 
         return {
-            isLoading: isFetchLoading,
-            errorMessage: fetchErrorMessage,
             onSubmit: fetchAccount,
             onModalCancel: this.handleModalOpen,
             onResetPasswordClick: this.handleForward,
@@ -53,16 +48,12 @@ class Login extends Component {
 
     get forgottonPasswordFormProps() {
         const { 
-            forgottonPasswordErrorMessage,
             forgottonPasswordSuccessMessage,
-            isForgottenPasswordLoading,
             forgottonPassword
          } = this.props;
 
         return {
-            errorMessage: forgottonPasswordErrorMessage,
             successMessage: forgottonPasswordSuccessMessage,
-            isLoading: isForgottenPasswordLoading,
             onModalBack: this.handleBack,
             onSubmit: forgottonPassword
         }
@@ -95,11 +86,8 @@ class Login extends Component {
     }
 }
 
-const mapStateToProps = ({ app: { isLoginOpen }, account: { isFetchLoading, fetchErrorMessage, forgottonPasswordErrorMessage, forgottonPasswordSuccessMessage } }) => ({
+const mapStateToProps = ({ app: { isLoginOpen }, account: { forgottonPasswordSuccessMessage } }) => ({
     isOpen: isLoginOpen,
-    isFetchLoading,
-    fetchErrorMessage,
-    forgottonPasswordErrorMessage,
     forgottonPasswordSuccessMessage
   })
   

@@ -20,6 +20,7 @@ const getConnection = async (caller) =>
     DatabasePool.getConnection((error, connection) => {
       logger.error(error)
       if (error) {
+        console.log("here2",error)
         return reject(
           errors["4000"]({
             caller,
@@ -39,7 +40,7 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
       newConnection || (await getConnection(caller, dataLayer));
       connection.query(query, data, (error, results) => {
         connection.release();
-        
+       
         if (error) {
           return reject(
             errors["4001"]({

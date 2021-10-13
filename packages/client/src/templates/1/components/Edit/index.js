@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { TextArea, Form, Input } from 'semantic-ui-react'
 import { Button } from '../Styled/Button'
 import { Image, BackgroundImage } from '../Styled/Image'
+import { Message } from '../Styled/Message'
 import { FileUpload } from '../Form/FileUpload'
 import { styled } from "../../utils/style";
 
@@ -24,6 +25,7 @@ export class EditableText extends Component {
     
     this.state = {
       text: this.props.initialText,
+      errorMessage: "",
       isOpen: false
     }
   }
@@ -32,20 +34,49 @@ export class EditableText extends Component {
 
   handleChange = (e, { value }) => this.setState({ text: value })
 
+  validate = text => {
+    const { initialText, minOffset = 0, min, max } = this.props;
+
+    const minMinusOffset = initialText.length - minOffset // minOffset is number of characters from end of inital text
+
+    if (min && text.length < min) {
+      return `Min ${min}`
+    }
+
+    if (min && text.length > max) {
+      return `Max ${min}`
+    }
+
+    if(text.length < minMinusOffset) {
+      return `Min ${minMinusOffset}`
+    }
+
+    return text.length > initialText.length ? `Max ${initialText.length}` : ""
+  }
+
   hanndleKeyChange = (e) => {
     const { text } = this.state;
     const { onSubmit } = this.props;
-    console.log('key', e.key)
+    
+    const errorMessage = this.validate(text);
+
+    if(errorMessage !== "") {
+      return this.setState({ errorMessage })
+    }
+
     if (e.key === "Enter") {
       e.preventDefault();
-      this.setState({ isOpen: false })
+
+      
+      this.setState({ isOpen: false, errorMessage: "" })
       onSubmit(text);
     } 
 
   }
   
   render() {
-    const { isOpen, text } = this.state;
+    const { isOpen, text, errorMessage } = this.state;
+    const { rows = 1 } = this.props;
 
     if(!isOpen) {
         return (
@@ -55,7 +86,8 @@ export class EditableText extends Component {
 
     return (
         <Form>
-          <TextArea value={text} onChange={this.handleChange} onKeyPress={this.hanndleKeyChange} />
+          <TextArea rows={rows} value={text} onChange={this.handleChange} onKeyPress={this.hanndleKeyChange} />
+          {errorMessage !== "" && <Message negative textAlign="center">{errorMessage}</Message>}
         </Form>
     )
   }
@@ -67,6 +99,7 @@ export class EditableButton extends Component {
     
     this.state = {
       text: this.props.initialText,
+      errorMessage: "",
       isOpen: false
     }
   }
@@ -81,10 +114,36 @@ export class EditableButton extends Component {
 
   handleChange = (e, { value }) => this.setState({ text: value })
 
+  validate = text => {
+    const { initialText, minOffset = 0, min, max } = this.props;
+
+    const minMinusOffset = initialText.length - minOffset // minOffset is number of characters from end of inital text
+    
+    if (min && text.length < min) {
+      return `Min ${min}`
+    }
+
+    if (min && text.length > max) {
+      return `Max ${min}`
+    }
+
+    if(text.length < minMinusOffset) {
+      return `Min ${minMinusOffset}`
+    }
+
+    return text.length > initialText.length ? `Max ${initialText.length}` : ""
+  }
+
   hanndleKeyChange = (e) => {
     const { text } = this.state;
     const { onSubmit } = this.props;
     
+    const errorMessage = this.validate(text);
+
+    if(errorMessage !== "") {
+      return this.setState({ errorMessage })
+    }
+
     if (e.key === "Enter") {
       e.preventDefault();
       this.setState({ isOpen: false })
@@ -94,7 +153,7 @@ export class EditableButton extends Component {
   }
   
   render() {
-    const { isOpen, text } = this.state;
+    const { isOpen, text, errorMessage } = this.state;
 
     if(!isOpen) {
         return <Button {...this.buttonProps} hoverFilter={false} hoverOpacity="0.5" onClick={this.handleOpen}>{text}</Button>
@@ -103,6 +162,7 @@ export class EditableButton extends Component {
     return (
         <Form onSubmit={this.handleSubmit}>
           <Input value={text} onChange={this.handleChange} onKeyPress={this.hanndleKeyChange} />
+          {errorMessage !== "" && <Message negative textAlign="center">{errorMessage}</Message>}
         </Form>
     )
   }
@@ -129,7 +189,7 @@ export class EditableImage extends Component {
   handleSubmit = (files) => {
     const { onSubmit } = this.props;
     onSubmit(files[0]);
-    this.setState({ isOpen: false })
+    this.setState({ isOpen: false, src: createImagePreview(files[0]) })
   }
   
   handeError = files => {
@@ -139,6 +199,7 @@ export class EditableImage extends Component {
 
     this.setState({ error: message })
   };
+
   render() {
     const { isOpen, error, src } = this.state;
     
@@ -176,7 +237,7 @@ export class EditableBackgroundImage extends Component {
   handleSubmit = (files) => {
     const { onSubmit } = this.props;
     onSubmit(files[0]);
-    this.setState({ isOpen: false })
+    this.setState({ isOpen: false, src: createImagePreview(files[0]) })
   }
   
   handeError = files => {

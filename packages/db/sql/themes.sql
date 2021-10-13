@@ -32,8 +32,8 @@ VALUES
   (
     1,
     "ideacamels",
-    'themes/1s7rms1906.json',
-    'contents/1s7rms1906.json',
+    'themes/ideacamels_default.json',
+    'contents/ideacamels_default.json',
     1,
     CURRENT_TIMESTAMP,
     CURRENT_TIMESTAMP,
