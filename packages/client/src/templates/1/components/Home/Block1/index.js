@@ -67,10 +67,10 @@ export default withTheme(({ theme: { block1: { buttonSize }}, content, onSetExpe
         />
       </ImageContainer>
       <Heading>
-        <EditableText initialText={content.block1.heading.text} onSubmit={text => onSetExperiment({ content: { block1: { heading: { text } } } })} />
+        <EditableText maxWidth={remCalc(600)} rows={5} initialText={content.block1.heading.text} onSubmit={text => onSetExperiment({ content: { block1: { heading: { text } } } })} />
       </Heading>
       <SubHeading>
-      <EditableText initialText={content.block1.subHeading.text} onSubmit={text => onSetExperiment({ content: { block1: { subHeading: { text } } } })} />
+         <EditableText width={remCalc(600)} rows={5} initialText={content.block1.subHeading.text} onSubmit={text => onSetExperiment({ content: { block1: { subHeading: { text } } } })} />
       </SubHeading>
 
       <ButtonContainer>

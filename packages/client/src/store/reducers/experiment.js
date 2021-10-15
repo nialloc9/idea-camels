@@ -23,7 +23,10 @@ const initialState = {
     isFetchTemplatesInitialised: false,
     createErrorMessage: '',
     fetchErrorMessage: '',
-    fetchTemplatesErrorMessage: ''
+    fetchTemplatesErrorMessage: '',
+    domain: '',
+    isDomainAvailabe: false,
+    isCheckDomainLoading: false
 };
 
 const cache = getCache('experiment') || {};

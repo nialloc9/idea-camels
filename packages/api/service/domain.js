@@ -1,6 +1,7 @@
 const { onGet: onGetDomain, onCreate: onCreateDomain } = require('../data/domain')
 const { validateDomain, registerDomain } = require('../utils/aws')
 const errors = require('../utils/errors')
+const { handleSuccess } = require('../utils/utils')
 
 const onGetAccountDomains = ({data: { decodedToken: { accountRef } }, caller}) => new Promise(async (resolve, reject) => {
     try {
@@ -14,9 +15,23 @@ const onGetAccountDomains = ({data: { decodedToken: { accountRef } }, caller}) =
     }
 });
 
+const onCheckIsDomainAvailable = ({data: { domain }, caller}) => new Promise(async (resolve, reject) => {
+    try {
+        const { error } = await validateDomain({ domain, caller });
+
+        if(error) {
+            return reject(errors["1005"]({ service: 'onPurchaseDomain', caller, reason: error.stack }))
+        }
+        
+        resolve(handleSuccess("available"), { domain, caller })
+    } catch (error) {
+        reject(error)
+    }
+});
+
 const onPurchaseDomain = ({data: { domain, durationInYears = 1, autoRenew = false, decodedToken: { accountRef } }, caller}) => new Promise(async (resolve, reject) => {
     try {
-        const { error } = await validateDomain({ domain });
+        const { error } = await validateDomain({ domain, caller });
 
         if(error) {
             return reject(errors["1005"]({ service: 'onPurchaseDomain', caller, reason: error.stack }))
@@ -39,5 +54,6 @@ const onPurchaseDomain = ({data: { domain, durationInYears = 1, autoRenew = fals
 
 module.exports = {
     onGetAccountDomains,
+    onCheckIsDomainAvailable,
     onPurchaseDomain
 }

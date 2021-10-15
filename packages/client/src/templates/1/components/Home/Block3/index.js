@@ -85,9 +85,9 @@ export default withTheme(({ theme, content, onSetExperiment }) => (
   <Container>
       <Overlay>
         <TextContainer>
-          <Heading><EditableText initialText={content.block3.heading.text} onSubmit={text => onSetExperiment({ content: { block3: { heading: { text } } } })} /></Heading>
+          <Heading><EditableText maxWidth={remCalc(600)} initialText={content.block3.heading.text} onSubmit={text => onSetExperiment({ content: { block3: { heading: { text } } } })} /></Heading>
           <MainText>
-          <EditableText initialText={content.block3.mainText.text} onSubmit={text => onSetExperiment({ content: { block3: { mainText: { text } } } })} />
+          <EditableText maxWidth={remCalc(600)} rows={5} initialText={content.block3.mainText.text} onSubmit={text => onSetExperiment({ content: { block3: { mainText: { text } } } })} />
           </MainText>
           <ButtonContainer>
             <EditableButton
@@ -100,9 +100,10 @@ export default withTheme(({ theme, content, onSetExperiment }) => (
           </ButtonContainer>
         </TextContainer>
 
-        <FeatureHeader><EditableText initialText={content.block3.featureHeader.text} onSubmit={text => onSetExperiment({ content: { block3: { featureHeader: { text } } } })} /></FeatureHeader>
+        
 
         <FeaturesContainer>
+        <FeatureHeader><EditableText initialText={content.block3.featureHeader.text} onSubmit={text => onSetExperiment({ content: { block3: { featureHeader: { text } } } })} /></FeatureHeader>
           <Grid centered columns={3} stretched stackable>
             {content.block3.features.map((o, i) => (
               <GridColumn key={o.header.text}>

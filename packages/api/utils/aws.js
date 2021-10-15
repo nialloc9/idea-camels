@@ -30,20 +30,33 @@ const runTask = ({ cluster, taskDefinition, environmentVariables },
  *
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#checkDomainAvailability-property
  */
-const validateDomain = ({ domain }, 
+const validateDomain = ({ domain, caller }, 
   newProvider
   ) =>
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
 
-    if(!config.isProd || config.noInternet) {
-      logger.warn({ domain }, "Env is not prod or there is no internet")
-      return resolve({ error: undefined, data: {} })
-    }
+    // if(!config.isProd || config.noInternet) {
+    //   logger.warn({ domain }, "Env is not prod or there is no internet")
+    //   return resolve({ error: undefined, data: {} })
+    // }
     const provider = newProvider || defaultRoute53Provider
 
-    provider.checkDomainAvailability({ DomainName: domain }, (err, data) => resolve({data, error: err}));
-  });
+    provider.checkDomainAvailability({ DomainName: domain }, (err, data) => {
+      
+      if(err) return resolve({data, error: err})
 
+      if(data["Availability"] !== "AVAILABLE") {
+        reject(errors["1005"]({
+          service: "CHECK_DOMAIN_AVAILABILITY",
+          caller,
+          reason: "Domain Unavailable",
+          data: { domain }
+      }))
+      }
+      resolve({data, error: err})
+    });
+  });
+ 
 /**
  *
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#getDomainSuggestions-property

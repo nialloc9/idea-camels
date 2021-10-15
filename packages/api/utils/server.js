@@ -1,6 +1,6 @@
 const config = require('./config')
 const { onCreate: onCreateAccount, onLogin, onDelete, onUpdate, onForgottonPassword, onReauthorise } = require("../service/account")
-const { onGetAccountDomains, onPurchaseDomain } = require("../service/domain")
+const { onGetAccountDomains, onPurchaseDomain, onCheckIsDomainAvailable } = require("../service/domain")
 const { onGetAccountExperiments, onCreateExperiment } = require("../service/experiment")
 const { onGet: onGetTemplates } = require("../service/template")
 const { onCreateCampaign } = require("../service/campaign")
@@ -66,6 +66,12 @@ const endpoints = [
       uri: "/account/reauthorise",
       required: [ "caller" ],
       func: onReauthorise,
+      isAuth: true
+    },
+    {
+      uri: "/domain/check-availability",
+      required: [ "caller", "domain" ],
+      func: onCheckIsDomainAvailable,
       isAuth: true
     },
     {

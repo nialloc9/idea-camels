@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Grid, GridRow, GridColumn } from "../components/Grid";
 import { Segment } from "../components/Styled/Segment";
 import { Dropdown } from "../components/Styled/Dropdown";
-import { ValidationForm, Field } from "../components/Form/Form";
+import { Button } from "../components/Styled/Button";
+import { Input } from "../components/Form/Input";
 import Default, { 
   theme as defaultTheme,
   content as defaultContent 
@@ -10,7 +11,7 @@ import Default, {
 import withPageAnalytics from "../hoc/withPageAnalytics";
 import { remCalc } from "../utils/style";
 import { toTitleCase } from "../utils/utils";
-import { onFetchTemplates, onSetExperiment } from '../store/actions/experiment'
+import { onFetchTemplates, onSetExperiment, onCheckDomainAvailable } from '../store/actions/experiment'
 import { connect } from '../store'
 
 const themeMap = {
@@ -26,14 +27,14 @@ class CreateExperiment extends Component {
   get templateOptions() {
     const { templates = [] } = this.props;
     
-    return templates.map(({ name, template_ref }) => ({ key: template_ref, text: toTitleCase(name), value: template_ref }))
+    return templates.map(({ name, template_ref }) => ({ key: template_ref, text: toTitleCase(`${name} Template`), value: template_ref }))
   }
 
   get themeOptions() {
     const { templates = [], newExperiment: { templateRef } } = this.props;
    
     return templates.reduce((total, { theme_name, theme_ref, template_ref }) => {
-      if(template_ref === templateRef) total.push({ key: theme_ref, value: theme_ref, text: toTitleCase(theme_name) });
+      if(template_ref === templateRef) total.push({ key: theme_ref, value: theme_ref, text: toTitleCase(`${theme_name} Theme`) });
 
       return total;
     }, [])
@@ -84,7 +85,9 @@ class CreateExperiment extends Component {
 
     return (
       <Dropdown
+        label="Template"
         lazyLoad
+        labeled
         defaultValue={templateRef}
         selection
         margin={`${remCalc(15)} 0`}
@@ -96,14 +99,6 @@ class CreateExperiment extends Component {
         loading={isFetchTemplatesLoading}
         onChange={this.handleSelectTemplate}
       />
-    )
-  }
-
-  renderMetaData = () => {
-    return (
-      <ValidationForm>
-        <Field />
-      </ValidationForm>
     )
   }
 
@@ -120,13 +115,40 @@ class CreateExperiment extends Component {
     return <Segment padded maxHeight={remCalc(700)} overflow="hidden auto"><Component theme={theme} content={content} onSetExperiment={onSetExperiment} /></Segment>
   }
 
+  handleDomainChange = (e) => {
+    const { onCheckDomainAvailable } = this.props;
+   
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      onCheckDomainAvailable(e.target.value);
+    } 
+  }
+  renderDomainSelect = () => {
+    const { isDomainAvailabe, isCheckDomainLoading } = this.props;
+    console.log(isCheckDomainLoading, isDomainAvailabe)
+    return <Input placeholder="mydomain.com" errorColored={!isCheckDomainLoading && !isDomainAvailabe} loading={isCheckDomainLoading} onKeyUp={this.handleDomainChange} />
+  }
+
+  renderCreateButton = () => {
+    const { isDomainAvailabe, isCheckDomainLoading } = this.props;
+    return <Button disabled={!isDomainAvailabe || isCheckDomainLoading } primary>Create Experiment</Button>
+  }
+
   render() {
     return (
       <Grid padded centered stackable>
-        <GridRow columns={1}>
+        <GridRow columns={6}>
           <GridColumn>
             {this.renderTemplateSelect()}
+          </GridColumn>
+          <GridColumn>
             {this.renderThemeSelect()}
+          </GridColumn>
+          <GridColumn>
+            {this.renderDomainSelect()}
+          </GridColumn>
+          <GridColumn>
+            {this.renderCreateButton()}
           </GridColumn>
         </GridRow>
         <GridRow>
@@ -142,7 +164,7 @@ class CreateExperiment extends Component {
   }
 }
 
-const mapStateToProps = ({ experiment: { templates, isFetchTemplatesLoading, fetchTemplatesErrorMessage, experiment } }) => ({ templates, isFetchTemplatesLoading, fetchTemplatesErrorMessage, newExperiment: experiment });
+const mapStateToProps = ({ experiment: { domain, isDomainAvailabe, isCheckDomainLoading, templates, isFetchTemplatesLoading, fetchTemplatesErrorMessage, experiment } }) => ({ domain, isDomainAvailabe, isCheckDomainLoading, templates, isFetchTemplatesLoading, fetchTemplatesErrorMessage, newExperiment: experiment });
 
-export default connect(mapStateToProps, { onFetchTemplates, onSetExperiment })(withPageAnalytics(CreateExperiment));
+export default connect(mapStateToProps, { onFetchTemplates, onSetExperiment, onCheckDomainAvailable })(withPageAnalytics(CreateExperiment));
 

@@ -2,10 +2,10 @@ import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { Image } from "../../Image";
 import { Header } from "../../Header";
-import {withTheme} from '../../../utils/style'
-import { EditableText, EditableImage, EditableButton, createImagePreview } from "../../Edit";
+import { Block } from "../../Styled/Block";
+import {withTheme, remCalc} from '../../../utils/style'
+import { EditableText, EditableImage, createImagePreview } from "../../Edit";
 
 const settings = {
   dots: true,
@@ -13,7 +13,7 @@ const settings = {
   speed: 1000,
   slidesToShow: 1,
   slidesToScroll: 1,
-  autoplay: true,
+  autoplay: false,
 };
 
 const onSetNewCarouselImage = ({ carousel, onSetExperiment }) => ({ file, index }) => {
@@ -33,18 +33,19 @@ const onSetNewCarouselText = ({ carousel, onSetExperiment }) => ({ text, index }
 }
 
 const Slide = withTheme(({ image, header, theme: { block5 }, onSetCarouselImage, onSetCarouselText }) => (
-  <div style={{textAlign: "center"}}>
-      <EditableImage
+  <Block>
+    <EditableImage
         centered
         size={block5.carousel.size}
         src={image.src}
         alt={image.alt}
+        editMinHeight={remCalc(400)}
         onSubmit={onSetCarouselImage}
       />
       <Header textAlign={block5.carousel.textAlign}>
-        <EditableText initialText={header.text} />
+        <EditableText maxWidth={remCalc(600)} initialText={header.text} onSubmit={onSetCarouselText} />
       </Header>
-    </div>
+    </Block>
 ))
 
 export default ({ content, onSetExperiment }) => (

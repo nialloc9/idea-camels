@@ -75,10 +75,10 @@ export default withTheme(({ theme: { block4: { button, firstCard } }, content, o
   <Container>
       <HeadingContainer>
         <Heading>
-          <EditableText initialText={content.block4.heading.text} onSubmit={text => onSetExperiment({ content: { block4: { heading: { text } } } })} />
+          <EditableText maxWidth={remCalc(600)} initialText={content.block4.heading.text} onSubmit={text => onSetExperiment({ content: { block4: { heading: { text } } } })} />
         </Heading>
         <SubHeading>
-          <EditableText initialText={content.block4.subHeading.text} onSubmit={text => onSetExperiment({ content: { block4: { subHeading: { text } } } })} />
+          <EditableText maxWidth={remCalc(600)} initialText={content.block4.subHeading.text} onSubmit={text => onSetExperiment({ content: { block4: { subHeading: { text } } } })} />
         </SubHeading>
       </HeadingContainer>
 

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { TextArea, Form, Input } from 'semantic-ui-react'
+import { Form, Input } from 'semantic-ui-react'
 import { Button } from '../Styled/Button'
+import { TextArea } from '../Styled/TextArea'
+import { Block } from '../Styled/Block'
 import { Image, BackgroundImage } from '../Styled/Image'
 import { Message } from '../Styled/Message'
 import { FileUpload } from '../Form/FileUpload'
@@ -76,7 +78,7 @@ export class EditableText extends Component {
   
   render() {
     const { isOpen, text, errorMessage } = this.state;
-    const { rows = 1 } = this.props;
+    const { rows = 1, width, maxWidth } = this.props;
 
     if(!isOpen) {
         return (
@@ -86,7 +88,7 @@ export class EditableText extends Component {
 
     return (
         <Form>
-          <TextArea rows={rows} value={text} onChange={this.handleChange} onKeyPress={this.hanndleKeyChange} />
+          <TextArea width={width} maxWidth={maxWidth} rows={rows} value={text} onChange={this.handleChange} onKeyPress={this.hanndleKeyChange} />
           {errorMessage !== "" && <Message negative textAlign="center">{errorMessage}</Message>}
         </Form>
     )
@@ -203,14 +205,18 @@ export class EditableImage extends Component {
   render() {
     const { isOpen, error, src } = this.state;
     
-    const { iconSize, borderStyle, border, padding, label = "Upload Image" } = this.props;
+    const { iconSize, borderStyle, border, padding, label = "Upload Image", editMinHeight } = this.props;
 
     if(!isOpen) {
         return <Edit onClick={this.handleOpen}><Image {...this.imageProps} src={src} key={src} /></Edit>
     }
     
     return (
-      <FileUpload iconSize={iconSize} borderStyle={borderStyle} border={border} padding={padding}  label={label} accept="image/jpeg, image/png" error={error} onSubmit={this.handleSubmit} onError={this.handeError} />
+      <Block textAlign="center" margin="auto" display="flex" justifyContent="center">
+        <Block display="flex" justifyContent="center" flexDirection="column" minHeight={editMinHeight}>
+          <FileUpload iconSize={iconSize} borderStyle={borderStyle} border={border} padding={padding}  label={label} accept="image/jpeg, image/png" error={error} onSubmit={this.handleSubmit} onError={this.handeError} />
+        </Block>
+      </Block>
     )
   }
 }
@@ -251,14 +257,20 @@ export class EditableBackgroundImage extends Component {
   render() {
     const { isOpen, error, src } = this.state;
     
-    const { iconSize, borderStyle, border, padding, label = "Upload Image" } = this.props;
+    const { iconSize, borderStyle, border, padding, label = "Upload Image", editMinHeight } = this.props;
     
     if(!isOpen) {
+      
         return <Edit onClick={this.handleOpen}><BackgroundImage {...this.imageProps} src={src} key={src} /></Edit>
     }
     
     return (
-      <FileUploadContainer><FileUpload iconSize={iconSize} borderStyle={borderStyle} border={border} padding={padding}  label={label} accept="image/jpeg, image/png" error={error} onSubmit={this.handleSubmit} onError={this.handeError} /></FileUploadContainer>
+      <Block textAlign="center" margin="auto" display="flex" justifyContent="center">
+        <Block display="flex" justifyContent="center" flexDirection="column" minHeight={editMinHeight}>
+          <FileUpload iconSize={iconSize} borderStyle={borderStyle} border={border} padding={padding}  label={label} accept="image/jpeg, image/png" error={error} onSubmit={this.handleSubmit} onError={this.handeError} />
+        </Block>
+      </Block>
+      
     )
   }
 }

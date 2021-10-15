@@ -5,9 +5,8 @@ import {
   getMarginsOrPaddings,
   withTheme
 } from "../../../utils/style";
-import { Button } from "../../Button";
 import Carausel from "./Carousel";
-import { EditableText, EditableImage, EditableButton, createImagePreview } from "../../Edit";
+import { EditableText, EditableButton } from "../../Edit";
 
 const Container = styled.section`
   min-height: ${({ theme: { block5: { height } } }) => remCalc(height)};
@@ -64,7 +63,7 @@ export default withTheme(({ theme: { block5: { button } }, content, onSetExperim
         <InnerContainer>
           <QuoteContainer>
             <Quote>
-              <EditableText initialText={content.block5.quote.text} onSubmit={text => onSetExperiment({ content: { block5: { quote: { text } } } })} />
+              <EditableText rows={4} initialText={content.block5.quote.text} onSubmit={text => onSetExperiment({ content: { block5: { quote: { text } } } })} />
             </Quote>
             <Author>- <EditableText initialText={content.block5.author.text} onSubmit={text => onSetExperiment({ content: { block5: { author: { text } } } })} /></Author>
           </QuoteContainer>

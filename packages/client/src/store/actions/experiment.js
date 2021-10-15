@@ -95,3 +95,25 @@ export const onSetExperiment = newExperiment => (dispatch, getState) => {
     
     onSetState({ experiment: deepMerge(experiment, newExperiment) })
 }
+
+export const onCheckDomainAvailable = domain => async (dispatch, getState) => {
+    const onSetState = setState(dispatch);
+    const payload = { isCheckDomainLoading: true };
+    try {
+        onSetState(payload);
+        
+        const { account: { token } } = getState();
+        console.log(1)
+        await postApi({ uri: `domain/check-availability`, token, body: { domain } });
+        console.log(2)
+        payload.isDomainAvailabe = true;
+        payload.domain = domain;
+
+    } catch ({ message }) {
+        console.log(domain, message)
+        payload.isDomainAvailabe = false;
+    } finally {
+        payload.isCheckDomainLoading = false;
+        onSetState(payload)
+    }
+};

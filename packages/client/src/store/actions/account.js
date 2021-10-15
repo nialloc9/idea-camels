@@ -13,13 +13,15 @@ const setState = dispatch => payload => dispatch({
 });
 
 export const onFetchAccount = ({ email, password, rememberMe = false }) => async dispatch => {
+    
     const onSetState = setState(dispatch);
+   
     const payload = { isFetchLoading: true };
     try {
         onSetState(payload);
         
         const response = await postApi({ uri: `account/login`, body: { email, password, rememberMe } });
-        
+     
         const { data: { token, account } } = response
          
         payload.token = token;
