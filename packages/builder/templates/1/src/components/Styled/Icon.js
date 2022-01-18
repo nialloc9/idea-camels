@@ -20,39 +20,26 @@ export const Icon = styled(
 )`
   ${({ display = false }) => display && `display: ${display} !important;`}
   ${({ width = false }) => width && `width: ${width} !important;`}
-    ${({
-    height = false,
-  }) => height && `height: ${height} !important;`}
-    ${({ margin = false }) =>
-    margin && `margin: ${margin} !important;`}
-    ${({ color = false }) =>
-    color && `color: ${color};`}
-    ${({ cursor = false }) =>
-    cursor && `cursor: ${cursor};`}
-    ${({ opacity = false }) =>
-    opacity && `opacity: ${opacity};`}
-    ${({ transition = false }) =>
-    transition && `transition: ${transition};`}
+    ${({ height = false }) => height && `height: ${height} !important;`}
+    ${({ margin = false }) => margin && `margin: ${margin} !important;`}
+    ${({ color = false }) => color && `color: ${color};`}
+    ${({ cursor = false }) => cursor && `cursor: ${cursor};`}
+    ${({ opacity = false }) => opacity && `opacity: ${opacity};`}
+    ${({ transition = false }) => transition && `transition: ${transition};`}
   
     &:hover {
     ${({ hoverColor = false }) => (hoverColor ? `color: ${hoverColor};` : "")}
     ${({ hoverTransition = false }) =>
       hoverTransition && `transition: ${hoverTransition};`}
-        ${({
-      hoverTransition = false,
-    }) =>
+        ${({ hoverTransition = false }) =>
       hoverTransition && `-webkit-transition: ${hoverTransition};`}
-        ${({
-      hoverTransform = false,
-    }) => hoverTransform && `-ms-transform: ${hoverTransform};`}
-        ${({
-      hoverTransform = false,
-    }) => hoverTransform && `-webkit-transform: ${hoverTransform};`}
-        ${({
-      hoverTransform = false,
-    }) => hoverTransform && `transform: ${hoverTransform};`}
-        ${({
-      hoverOpacity = false,
-    }) => hoverOpacity && `opacity: ${hoverOpacity};`}
+        ${({ hoverTransform = false }) =>
+      hoverTransform && `-ms-transform: ${hoverTransform};`}
+        ${({ hoverTransform = false }) =>
+      hoverTransform && `-webkit-transform: ${hoverTransform};`}
+        ${({ hoverTransform = false }) =>
+      hoverTransform && `transform: ${hoverTransform};`}
+        ${({ hoverOpacity = false }) =>
+      hoverOpacity && `opacity: ${hoverOpacity};`}
   }
 `;

@@ -2,11 +2,7 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const config = require("./config");
 const errors = require("./errors");
-const {
-  generateRandomId,
-  createTimestamp,
-  logger
-} = require("./utils");
+const { generateRandomId, createTimestamp, logger } = require("./utils");
 
 const {
   jwt: { secret },
@@ -21,18 +17,18 @@ const jwtVerify = (jwToken) => {
   try {
     return [null, jwt.verify(jwToken, secret)];
   } catch (err) {
-    return [errors["1004"](), null]
+    return [errors["1004"](), null];
   }
 };
 
 const scrubAccount = (account = {}, scrub = ["password"]) => {
-  const newAccount = {...account};
+  const newAccount = { ...account };
 
-  scrub.forEach(o => {
-    delete newAccount[o]
-  })
+  scrub.forEach((o) => {
+    delete newAccount[o];
+  });
 
-  return newAccount
+  return newAccount;
 };
 
 /**
@@ -75,16 +71,21 @@ const requiredParam = ({ serviceName, paramName, param, caller }) => {
  * @description checks required params
  * @returns {<Promise>}
  */
-const requiredParams = ({ endpoint, body, headers, isAuth = false, required }) =>
+const requiredParams = ({
+  endpoint,
+  body,
+  headers,
+  isAuth = false,
+  required,
+}) =>
   new Promise((resolve, reject) => {
-
     const { caller } = body;
 
     const { Authorization, authorization } = headers;
-    
+
     const bearer = Authorization || authorization;
 
-    if(isAuth && !bearer) {
+    if (isAuth && !bearer) {
       reject(
         errors["2003"]({
           endpoint,
@@ -93,8 +94,8 @@ const requiredParams = ({ endpoint, body, headers, isAuth = false, required }) =
         })
       );
 
-      return
-    }  
+      return;
+    }
 
     required.forEach((o) => {
       const target = body[o];
@@ -107,7 +108,7 @@ const requiredParams = ({ endpoint, body, headers, isAuth = false, required }) =
           })
         );
 
-        return
+        return;
       }
     });
 
@@ -117,51 +118,68 @@ const requiredParams = ({ endpoint, body, headers, isAuth = false, required }) =
 const createHash = ({ secret, data, algo = "sha256" }) =>
   crypto.createHmac(algo, secret).update(data).digest("hex");
 
-const validatePassword = ({ password, hashedPassword, caller, service = 'login service' }) => new Promise((resolve, reject) => {
-  const inputHash = createHash({ secret: config.security.password_secret, data: password });
+const validatePassword = ({
+  password,
+  hashedPassword,
+  caller,
+  service = "login service",
+}) =>
+  new Promise((resolve, reject) => {
+    const inputHash = createHash({
+      secret: config.security.password_secret,
+      data: password,
+    });
 
-  if(inputHash !== hashedPassword) {
-    reject(errors["1003"]({
-      service,
-      caller
-    }))
+    if (inputHash !== hashedPassword) {
+      reject(
+        errors["1003"]({
+          service,
+          caller,
+        })
+      );
 
-    return
-  }
+      return;
+    }
 
-  return resolve();
-})
+    return resolve();
+  });
 /**
  * @description validates and parses req
  * @param {*} param0
  */
-const validateAndParse = async ({ uri: endpoint, req: { headers, body }, required, isAuth = true }) => new Promise(async (resolve, reject) => {
-  try {
-    logger.info({ endpoint, headers, body }, "INCOMING");
-  
-    await requiredParams({ endpoint, body, headers, required, isAuth });
+const validateAndParse = async ({
+  uri: endpoint,
+  req: { headers, body },
+  required,
+  isAuth = true,
+}) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      logger.info({ endpoint, headers, body }, "INCOMING");
 
-    const response = { ...body };
-  
-    if (isAuth) {
-      const { Authorization, authorization } = headers;
-      
-      const bearer = Authorization || authorization;
+      await requiredParams({ endpoint, body, headers, required, isAuth });
 
-      const [,token] = bearer.split(" ");
+      const response = { ...body };
 
-      const [error, decodedToken] = jwtVerify(token);
-      
-      if(error) return reject(error);
+      if (isAuth) {
+        const { Authorization, authorization } = headers;
 
-      response.decodedToken = decodedToken;
+        const bearer = Authorization || authorization;
+
+        const [, token] = bearer.split(" ");
+
+        const [error, decodedToken] = jwtVerify(token);
+
+        if (error) return reject(error);
+
+        response.decodedToken = decodedToken;
+      }
+
+      resolve(response);
+    } catch (error) {
+      reject(error);
     }
-
-    resolve(response);
-  } catch (error) {
-    reject(error)
-  }
-});
+  });
 
 module.exports = {
   jwtVerify,
@@ -171,5 +189,5 @@ module.exports = {
   createHash,
   validateAndParse,
   validatePassword,
-  scrubAccount
+  scrubAccount,
 };

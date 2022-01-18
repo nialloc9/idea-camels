@@ -3,18 +3,39 @@ import {
   remCalc,
   styled,
   getMarginsOrPaddings,
-  withTheme
+  withTheme,
 } from "../../../utils/style";
 import { Grid, GridRow, GridColumn } from "../../Grid";
 import { Segment } from "../../Styled/Segment";
 import { Divider } from "../../Divider";
-import { EditableText, EditableImage, EditableButton, createImagePreview } from "../../Edit";
+import {
+  EditableText,
+  EditableImage,
+  EditableButton,
+  createImagePreview,
+} from "../../Edit";
 
 const Container = styled.section`
-  min-height: ${({ theme: { block4: { height } } }) => remCalc(height)};
-  padding: ${({ theme: { block4: { paddings } } }) => getMarginsOrPaddings(paddings)};
-  background-color: ${({ theme: { block4: { backgroundColor } } }) => backgroundColor};
-  font-family: ${({ theme: { block4: { fontFamily } } }) => fontFamily};
+  min-height: ${({
+    theme: {
+      block4: { height },
+    },
+  }) => remCalc(height)};
+  padding: ${({
+    theme: {
+      block4: { paddings },
+    },
+  }) => getMarginsOrPaddings(paddings)};
+  background-color: ${({
+    theme: {
+      block4: { backgroundColor },
+    },
+  }) => backgroundColor};
+  font-family: ${({
+    theme: {
+      block4: { fontFamily },
+    },
+  }) => fontFamily};
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -27,37 +48,81 @@ const HeadingContainer = styled.div`
 
 const Heading = styled.h1`
   display: block;
-  font-size: ${({ theme: { block4: { heading } } }) => remCalc(heading.size)};
-  font-weight: ${({ theme: { block4: { heading } } }) => heading.weight};
-  line-height: ${({ theme: { block4: { heading } } }) => remCalc(heading.lineHeight)};
+  font-size: ${({
+    theme: {
+      block4: { heading },
+    },
+  }) => remCalc(heading.size)};
+  font-weight: ${({
+    theme: {
+      block4: { heading },
+    },
+  }) => heading.weight};
+  line-height: ${({
+    theme: {
+      block4: { heading },
+    },
+  }) => remCalc(heading.lineHeight)};
 `;
 
 const SubHeading = styled.p`
   display: block;
-  font-size: ${({ theme: { block4: { subHeading } } }) => remCalc(subHeading.size)};
-  color: ${({ theme: { block4: { subHeading } } }) => subHeading.color};
-  font-weight: ${({ theme: { block4: { subHeading } } }) => subHeading.weight};
-  line-height: ${({ theme: { block4: { subHeading } } }) => remCalc(subHeading.lineHeight)};
-  margin: ${({ theme: { block4: { subHeading } } }) => getMarginsOrPaddings(subHeading.margins)};
+  font-size: ${({
+    theme: {
+      block4: { subHeading },
+    },
+  }) => remCalc(subHeading.size)};
+  color: ${({
+    theme: {
+      block4: { subHeading },
+    },
+  }) => subHeading.color};
+  font-weight: ${({
+    theme: {
+      block4: { subHeading },
+    },
+  }) => subHeading.weight};
+  line-height: ${({
+    theme: {
+      block4: { subHeading },
+    },
+  }) => remCalc(subHeading.lineHeight)};
+  margin: ${({
+    theme: {
+      block4: { subHeading },
+    },
+  }) => getMarginsOrPaddings(subHeading.margins)};
 `;
 
 const SplitCard = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: ${({ theme: { block4: { cardContainer } } }) => remCalc(cardContainer.width)};
+  max-width: ${({
+    theme: {
+      block4: { cardContainer },
+    },
+  }) => remCalc(cardContainer.width)};
 `;
 
 const CardContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin: ${({ theme: { block4: { cardContainer } } }) => getMarginsOrPaddings(cardContainer.margins)};
+  margin: ${({
+    theme: {
+      block4: { cardContainer },
+    },
+  }) => getMarginsOrPaddings(cardContainer.margins)};
 `;
 
 const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: ${({ theme: { block4: { cardContainer } } }) => getMarginsOrPaddings(cardContainer.paddings)};
+  padding: ${({
+    theme: {
+      block4: { cardContainer },
+    },
+  }) => getMarginsOrPaddings(cardContainer.paddings)};
 `;
 
 const ImageInnerContainer = styled.div`
@@ -67,18 +132,45 @@ const ImageInnerContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin: ${({ theme: { block4: { button } } }) => getMarginsOrPaddings(button.margins)};
-  max-width: ${({ theme: { block4: { button } } }) => button.width ? remCalc(button.width) : "auto"};
+  margin: ${({
+    theme: {
+      block4: { button },
+    },
+  }) => getMarginsOrPaddings(button.margins)};
+  max-width: ${({
+    theme: {
+      block4: { button },
+    },
+  }) => (button.width ? remCalc(button.width) : "auto")};
 `;
 
-export default withTheme(({ theme: { block4: { button, firstCard } }, content, onSetExperiment}) => (
-  <Container>
+export default withTheme(
+  ({
+    theme: {
+      block4: { button, firstCard },
+    },
+    content,
+    onSetExperiment,
+  }) => (
+    <Container>
       <HeadingContainer>
         <Heading>
-          <EditableText maxWidth={remCalc(600)} initialText={content.block4.heading.text} onSubmit={text => onSetExperiment({ content: { block4: { heading: { text } } } })} />
+          <EditableText
+            maxWidth={remCalc(600)}
+            initialText={content.block4.heading.text}
+            onSubmit={(text) =>
+              onSetExperiment({ content: { block4: { heading: { text } } } })
+            }
+          />
         </Heading>
         <SubHeading>
-          <EditableText maxWidth={remCalc(600)} initialText={content.block4.subHeading.text} onSubmit={text => onSetExperiment({ content: { block4: { subHeading: { text } } } })} />
+          <EditableText
+            maxWidth={remCalc(600)}
+            initialText={content.block4.subHeading.text}
+            onSubmit={(text) =>
+              onSetExperiment({ content: { block4: { subHeading: { text } } } })
+            }
+          />
         </SubHeading>
       </HeadingContainer>
 
@@ -92,11 +184,24 @@ export default withTheme(({ theme: { block4: { button, firstCard } }, content, o
                 <GridColumn>
                   <ImageContainer>
                     <ImageInnerContainer>
-                      <EditableImage 
+                      <EditableImage
                         size={firstCard.image.size}
                         src={content.block4.card.image.src}
                         alt={content.block4.card.image.alt}
-                        onSubmit={file => onSetExperiment({ content: { block4: { card: { image: { src: createImagePreview(file) } } } }, imageFiles: { block4: { card: { image: { src: file } } } } })}
+                        onSubmit={(file) =>
+                          onSetExperiment({
+                            content: {
+                              block4: {
+                                card: {
+                                  image: { src: createImagePreview(file) },
+                                },
+                              },
+                            },
+                            imageFiles: {
+                              block4: { card: { image: { src: file } } },
+                            },
+                          })
+                        }
                       />
                     </ImageInnerContainer>
                   </ImageContainer>
@@ -109,7 +214,11 @@ export default withTheme(({ theme: { block4: { button, firstCard } }, content, o
                       size={button.size}
                       basic
                       initialText={content.block4.card.button.text}
-                      onSubmit={text => onSetExperiment({ content: { block4: { button: { text } } } })}
+                      onSubmit={(text) =>
+                        onSetExperiment({
+                          content: { block4: { button: { text } } },
+                        })
+                      }
                     />
                   </ButtonContainer>
                 </GridColumn>
@@ -119,5 +228,5 @@ export default withTheme(({ theme: { block4: { button, firstCard } }, content, o
         </SplitCard>
       </CardContainer>
     </Container>
-)
-)
+  )
+);

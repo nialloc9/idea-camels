@@ -1,55 +1,68 @@
-const fs = require('fs');
-const { logger } = require('./utils')
-const config = require('./config')
+const fs = require("fs");
+const { logger } = require("./utils");
+const config = require("./config");
 
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 
-
-const downloadFileFromStorage = (bucket, key, pathToDownloadTo) => new Promise((resolve, reject) => {
-    const s3 = new AWS.S3({apiVersion: '2006-03-01'});
-    const params = {Bucket: bucket, Key: key};
-    logger.info(params, "Downloading file from storage")
+const downloadFileFromStorage = (bucket, key, pathToDownloadTo) =>
+  new Promise((resolve, reject) => {
+    const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
+    const params = { Bucket: bucket, Key: key };
+    logger.info(params, "Downloading file from storage");
     const file = fs.createWriteStream(pathToDownloadTo);
     const pipe = s3.getObject(params).createReadStream().pipe(file);
-    pipe.on('error', reject);
-    pipe.on('close', resolve);
+    pipe.on("error", reject);
+    pipe.on("close", resolve);
   });
 
-const writeToFile = (path, str) => fs.writeFileSync(path, str); 
+const writeToFile = (path, str) => fs.writeFileSync(path, str);
 
 const writeBackendVars = ({ experimentRef, domain }) => {
-    logger.info({ experimentRef, domain }, "Writing backend")
-    const path  = `./experiments/${experimentRef}/infrastructure/environment/backend.tfvars`
-    const str = `
+  logger.info({ experimentRef, domain }, "Writing backend");
+  const path = `./experiments/${experimentRef}/infrastructure/environment/backend.tfvars`;
+  const str = `
 bucket         = "idea-camels-infrastructure-state"
 key            = "prod/${domain}/${experimentRef}/terraform.tfstate"
 session_name   = "terraform"
 region         = "eu-west-1"
-    `
+    `;
 
-    writeToFile(path, str);
-}
+  writeToFile(path, str);
+};
 
 const writeTfVars = ({ domain, experimentRef }) => {
-    logger.info({ experimentRef }, "Writing TF vars")
-    const path = `./experiments/${experimentRef}/infrastructure/environment/variables.tfvars`
-    const str = `
+  logger.info({ experimentRef }, "Writing TF vars");
+  const path = `./experiments/${experimentRef}/infrastructure/environment/variables.tfvars`;
+  const str = `
 fqdn="${domain}"
 domain="${domain}"
-    `
-    writeToFile(path, str);
-    logger.info({ experimentRef }, "Finished writing TF vars")
-}
+    `;
+  writeToFile(path, str);
+  logger.info({ experimentRef }, "Finished writing TF vars");
+};
 
-const writeConfig = async ({ bucket = config.aws.buckets.themesAndContents, themeKey, contentKey, experimentRef  }) => {
-    logger.info({ experimentRef, bucket }, "Writing config")
-    
-    await downloadFileFromStorage(bucket, contentKey, `./experiments/${experimentRef}/client/src/config/content.js`)
-    await downloadFileFromStorage(bucket, themeKey, `./experiments/${experimentRef}/client/src/config/theme.js`)
+const writeConfig = async ({
+  bucket = config.aws.buckets.themesAndContents,
+  themeKey,
+  contentKey,
+  experimentRef,
+}) => {
+  logger.info({ experimentRef, bucket }, "Writing config");
 
-    const path = `./experiments/${experimentRef}/client//src/config/config.js`
+  await downloadFileFromStorage(
+    bucket,
+    contentKey,
+    `./experiments/${experimentRef}/client/src/config/content.js`
+  );
+  await downloadFileFromStorage(
+    bucket,
+    themeKey,
+    `./experiments/${experimentRef}/client/src/config/theme.js`
+  );
 
-    const str = `
+  const path = `./experiments/${experimentRef}/client//src/config/config.js`;
+
+  const str = `
 import content from "./content";
 import theme from "./theme";
 
@@ -70,17 +83,14 @@ export default {
     theme,
     content
 };    
-    `
+    `;
 
-    writeToFile(path, str);
-    logger.info({ experimentRef }, "Finished writing content")
-}
+  writeToFile(path, str);
+  logger.info({ experimentRef }, "Finished writing content");
+};
 module.exports = {
-    downloadFileFromStorage,
-    writeBackendVars,
-    writeTfVars,
-    writeConfig
-}
-
-
-
+  downloadFileFromStorage,
+  writeBackendVars,
+  writeTfVars,
+  writeConfig,
+};

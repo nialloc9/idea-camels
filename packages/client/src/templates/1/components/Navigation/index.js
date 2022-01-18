@@ -4,5 +4,5 @@ import Mobile from "./Mobile";
 
 export default ({ content, onSetExperiment }) => [
   <Navigation content={content} onSetExperiment={onSetExperiment} />,
-  <Mobile content={content} onSetExperiment={onSetExperiment}  />,
-]
+  <Mobile content={content} onSetExperiment={onSetExperiment} />,
+];

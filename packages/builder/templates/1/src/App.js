@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 import Landing from "./pages/Landing";
 import ComingSoon from "./pages/ComingSoon";
 
-import {config, content, theme} from './config'
+import { config, content, theme } from "./config";
 
 console.log("============= TEST CONFIG =============");
 console.log(config);

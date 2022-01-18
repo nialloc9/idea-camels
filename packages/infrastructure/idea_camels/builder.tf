@@ -22,7 +22,7 @@ resource "aws_iam_role" "builder" {
         }
       },
       {
-         Action = "sts:AssumeRole"
+        Action = "sts:AssumeRole"
         Effect = "Allow"
         Sid    = ""
         Principal = {
@@ -34,7 +34,7 @@ resource "aws_iam_role" "builder" {
 }
 
 resource "aws_iam_role_policy" "builder" {
-  name        = "builder-${var.environment}"
+  name = "builder-${var.environment}"
   role = aws_iam_role.builder.id
 
   policy = jsonencode({
@@ -52,13 +52,13 @@ resource "aws_iam_role_policy" "builder" {
 }
 
 resource "aws_ecs_task_definition" "builder" {
-  family = "builder-${var.environment}"
-  execution_role_arn            = aws_iam_role.builder.arn
+  family                   = "builder-${var.environment}"
+  execution_role_arn       = aws_iam_role.builder.arn
   requires_compatibilities = ["FARGATE"]
   cpu                      = 256
   memory                   = 512
-  network_mode = "awsvpc"
-  
+  network_mode             = "awsvpc"
+
   container_definitions = <<DEFINITION
 [
   {
@@ -118,15 +118,15 @@ resource "aws_ecs_service" "builder" {
 
   network_configuration {
     security_groups = [module.builder_security_group.id]
-    subnets = aws_subnet.idea_camels_main_public.*.id
+    subnets         = aws_subnet.idea_camels_main_public.*.id
   }
 
-  depends_on      = [aws_iam_role_policy.builder]
+  depends_on = [aws_iam_role_policy.builder]
 }
 
 resource "aws_cloudwatch_log_group" "ideacamels_builder" {
   name = "${var.environment}_ideacamels_builder"
 
   retention_in_days = 90
-  tags = var.tags
+  tags              = var.tags
 }

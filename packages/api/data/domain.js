@@ -1,43 +1,45 @@
-const { query } = require('../utils/database');
-const { handleSuccess } = require('../utils/utils');
-const { mapper } = require('./utils/domain');
-const {now, getYearsFromDate} = require('../utils/date');
-const domain = require('./utils/domain');
+const { query } = require("../utils/database");
+const { handleSuccess } = require("../utils/utils");
+const { mapper } = require("./utils/domain");
+const { now, getYearsFromDate } = require("../utils/date");
+const domain = require("./utils/domain");
 
 /**
  * gets domains by account ref
  */
 const onGet = ({ data: { accountRef, domainRef, name }, caller }) =>
-  new Promise (async (resolve, reject) => {
+  new Promise(async (resolve, reject) => {
     try {
+      let getQuery = `SELECT * FROM domains`;
 
-      let getQuery = `SELECT * FROM domains`;  
-
-      switch(true) {
+      switch (true) {
         case domainRef && !accountRef:
-          getQuery = `${getQuery} WHERE domain_ref=${domainRef}`
-        break;
+          getQuery = `${getQuery} WHERE domain_ref=${domainRef}`;
+          break;
         case !domainRef && accountRef:
           getQuery = `${getQuery} WHERE account_ref=${accountRef}`;
-        break;
+          break;
         case !domainRef && !accountRef && name:
           getQuery = `${getQuery} WHERE name=${name}`;
-        break;
+          break;
         case domainRef && accountRef:
-          getQuery = `${getQuery} WHERE account_ref=${accountRef} AND domain_ref=${domainRef}`
-        break;
+          getQuery = `${getQuery} WHERE account_ref=${accountRef} AND domain_ref=${domainRef}`;
+          break;
       }
 
-      const results = await query(getQuery, undefined, caller, "GET_DOMAIN_BY_ACCOUNT_REF")
-      
-  
-      resolve (
-        handleSuccess (
-          `DATA - GET_DOMAIN_BY_ACCOUNT_REF - FROM ${caller}`,
-          { domains: results }
-        )
+      const results = await query(
+        getQuery,
+        undefined,
+        caller,
+        "GET_DOMAIN_BY_ACCOUNT_REF"
       );
-    } catch(error) {
+
+      resolve(
+        handleSuccess(`DATA - GET_DOMAIN_BY_ACCOUNT_REF - FROM ${caller}`, {
+          domains: results,
+        })
+      );
+    } catch (error) {
       reject(error);
     }
   });
@@ -46,73 +48,71 @@ const onGet = ({ data: { accountRef, domainRef, name }, caller }) =>
  * creates a new domain
  */
 const onCreate = ({ data, caller }) =>
-  new Promise (async (resolve, reject) => {
+  new Promise(async (resolve, reject) => {
     try {
+      const createQuery = "INSERT INTO domains SET ?";
 
-      const createQuery = 'INSERT INTO domains SET ?';
-
-      if(!data.createdBy) data.createdBy = data.accountRef
+      if (!data.createdBy) data.createdBy = data.accountRef;
 
       const mappedData = mapper(data);
-     
-      // add default of 1 year. Cannot be done in my MYSQL as defaults cannot be functions or variables.
-      if(!mappedData.expiry) mappedData.expiry = getYearsFromDate(1);
 
-      const results = await query(createQuery, mappedData, caller, "CREATE_DOMAIN")
+      // add default of 1 year. Cannot be done in my MYSQL as defaults cannot be functions or variables.
+      if (!mappedData.expiry) mappedData.expiry = getYearsFromDate(1);
+
+      const results = await query(
+        createQuery,
+        mappedData,
+        caller,
+        "CREATE_DOMAIN"
+      );
       const timestamp = now();
 
-    
-      resolve (
-        handleSuccess (
-          `DATA - CREATE_DOMAIN - FROM ${caller}`,
-          {
-            ...mappedData,
-            created_at: timestamp,
-            last_updated_at: timestamp,
-            domain_ref: results.insertId,
-          }
-        )
+      resolve(
+        handleSuccess(`DATA - CREATE_DOMAIN - FROM ${caller}`, {
+          ...mappedData,
+          created_at: timestamp,
+          last_updated_at: timestamp,
+          domain_ref: results.insertId,
+        })
       );
-    } catch(error) {
+    } catch (error) {
       reject(error);
     }
   });
 
-  /**
+/**
  * updates an account
  */
-const onUpdate = ({ data: {accountRef, lastUpdatedBy, data: updateData}, caller  }) =>
-new Promise (async (resolve, reject) => {
-  try {
+const onUpdate = ({
+  data: { accountRef, lastUpdatedBy, data: updateData },
+  caller,
+}) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const updateQuery = `UPDATE domains SET ? WHERE account_ref='${accountRef}'`;
 
-    const updateQuery =
-  `UPDATE domains SET ? WHERE account_ref='${accountRef}'`;
+      const data = {
+        last_updated_by: lastUpdatedBy,
+        last_updated_at: null,
+        ...mapper(updateData),
+      };
 
-    const data = {
-      last_updated_by: lastUpdatedBy,
-      last_updated_at: null,
-      ...mapper(updateData),
-  };
+      await query(updateQuery, data, caller, "UPDATE_DOMAIN");
 
-    await query(updateQuery, data, caller, "UPDATE_DOMAIN")
-
-    resolve (
-      handleSuccess (
-        `DATA - UPDATE_DOMAIN - FROM ${caller}`,
-        {
+      resolve(
+        handleSuccess(`DATA - UPDATE_DOMAIN - FROM ${caller}`, {
           ...data,
           account_ref: accountRef,
-          last_updated_at: now()
-        }
-      )
-    );
-  } catch(error) {
-    reject(error);
-  }
-});
+          last_updated_at: now(),
+        })
+      );
+    } catch (error) {
+      reject(error);
+    }
+  });
 
 module.exports = {
-    onGet,
+  onGet,
   onCreate,
-    onUpdate
+  onUpdate,
 };

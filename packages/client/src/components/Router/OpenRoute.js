@@ -1,8 +1,8 @@
-import React, {Component, Fragment} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
 import Navigation from "../Navigation";
-import {connect} from '../../store';
+import { connect } from "../../store";
 
 export class OpenRoute extends Component {
   static propTypes = {
@@ -15,14 +15,17 @@ export class OpenRoute extends Component {
   };
 
   static defaultProps = {
-    token: '',
+    token: "",
     exact: false,
-    pathname: '/home',
+    pathname: "/home",
     location: {},
   };
 
-  get pathname () {
-    const {pathname, location: {state}} = this.props;
+  get pathname() {
+    const {
+      pathname,
+      location: { state },
+    } = this.props;
 
     if (state && state.from) {
       return state.from.pathname || pathname;
@@ -31,22 +34,28 @@ export class OpenRoute extends Component {
     return pathname;
   }
 
-  render () {
-    const {component: Component, exact, path, token, location} = this.props;
+  render() {
+    const { component: Component, exact, path, token, location } = this.props;
 
     return (
       <Route
         exact={exact}
         path={path}
-        render={props =>
-            token === ''
-            ? <Fragment><Navigation {...props} /><Component {...props} /></Fragment>
-            : <Redirect
-                to={{
-                  pathname: this.pathname,
-                  state: {from: location},
-                }}
-              />}
+        render={(props) =>
+          token === "" ? (
+            <Fragment>
+              <Navigation {...props} />
+              <Component {...props} />
+            </Fragment>
+          ) : (
+            <Redirect
+              to={{
+                pathname: this.pathname,
+                state: { from: location },
+              }}
+            />
+          )
+        }
       />
     );
   }
@@ -56,8 +65,8 @@ export class OpenRoute extends Component {
  * @param token
  * @returns {{token: *}}
  */
-const mapStateToProps = ({account: {token}}) => ({
-    token,
+const mapStateToProps = ({ account: { token } }) => ({
+  token,
 });
 
-export default connect (mapStateToProps) (OpenRoute);
+export default connect(mapStateToProps)(OpenRoute);

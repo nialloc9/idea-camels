@@ -10,57 +10,63 @@ import ComingSoon from "./pages/ComingSoon";
 import CreateExperiment from "./pages/CreateExperiment";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
-import store, {Provider} from "./store";
-import {history} from "./store/middleware/history";
-import { Router, Switch, OpenRoute, PrivateRoute } from './components/Router'
+import store, { Provider } from "./store";
+import { history } from "./store/middleware/history";
+import { Router, Switch, OpenRoute, PrivateRoute } from "./components/Router";
 
 const routes = [
   {
     path: "/coming-soon",
-    component: ComingSoon
+    component: ComingSoon,
   },
   {
     path: "/home/:experimentId",
     component: Home,
-    isAuth: true
+    isAuth: true,
   },
   {
     path: "/home",
     component: Home,
-    isAuth: true
-  }
-  ,{
+    isAuth: true,
+  },
+  {
     path: "/demo",
-    component: Demo
-  }
-  ,{
+    component: Demo,
+  },
+  {
     path: "/create-experiment",
     component: CreateExperiment,
-    isAuth: true
+    isAuth: true,
   },
   {
     path: "/sign-up",
-    component: SignUp
+    component: SignUp,
   },
   {
     path: "/404",
-    component: NotFound
+    component: NotFound,
   },
   {
     path: "/",
-    component: Landing
-  }
+    component: Landing,
+  },
 ];
 
 export default () => (
   <Provider store={store}>
     <Router history={history}>
-    <ThemeProvider theme={theme}>
-      <Switch>
-        {routes.map(({ path, component, isAuth }) => isAuth ? <PrivateRoute key={path} path={path} component={component} /> : <OpenRoute key={path} path={path} component={component} />)}
-      </Switch>
-      <Footer />
-    </ThemeProvider>
-  </Router>
+      <ThemeProvider theme={theme}>
+        <Switch>
+          {routes.map(({ path, component, isAuth }) =>
+            isAuth ? (
+              <PrivateRoute key={path} path={path} component={component} />
+            ) : (
+              <OpenRoute key={path} path={path} component={component} />
+            )
+          )}
+        </Switch>
+        <Footer />
+      </ThemeProvider>
+    </Router>
   </Provider>
 );

@@ -1,9 +1,12 @@
 const bunyan = require("bunyan");
 const config = require("./config");
 
-const defaultLogger = bunyan.createLogger({ name: config.name, serializers: {
-  err: bunyan.stdSerializers.err
-} });
+const defaultLogger = bunyan.createLogger({
+  name: config.name,
+  serializers: {
+    err: bunyan.stdSerializers.err,
+  },
+});
 
 const logger = {
   info: (data, message) => defaultLogger.info(data, message),
@@ -21,17 +24,16 @@ const logger = {
  * @private
  */
 const handleSuccess = (message, data = {}, scrub = []) => {
+  const newData = { ...data };
 
-  const newData = {...data};
-
-  scrub.forEach(o => {
-    delete newData[o]
-  })
+  scrub.forEach((o) => {
+    delete newData[o];
+  });
 
   const response = {
     code: 200,
     message,
-    data: newData
+    data: newData,
   };
 
   logger.info(response, "SUCCESS");
@@ -41,5 +43,5 @@ const handleSuccess = (message, data = {}, scrub = []) => {
 
 module.exports = {
   handleSuccess,
-  logger
+  logger,
 };

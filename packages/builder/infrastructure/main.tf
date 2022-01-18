@@ -7,5 +7,5 @@ module "experiment" {
   source = "./modules/experiment"
 
   domain = var.domain
-  fqdn = var.fqdn
+  fqdn   = var.fqdn
 }

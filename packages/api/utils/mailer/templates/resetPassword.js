@@ -1,12 +1,19 @@
-const config = require('../../config');
+const config = require("../../config");
 
-const {webAddress, company: { tagLine, support: { email, name } }} = config;
+const {
+  webAddress,
+  company: {
+    tagLine,
+    support: { email, name },
+  },
+} = config;
 
-const resetPassword = token => {
+const resetPassword = (token) => {
+  const encodedToken = encodeURIComponent(token);
 
-    const encodedToken = encodeURIComponent (token);
-
-    const link = `${webAddress}/token/password-reset/${encodeURIComponent (token)}`;
+  const link = `${webAddress}/token/password-reset/${encodeURIComponent(
+    token
+  )}`;
 
   return `
         <div>
@@ -32,5 +39,5 @@ const resetPassword = token => {
 };
 
 module.exports = {
-    resetPassword
-}
+  resetPassword,
+};

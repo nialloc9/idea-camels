@@ -1,1 +1,1 @@
-export const DOMAIN_SET="DOMAIN_SET";
+export const DOMAIN_SET = "DOMAIN_SET";

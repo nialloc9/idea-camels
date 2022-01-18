@@ -1,5 +1,5 @@
 variable "enable_bastion" {
-    default = true
+  default = true
 }
 
 resource "tls_private_key" "ideacamels" {
@@ -18,7 +18,7 @@ resource "aws_key_pair" "generated_key" {
 
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners = ["099720109477"] # Canonical
+  owners      = ["099720109477"] # Canonical
 
   filter {
     name   = "name"
@@ -32,20 +32,20 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "bastion" {
-  count = var.enable_bastion ? 1 : 0
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-  key_name      = aws_key_pair.generated_key.key_name
+  count                  = var.enable_bastion ? 1 : 0
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t2.micro"
+  key_name               = aws_key_pair.generated_key.key_name
   vpc_security_group_ids = [module.bastion_security_group.id]
-  subnet_id = aws_subnet.idea_camels_main_public[0].id
+  subnet_id              = aws_subnet.idea_camels_main_public[0].id
 
   tags = var.tags
 }
 
 output "bastion_ip" {
-    value = var.enable_bastion ? aws_instance.bastion[0].public_ip : null
+  value = var.enable_bastion ? aws_instance.bastion[0].public_ip : null
 }
 
 output "pem_path" {
-    value = "./${var.environment}_ideacamels.pem"
+  value = "./${var.environment}_ideacamels.pem"
 }

@@ -10,14 +10,14 @@ import Footer from "./components/Footer";
 
 export default ({ theme, content, onSetExperiment }) => (
   <ThemeProvider theme={theme}>
-      <Navigation content={content} onSetExperiment={onSetExperiment} />
-        <Block1 content={content} onSetExperiment={onSetExperiment}  />
-        <Block2 content={content} onSetExperiment={onSetExperiment} />
-        <Block3 content={content} onSetExperiment={onSetExperiment} />
-        <Block4 content={content} onSetExperiment={onSetExperiment} />
-        <Block5 content={content} onSetExperiment={onSetExperiment} />
-      <Footer content={content} onSetExperiment={onSetExperiment} />
-    </ThemeProvider>
+    <Navigation content={content} onSetExperiment={onSetExperiment} />
+    <Block1 content={content} onSetExperiment={onSetExperiment} />
+    <Block2 content={content} onSetExperiment={onSetExperiment} />
+    <Block3 content={content} onSetExperiment={onSetExperiment} />
+    <Block4 content={content} onSetExperiment={onSetExperiment} />
+    <Block5 content={content} onSetExperiment={onSetExperiment} />
+    <Footer content={content} onSetExperiment={onSetExperiment} />
+  </ThemeProvider>
 );
 
-export { content, theme } from './config'
+export { content, theme } from "./config";

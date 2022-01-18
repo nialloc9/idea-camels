@@ -1,18 +1,18 @@
 export const post = async (
-    url,
-    body,
-    headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-    }
+  url,
+  body,
+  headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  }
 ) => {
-    const rawResponse = await fetch(url, {
-        method: "POST",
-        headers,
-        body: JSON.stringify(body),
-    });
+  const rawResponse = await fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+  });
 
-    const content = await rawResponse.json();
+  const content = await rawResponse.json();
 
-    return content;
+  return content;
 };

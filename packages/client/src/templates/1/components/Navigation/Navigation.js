@@ -4,16 +4,15 @@ import { EditableText, EditableImage, createImagePreview } from "../Edit";
 import { remCalc, withTheme } from "../../utils/style";
 
 const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
-
-  const handleTextSubmit = index => value => {  
-    const items = [ ...content.navigation.items ];
+  const handleTextSubmit = (index) => (value) => {
+    const items = [...content.navigation.items];
     items[index] = { ...items[index], text: value };
-    onSetExperiment({ content: { navigation: { items } } })
-  }
+    onSetExperiment({ content: { navigation: { items } } });
+  };
 
   return (
     <Fragment>
-        <Menu
+      <Menu
         display="none"
         secondary
         size="huge"
@@ -22,10 +21,7 @@ const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
         anchorColor={theme.colors.white000}
         fontFamily={theme.defaultFont.fontFamily}
       >
-        <Item
-          name="logo"
-          active
-        >
+        <Item name="logo" active>
           <EditableImage
             iconSize="small"
             maxWidth={remCalc(23)}
@@ -34,15 +30,21 @@ const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
             label=""
             border="none"
             padding={0}
-            onSubmit={file => onSetExperiment({ content: { navigation: { logo: { src: createImagePreview(file) } } }, imageFiles: { navigation: { logo: { src: file } } } })}
+            onSubmit={(file) =>
+              onSetExperiment({
+                content: {
+                  navigation: { logo: { src: createImagePreview(file) } },
+                },
+                imageFiles: { navigation: { logo: { src: file } } },
+              })
+            }
           />
         </Item>
         <MenuMenu position="right">
           {content.navigation.items.map(({ text }, i) => (
-            <Item
-              key={text}
-              name={text}
-            ><EditableText initialText={text} onSubmit={handleTextSubmit(i)} /></Item>
+            <Item key={text} name={text}>
+              <EditableText initialText={text} onSubmit={handleTextSubmit(i)} />
+            </Item>
           ))}
         </MenuMenu>
       </Menu>
@@ -50,4 +52,4 @@ const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
   );
 });
 
-export default Navigation
+export default Navigation;

@@ -5,19 +5,19 @@ variable "name" {}
 variable "image_repository_url" {}
 
 variable "timeout" {
-    default = "60"
+  default = "60"
 }
 
 variable "memory" {
-    default = 128
+  default = 128
 }
 
 variable "env_variables" {
-    default = []
+  default = []
 }
 
 variable "image_tag" {
-    default = "latest"
+  default = "latest"
 }
 
 variable "subnet_ids" {
@@ -41,29 +41,29 @@ output "invoke_arn" {
 }
 
 output "name" {
-  value= aws_lambda_function.lambda.function_name
+  value = aws_lambda_function.lambda.function_name
 }
 
 resource "aws_lambda_function" "lambda" {
-   function_name = "${var.environment}_${var.name}"
+  function_name = "${var.environment}_${var.name}"
 
-   
-   image_uri = "${var.image_repository_url}:${var.image_tag}"
 
-   package_type = "Image"
+  image_uri = "${var.image_repository_url}:${var.image_tag}"
 
-   role = aws_iam_role.lambda.arn
-   
-   memory_size = var.memory
+  package_type = "Image"
 
-   timeout = var.timeout
-   
-   dynamic "environment" {
+  role = aws_iam_role.lambda.arn
+
+  memory_size = var.memory
+
+  timeout = var.timeout
+
+  dynamic "environment" {
     for_each = length(var.env_variables) > 0 ? [var.env_variables] : []
     content {
       variables = environment.value
     }
-   }
+  }
 
   vpc_config {
     subnet_ids         = var.subnet_ids
@@ -72,9 +72,9 @@ resource "aws_lambda_function" "lambda" {
 }
 
 resource "aws_iam_role" "lambda" {
-   name = "${var.environment}_${var.name}"
+  name = "${var.environment}_${var.name}"
 
-   assume_role_policy = <<EOF
+  assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [

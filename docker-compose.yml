@@ -1,23 +1,23 @@
-version: '3.7'
+version: "3.7"
 services:
   idea-camels-client:
     build: ./packages/client
     ports:
-    - "3000:3000"
+      - "3000:3000"
     volumes:
-    - ./packages/client:/usr/src/app:cached
+      - ./packages/client:/usr/src/app:cached
     env_file:
       - ./packages/client/.dev.env
     command: tail -f /dev/null
   idea-camels-api:
-    build: 
+    build:
       context: ./packages/api
       dockerfile: dev.Dockerfile
     ports:
-    - "3001:3001"
+      - "3001:3001"
     volumes:
-    - ./packages/api:/usr/src/app:cached
-    - $HOME/.aws/credentials:/root/.aws/credentials:ro
+      - ./packages/api:/usr/src/app:cached
+      - $HOME/.aws/credentials:/root/.aws/credentials:ro
     env_file:
       - ./packages/api/.dev.env
     command: npm run start
@@ -27,24 +27,24 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: idea_camels
     ports:
-    - "3306:3306"
+      - "3306:3306"
     volumes:
       - /var/lib/mysql
   idea-camels-builder:
     build: ./packages/builder
     ports:
-    - "3002:3002"
+      - "3002:3002"
     volumes:
-    - ./packages/builder:/usr/src/app:cached
-    - $HOME/.aws/credentials:/root/.aws/credentials:ro
+      - ./packages/builder:/usr/src/app:cached
+      - $HOME/.aws/credentials:/root/.aws/credentials:ro
     env_file:
       - ./packages/builder/.dev.env
     command: tail -f /dev/null
   idea-camels-infra:
     build: ./packages/infrastructure
     volumes:
-    - ./packages/infrastructure:/usr/src/app:cached
-    - $HOME/.aws/credentials:/root/.aws/credentials:ro
+      - ./packages/infrastructure:/usr/src/app:cached
+      - $HOME/.aws/credentials:/root/.aws/credentials:ro
     env_file:
       - ./packages/infrastructure/.dev.env
     command: tail -f /dev/null

@@ -9,27 +9,27 @@ resource "aws_ecr_repository" "repo" {
 
 resource "aws_ecr_lifecycle_policy" "policy" {
   repository = aws_ecr_repository.repo.name
- 
+
   policy = jsonencode({
-   rules = [{
-     rulePriority = 1
-     description  = "keep last ${var.keep_for_this_many_days} images"
-     action       = {
-       type = "expire"
-     }
-     selection     = {
-       tagStatus   = "any"
-       countType   = "imageCountMoreThan"
-       countNumber = var.keep_for_this_many_days
-     }
-   }]
+    rules = [{
+      rulePriority = 1
+      description  = "keep last ${var.keep_for_this_many_days} images"
+      action = {
+        type = "expire"
+      }
+      selection = {
+        tagStatus   = "any"
+        countType   = "imageCountMoreThan"
+        countNumber = var.keep_for_this_many_days
+      }
+    }]
   })
 }
 
 variable "name" {}
 variable "environment" {}
 variable "keep_for_this_many_days" {
-    default = 10
+  default = 10
 }
 
 output "repository_url" {

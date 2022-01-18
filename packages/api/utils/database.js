@@ -18,9 +18,9 @@ const DatabasePool = mysql.createPool({
 const getConnection = async (caller) =>
   new Promise((resolve, reject) => {
     DatabasePool.getConnection((error, connection) => {
-      logger.error(error)
+      logger.error(error);
       if (error) {
-        console.log("here2",error)
+        console.log("here2", error);
         return reject(
           errors["4000"]({
             caller,
@@ -28,7 +28,7 @@ const getConnection = async (caller) =>
           })
         );
       }
-      
+
       return resolve(connection);
     });
   });
@@ -37,10 +37,10 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
   new Promise(async (resolve, reject) => {
     try {
       const connection =
-      newConnection || (await getConnection(caller, dataLayer));
+        newConnection || (await getConnection(caller, dataLayer));
       connection.query(query, data, (error, results) => {
         connection.release();
-       
+
         if (error) {
           return reject(
             errors["4001"]({
@@ -54,12 +54,8 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
 
         return resolve(results);
       });
-    } catch(error) {
-      console.log("error", {host,
-        user,
-        password,
-        database,
-        port}, error)
+    } catch (error) {
+      console.log("error", { host, user, password, database, port }, error);
       return reject(
         errors["4001"]({
           dataLayer,
@@ -71,27 +67,26 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
     }
   });
 
-const ping = async (newConnection) => new Promise(async (resolve, reject) => {
+const ping = async (newConnection) =>
+  new Promise(async (resolve, reject) => {
+    const connection = newConnection || (await getConnection("ping"));
 
-  const connection =
-      newConnection || (await getConnection("ping"));
+    connection.ping((error) => {
+      if (error) {
+        return reject(
+          errors["4000"]({
+            caller,
+            reason: error.message,
+          })
+        );
+      }
 
-  connection.ping(error => {
-    if(error) {
-      return reject(
-        errors["4000"]({
-          caller,
-          reason: error.message,
-        })
-      );
-    }
-
-    resolve();
+      resolve();
+    });
   });
-})
-  
+
 module.exports = {
   getConnection,
   query,
-  ping
+  ping,
 };

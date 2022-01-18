@@ -1,14 +1,19 @@
-const config = require('../../config');
+const config = require("../../config");
 
-const {webAddress, company: { tagLine, support: { email, name: supportName } }} = config;
+const {
+  webAddress,
+  company: {
+    tagLine,
+    support: { email, name: supportName },
+  },
+} = config;
 
-const signUp = ({name, token}) => {
+const signUp = ({ name, token }) => {
+  const encodedToken = encodeURIComponent(token);
 
-    const encodedToken = encodeURIComponent (token);
+  const link = `${webAddress}/account/activate/${encodedToken}`;
 
-    const link = `${webAddress}/account/activate/${encodedToken}`;
-
-    return `
+  return `
           <div>
               <p>Hello ${name}</p>
                  
@@ -25,8 +30,8 @@ const signUp = ({name, token}) => {
               </p>
           </div>
           `;
-  };
+};
 
 module.exports = {
-    signUp
-}
+  signUp,
+};

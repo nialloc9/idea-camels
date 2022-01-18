@@ -5,12 +5,12 @@ terraform {
 
 # AWS Region for S3 and other resources
 provider "aws" {
-  region = var.region
-  alias = "main"
+  region  = var.region
+  alias   = "main"
   profile = var.profile
 
   default_tags {
-   tags = var.tags
+    tags = var.tags
   }
 }
 
@@ -20,13 +20,13 @@ module "domain" {
   create_cert_validations = var.create_cert_validations
 
   domain = var.domain
-  fqdn = var.fqdn
+  fqdn   = var.fqdn
 }
 
 # Need to recreate to be fargate task
 # module "api" {
 #   source = "../modules/serverless_api"
-  
+
 #   providers = {
 #     "aws.main" = "aws.main"
 #   }

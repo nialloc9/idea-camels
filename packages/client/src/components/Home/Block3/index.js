@@ -186,44 +186,42 @@ const features = [
 
 const AnalyticsButton = withAnalytics(Button);
 
-export default withTheme(
-  ({ theme: { block3 } }) => (
-    <Container>
-      <Overlay>
-        <TextContainer>
-          <Heading>Welcome to Idea Camels</Heading>
-          <MainText>
-            Combining a super modern UI with paid search to create a landing
-            page and drive traffic to it based on other internet users search
-            keywords. Don't spend time creating a fully fleged site when all you
-            want to know is it worth the development time. Instead you can know
-            in a matter of days if your new idea is worth persuing.
-          </MainText>
-          <ButtonContainer>
-            <AnalyticsButton
-              href="/coming-soon"
-              color="black"
-              size={block3.overlay.button.size}
-              basic
-              action="block3-button"
-            >
-              Learn More
-            </AnalyticsButton>
-          </ButtonContainer>
-        </TextContainer>
+export default withTheme(({ theme: { block3 } }) => (
+  <Container>
+    <Overlay>
+      <TextContainer>
+        <Heading>Welcome to Idea Camels</Heading>
+        <MainText>
+          Combining a super modern UI with paid search to create a landing page
+          and drive traffic to it based on other internet users search keywords.
+          Don't spend time creating a fully fleged site when all you want to
+          know is it worth the development time. Instead you can know in a
+          matter of days if your new idea is worth persuing.
+        </MainText>
+        <ButtonContainer>
+          <AnalyticsButton
+            href="/coming-soon"
+            color="black"
+            size={block3.overlay.button.size}
+            basic
+            action="block3-button"
+          >
+            Learn More
+          </AnalyticsButton>
+        </ButtonContainer>
+      </TextContainer>
 
-        <FeatureHeader>FEATURES</FeatureHeader>
+      <FeatureHeader>FEATURES</FeatureHeader>
 
-        <FeaturesContainer>
-          <Grid centered columns={3} stretched stackable>
-            {features.map((o) => (
-              <GridColumn key={o.header}>
-                <StyleCard {...o} />
-              </GridColumn>
-            ))}
-          </Grid>
-        </FeaturesContainer>
-      </Overlay>
-    </Container>
-  )
-);
+      <FeaturesContainer>
+        <Grid centered columns={3} stretched stackable>
+          {features.map((o) => (
+            <GridColumn key={o.header}>
+              <StyleCard {...o} />
+            </GridColumn>
+          ))}
+        </Grid>
+      </FeaturesContainer>
+    </Overlay>
+  </Container>
+));

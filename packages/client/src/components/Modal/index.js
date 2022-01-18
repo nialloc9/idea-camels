@@ -1,1 +1,1 @@
-export { Modal, ModalContent } from "semantic-ui-react"
+export { Modal, ModalContent } from "semantic-ui-react";

@@ -5,26 +5,58 @@ import { Image } from "../../Image";
 import { Button } from "../../Button";
 
 const Container = styled.section`
-  min-height: ${({ theme: { block1: { height } } }) => remCalc(height)};
-  padding: ${
-    ({ theme: { block1: { paddings } } }) => `${remCalc(paddings[0])} ${remCalc(paddings[1])} ${remCalc(
+  min-height: ${({
+    theme: {
+      block1: { height },
+    },
+  }) => remCalc(height)};
+  padding: ${({
+    theme: {
+      block1: { paddings },
+    },
+  }) =>
+    `${remCalc(paddings[0])} ${remCalc(paddings[1])} ${remCalc(
       paddings[2]
     )} ${remCalc(paddings[3])}`};
   box-sizing: border-box;
-  background-color: ${({ theme: { block1: { backgroundColor } } }) => backgroundColor};
-  color: ${({ theme: { block1: { color } } }) => color};
-  font-family: ${({ theme: { block1: { fontFamily } } }) => fontFamily};
+  background-color: ${({
+    theme: {
+      block1: { backgroundColor },
+    },
+  }) => backgroundColor};
+  color: ${({
+    theme: {
+      block1: { color },
+    },
+  }) => color};
+  font-family: ${({
+    theme: {
+      block1: { fontFamily },
+    },
+  }) => fontFamily};
   display: flex;
   justify-content: center;
-  color: ${({ theme: { block1: { color } } }) => color};
-  font-family: ${({ theme: { block1: { fontFamily } } }) => fontFamily};
+  color: ${({
+    theme: {
+      block1: { color },
+    },
+  }) => color};
+  font-family: ${({
+    theme: {
+      block1: { fontFamily },
+    },
+  }) => fontFamily};
 `;
 
 const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: ${({ theme: { block1: { width } } }) => remCalc(width)};
+  max-width: ${({
+    theme: {
+      block1: { width },
+    },
+  }) => remCalc(width)};
   text-align: center;
 `;
 
@@ -35,26 +67,54 @@ const ImageContainer = styled.div`
 
 const Heading = styled.h1`
   display: block;
-  font-size: ${({ theme: { block1: { headingSize } } }) => remCalc(headingSize)};
-  line-height: ${({ theme: { block1: { headingLineHeight } } }) => remCalc(headingLineHeight)};
-  margin: ${
-    ({ theme: { block1: { headingMargins } } }) => `${remCalc(headingMargins[0])} ${remCalc(headingMargins[1])} ${remCalc(
+  font-size: ${({
+    theme: {
+      block1: { headingSize },
+    },
+  }) => remCalc(headingSize)};
+  line-height: ${({
+    theme: {
+      block1: { headingLineHeight },
+    },
+  }) => remCalc(headingLineHeight)};
+  margin: ${({
+    theme: {
+      block1: { headingMargins },
+    },
+  }) =>
+    `${remCalc(headingMargins[0])} ${remCalc(headingMargins[1])} ${remCalc(
       headingMargins[2]
     )} ${remCalc(headingMargins[3])}`};
 `;
 
 const SubHeading = styled.p`
   display: block;
-  line-height: ${({ theme: { block1: { subHeadingLineHeight } } }) => remCalc(subHeadingLineHeight)};
-  font-size: ${({ theme: { block1: { subHeadingSize } } }) => remCalc(subHeadingSize)};
-  margin: ${({ theme: { block1: { subHeadingMargins } } }) => 
+  line-height: ${({
+    theme: {
+      block1: { subHeadingLineHeight },
+    },
+  }) => remCalc(subHeadingLineHeight)};
+  font-size: ${({
+    theme: {
+      block1: { subHeadingSize },
+    },
+  }) => remCalc(subHeadingSize)};
+  margin: ${({
+    theme: {
+      block1: { subHeadingMargins },
+    },
+  }) =>
     `${remCalc(subHeadingMargins[0])} ${remCalc(
       subHeadingMargins[1]
     )} ${remCalc(subHeadingMargins[2])} ${remCalc(subHeadingMargins[3])}`};
 `;
 
 const ButtonContainer = styled.div`
-  max-width: ${({ theme: { block1: { buttonWidth } } }) => buttonWidth ? remCalc(buttonWidth) : "auto"};
+  max-width: ${({
+    theme: {
+      block1: { buttonWidth },
+    },
+  }) => (buttonWidth ? remCalc(buttonWidth) : "auto")};
 `;
 
 const AnalyticsImage = withAnalytics(Image);
@@ -72,12 +132,8 @@ export default withTheme(({ theme: { block1: { buttonSize } }, content }) => (
           action="block1-logo"
         />
       </ImageContainer>
-      <Heading>
-        {content.block1.heading.text}
-      </Heading>
-      <SubHeading>
-        {content.block1.subHeading.text}
-      </SubHeading>
+      <Heading>{content.block1.heading.text}</Heading>
+      <SubHeading>{content.block1.subHeading.text}</SubHeading>
 
       <ButtonContainer>
         <AnalyticsButton
@@ -92,4 +148,4 @@ export default withTheme(({ theme: { block1: { buttonSize } }, content }) => (
       </ButtonContainer>
     </InnerContainer>
   </Container>
-))
+));

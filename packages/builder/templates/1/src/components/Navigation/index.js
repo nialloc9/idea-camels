@@ -5,4 +5,4 @@ import Mobile from "./Mobile";
 export default ({ content }) => [
   <Navigation content={content} />,
   <Mobile content={content} />,
-]
+];

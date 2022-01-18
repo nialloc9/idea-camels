@@ -1,5 +1,5 @@
 provider "aws" {
-  region = var.region
+  region  = var.region
   profile = var.profile
 }
 
@@ -16,6 +16,6 @@ resource "aws_dynamodb_table" "idea_camels_coming_soon" {
   }
 
   tags = {
-    purpose        = "ideacamels"
+    purpose = "ideacamels"
   }
 }

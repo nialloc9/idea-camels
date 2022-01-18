@@ -122,30 +122,28 @@ const StyledButton = styled(Button)`
 
 const AnalyticsButton = withAnalytics(StyledButton);
 
-export default withTheme(
-  ({ theme: { block5 } }) => (
-    <Fragment>
-      <Carausel />
-      <Container>
-        <InnerContainer>
-          <QuoteContainer>
-            <Quote>
-              "Gut feelings have no place in a world where data driven
-              assumptions can be made."
-            </Quote>
-            <Author>- Tim Ford, Marketing Director</Author>
-          </QuoteContainer>
-          <ButtonContainer>
-            <AnalyticsButton
-              href="/coming-soon"
-              size={block5.button.size}
-              action="block5-button"
-            >
-              JOIN US
-            </AnalyticsButton>
-          </ButtonContainer>
-        </InnerContainer>
-      </Container>
-    </Fragment>
-  )
-);
+export default withTheme(({ theme: { block5 } }) => (
+  <Fragment>
+    <Carausel />
+    <Container>
+      <InnerContainer>
+        <QuoteContainer>
+          <Quote>
+            "Gut feelings have no place in a world where data driven assumptions
+            can be made."
+          </Quote>
+          <Author>- Tim Ford, Marketing Director</Author>
+        </QuoteContainer>
+        <ButtonContainer>
+          <AnalyticsButton
+            href="/coming-soon"
+            size={block5.button.size}
+            action="block5-button"
+          >
+            JOIN US
+          </AnalyticsButton>
+        </ButtonContainer>
+      </InnerContainer>
+    </Container>
+  </Fragment>
+));

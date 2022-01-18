@@ -5,8 +5,8 @@
  * @returns {void}
  */
 export const withEnterKey = (callback) => (e) => {
-    if (e.key === "Enter" && e.shiftKey === false && value && value !== "") {
-        e.preventDefault();
-        callback(e.value);
-    } 
+  if (e.key === "Enter" && e.shiftKey === false && value && value !== "") {
+    e.preventDefault();
+    callback(e.value);
+  }
 };

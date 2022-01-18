@@ -10,26 +10,19 @@ export const Button = styled(
   ${({ backgroundColor = false }) =>
     backgroundColor && `background-color: ${backgroundColor} !important;`}
   ${({ color = false }) => color && `color: ${color} !important;`}
-  ${({
-    display = false,
-  }) => display && `display: ${display} !important;`}
-  ${({ margin = false }) =>
-    margin && `margin: ${margin} !important;`}
-  ${({ top = false }) =>
-    top && `top: ${top} !important;`}
-  ${({ width = false }) =>
-    width && `width: ${width} !important;`}
+  ${({ display = false }) => display && `display: ${display} !important;`}
+  ${({ margin = false }) => margin && `margin: ${margin} !important;`}
+  ${({ top = false }) => top && `top: ${top} !important;`}
+  ${({ width = false }) => width && `width: ${width} !important;`}
 
-  ${({ theme: { breakpoints } }) =>
-    createMediaQuery(breakpoints.tablet)} {
+  ${({ theme: { breakpoints } }) => createMediaQuery(breakpoints.tablet)} {
     ${({ tabletWidth = false }) =>
       tabletWidth && `width: ${tabletWidth} !important;`}
   }
 
   &:hover {
-    ${({ hoverFilter = 'brightness(0.96)' }) =>
+    ${({ hoverFilter = "brightness(0.96)" }) =>
       hoverFilter && `filter: ${hoverFilter};`}
-    ${({ hoverOpacity = false }) =>
-      hoverOpacity && `opacity: ${hoverOpacity};`}
+    ${({ hoverOpacity = false }) => hoverOpacity && `opacity: ${hoverOpacity};`}
   }
 `;

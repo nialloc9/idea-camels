@@ -1,4 +1,3 @@
-
 const MAIN_000 = "lightgrey";
 const MAIN_001 = "grey";
 
@@ -56,7 +55,7 @@ export default {
       backgroundColor: MAIN_001,
       color: WHITE_000,
     },
-    logoSize: 23
+    logoSize: 23,
   },
   block1: {
     height: 700,

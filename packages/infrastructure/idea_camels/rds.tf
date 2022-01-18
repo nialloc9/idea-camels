@@ -16,7 +16,7 @@ resource "aws_db_instance" "ideacamels" {
   parameter_group_name = "default.mysql8.0"
   skip_final_snapshot  = true
 
-  db_subnet_group_name = aws_db_subnet_group.ideacamels_main.id
+  db_subnet_group_name   = aws_db_subnet_group.ideacamels_main.id
   vpc_security_group_ids = [module.db_security_group.id]
 
   depends_on = [aws_subnet.idea_camels_main_public, module.db_security_group.id, aws_db_subnet_group.ideacamels_main]

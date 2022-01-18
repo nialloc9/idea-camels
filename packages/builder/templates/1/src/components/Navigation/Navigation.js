@@ -7,10 +7,9 @@ import { remCalc, withTheme } from "../../utils/style";
 const AnalyticsMenuItem = withAnalytics(Item);
 
 const Navigation = withTheme(({ theme, content }) => {
-
   return (
     <Fragment>
-        <Menu
+      <Menu
         display="none"
         secondary
         size="huge"
@@ -46,4 +45,4 @@ const Navigation = withTheme(({ theme, content }) => {
   );
 });
 
-export default Navigation
+export default Navigation;

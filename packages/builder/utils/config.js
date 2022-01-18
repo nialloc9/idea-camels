@@ -6,7 +6,7 @@ const {
   DB_PASSWORD,
   DB_NAME,
   DB_PORT,
-  EXPERIMENT_REF
+  EXPERIMENT_REF,
 } = process.env;
 
 const localhost = {
@@ -15,25 +15,25 @@ const localhost = {
   isProd: ENV === "production",
   name: "idea-camels-server",
   company: {
-    addressLine1: '87C',
-    addressLine2: 'melrose avenue',
-    city: 'london',
+    addressLine1: "87C",
+    addressLine2: "melrose avenue",
+    city: "london",
     countryCode: "GB",
-    phone: '+44.7532722266',
-    email: 'ideacamels@gmail.com',
-    name: 'Idea Camels',
-    state: 'london',
-    postCode: 'NW2 4LR',
+    phone: "+44.7532722266",
+    email: "ideacamels@gmail.com",
+    name: "Idea Camels",
+    state: "london",
+    postCode: "NW2 4LR",
     contact: {
-      firstName: 'Niall',
+      firstName: "Niall",
       lastName: "O' Connor",
-    }
+    },
   },
   aws: {
     region: AWS_REGION,
     buckets: {
-      themesAndContents: "prod-themes" 
-    }
+      themesAndContents: "prod-themes",
+    },
   },
   db: {
     host: DB_HOST,
@@ -43,7 +43,7 @@ const localhost = {
     port: DB_PORT,
   },
   experiment: {
-    experimentRef: EXPERIMENT_REF
+    experimentRef: EXPERIMENT_REF,
   },
   noInternet: true,
 };

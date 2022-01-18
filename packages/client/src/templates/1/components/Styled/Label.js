@@ -7,8 +7,5 @@ const StyledLabel = styled.label`
   ${({ cursor }) => cursor && `cursor: ${cursor};`}
 `;
 
-export const Label = ({ label = "", ...rest }) => label !== "" && (
-  <StyledLabel {...rest}>
-    {label}
-  </StyledLabel>
-);
+export const Label = ({ label = "", ...rest }) =>
+  label !== "" && <StyledLabel {...rest}>{label}</StyledLabel>;

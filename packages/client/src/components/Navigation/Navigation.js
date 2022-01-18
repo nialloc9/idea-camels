@@ -2,8 +2,8 @@ import React, { useState, Fragment, Component } from "react";
 import withAnalytics from "../../hoc/withAnalytics";
 import { Menu, Item, MenuMenu } from "../Styled/Menu";
 import { Image } from "../Styled/Image";
-import { Login } from '../Login';
-import { Experiments } from './Experiments';
+import { Login } from "../Login";
+import { Experiments } from "./Experiments";
 import { remCalc } from "../../utils/style";
 import { connect } from "../../store";
 import { onLogout } from "../../store/actions/account";
@@ -20,7 +20,7 @@ const NotLoggedIn = ({ theme }) => {
 
   return (
     <Fragment>
-        <Menu
+      <Menu
         display="none"
         secondary
         size="huge"
@@ -53,7 +53,11 @@ const NotLoggedIn = ({ theme }) => {
               action={`${text.replace(" ", "-")}-click`.toLowerCase()}
             />
           ))}
-          <Login Trigger={({ onClick }) => <AnalyticsMenuItem onClick={onClick} name="login" />}/>
+          <Login
+            Trigger={({ onClick }) => (
+              <AnalyticsMenuItem onClick={onClick} name="login" />
+            )}
+          />
         </MenuMenu>
       </Menu>
     </Fragment>
@@ -61,10 +65,9 @@ const NotLoggedIn = ({ theme }) => {
 };
 
 class LoggedIn extends Component {
-
   state = {
-    activeItem: "home"
-  }
+    activeItem: "home",
+  };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -73,10 +76,15 @@ class LoggedIn extends Component {
 
     onFetchExperiments();
   }
-  
-  render() {
 
-    const { theme, logout, experiments, match, isFetchExperimentsLoading } = this.props;
+  render() {
+    const {
+      theme,
+      logout,
+      experiments,
+      match,
+      isFetchExperimentsLoading,
+    } = this.props;
 
     const { activeItem } = this.state;
 
@@ -103,7 +111,11 @@ class LoggedIn extends Component {
             src={theme.logos.main000}
           />
         </AnalyticsMenuItem>
-        <Experiments isLoading={isFetchExperimentsLoading} experiments={experiments} match={match} />
+        <Experiments
+          isLoading={isFetchExperimentsLoading}
+          experiments={experiments}
+          match={match}
+        />
         <AnalyticsMenuItem
           name="logo"
           active={activeItem === "logo"}
@@ -127,20 +139,43 @@ class LoggedIn extends Component {
         <MenuMenu position="right">
           <AnalyticsMenuItem
             name="Log Out"
-            onClick={() => { 
-              this.handleItemClick({}, { item: 'logout' });
-              logout()
+            onClick={() => {
+              this.handleItemClick({}, { item: "logout" });
+              logout();
             }}
             action="navigation-logout"
             label="click"
           />
         </MenuMenu>
       </Menu>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ account: { token }, experiment: { data: experiments, isFetchLoading: isFetchExperimentsLoading } }) => ({ isLoggedIn: token !== "", experiments, isFetchExperimentsLoading });
+const mapStateToProps = ({
+  account: { token },
+  experiment: { data: experiments, isFetchLoading: isFetchExperimentsLoading },
+}) => ({ isLoggedIn: token !== "", experiments, isFetchExperimentsLoading });
 
-export default connect(mapStateToProps, { logout: onLogout, onFetchExperiments: onFetch })(({ isLoggedIn = false, theme = defaultTheme, logout, experiments, ...rest }) =>
-isLoggedIn ? <LoggedIn theme={theme} logout={logout} experiments={experiments} {...rest} /> : <NotLoggedIn theme={theme} {...rest} />);
+export default connect(mapStateToProps, {
+  logout: onLogout,
+  onFetchExperiments: onFetch,
+})(
+  ({
+    isLoggedIn = false,
+    theme = defaultTheme,
+    logout,
+    experiments,
+    ...rest
+  }) =>
+    isLoggedIn ? (
+      <LoggedIn
+        theme={theme}
+        logout={logout}
+        experiments={experiments}
+        {...rest}
+      />
+    ) : (
+      <NotLoggedIn theme={theme} {...rest} />
+    )
+);

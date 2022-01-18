@@ -31,11 +31,10 @@ const getConnection = async () =>
 
 const query = async (query, data, dataLayer, newConnection) =>
   new Promise(async (resolve, reject) => {
-    const connection =
-      newConnection || (await getConnection());
+    const connection = newConnection || (await getConnection());
     connection.query(query, data, (error, results) => {
       connection.release();
-      
+
       if (error) {
         reject(
           errors["4001"]({
@@ -49,8 +48,8 @@ const query = async (query, data, dataLayer, newConnection) =>
       return resolve(results);
     });
   });
-  
+
 module.exports = {
   getConnection,
-  query
+  query,
 };

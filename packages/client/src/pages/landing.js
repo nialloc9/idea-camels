@@ -7,9 +7,9 @@ import Block5 from "../components/Home/Block5";
 import withPageAnalytics from "../hoc/withPageAnalytics";
 
 export default withPageAnalytics(() => [
-    <Block1 />,
-    <Block2 />,
-    <Block3 />,
-    <Block4 />,
-    <Block5 />
+  <Block1 />,
+  <Block2 />,
+  <Block3 />,
+  <Block4 />,
+  <Block5 />,
 ]);

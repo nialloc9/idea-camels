@@ -5,14 +5,12 @@ const config = require("../config");
 const { logger, handleSuccess } = require("../utils");
 
 const {
-    noInternet,
-    aws: { region }
+  noInternet,
+  aws: { region },
 } = config;
 
 // create transport layer
-const transporter = nodemailer.createTransport(
-    ses({ region })
-);
+const transporter = nodemailer.createTransport(ses({ region }));
 
 /**
  * sends an email to the specified email
@@ -24,42 +22,46 @@ const transporter = nodemailer.createTransport(
  * @private
  */
 const sendEmail = ({ subject, from, to, text, html, caller }) =>
-    new Promise((resolve, reject) => {
-        const mailOptions = {
-            from, // sender address
-            to, // list of receivers
-            subject, // Subject line
-            text, // plain text body
-            html // html body
-        };
+  new Promise((resolve, reject) => {
+    const mailOptions = {
+      from, // sender address
+      to, // list of receivers
+      subject, // Subject line
+      text, // plain text body
+      html, // html body
+    };
 
-        if (noInternet) {
-            logger.warn({}, "========= SIMULATION - send email =========");
-            return resolve (
-                handleSuccess (
-                  `UTILS - SEND_EMAIL - FROM ${caller}`,
-                  {from, to, subject, text, html}
-                )
-              );;
-        }
+    if (noInternet) {
+      logger.warn({}, "========= SIMULATION - send email =========");
+      return resolve(
+        handleSuccess(`UTILS - SEND_EMAIL - FROM ${caller}`, {
+          from,
+          to,
+          subject,
+          text,
+          html,
+        })
+      );
+    }
 
-        // send mail with defined transport object
-        transporter.sendMail(mailOptions, (error) => {
-            if (error) {
-                return reject(
-                    errors["3005"]({ data: { to }, reason: error.message, caller })
-                );
-            }
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error) => {
+      if (error) {
+        return reject(
+          errors["3005"]({ data: { to }, reason: error.message, caller })
+        );
+      }
 
-            resolve (
-                handleSuccess (
-                  `UTILS - SEND_EMAIL - FROM ${caller}`,
-                  {from, to, subject}
-                )
-              );
-        });
+      resolve(
+        handleSuccess(`UTILS - SEND_EMAIL - FROM ${caller}`, {
+          from,
+          to,
+          subject,
+        })
+      );
     });
+  });
 
 module.exports = {
-    sendEmail
-}
+  sendEmail,
+};

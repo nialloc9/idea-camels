@@ -5,9 +5,7 @@ export const Dropdown = styled(DD)`
   ${({ margin }) => margin && `margin: ${margin};`}
   ${({ display }) => display && `display: ${display} !important;`}
 
-    ${({
-    theme: { breakpoints },
-  }) => createMediaQuery(breakpoints.tablet)} {
+    ${({ theme: { breakpoints } }) => createMediaQuery(breakpoints.tablet)} {
     ${({ tabletMargin = false }) => tabletMargin && `margin: ${tabletMargin};`}
 
     ${({ tabletDisplay }) =>

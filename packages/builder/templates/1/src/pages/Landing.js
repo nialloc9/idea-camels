@@ -7,11 +7,11 @@ import Block4 from "../components/Home/Block4";
 import Block5 from "../components/Home/Block5";
 
 export default withPageAnalytics(({ content }) => (
-    <Fragment>
-        <Block1 content={content} />
-        <Block2 content={content} />
-        <Block3 content={content} />
-        <Block4 content={content} />
-        <Block5 content={content} />
-    </Fragment>
+  <Fragment>
+    <Block1 content={content} />
+    <Block2 content={content} />
+    <Block3 content={content} />
+    <Block4 content={content} />
+    <Block5 content={content} />
+  </Fragment>
 ));

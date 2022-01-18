@@ -1,9 +1,12 @@
 const bunyan = require("bunyan");
 const config = require("./config");
 
-const defaultLogger = bunyan.createLogger({ name: config.name, serializers: {
-  err: bunyan.stdSerializers.err
-} });
+const defaultLogger = bunyan.createLogger({
+  name: config.name,
+  serializers: {
+    err: bunyan.stdSerializers.err,
+  },
+});
 
 const logger = {
   info: (data, message) => defaultLogger.info(data, message),
@@ -21,17 +24,16 @@ const logger = {
  * @private
  */
 const handleSuccess = (message, data = {}, scrub = []) => {
+  const newData = { ...data };
 
-  const newData = {...data};
-
-  scrub.forEach(o => {
-    delete newData[o]
-  })
+  scrub.forEach((o) => {
+    delete newData[o];
+  });
 
   const response = {
     code: 200,
     message,
-    data: newData
+    data: newData,
   };
 
   logger.info(response, "SUCCESS");
@@ -92,35 +94,38 @@ const getDateInSeconds = (date) => new Date(date).getTime();
 
 /**
  * @description changes key/value to value/key
- * @param {*} obj 
+ * @param {*} obj
  */
-const reverseObjectKeyValues = (obj) => Object.keys(obj).reduce((total, curr) => {
-  total[obj[curr]] = curr;
+const reverseObjectKeyValues = (obj) =>
+  Object.keys(obj).reduce((total, curr) => {
+    total[obj[curr]] = curr;
 
-  return total;
-}, {});
+    return total;
+  }, {});
 
 /**
  * @description changes object keys to match what is in map
- * @param {*} obj 
- * @param {*} keyMap 
+ * @param {*} obj
+ * @param {*} keyMap
  */
-const changeKeys = (obj, keyMap) => Object.keys(obj).reduce((total, curr) => {
-  total[keyMap[curr] || curr] = obj[curr];
-  return total;
-}, {})
+const changeKeys = (obj, keyMap) =>
+  Object.keys(obj).reduce((total, curr) => {
+    total[keyMap[curr] || curr] = obj[curr];
+    return total;
+  }, {});
 
 /**
  * @description uppercases all words in a sentance
- * @param {string} str 
+ * @param {string} str
  */
-const uppercaseSentenceWords = str => {
-  let splitStr = str.toLowerCase().split(' ');
+const uppercaseSentenceWords = (str) => {
+  let splitStr = str.toLowerCase().split(" ");
   for (var i = 0; i < splitStr.length; i++) {
-      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+    splitStr[i] =
+      splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
   }
-  return splitStr.join(' '); 
-}
+  return splitStr.join(" ");
+};
 
 module.exports = {
   handleSuccess,
@@ -134,5 +139,5 @@ module.exports = {
   reverseObjectKeyValues,
   changeKeys,
   uppercaseSentenceWords,
-  logger
+  logger,
 };

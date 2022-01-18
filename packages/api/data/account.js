@@ -1,28 +1,28 @@
-const { query } = require('../utils/database');
-const { handleSuccess } = require('../utils/utils');
-const {  mapper } = require('./utils/account');
-const { scrubAccount } = require('../utils/security');
-const {now} = require('../utils/date');
+const { query } = require("../utils/database");
+const { handleSuccess } = require("../utils/utils");
+const { mapper } = require("./utils/account");
+const { scrubAccount } = require("../utils/security");
+const { now } = require("../utils/date");
 
 /**
  * gets a account
  */
 const onGet = ({ data: { email, accountRef }, caller }) =>
-  new Promise (async (resolve, reject) => {
+  new Promise(async (resolve, reject) => {
     try {
-      const whereClause = email ? `email='${email}';` : `account_ref='${accountRef}';`
-      const getQuery = `SELECT * FROM accounts WHERE ${whereClause}`;  
-     
-      const results = await query(getQuery, undefined, caller, "GET_ACCOUNT")
-      
-      resolve (
-        handleSuccess (
-          `DATA - GET_ACCOUNT - FROM ${caller}`,
-          results,
-          ['password']
-        )
+      const whereClause = email
+        ? `email='${email}';`
+        : `account_ref='${accountRef}';`;
+      const getQuery = `SELECT * FROM accounts WHERE ${whereClause}`;
+
+      const results = await query(getQuery, undefined, caller, "GET_ACCOUNT");
+
+      resolve(
+        handleSuccess(`DATA - GET_ACCOUNT - FROM ${caller}`, results, [
+          "password",
+        ])
       );
-    } catch(error) {
+    } catch (error) {
       reject(error);
     }
   });
@@ -31,70 +31,67 @@ const onGet = ({ data: { email, accountRef }, caller }) =>
  * creates a new account
  */
 const onCreate = ({ data, caller }) =>
-  new Promise (async (resolve, reject) => {
+  new Promise(async (resolve, reject) => {
     try {
-
-      const createQuery = 'INSERT INTO accounts SET ?';
+      const createQuery = "INSERT INTO accounts SET ?";
 
       const mappedData = mapper(data);
-     
-      const results = await query(createQuery, mappedData, caller, "CREATE_ACCOUNT")
+
+      const results = await query(
+        createQuery,
+        mappedData,
+        caller,
+        "CREATE_ACCOUNT"
+      );
       const timestamp = now();
 
-      scrubAccount
-      resolve (
-        handleSuccess (
-          `DATA - CREATE_ACCOUNT - FROM ${caller}`,
-          {
-            ...scrubAccount(mappedData),
-            created_at: timestamp,
-            last_updated_at: timestamp,
-            account_ref: results.insertId,
-          }
-        )
+      scrubAccount;
+      resolve(
+        handleSuccess(`DATA - CREATE_ACCOUNT - FROM ${caller}`, {
+          ...scrubAccount(mappedData),
+          created_at: timestamp,
+          last_updated_at: timestamp,
+          account_ref: results.insertId,
+        })
       );
-    } catch(error) {
+    } catch (error) {
       reject(error);
     }
   });
 
-  /**
+/**
  * updates an account
  */
-const onUpdate = ({ data: {accountRef, lastUpdatedBy, data: updateData}, caller  }) =>
-new Promise (async (resolve, reject) => {
-  try {
+const onUpdate = ({
+  data: { accountRef, lastUpdatedBy, data: updateData },
+  caller,
+}) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const updateQuery = `UPDATE accounts SET ? WHERE account_ref='${accountRef}'`;
 
-    const updateQuery =
-  `UPDATE accounts SET ? WHERE account_ref='${accountRef}'`;
+      const data = {
+        last_updated_by: lastUpdatedBy,
+        last_updated_at: null,
+        ...mapper(updateData),
+      };
 
-    const data = {
-      last_updated_by: lastUpdatedBy,
-      last_updated_at: null,
-      ...mapper(updateData),
-  };
+      await query(updateQuery, data, caller, "UPDATE_ACCOUNT");
 
-    await query(updateQuery, data, caller, "UPDATE_ACCOUNT")
-
-    resolve (
-      handleSuccess (
-        `DATA - UPDATE_ACCOUNT - FROM ${caller}`,
-        {
+      resolve(
+        handleSuccess(`DATA - UPDATE_ACCOUNT - FROM ${caller}`, {
           ...data,
           account_ref: accountRef,
-          last_updated_at: now()
-        }
-      )
-    );
-  } catch(error) {
-    reject(error);
-  }
-});
+          last_updated_at: now(),
+        })
+      );
+    } catch (error) {
+      reject(error);
+    }
+  });
 
-
-
-module.exports = { 
+module.exports = {
   onGet,
   onCreate,
-    onUpdate
+  onUpdate,
 };

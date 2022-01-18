@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {config, content, theme} from './config'
+import { config, content, theme } from "./config";
 
 console.log("============= TEST CONFIG =============");
 console.log(config);

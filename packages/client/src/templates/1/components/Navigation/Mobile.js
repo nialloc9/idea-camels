@@ -13,11 +13,11 @@ export default withTheme(({ theme, content, onSetExperiment }) => {
 
   const handleMenuClick = () => setState({ isOpen: !isOpen });
 
-  const handleTextSubmit = index => value => {  
-    const items = [ ...content.navigation.items ];
+  const handleTextSubmit = (index) => (value) => {
+    const items = [...content.navigation.items];
     items[index] = { ...items[index], text: value };
-    onSetExperiment({ content: { navigation: { items } } })
-  }
+    onSetExperiment({ content: { navigation: { items } } });
+  };
 
   return (
     <Menu
@@ -41,11 +41,7 @@ export default withTheme(({ theme, content, onSetExperiment }) => {
       </Item>
       {isOpen &&
         content.navigation.items.map(({ text }, i) => (
-          <Item
-            key={text}
-            name={text}
-            active={activeItem === text}
-          >
+          <Item key={text} name={text} active={activeItem === text}>
             <Block textAlign="center" width="100%">
               <EditableText initialText={text} onSubmit={handleTextSubmit(i)} />
             </Block>

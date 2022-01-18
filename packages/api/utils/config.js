@@ -19,57 +19,57 @@ const {
   GOOGLE_ADS_CUSTOMER_ID = "123-123-123",
   BUILDER_CLUSTER_NAME,
   BUILDER_TASK_NAME,
-  THEMES_BUCKET = `prod-themes`
+  THEMES_BUCKET = `prod-themes`,
 } = process.env;
 
 const localhost = {
   port: SERVER_PORT,
   webAddress: "https://ideacamels.com",
   env: ENV,
-  isProd: ENV==="prod",
+  isProd: ENV === "prod",
   name: "idea-camels-server",
   security: {
     password_secret: PASSWORD_SECRET,
     default_token_expiration: "1d",
     extended_token_expiration: "30d",
-    whitelist: ['http://localhost:3000']
+    whitelist: ["http://localhost:3000"],
   },
   company: {
-    addressLine1: '87C',
-    addressLine2: 'melrose avenue',
-    city: 'london',
+    addressLine1: "87C",
+    addressLine2: "melrose avenue",
+    city: "london",
     countryCode: "GB",
-    phone: '+44.7532722266',
-    email: 'ideacamels@gmail.com',
-    name: 'Idea Camels',
-    state: 'london',
-    postCode: 'NW2 4LR',
+    phone: "+44.7532722266",
+    email: "ideacamels@gmail.com",
+    name: "Idea Camels",
+    state: "london",
+    postCode: "NW2 4LR",
     contact: {
-      firstName: 'Niall',
+      firstName: "Niall",
       lastName: "O' Connor",
     },
     support: {
       email: "support@ideacamels.com",
-      name: "Idea Camels Support Team"
+      name: "Idea Camels Support Team",
     },
-    tagLine: 'Carrying your ideas to reality'
+    tagLine: "Carrying your ideas to reality",
   },
   aws: {
     accessKeyId: AWS_ACCESS_KEY,
     secretAccessKey: AWS_SECRET_KEY,
     region: AWS_REGION,
     buckets: {
-      userImageBucket: THEMES_BUCKET
+      userImageBucket: THEMES_BUCKET,
     },
     clusters: {
       builder: {
         name: BUILDER_CLUSTER_NAME,
-        taskDefinition: BUILDER_TASK_NAME
-      }
-    }
+        taskDefinition: BUILDER_TASK_NAME,
+      },
+    },
   },
   stripe: {
-    secretKey: STRIPE_SECRET_KEY
+    secretKey: STRIPE_SECRET_KEY,
   },
   db: {
     host: DB_HOST,
@@ -87,28 +87,28 @@ const localhost = {
     refreshToken: GOOGLE_ADS_REFRESH_TOKEN,
     developerToken: GOOGLE_ADS_DEVELOPER_TOKEN,
     customerId: GOOGLE_ADS_CUSTOMER_ID,
-    customerIdSplit: GOOGLE_ADS_CUSTOMER_ID.split("-").join("")
+    customerIdSplit: GOOGLE_ADS_CUSTOMER_ID.split("-").join(""),
   },
   builder: {
     themes: {
-      bucketName: THEMES_BUCKET
-    }
+      bucketName: THEMES_BUCKET,
+    },
   },
   price: {
     domain: {
-      markup: 20
-    }
+      markup: 20,
+    },
   },
   noInternet: false,
   logSuccessResponse: true,
-  logErrorResponse: true
+  logErrorResponse: true,
 };
 
 const staging = {
   ...localhost,
   noInternet: false,
   logSuccessResponse: true,
-  logErrorResponse: true
+  logErrorResponse: true,
 };
 
 const prod = {

@@ -2,7 +2,7 @@
  * This file contains polyfills that should be shared for all the environments,
  * where our app runs
  */
-import {polyfill as rafPolyfill} from 'raf';
-import 'babel-polyfill';
+import { polyfill as rafPolyfill } from "raf";
+import "babel-polyfill";
 
-rafPolyfill ();
+rafPolyfill();

@@ -1,119 +1,124 @@
-const AWS = require('aws-sdk')
-const fs = require('fs')
-const config = require('./config')
-const errors = require('./errors')
-const { logger, handleSuccess } = require('./utils')
+const AWS = require("aws-sdk");
+const fs = require("fs");
+const config = require("./config");
+const errors = require("./errors");
+const { logger, handleSuccess } = require("./utils");
 
-const defaultRoute53Provider = new AWS.Route53Domains({ region: 'us-east-1' }) // Needs to be explicitly us-east-1 as RDS is global
-const defaultECSProvider = new AWS.ECS({ region: config.aws.region })
-const defaultS3Provider = new AWS.S3({ region: config.aws.region }) // Needs to be explicitly us-east-1 as RDS is global
+const defaultRoute53Provider = new AWS.Route53Domains({ region: "us-east-1" }); // Needs to be explicitly us-east-1 as RDS is global
+const defaultECSProvider = new AWS.ECS({ region: config.aws.region });
+const defaultS3Provider = new AWS.S3({ region: config.aws.region }); // Needs to be explicitly us-east-1 as RDS is global
 
- /**
+/**
  *
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/ECS.html#runTask-property
  */
-const runTask = ({ cluster, taskDefinition, environmentVariables }, 
+const runTask = (
+  { cluster, taskDefinition, environmentVariables },
   newProvider
-  ) =>
+) =>
   new Promise((resolve) => {
-
-    if(!config.isProd || config.noInternet) {
-      logger.warn({ domain }, "Env is not prod or there is no internet")
-      return resolve({ error: undefined, data: {} })
+    if (!config.isProd || config.noInternet) {
+      logger.warn({ domain }, "Env is not prod or there is no internet");
+      return resolve({ error: undefined, data: {} });
     }
-    const provider = newProvider || defaultECSProvider
+    const provider = newProvider || defaultECSProvider;
 
-    provider.runTask({ cluster, taskDefinition, overrides: { containerOverrides: [{ environment: environmentVariables }] } }, (err, data) => resolve({data, error: err}));
+    provider.runTask(
+      {
+        cluster,
+        taskDefinition,
+        overrides: {
+          containerOverrides: [{ environment: environmentVariables }],
+        },
+      },
+      (err, data) => resolve({ data, error: err })
+    );
   });
 
 /**
  *
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#checkDomainAvailability-property
  */
-const validateDomain = ({ domain, caller }, 
-  newProvider
-  ) =>
+const validateDomain = ({ domain, caller }, newProvider) =>
   new Promise((resolve, reject) => {
-
     // if(!config.isProd || config.noInternet) {
     //   logger.warn({ domain }, "Env is not prod or there is no internet")
     //   return resolve({ error: undefined, data: {} })
     // }
-    const provider = newProvider || defaultRoute53Provider
+    const provider = newProvider || defaultRoute53Provider;
 
     provider.checkDomainAvailability({ DomainName: domain }, (err, data) => {
-      
-      if(err) return reject(err)
+      if (err) return reject(err);
 
-      const response = { isAvailable: data["Availability"] === "AVAILABLE", domain };
+      const response = {
+        isAvailable: data["Availability"] === "AVAILABLE",
+        domain,
+      };
 
-      resolve({ data: response })
-
+      resolve({ data: response });
     });
   });
- 
-  /**
- *
- * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#getDomainSuggestions-property
- */
-const suggestDomain = ({ domain, onlyAvailable = true, count = 5 }, 
-  newProvider
-  ) =>
-  new Promise((resolve, reject) => {
-
-    if(config.noInternet) {
-      logger.warn({ domain }, "No Internet set in config")
-      return resolve({ error: undefined, data: {} })
-    }
-    const provider = newProvider || defaultRoute53Provider
-
-    provider.getDomainSuggestions({ DomainName: domain, OnlyAvailable: onlyAvailable, SuggestionCount: count }, (err, data) => {
-      
-      if(err) return reject({data, error: err})
-      
-      resolve({data: data.SuggestionsList, error: err})
-    });
-  });
-
-    /**
- *
- * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#listPrices-property
- */
-const listDomainPrices = ({}, 
-  newProvider
-  ) =>
-  new Promise((resolve, reject) => {
-
-    if(config.noInternet) {
-      logger.warn({}, "No Internet set in config")
-      return resolve({ error: undefined, data: {} })
-    }
-    const provider = newProvider || defaultRoute53Provider
-
-    provider.listPrices({}, (err, data) => {
-      
-      if(err) return reject({data, error: err})
-      
-      resolve({data: data.Prices, error: err})
-    });
-  });
-
 
 /**
  *
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#getDomainSuggestions-property
  */
-const fetchDomainSuggestions = async ({ domain, count }, 
+const suggestDomain = (
+  { domain, onlyAvailable = true, count = 5 },
   newProvider
-  ) =>
-  new Promise((resolve) => {
+) =>
+  new Promise((resolve, reject) => {
+    if (config.noInternet) {
+      logger.warn({ domain }, "No Internet set in config");
+      return resolve({ error: undefined, data: {} });
+    }
+    const provider = newProvider || defaultRoute53Provider;
 
-    if(!config.isProd || config.noInternet) {
-      logger.warn({ domain, count }, "Env is not prod or there is no internet")
-      return resolve({ error: undefined, data: {} })
+    provider.getDomainSuggestions(
+      {
+        DomainName: domain,
+        OnlyAvailable: onlyAvailable,
+        SuggestionCount: count,
+      },
+      (err, data) => {
+        if (err) return reject({ data, error: err });
+
+        resolve({ data: data.SuggestionsList, error: err });
+      }
+    );
+  });
+
+/**
+ *
+ * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#listPrices-property
+ */
+const listDomainPrices = ({}, newProvider) =>
+  new Promise((resolve, reject) => {
+    if (config.noInternet) {
+      logger.warn({}, "No Internet set in config");
+      return resolve({ error: undefined, data: {} });
+    }
+    const provider = newProvider || defaultRoute53Provider;
+
+    provider.listPrices({}, (err, data) => {
+      if (err) return reject({ data, error: err });
+
+      resolve({ data: data.Prices, error: err });
+    });
+  });
+
+/**
+ *
+ * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#getDomainSuggestions-property
+ */
+const fetchDomainSuggestions = async ({ domain, count }, newProvider) =>
+  new Promise((resolve) => {
+    if (!config.isProd || config.noInternet) {
+      logger.warn({ domain, count }, "Env is not prod or there is no internet");
+      return resolve({ error: undefined, data: {} });
     }
 
-    const provider = newProvider || defaultRoute53Provider
+    const provider = newProvider || defaultRoute53Provider;
 
     provider.checkDomainAvailability(
       { DomainName: domain, OnlyAvailable: true, SuggestionCount: count },
@@ -121,20 +126,20 @@ const fetchDomainSuggestions = async ({ domain, count },
     );
   });
 
-  const defaultContact = {
-    AddressLine1: config.company.addressLine1,
-    AddressLine2: config.company.addressLine2,
-    City: config.company.city,
-    ContactType: "COMPANY",
-    CountryCode: config.company.countryCode,
-    Email: config.company.email,
-    ExtraParams: [],
-    FirstName: config.company.contact.firstName,
-    LastName: config.company.contact.lastName,
-    OrganizationName: config.company.name,
-    ZipCode: config.company.postCode,
-    PhoneNumber: config.company.phone
-  }
+const defaultContact = {
+  AddressLine1: config.company.addressLine1,
+  AddressLine2: config.company.addressLine2,
+  City: config.company.city,
+  ContactType: "COMPANY",
+  CountryCode: config.company.countryCode,
+  Email: config.company.email,
+  ExtraParams: [],
+  FirstName: config.company.contact.firstName,
+  LastName: config.company.contact.lastName,
+  OrganizationName: config.company.name,
+  ZipCode: config.company.postCode,
+  PhoneNumber: config.company.phone,
+};
 /**
  *
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#registerDomain-property
@@ -144,12 +149,15 @@ const registerDomain = async (
   newProvider
 ) =>
   new Promise((resolve) => {
-    if(!config.isProd || config.noInternet) {
-      logger.warn({ contact, domain, durationInYears, autoRenew }, "Env is not prod or there is no internet")
-      return resolve({ error: undefined, data: {} })
+    if (!config.isProd || config.noInternet) {
+      logger.warn(
+        { contact, domain, durationInYears, autoRenew },
+        "Env is not prod or there is no internet"
+      );
+      return resolve({ error: undefined, data: {} });
     }
 
-    const provider = newProvider || defaultRoute53Provider
+    const provider = newProvider || defaultRoute53Provider;
 
     provider.registerDomain(
       {
@@ -164,76 +172,70 @@ const registerDomain = async (
     );
   });
 
-const uploadToS3 = async ({
-  path,
-  bucket: Bucket,
-  key: Key,
-  acl: ACL = "public-read",
-  caller
-}, newProvider) =>
+const uploadToS3 = async (
+  { path, bucket: Bucket, key: Key, acl: ACL = "public-read", caller },
+  newProvider
+) =>
   new Promise((resolve, reject) => {
-
-    if(config.noInternet) {
-      logger.warn({ path, bucket: Bucket, key: Key, acl: ACL = "public-read" }, "There is no internet")
+    if (config.noInternet) {
+      logger.warn(
+        { path, bucket: Bucket, key: Key, acl: (ACL = "public-read") },
+        "There is no internet"
+      );
       return resolve(
-          handleSuccess(
-              `SERVICE_UPLOAD - FROM ${caller} - file uploaded`,
-              {}
-          )
+        handleSuccess(`SERVICE_UPLOAD - FROM ${caller} - file uploaded`, {})
       );
     }
 
-    const provider = newProvider || defaultS3Provider
+    const provider = newProvider || defaultS3Provider;
 
-      fs.readFile(path, (error, data) => {
+    fs.readFile(path, (error, data) => {
+      if (error) {
+        return reject(
+          errors["3001"]({
+            service: "SERVICE_UPLOAD",
+            caller,
+            reason: error.message,
+            data: { path },
+          })
+        );
+      }
+
+      provider.putObject(
+        {
+          Bucket,
+          Key,
+          Body: data.toString(),
+          ACL,
+        },
+        (error) => {
           if (error) {
-              return reject(
-                  errors["3001"]({
-                      service: "SERVICE_UPLOAD",
-                      caller,
-                      reason: error.message,
-                      data: { path }
-                  })
-              );
+            console.log(2, error);
+            return reject(
+              errors["3002"]({
+                service: "SERVICE_UPLOAD",
+                caller,
+                reason: error.message || error.code,
+                data: { Key, Bucket },
+              })
+            );
           }
-
-          provider.putObject(
-              {
-                  Bucket,
-                  Key,
-                  Body: data.toString(),
-                  ACL
-              },
-              error => {
-                  if (error) {
-                    console.log(2, error)
-                      return reject(
-                          errors["3002"]({
-                              service: "SERVICE_UPLOAD",
-                              caller,
-                              reason: error.message || error.code,
-                              data: { Key, Bucket }
-                          })
-                      );
-                  }
-                  console.log({ Bucket, Key })
-                  resolve(
-                    {
-                      bucket: Bucket,
-                      key: Key
-                    }
-                  );
-              }
-          );
-      });
+          console.log({ Bucket, Key });
+          resolve({
+            bucket: Bucket,
+            key: Key,
+          });
+        }
+      );
+    });
   });
 
 module.exports = {
   runTask,
   validateDomain,
   suggestDomain,
-  fetchDomainSuggestions, 
+  fetchDomainSuggestions,
   registerDomain,
   listDomainPrices,
-  uploadToS3
-}
+  uploadToS3,
+};

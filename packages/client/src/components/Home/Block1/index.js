@@ -123,34 +123,34 @@ const AnalyticsButton = withAnalytics(Button);
 
 export default withTheme(({ theme: { block1 } }) => (
   <Container>
-      <InnerContainer>
-        <ImageContainer>
-          <AnalyticsImage
-            alt="idea camels logo"
-            size="small"
-            src={block1.logo}
-            action="block1-logo"
-          />
-        </ImageContainer>
-        <Heading>
-          Have an idea? <br /> Not sure if it's worth doing?
-        </Heading>
-        <SubHeading>
-          Find out are people searching for your idea.
-          <p>All in under 1 hour!!</p>
-        </SubHeading>
+    <InnerContainer>
+      <ImageContainer>
+        <AnalyticsImage
+          alt="idea camels logo"
+          size="small"
+          src={block1.logo}
+          action="block1-logo"
+        />
+      </ImageContainer>
+      <Heading>
+        Have an idea? <br /> Not sure if it's worth doing?
+      </Heading>
+      <SubHeading>
+        Find out are people searching for your idea.
+        <p>All in under 1 hour!!</p>
+      </SubHeading>
 
-        <ButtonContainer>
-          <AnalyticsButton
-            href="/coming-soon"
-            action="block1-button"
-            color="black"
-            size={block1.buttonSize}
-            basic
-          >
-            Buy Now
-          </AnalyticsButton>
-        </ButtonContainer>
-      </InnerContainer>
-    </Container>
+      <ButtonContainer>
+        <AnalyticsButton
+          href="/coming-soon"
+          action="block1-button"
+          color="black"
+          size={block1.buttonSize}
+          basic
+        >
+          Buy Now
+        </AnalyticsButton>
+      </ButtonContainer>
+    </InnerContainer>
+  </Container>
 ));
