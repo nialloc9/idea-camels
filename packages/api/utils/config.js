@@ -94,12 +94,21 @@ const localhost = {
       bucketName: THEMES_BUCKET
     }
   },
-  noInternet: true,
+  price: {
+    domain: {
+      markup: 20
+    }
+  },
+  noInternet: false,
+  logSuccessResponse: true,
+  logErrorResponse: true
 };
 
 const staging = {
   ...localhost,
   noInternet: false,
+  logSuccessResponse: true,
+  logErrorResponse: true
 };
 
 const prod = {

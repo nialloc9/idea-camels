@@ -30,10 +30,11 @@ const onGet = ({ data: { accountRef, domainRef, name }, caller }) =>
 
       const results = await query(getQuery, undefined, caller, "GET_DOMAIN_BY_ACCOUNT_REF")
       
+  
       resolve (
         handleSuccess (
           `DATA - GET_DOMAIN_BY_ACCOUNT_REF - FROM ${caller}`,
-          results
+          { domains: results }
         )
       );
     } catch(error) {
@@ -109,8 +110,6 @@ new Promise (async (resolve, reject) => {
     reject(error);
   }
 });
-
-
 
 module.exports = {
     onGet,

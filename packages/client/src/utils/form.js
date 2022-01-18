@@ -20,13 +20,12 @@
         validateRequiredTime,
         validateTelephoneNumber,
         validateMinLength,
-        validateRequiredMessage
+        validateRequiredMessage,
+        validateDomain,
+        pipeline,
+        pipelineHof
     } from "@nialloc9/vcheck";
-    import { pipeline } from "@nialloc9/vcheck/lib/validation"
     import { FORM_ERROR } from 'final-form'
-
-    const composeValidators = validators => value =>
-  validators.reduce((error, validator) => error || validator(value), undefined)
 
 export {
     validatePhoneNumber,
@@ -51,7 +50,8 @@ export {
     validateTelephoneNumber,
     validateMinLength,
     validateRequiredMessage,
+    validateDomain,
     pipeline,
-    FORM_ERROR,
-    composeValidators
+    pipelineHof,
+    FORM_ERROR
 }

@@ -43,20 +43,62 @@ const validateDomain = ({ domain, caller },
 
     provider.checkDomainAvailability({ DomainName: domain }, (err, data) => {
       
-      if(err) return resolve({data, error: err})
+      if(err) return reject(err)
 
-      if(data["Availability"] !== "AVAILABLE") {
-        reject(errors["1005"]({
-          service: "CHECK_DOMAIN_AVAILABILITY",
-          caller,
-          reason: "Domain Unavailable",
-          data: { domain }
-      }))
-      }
-      resolve({data, error: err})
+      const response = { isAvailable: data["Availability"] === "AVAILABLE", domain };
+
+      resolve({ data: response })
+
     });
   });
  
+  /**
+ *
+ * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#getDomainSuggestions-property
+ */
+const suggestDomain = ({ domain, onlyAvailable = true, count = 5 }, 
+  newProvider
+  ) =>
+  new Promise((resolve, reject) => {
+
+    if(config.noInternet) {
+      logger.warn({ domain }, "No Internet set in config")
+      return resolve({ error: undefined, data: {} })
+    }
+    const provider = newProvider || defaultRoute53Provider
+
+    provider.getDomainSuggestions({ DomainName: domain, OnlyAvailable: onlyAvailable, SuggestionCount: count }, (err, data) => {
+      
+      if(err) return reject({data, error: err})
+      
+      resolve({data: data.SuggestionsList, error: err})
+    });
+  });
+
+    /**
+ *
+ * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#listPrices-property
+ */
+const listDomainPrices = ({}, 
+  newProvider
+  ) =>
+  new Promise((resolve, reject) => {
+
+    if(config.noInternet) {
+      logger.warn({}, "No Internet set in config")
+      return resolve({ error: undefined, data: {} })
+    }
+    const provider = newProvider || defaultRoute53Provider
+
+    provider.listPrices({}, (err, data) => {
+      
+      if(err) return reject({data, error: err})
+      
+      resolve({data: data.Prices, error: err})
+    });
+  });
+
+
 /**
  *
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Route53Domains.html#getDomainSuggestions-property
@@ -189,7 +231,9 @@ const uploadToS3 = async ({
 module.exports = {
   runTask,
   validateDomain,
+  suggestDomain,
   fetchDomainSuggestions, 
   registerDomain,
+  listDomainPrices,
   uploadToS3
 }

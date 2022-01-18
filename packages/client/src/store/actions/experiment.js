@@ -1,13 +1,23 @@
 import {EXPERIMENT_SET} from '../constants/experiment';
-import {postApi} from '../../utils/request';
+import {DOMAIN_SET} from '../constants/domain';
+import {postApi, upload} from '../../utils/request';
 import {deepMerge} from '../../utils/utils';
 
 /**
- * sets the loading state
+ * sets the state
  * @param payload
  */
 const setState = dispatch => payload => dispatch({
     type: EXPERIMENT_SET,
+    payload
+});
+
+/**
+ * sets the state
+ * @param payload
+ */
+ const setDomainState = dispatch => payload => dispatch({
+    type: DOMAIN_SET,
     payload
 });
 
@@ -43,9 +53,9 @@ export const onFetchTemplates = () => async (dispatch, getState) => {
     const onSetState = setState(dispatch);
     const payload = { isFetchTemplatesLoading: true, fetchTemplatesErrorMessage: '' };
     try {
-        const { account: { token }, experiment: { isFetchTemplatesInitialised } } = getState();
+        const { account: { token }, experiment: { isFetchTemplatesLoading, isFetchTemplatesInitialised } } = getState();
 
-        if(isFetchTemplatesInitialised) return;
+        if(isFetchTemplatesLoading || isFetchTemplatesInitialised) return;
 
         onSetState(payload);
         
@@ -64,14 +74,14 @@ export const onFetchTemplates = () => async (dispatch, getState) => {
     }
 };
 
-export const onCreate = ({ content, theme, expiry, name, templateRef, domainRef }) => async (dispatch, getState) => {
+export const onCreate = () => async (dispatch, getState) => {
 
     const onSetState = setState(dispatch);
     const payload = { isCreateLoading: true, createErrorMessage: '' };
     try {
         onSetState(payload);
         
-        const { account: { token }, experiments: { data } } = getState();
+        const { account: { token }, experiment: { data, newExperiment: { content, imageFiles, theme, expiry, name, templateRef, domainRef } } } = getState();
         
         const response = await postApi({ uri: `experiment/create`, token, body: { content, theme, expiry, name, templateRef, domainRef } });
         
@@ -87,33 +97,41 @@ export const onCreate = ({ content, theme, expiry, name, templateRef, domainRef 
     }
 };
 
-export const onSetExperiment = newExperiment => (dispatch, getState) => {
+/**
+ * @description create new experiment and purchases domain from registrar if not already owned by account
+ * @param {*} params 
+ * @returns 
+ */
+export const onSetExperiment = ({ domain, themeRef, templateRef }) => async (dispatch, getState) => {
 
     const onSetState = setState(dispatch);
 
-    const { experiment: { experiment } } = getState();
-    
-    onSetState({ experiment: deepMerge(experiment, newExperiment) })
-}
+    const { account: { token }, domain: { data: domains }, experiment: { newExperiment } } = getState();
 
-export const onCheckDomainAvailable = domain => async (dispatch, getState) => {
-    const onSetState = setState(dispatch);
-    const payload = { isCheckDomainLoading: true };
+    const domainPayload = { isDomainAvailable: false, domainAvailableErrorMessage: '', suggestedDomains: [], data: domains }
+    const experimentPayload = { themeRef, templateRef }
     try {
-        onSetState(payload);
         
-        const { account: { token } } = getState();
-        console.log(1)
-        await postApi({ uri: `domain/check-availability`, token, body: { domain } });
-        console.log(2)
-        payload.isDomainAvailabe = true;
-        payload.domain = domain;
+        const existingDomain = domains.find(({ name }) => name === domain)
 
-    } catch ({ message }) {
-        console.log(domain, message)
-        payload.isDomainAvailabe = false;
+        // if does not exist purchase new domain
+        if(!existingDomain) {
+            const { data } = await postApi({ uri: `domain/purchase`, token, body: { domain } });
+
+            experimentPayload.domainRef = data.domainRef
+            domainPayload.data = [data, ...domains]
+        } else {
+            experimentPayload.domainRef = existingDomain.domain_ref
+        }
+       
+        onSetState({ formIndex: 1, newExperiment: deepMerge(newExperiment, experimentPayload) }) // formIndex 1 means go to next form
+    } catch ({ message, suggested }) {
+        domainPayload.isDomainAvailable = false;
+        domainPayload.suggestedDomains = suggested;
+        domainPayload.createErrorMessage = !message.includes('Domain not available') ? message : ''
     } finally {
-        payload.isCheckDomainLoading = false;
-        onSetState(payload)
+        
+        setDomainState(domainPayload)
     }
-};
+    
+}

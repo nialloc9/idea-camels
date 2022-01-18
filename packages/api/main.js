@@ -1,6 +1,6 @@
 const { endpoints } = require('./utils/server');
 const { validateAndParse } = require('./utils/security');
-const { logger } = require('./utils/utils');
+const { logger } = require('./utils/utils'); 
 
 exports.handler = async (event) => {
     try { 

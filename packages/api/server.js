@@ -3,6 +3,7 @@ const middleware = require("./middleware");
 const config = require("./utils/config");
 const { sendResponse, sendError, endpoints } = require('./utils/server');
 const { validateAndParse } = require('./utils/security');
+const { logger } = require('./utils/utils');
 
 const app = express();
 
@@ -10,8 +11,6 @@ app.use(...middleware)
 
 // Don't expose any software information to potential hackers.
 app.disable("x-powered-by");
-
-app.get('/health-check', (req, res) => res.send({ status: 200 }));
 
 endpoints.forEach(({ uri, required = [], isAuth = false, func }) =>
   app.post(uri, async (req, res) =>
@@ -21,15 +20,16 @@ endpoints.forEach(({ uri, required = [], isAuth = false, func }) =>
             
             const payload = await func({ data, uri, caller: data.caller });
             
-            return sendResponse(res, { payload, uri })
+            const response = { payload, uri, code: 200, caller: data.caller };
+
+            return sendResponse(res, response)
         } catch(error) {
-            console.log("ero", error)
-            return sendError(res, { error, uri })
+            return sendError(res, { error, uri, caller: req.body.caller })
         }
     }
   )
 );
 
 app.listen(config.port, async () =>
-  console.info(`Listening on port: ${config.port}`)
+  logger.info(`Listening on port: ${config.port}`)
 );

@@ -29,7 +29,7 @@ export const post = async ({
     if(rawResponse.status !== 200) {
         throw new Error(getError(content)) 
     }
-
+    
     return content
 };
 

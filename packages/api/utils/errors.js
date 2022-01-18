@@ -49,16 +49,6 @@ const service = {
     reason,
     data,
   }),
-  1005: ({ endpoint, service, dataLayer, caller, reason, data } = {}) => ({
-    message: "domain not available",
-    code: 1005,
-    endpoint,
-    service,
-    dataLayer,
-    caller,
-    reason,
-    data,
-  }),
   1006: ({ endpoint, service, dataLayer, caller, reason, data } = {}) => ({
     message: "failed to register domain with registrar",
     code: 1006,

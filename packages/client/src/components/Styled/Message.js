@@ -9,3 +9,4 @@ ${({width = false}) => width && `width: ${width};`}
     ${({margin = false}) => margin && `margin: ${margin};`}
     ${({textAlign = false}) => textAlign && `text-align: ${textAlign};`}
 `
+

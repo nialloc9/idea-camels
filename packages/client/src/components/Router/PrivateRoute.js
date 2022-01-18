@@ -9,9 +9,8 @@ import {withLoader} from '../../hoc/withLoader';
 export class PrivateRoute extends Component {
     static propTypes = {
         component: PropTypes.func.isRequired,
-        onFetchAuthorisedUser: PropTypes.func.isRequired,
+        onReAuth: PropTypes.func.isRequired,
         path: PropTypes.string.isRequired,
-        permissions: PropTypes.arrayOf(PropTypes.number).isRequired,
         exact: PropTypes.bool,
         token: PropTypes.string,
         location: PropTypes.object,
@@ -50,7 +49,7 @@ export class PrivateRoute extends Component {
                 path={path}
                 render={props =>
                     token !== '' ? (
-                        <Fragment><Navigation {...props} /><LoadingComponent isLoading={isFetchLoading} /></Fragment>
+                        <Fragment key={path}><Navigation {...props} /><LoadingComponent isLoading={isFetchLoading} /></Fragment>
                     ) : (
                         <Redirect
                             to={{

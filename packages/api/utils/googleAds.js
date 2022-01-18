@@ -241,8 +241,8 @@ const updateAdGroupAd = async adGroupAd => {
   return config.isProd ? results[0] : adGroupAdMock;
 };
 
-const getMetrics = async ({ metrics, orderBy, adGroupResourceName }) => {
-
+const getMetrics = async ({ metrics = ['clicks'], orderBy = 'clicks', adGroupResourceName } = {}) => {
+  
   if(config.noInternet) {
     logger.info("NO INTERNET TO GET AGGROUP METRICS")
     return {}
@@ -250,14 +250,19 @@ const getMetrics = async ({ metrics, orderBy, adGroupResourceName }) => {
 
   const mappedMetrics = metrics.map(o => metricMap[o]);
 
-  const response = await customer.report({
-      entity: 'ad_group', 
-      attributes: ['ad_group.id', 'ad_group.name', 'ad_group.status', 'ad_group.resource_name'], 
-      metrics: mappedMetrics,
-      order_by: metricMap[orderBy], 
-      sort_order: 'desc',
-      constraints: [{ key: 'ad_group.resource_name', op: '=', val: adGroupResourceName }]
-  })
+  const body = {
+    entity: 'ad_group', 
+    attributes: ['ad_group.id', 'ad_group.name', 'ad_group.status', 'ad_group.resource_name'], 
+    metrics: mappedMetrics,
+    order_by: metricMap[orderBy], 
+    sort_order: 'desc'
+  }
+
+  if(adGroupResourceName) {
+    body.constraints = [{ key: 'ad_group.resource_name', op: '=', val: adGroupResourceName }]
+  }
+
+  const response = await customer.report(body)
 
   return response;
 }

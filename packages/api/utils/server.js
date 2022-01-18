@@ -1,12 +1,16 @@
 const config = require('./config')
 const { onCreate: onCreateAccount, onLogin, onDelete, onUpdate, onForgottonPassword, onReauthorise } = require("../service/account")
-const { onGetAccountDomains, onPurchaseDomain, onCheckIsDomainAvailable } = require("../service/domain")
+const { onGetAccountDomains, onPurchaseDomain, onListDomainPrices } = require("../service/domain")
 const { onGetAccountExperiments, onCreateExperiment } = require("../service/experiment")
 const { onGet: onGetTemplates } = require("../service/template")
 const { onCreateCampaign } = require("../service/campaign")
-const { onHealthCheck, onDBHealthCheck } = require("../service/healthCheck")
+const { onHealthCheck, onDBHealthCheck, onGoogleAdsCheck } = require("../service/healthCheck")
 const { uploadImage } = require("../service/upload")
 const { logger } = require("./utils")
+
+console.log("==== CONFIG ====")
+console.log(config)
+console.log("==== CONFIG ====")
 
 /**
  * @description sends a response and logs the response
@@ -16,7 +20,10 @@ const { logger } = require("./utils")
  * @returns {func}
  */
 const sendResponse = (res, { payload, code = 200, uri, message }) => {
-    logger.info({ payload, code, uri }, "SUCCESS OUTGOING RPC");
+    if(config.logSuccessResponse) {
+      logger.info({ payload, code, uri, message }, "SUCCESS OUTGOING RPC");
+    }
+
     return res.status(code).send(payload);
 };
 
@@ -26,8 +33,11 @@ const sendResponse = (res, { payload, code = 200, uri, message }) => {
  * @param {*} error
  * @return {func}
  */
-const sendError = (res, { error = {}, uri, status = 500 }) => {
-    logger.error({ err: error, uri, status }, "ERROR OUTGOING RPC");
+const sendError = (res, { error = {}, uri, status = 500, caller }) => {
+    
+    if(config.logErrorResponse) {
+      logger.error({ err: error, uri, status, caller }, "ERROR OUTGOING RPC");
+    }
     
     if(config.isProd && error.reason) delete error.reason
     
@@ -69,12 +79,6 @@ const endpoints = [
       isAuth: true
     },
     {
-      uri: "/domain/check-availability",
-      required: [ "caller", "domain" ],
-      func: onCheckIsDomainAvailable,
-      isAuth: true
-    },
-    {
       uri: "/domain/get-by-account",
       required: [ "caller" ],
       func: onGetAccountDomains,
@@ -84,6 +88,12 @@ const endpoints = [
       uri: "/domain/purchase",
       func: onPurchaseDomain,
       required: [ "domain", "caller" ],
+      isAuth: true
+    },
+    {
+      uri: "/domain/get-prices",
+      func: onListDomainPrices,
+      required: [ "caller" ],
       isAuth: true
     },
     {
@@ -125,6 +135,11 @@ const endpoints = [
       uri: "/health-check-2",
       required: [],
       func: onDBHealthCheck
+    },
+    {
+      uri: "/health-check-3",
+      required: [],
+      func: onGoogleAdsCheck
     }
   ]
 

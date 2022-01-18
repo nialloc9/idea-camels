@@ -11,7 +11,7 @@ const {resetPassword} = require('../utils/mailer/templates/resetPassword')
 const onLogin = ({data: { email, password, rememberMe = false }, caller}) => new Promise(async (resolve, reject) => {
     try {
         const response = await onGet({ data: { email }, caller });
-      
+ 
         const account = response.data[0];
  
         if(!account) {

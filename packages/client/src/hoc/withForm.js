@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Form as ReactFinalForm, Field as ReactFinalField } from 'react-final-form'
-import { composeValidators } from '../utils/form'
+import { pipelineHof } from '../utils/form'
 
 export const withForm = (WrappedComponent) =>
     class Event extends Component {
@@ -21,7 +21,7 @@ export const withField = (WrappedComponent) =>
             const { name, validate = [], ...rest } = this.props;
 
             return (
-                <ReactFinalField name={name} validate={composeValidators(validate)}>
+                <ReactFinalField name={name} validate={pipelineHof(validate)}>
                     {({ input, meta }) => <WrappedComponent {...rest} name={name} {...input} {...meta} />}
                 </ReactFinalField>
             );

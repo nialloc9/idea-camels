@@ -3,10 +3,18 @@ import {STORE_RESET} from '../constants/store';
 import { getCache } from "../../utils/cache";
 
 const initialState = {
+    formIndex: 0,
+    isFetchLoading: false,
+    isFetchInitialised: false,
+    isFetchTemplatesLoading: false,
+    isFetchTemplatesInitialised: false,
+    createErrorMessage: '',
+    fetchErrorMessage: '',
+    fetchTemplatesErrorMessage: '',
     data: [],
     templates: [],
     theme: [],
-    experiment: {
+    newExperiment: {
         name: '',
         expiry: undefined,
         content: undefined,
@@ -15,18 +23,7 @@ const initialState = {
         themeRef: undefined,
         domainRef: undefined,
         imageFiles: {},
-    },
-    isFetchLoading: false,
-    isFetchInitialised: false,
-    isFetchTemplatesLoading: false,
-    isCreateLoading: false,
-    isFetchTemplatesInitialised: false,
-    createErrorMessage: '',
-    fetchErrorMessage: '',
-    fetchTemplatesErrorMessage: '',
-    domain: '',
-    isDomainAvailabe: false,
-    isCheckDomainLoading: false
+    } 
 };
 
 const cache = getCache('experiment') || {};
