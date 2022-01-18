@@ -1,0 +1,11 @@
+repos:
+  - repo: git://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.45.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_docs
+        args: ["--args=--sort-by-required"]
+  - repo: https://github.com/prettier/pre-commit
+    rev: 413fd9da8e03249b74acf8543567e5debbad8bfa
+    hooks:
+      - id: prettier
