@@ -6,7 +6,10 @@ const { logger, handleSuccess } = require("./utils");
 
 const defaultRoute53Provider = new AWS.Route53Domains({ region: "us-east-1" }); // Needs to be explicitly us-east-1 as RDS is global
 const defaultECSProvider = new AWS.ECS({ region: config.aws.region });
-const defaultS3Provider = new AWS.S3({ region: config.aws.region }); // Needs to be explicitly us-east-1 as RDS is global
+const defaultS3Provider = new AWS.S3({
+  region: config.aws.region,
+  signatureVersion: "v4",
+}); // Needs to be explicitly us-east-1 as RDS is global
 
 /**
  *
@@ -172,16 +175,23 @@ const registerDomain = async (
     );
   });
 
-const uploadToS3 = async (
-  { path, bucket: Bucket, key: Key, acl: ACL = "public-read", caller },
+// Now lets export this function so we can call it from somewhere else
+const getS3SignedUrl = (
+  { bucket, name, type, expires = 300, caller },
   newProvider
 ) =>
   new Promise((resolve, reject) => {
+    // Set up the payload of what we are sending to the S3 api
+    const params = {
+      Bucket: bucket,
+      Key: name,
+      Expires: expires,
+      ACL: "public-read",
+      ContentType: type,
+    };
+
     if (config.noInternet) {
-      logger.warn(
-        { path, bucket: Bucket, key: Key, acl: (ACL = "public-read") },
-        "There is no internet"
-      );
+      logger.warn(params, "There is no internet");
       return resolve(
         handleSuccess(`SERVICE_UPLOAD - FROM ${caller} - file uploaded`, {})
       );
@@ -189,43 +199,26 @@ const uploadToS3 = async (
 
     const provider = newProvider || defaultS3Provider;
 
-    fs.readFile(path, (error, data) => {
+    provider.getSignedUrl("putObject", params, (error, data) => {
       if (error) {
         return reject(
-          errors["3001"]({
+          errors["3003"]({
             service: "SERVICE_UPLOAD",
             caller,
-            reason: error.message,
-            data: { path },
+            reason: error.message || error.code,
+            data: { Key, Bucket },
           })
         );
       }
 
-      provider.putObject(
-        {
-          Bucket,
-          Key,
-          Body: data.toString(),
-          ACL,
-        },
-        (error) => {
-          if (error) {
-            console.log(2, error);
-            return reject(
-              errors["3002"]({
-                service: "SERVICE_UPLOAD",
-                caller,
-                reason: error.message || error.code,
-                data: { Key, Bucket },
-              })
-            );
+      resolve(
+        handleSuccess(
+          `SERVICE_GET_PRESIGNED_URL - FROM ${caller} - url signed`,
+          {
+            signedUrl: data,
+            url: `https://${bucket}.s3.amazonaws.com/${name}`,
           }
-          console.log({ Bucket, Key });
-          resolve({
-            bucket: Bucket,
-            key: Key,
-          });
-        }
+        )
       );
     });
   });
@@ -237,5 +230,5 @@ module.exports = {
   fetchDomainSuggestions,
   registerDomain,
   listDomainPrices,
-  uploadToS3,
+  getS3SignedUrl,
 };

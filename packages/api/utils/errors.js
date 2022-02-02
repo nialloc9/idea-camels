@@ -145,6 +145,16 @@ const file = {
     reason,
     data,
   }),
+  3003: ({ endpoint, service, dataLayer, caller, reason, data } = {}) => ({
+    message: "could not get presigned S3 url",
+    code: 3003,
+    endpoint,
+    service,
+    dataLayer,
+    caller,
+    reason,
+    data,
+  }),
 };
 
 const database = {

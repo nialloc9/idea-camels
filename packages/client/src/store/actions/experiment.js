@@ -2,6 +2,7 @@ import { EXPERIMENT_SET } from "../constants/experiment";
 import { DOMAIN_SET } from "../constants/domain";
 import { postApi, upload } from "../../utils/request";
 import { deepMerge } from "../../utils/utils";
+import { findThemeAndContent } from "../../templates";
 
 /**
  * sets the state
@@ -53,39 +54,6 @@ export const onFetch = () => async (dispatch, getState) => {
   }
 };
 
-export const onFetchTemplates = () => async (dispatch, getState) => {
-  const onSetState = setState(dispatch);
-  const payload = {
-    isFetchTemplatesLoading: true,
-    fetchTemplatesErrorMessage: "",
-  };
-  try {
-    const {
-      account: { token },
-      experiment: { isFetchTemplatesLoading, isFetchTemplatesInitialised },
-    } = getState();
-
-    if (isFetchTemplatesLoading || isFetchTemplatesInitialised) return;
-
-    onSetState(payload);
-
-    const response = await postApi({ uri: `template/get-with-theme`, token });
-
-    const {
-      data: { templates },
-    } = response;
-
-    payload.templates = templates;
-    payload.fetchTemplatesErrorMessage = "";
-    payload.isFetchTemplatesInitialised = true;
-  } catch ({ message }) {
-    payload.fetchTemplatesErrorMessage = message;
-  } finally {
-    payload.isFetchTemplatesLoading = false;
-    onSetState(payload);
-  }
-};
-
 export const onCreate = () => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
   const payload = { isCreateLoading: true, createErrorMessage: "" };
@@ -129,14 +97,15 @@ export const onCreate = () => async (dispatch, getState) => {
 };
 
 /**
- * @description create new experiment and purchases domain from registrar if not already owned by account
+ * @description prepates new experiment and purchases domain from registrar if not already owned by account
  * @param {*} params
  * @returns
  */
-export const onSetExperiment = ({ domain, themeRef, templateRef }) => async (
-  dispatch,
-  getState
-) => {
+export const onPrepareExperiment = ({
+  domain,
+  themeRef,
+  templateRef,
+}) => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
 
   const {
@@ -151,7 +120,11 @@ export const onSetExperiment = ({ domain, themeRef, templateRef }) => async (
     suggestedDomains: [],
     data: domains,
   };
-  const experimentPayload = { themeRef, templateRef };
+
+  const { theme, content } = findThemeAndContent({ templateRef, themeRef });
+
+  const experimentPayload = { themeRef, templateRef, theme, content };
+
   try {
     const existingDomain = domains.find(({ name }) => name === domain);
 

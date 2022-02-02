@@ -42,3 +42,9 @@ export const toTitleCase = (string) =>
  * @param {*} obj2
  */
 export const deepMerge = (obj1, obj2) => _merge(obj1, obj2);
+
+/**
+ * @description creates an image src from a file uploaded
+ * @param {*} file
+ */
+export const createImagePreview = (file) => URL.createObjectURL(file);

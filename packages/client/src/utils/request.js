@@ -1,3 +1,4 @@
+import axios from "axios";
 import { config } from "../config";
 import { generateRandomId } from "./utils";
 import { getError } from "./errors";
@@ -10,43 +11,40 @@ import { getError } from "./errors";
 export const post = async ({
   url,
   body,
-  cache,
-  mode,
-  originalHeaders = {
+  headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
   },
   token,
 }) => {
-  const headers = token
-    ? { ...originalHeaders, Authorization: `Bearer ${token}` }
-    : originalHeaders;
+  const headersToSend = token
+    ? { ...headers, Authorization: `Bearer ${token}` }
+    : headers;
 
-  const rawResponse = await fetch(url, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ ...body, caller: generateRandomId() }),
-    cache,
-    mode,
-  });
+  const { data } = await axios.post(
+    url,
+    { ...body, caller: generateRandomId() },
+    { headers: headersToSend }
+  );
 
-  const content = await rawResponse.json();
-
-  if (rawResponse.status !== 200) {
-    throw new Error(getError(content));
+  if (data.code !== 200) {
+    throw new Error(getError(data));
   }
 
-  return content;
+  return data;
 };
 
-export const postApi = ({ uri, body, headers, token, cache, mode }) =>
-  post({
+/**
+ * @description sends post request to API
+ * @param {*} param0
+ * @returns
+ */
+export const postApi = async ({ uri, body, headers, token }) =>
+  await post({
     url: `${config.api.base}/${uri}`,
     body,
-    originalHeaders: headers,
+    headers,
     token,
-    cache,
-    mode,
   });
 
 /**
@@ -54,20 +52,18 @@ export const postApi = ({ uri, body, headers, token, cache, mode }) =>
  * @param {*} payload
  * @returns {<Promise>}
  */
-export const upload = ({ type, folder, file, token, data, caller }) => {
-  const body = new FormData();
-  body.append("file", file);
-  body.append("folder", folder);
-  body.append("data", data);
-  body.append("caller", caller);
-
-  return postApi({
-    uri: `upload/${type}`,
-    headers: {},
-    cache: "no-cache",
-    mode: "cors",
-    method: "POST",
-    body,
+export const upload = async ({ file, token }) => {
+  const {
+    data: { signedUrl, url },
+  } = await postApi({
+    uri: `upload/get-upload-url`,
+    body: {
+      type: file.type,
+    },
     token,
   });
+
+  await axios.put(signedUrl, file, { headers: { "Content-Type": file.type } });
+
+  return { url };
 };

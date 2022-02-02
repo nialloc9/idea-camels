@@ -16,14 +16,13 @@ const {
   onGetAccountExperiments,
   onCreateExperiment,
 } = require("../service/experiment");
-const { onGet: onGetTemplates } = require("../service/template");
 const { onCreateCampaign } = require("../service/campaign");
 const {
   onHealthCheck,
   onDBHealthCheck,
   onGoogleAdsCheck,
 } = require("../service/healthCheck");
-const { uploadImage } = require("../service/upload");
+const { getSignedUrl } = require("../service/upload");
 const { logger } = require("./utils");
 
 console.log("==== CONFIG ====");
@@ -134,12 +133,6 @@ const endpoints = [
     isAuth: true,
   },
   {
-    uri: "/template/get-with-theme",
-    required: ["caller"],
-    func: onGetTemplates,
-    isAuth: true,
-  },
-  {
     uri: "/campaign/create",
     required: [
       "caller",
@@ -155,9 +148,9 @@ const endpoints = [
     isAuth: true,
   },
   {
-    uri: "/upload/image",
-    required: ["caller", "file"],
-    func: uploadImage,
+    uri: "/upload/get-upload-url",
+    required: ["caller", "type"],
+    func: getSignedUrl,
     isAuth: true,
   },
   {

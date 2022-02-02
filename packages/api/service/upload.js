@@ -1,5 +1,5 @@
 const { generateRandomId } = require("../utils/utils");
-const { uploadToS3 } = require("../utils/aws");
+const { getS3SignedUrl } = require("../utils/aws");
 const config = require("../utils/config");
 
 const {
@@ -8,18 +8,40 @@ const {
   },
 } = config;
 
+const folderMap = {
+  "image/png": "image",
+  "image/pneg": "image",
+  "image/jpg": "image",
+  "image/jpeg": "image",
+};
+
+const extensionMap = {
+  "image/png": "png",
+  "image/pneg": "png",
+  "image/jpg": "jpg",
+  "image/jpeg": "jpg",
+};
+
 /**
- * uploads an image to public
+ * gets a presigned url to upload to
  * @param {*} req
  * @param {*} res
  */
-const uploadImage = async ({ file, decodedToken: { accountRef }, caller }) =>
+const getSignedUrl = async ({
+  data: {
+    type,
+    decodedToken: { accountRef },
+  },
+  caller,
+}) =>
   new Promise(async (resolve, reject) => {
     try {
-      const response = await uploadToS3({
+      const response = await getS3SignedUrl({
         bucket: userImageBucket,
-        file,
-        path: generateRandomId(),
+        name: `${accountRef}/${folderMap[type]}/${generateRandomId()}.${
+          extensionMap[type]
+        }`,
+        type,
         caller,
       });
 
@@ -30,5 +52,5 @@ const uploadImage = async ({ file, decodedToken: { accountRef }, caller }) =>
   });
 
 module.exports = {
-  uploadImage,
+  getSignedUrl,
 };

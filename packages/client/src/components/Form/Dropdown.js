@@ -10,7 +10,7 @@ import { withField } from "../../hoc/withForm";
 const ToolTipIcon = withToolTip(Icon);
 export class Dropdown extends Component {
   static propTypes = {
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    label: PropTypes.any,
     info: PropTypes.string,
   };
 
@@ -23,6 +23,7 @@ export class Dropdown extends Component {
 
     onChange(value);
   };
+
   render() {
     const {
       label,
