@@ -1,7 +1,6 @@
 import React from "react";
 import { remCalc, styled, withTheme } from "../../../../../utils/style";
 import { EditableText, EditableButton, EditableImage } from "../../Edit";
-import { createImagePreview } from "../../../../../utils/utils";
 
 const Container = styled.section`
   min-height: ${({
@@ -131,10 +130,10 @@ export default withTheme(
             alt={content.block1.logo.alt}
             size="small"
             src={content.block1.logo.src}
-            onSubmit={(file) =>
+            onSubmit={(url) =>
               onSetExperiment({
                 content: {
-                  block1: { logo: { src: file } },
+                  block1: { logo: { src: url } },
                 },
               })
             }

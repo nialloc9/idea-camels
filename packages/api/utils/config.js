@@ -17,8 +17,8 @@ const {
   GOOGLE_ADS_REFRESH_TOKEN,
   GOOGLE_ADS_DEVELOPER_TOKEN,
   GOOGLE_ADS_CUSTOMER_ID = "123-123-123",
-  BUILDER_CLUSTER_NAME,
-  BUILDER_TASK_NAME,
+  BUILDER_CLUSTER_NAME = "ideacamels-prod",
+  BUILDER_TASK_NAME = "builder-prod",
   THEMES_BUCKET = `prod-themes`,
 } = process.env;
 

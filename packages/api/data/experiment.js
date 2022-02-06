@@ -9,7 +9,7 @@ const { now } = require("../utils/date");
 const onGetWithThemeByAccountRef = ({ data: { accountRef }, caller }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const getQuery = `SELECT e.experiment_ref, e.name, e.theme_ref, e.expiry, e.created_at, e.last_updated_at, e.deleted_flag, t.name as theme_name, t.content, t.theme FROM experiments as e INNER JOIN themes as t ON e.theme_ref = t.theme_ref WHERE account_ref=${accountRef}`;
+      const getQuery = `SELECT e.experiment_ref, e.theme_ref, e.template_ref, e.domain_ref, e.end_date, e.budget, e.created_at, e.last_updated_at, e.deleted_flag, t.content, t.theme, d.name FROM experiments as e INNER JOIN themes as t ON e.theme_ref = t.theme_ref INNER JOIN domains as d ON e.domain_ref = d.domain_ref WHERE e.account_ref=${accountRef} AND e.deleted_flag != 1`;
 
       const results = await query(
         getQuery,

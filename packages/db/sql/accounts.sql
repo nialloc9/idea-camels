@@ -36,7 +36,7 @@ INSERT INTO `idea_camels`.`accounts`
 VALUES
   (
     1,
-    'ideacamels@gmail.com',
+    'nialloc9@gmail.com',
     'Niall',
     "O' Connor",
     '68ec070dd9e988dfc12c55e5dfa9612e5645e47a9f908be62e8d56f26c8a109b',

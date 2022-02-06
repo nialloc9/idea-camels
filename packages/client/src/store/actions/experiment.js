@@ -1,7 +1,7 @@
 import { EXPERIMENT_SET } from "../constants/experiment";
 import { DOMAIN_SET } from "../constants/domain";
-import { postApi, upload } from "../../utils/request";
-import { deepMerge } from "../../utils/utils";
+import { postApi } from "../../utils/request";
+import { deepMerge, convertDateToUnix } from "../../utils/utils";
 import { findThemeAndContent } from "../../templates";
 
 /**
@@ -66,10 +66,9 @@ export const onCreate = () => async (dispatch, getState) => {
         data,
         newExperiment: {
           content,
-          imageFiles,
           theme,
-          expiry,
-          name,
+          budget,
+          endDate,
           templateRef,
           domainRef,
         },
@@ -79,12 +78,17 @@ export const onCreate = () => async (dispatch, getState) => {
     const response = await postApi({
       uri: `experiment/create`,
       token,
-      body: { content, theme, expiry, name, templateRef, domainRef },
+      body: {
+        content,
+        theme,
+        budget,
+        endDate: convertDateToUnix(endDate),
+        templateRef,
+        domainRef,
+      },
     });
 
-    const {
-      data: { experiment },
-    } = response;
+    const { data: experiment } = response;
 
     payload.data = [experiment, ...data];
     payload.createErrorMessage = "";
@@ -105,6 +109,8 @@ export const onPrepareExperiment = ({
   domain,
   themeRef,
   templateRef,
+  budget,
+  endDate,
 }) => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
 
@@ -123,7 +129,14 @@ export const onPrepareExperiment = ({
 
   const { theme, content } = findThemeAndContent({ templateRef, themeRef });
 
-  const experimentPayload = { themeRef, templateRef, theme, content };
+  const experimentPayload = {
+    themeRef,
+    templateRef,
+    theme,
+    content,
+    endDate,
+    budget: parseInt(budget),
+  };
 
   try {
     const existingDomain = domains.find(({ name }) => name === domain);
@@ -155,4 +168,30 @@ export const onPrepareExperiment = ({
   } finally {
     setDomainState(domainPayload);
   }
+};
+
+/**
+ * @description sets formIndex for create experiment
+ * @param {*} formIndex
+ * @returns
+ */
+export const onSetFormIndex = (formIndex) => (dispatch) =>
+  setState(dispatch)({ formIndex });
+
+/**
+ * @description adds to new experiment in experiment reducer
+ * @param {*} newExperiment
+ * @returns
+ */
+export const onSetNewExperiment = (expermentDataToAdd) => (
+  dispatch,
+  getState
+) => {
+  const onSetState = setState(dispatch);
+
+  const {
+    experiment: { newExperiment },
+  } = getState();
+
+  onSetState({ newExperiment: deepMerge(newExperiment, expermentDataToAdd) });
 };

@@ -9,7 +9,6 @@ import { Grid, GridRow, GridColumn } from "../../Grid";
 import { Segment } from "../../Styled/Segment";
 import { Divider } from "../../Divider";
 import { EditableText, EditableImage, EditableButton } from "../../Edit";
-import { createImagePreview } from "../../../../../utils/utils";
 
 const Container = styled.section`
   min-height: ${({
@@ -184,17 +183,14 @@ export default withTheme(
                         size={firstCard.image.size}
                         src={content.block4.card.image.src}
                         alt={content.block4.card.image.alt}
-                        onSubmit={(file) =>
+                        onSubmit={(url) =>
                           onSetExperiment({
                             content: {
                               block4: {
                                 card: {
-                                  image: { src: createImagePreview(file) },
+                                  image: { src: url },
                                 },
                               },
-                            },
-                            imageFiles: {
-                              block4: { card: { image: { src: file } } },
                             },
                           })
                         }

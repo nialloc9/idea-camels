@@ -20,18 +20,31 @@ const runTask = (
   newProvider
 ) =>
   new Promise((resolve) => {
-    if (!config.isProd || config.noInternet) {
-      logger.warn({ domain }, "Env is not prod or there is no internet");
-      return resolve({ error: undefined, data: {} });
-    }
+    // if (!config.isProd || config.noInternet) {
+    //   logger.warn({ environmentVariables }, "Env is not prod or there is no internet");
+    //   return resolve({ error: undefined, data: {} });
+    // }
     const provider = newProvider || defaultECSProvider;
 
     provider.runTask(
       {
         cluster,
         taskDefinition,
+        launchType: "FARGATE",
+        networkConfiguration: {
+          awsvpcConfiguration: {
+            assignPublicIp: "ENABLED",
+            subnets: [
+              "subnet-04e887a31667eed1d",
+              "subnet-0839da8b9ce40d74d",
+              "subnet-0a8dd93b64b17b982",
+            ],
+          },
+        },
         overrides: {
-          containerOverrides: [{ environment: environmentVariables }],
+          containerOverrides: [
+            { name: "builder-prod", environment: environmentVariables },
+          ],
         },
       },
       (err, data) => resolve({ data, error: err })
@@ -223,6 +236,67 @@ const getS3SignedUrl = (
     });
   });
 
+/**
+ *
+ * https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
+ */
+const uploadToS3 = async (
+  { path, bucket: Bucket, key: Key, acl: ACL = "public-read", caller },
+  newProvider
+) =>
+  new Promise((resolve, reject) => {
+    if (config.noInternet) {
+      logger.warn(
+        { path, bucket: Bucket, key: Key, acl: (ACL = "public-read") },
+        "There is no internet"
+      );
+      return resolve(
+        handleSuccess(`SERVICE_UPLOAD - FROM ${caller} - file uploaded`, {})
+      );
+    }
+
+    const provider = newProvider || defaultS3Provider;
+
+    fs.readFile(path, (error, data) => {
+      if (error) {
+        return reject(
+          errors["3001"]({
+            service: "SERVICE_UPLOAD",
+            caller,
+            reason: error.message,
+            data: { path },
+          })
+        );
+      }
+
+      provider.putObject(
+        {
+          Bucket,
+          Key,
+          Body: data.toString(),
+          ACL,
+        },
+        (error) => {
+          if (error) {
+            console.log(2, error);
+            return reject(
+              errors["3002"]({
+                service: "SERVICE_UPLOAD",
+                caller,
+                reason: error.message || error.code,
+                data: { Key, Bucket },
+              })
+            );
+          }
+
+          resolve({
+            bucket: Bucket,
+            key: Key,
+          });
+        }
+      );
+    });
+  });
 module.exports = {
   runTask,
   validateDomain,
@@ -231,4 +305,5 @@ module.exports = {
   registerDomain,
   listDomainPrices,
   getS3SignedUrl,
+  uploadToS3,
 };

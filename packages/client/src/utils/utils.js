@@ -1,4 +1,5 @@
 import _merge from "lodash.merge";
+import Compress from "compress.js";
 
 /**
  * @description calls the callback if enter key has been pressed
@@ -44,7 +45,36 @@ export const toTitleCase = (string) =>
 export const deepMerge = (obj1, obj2) => _merge(obj1, obj2);
 
 /**
- * @description creates an image src from a file uploaded
- * @param {*} file
+ * @description resizes images
+ * @param {*} param0
+ * @returns
  */
-export const createImagePreview = (file) => URL.createObjectURL(file);
+export const handleResizeFile = async ({
+  file,
+  size = 5,
+  quality = 1,
+  maxWidth = 1920,
+  maxHeight = 1920,
+  resize = true,
+}) => {
+  const compress = new Compress();
+  const resizedImage = await compress.compress([file], {
+    size, // the max size in MB, defaults to 2MB
+    quality, // the quality of the image, max is 1,
+    maxWidth, // the max width of the output image, defaults to 1920px
+    maxHeight, // the max height of the output image, defaults to 1920px
+    resize, // defaults to true, set false if you do not want to resize the image width and height
+  });
+  const img = resizedImage[0];
+  const base64str = img.data;
+  const imgExt = img.ext;
+  const resizedFiile = Compress.convertBase64ToFile(base64str, imgExt);
+  return resizedFiile;
+};
+
+/**
+ * @description converts timestamp to milliseconds since epoch
+ * @param {string} date
+ * @returns {number}
+ */
+export const convertDateToUnix = (date) => new Date(date).valueOf();

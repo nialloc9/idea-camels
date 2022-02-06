@@ -30,7 +30,9 @@ const extensionMap = {
 const getSignedUrl = async ({
   data: {
     type,
-    decodedToken: { accountRef },
+    decodedToken: {
+      data: { accountRef },
+    },
   },
   caller,
 }) =>

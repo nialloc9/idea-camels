@@ -6,6 +6,7 @@ import { styled } from "../../../../utils/style";
 
 const Edit = styled.span`
   cursor: pointer;
+  color: ${({ color }) => color};
   :hover {
     opacity: 0.5;
   }
@@ -66,10 +67,14 @@ export default class EditableText extends Component {
 
   render() {
     const { isOpen, text, errorMessage } = this.state;
-    const { rows = 1, width, maxWidth } = this.props;
+    const { rows = 1, width, maxWidth, color } = this.props;
 
     if (!isOpen) {
-      return <Edit onClick={this.handleOpen}>{text}</Edit>;
+      return (
+        <Edit color={color} onClick={this.handleOpen}>
+          {text}
+        </Edit>
+      );
     }
 
     return (

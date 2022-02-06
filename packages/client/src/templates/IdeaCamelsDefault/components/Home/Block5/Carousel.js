@@ -6,7 +6,6 @@ import { Header } from "../../Header";
 import { Block } from "../../Styled/Block";
 import { withTheme, remCalc } from "../../../../../utils/style";
 import { EditableText, EditableImage } from "../../Edit";
-import { createImagePreview } from "../../../../../utils/utils";
 
 const settings = {
   dots: true,
@@ -18,21 +17,21 @@ const settings = {
 };
 
 const onSetNewCarouselImage = ({ carousel, onSetExperiment }) => ({
-  file,
+  url,
   index,
 }) => {
   const newCarousel = [...carousel];
 
   newCarousel[index] = {
     ...carousel[index],
-    image: { src: createImagePreview(file) },
+    image: { src: url },
   };
 
   onSetExperiment({
     content: {
       block5: { carousel: newCarousel },
       imageFiles: {
-        block5: { carousel: { ...carousel[index], image: { src: file } } },
+        block5: { carousel: { ...carousel[index], image: { src: url } } },
       },
     },
   });

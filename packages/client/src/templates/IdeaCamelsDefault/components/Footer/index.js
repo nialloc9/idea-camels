@@ -91,14 +91,13 @@ export default withTheme(
             src={content.footer.column1.image.src}
             size={column1.imageSize}
             avatar
-            onSubmit={(file) =>
+            onSubmit={(url) =>
               onSetExperiment({
                 content: {
                   footer: {
-                    column1: { image: { src: file } },
+                    column1: { image: { src: url } },
                   },
                 },
-                imageFiles: { footer: { column1: { image: { src: file } } } },
               })
             }
           />

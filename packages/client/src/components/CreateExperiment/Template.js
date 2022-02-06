@@ -1,13 +1,23 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Default from "../../templates/IdeaCamelsDefault";
 import { Segment } from "../Styled/Segment";
+import { Button } from "../Styled/Button";
+import { Message } from "../Styled/Message";
 import { remCalc } from "../../utils/style";
-import { onCreate } from "../../store/actions/experiment";
+import {
+  onCreate,
+  onSetFormIndex,
+  onSetNewExperiment,
+} from "../../store/actions/experiment";
 import { connect } from "../../store";
 
 const Template = ({
+  isCreateLoading,
+  createErrorMessage,
   newExperiment: { templateRef = 1, content, theme },
   onSubmit,
+  onSetFormIndex,
+  onSetNewExperiment,
 }) => {
   if ([templateRef, content, theme].some((o) => !o)) return null;
 
@@ -16,15 +26,35 @@ const Template = ({
   }[templateRef];
 
   return (
-    <Segment padded maxHeight={remCalc(700)} overflow="hidden auto">
-      <Component theme={theme} content={content} onSetExperiment={onSubmit} />
-    </Segment>
+    <Fragment>
+      <Segment padded>
+        <Button onClick={() => onSetFormIndex(0)}>Back</Button>
+        <Button
+          disabled={isCreateLoading}
+          loading={isCreateLoading}
+          positive
+          onClick={onSubmit}
+        >
+          Create Experiment
+        </Button>
+        {createErrorMessage && <Message error>{createErrorMessage}</Message>}
+      </Segment>
+      <Segment padded maxHeight={remCalc(700)} overflow="hidden auto">
+        <Component
+          theme={theme}
+          content={content}
+          onSetExperiment={onSetNewExperiment}
+        />
+      </Segment>
+    </Fragment>
   );
 };
 
 export default connect(
-  ({ experiment: { newExperiment } }) => ({
+  ({ experiment: { isCreateLoading, createErrorMessage, newExperiment } }) => ({
+    isCreateLoading,
+    createErrorMessage,
     newExperiment,
   }),
-  { onSubmit: onCreate }
+  { onSubmit: onCreate, onSetFormIndex, onSetNewExperiment }
 )(Template);

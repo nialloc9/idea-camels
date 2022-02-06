@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node configureExperiment.js | bunyan"
+    "start": "node --max-old-space-size=4096 --max_old_space_size=4096 configureExperiment.js | bunyan"
   },
   "dependencies": {
     "aws-sdk": "^2.766.0",

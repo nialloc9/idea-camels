@@ -1,6 +1,7 @@
 const { onGetWithThemeByAccountRef, onCreate } = require("../data/experiment");
 const { onCreate: onCreateTheme } = require("../data/theme");
-const { uppercaseSentenceWords, generateRandomId } = require("../utils/utils");
+const { onGet: onGetDomainByDomainRef } = require("../data/domain");
+const { generateRandomId } = require("../utils/utils");
 const { listCampaigns, getMetrics } = require("../utils/googleAds");
 const { runTask, uploadToS3 } = require("../utils/aws");
 const { writeToTmpFile } = require("../utils/file");
@@ -50,12 +51,14 @@ const onGetAccountExperiments = ({
  */
 const onCreateExperiment = ({
   data: {
-    decodedToken: { accountRef },
+    decodedToken: {
+      data: { accountRef },
+    },
     domainRef,
     content,
     theme,
-    expiry,
-    name,
+    budget,
+    endDate,
     templateRef,
   },
   caller,
@@ -75,14 +78,14 @@ const onCreateExperiment = ({
 
       const { key: themeKey } = await uploadToS3({
         path: themePath,
-        key: `themes/${filename}`,
+        key: `${accountRef}/themes/${filename}`,
         bucket: config.builder.themes.bucketName,
         caller,
       });
 
       const { key: contentKey } = await uploadToS3({
         path: contentPath,
-        key: `contents/${filename}`,
+        key: `${accountRef}/contents/${filename}`,
         bucket: config.builder.themes.bucketName,
         caller,
       });
@@ -92,7 +95,6 @@ const onCreateExperiment = ({
       onThemeCleanUp();
 
       const themeData = {
-        name: uppercaseSentenceWords(`${name} theme`),
         content: contentKey,
         theme: themeKey,
         lastUpdatedBy: accountRef,
@@ -107,21 +109,51 @@ const onCreateExperiment = ({
         themeRef,
         accountRef,
         domainRef,
+        budget: parseInt(budget),
+        endDate: parseInt(endDate),
         templateRef,
-        expiry,
-        name,
       };
 
-      const response = await onCreate({ data: experiment, caller });
+      const { data: newExperiment } = await onCreate({
+        data: experiment,
+        caller,
+      });
+
+      const {
+        data: { domains },
+      } = await onGetDomainByDomainRef({
+        data: { accountRef, domainRef },
+        caller,
+      });
+
+      const { name } = domains[0];
 
       // TODO add ability to add budget
 
-      // await runTask({ cluster: config.aws.clusters.builder.name, taskDefinition: config.aws.clusters.builder.taskDefinition, environmentVariables: [
-      //     { name: "EXPERIMENT_REF", value: response.data.experiment_ref },
-      //     { name: "TEMPLATE_REF", value: templateRef }
-      // ]})
+      const { error: taskError } = await runTask({
+        cluster: config.aws.clusters.builder.name,
+        taskDefinition: config.aws.clusters.builder.taskDefinition,
+        environmentVariables: [
+          {
+            name: "EXPERIMENT_REF",
+            value: newExperiment.experiment_ref.toString(),
+          },
+          { name: "TEMPLATE_REF", value: templateRef.toString() },
+        ],
+      });
 
-      resolve(response);
+      if (taskError) {
+        throw new Error(taskError);
+      }
+
+      resolve(
+        handleSuccess("SERVICE - Create Experiment Success", {
+          ...newExperiment,
+          name,
+          content: contentKey,
+          theme: themeKey,
+        })
+      );
     } catch (error) {
       reject(error);
     }

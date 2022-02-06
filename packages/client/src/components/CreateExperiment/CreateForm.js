@@ -1,7 +1,18 @@
 import React, { Component } from "react";
 import { Grid, GridRow, GridColumn } from "../Grid";
 import { Button } from "../Styled/Button";
+import { Segment } from "../Styled/Segment";
+import { Header } from "../Styled/Header";
+import {
+  Table,
+  TableHeader,
+  TableHeaderCell,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "../Styled/Table";
 import { Form } from "../Form/Form";
+import { FormInput } from "../Form/Input";
 import { FormDropdown } from "../Form/Dropdown";
 import { Message } from "../Message";
 import { ListHeader, List, ListItem } from "../List";
@@ -19,9 +30,9 @@ class CreateForm extends Component {
     const { domains } = this.props;
 
     this.state = {
-      domains: this.mapDomains(domains.map(({ name }) => name)),
       domainError: undefined,
       domainPrice: undefined,
+      domains: this.mapDomains(domains.map(({ name }) => name)),
     };
   }
 
@@ -65,19 +76,26 @@ class CreateForm extends Component {
 
   mapDomains = (domains) => domains.map((o) => this.createDomainValue(o));
 
-  includesDomain = () => {
+  calculatePrice = (value) => {
     const {
       domains,
       values: { domain },
+      domainPrices,
     } = this.props;
 
-    return domains.find(({ name }) => name === domain) ? true : false;
+    const isDomainAlreadyOwned = domains.find(({ name }) => name === value)
+      ? true
+      : false;
+
+    if (!value || isDomainAlreadyOwned) return 0;
+
+    const { price } = domainPrices.find(({ name }) => value.includes(name));
+
+    return price;
   };
 
   handleAddDomain = (e, { value }) => {
     const { domains } = this.state;
-
-    const { domainPrices } = this.props;
 
     const domainError = validateDomain(value);
 
@@ -87,10 +105,6 @@ class CreateForm extends Component {
         ? domains
         : [this.createDomainValue(value), ...domains],
     };
-
-    const { price } = domainPrices.find(({ name }) => value.includes(name));
-
-    newState.domainPrice = price;
 
     this.setState(newState);
   };
@@ -118,89 +132,161 @@ class CreateForm extends Component {
       pristine,
       isFetchTemplatesLoading,
       submitError,
-      values: { domain },
+      values: { budget, domain },
       newExperiment: { templateRef, themeRef },
       onSubmit,
     } = this.props;
 
-    const { domainError, domainPrice, domains } = this.state;
+    const { domainError, domains } = this.state;
+
+    const domainPrice = this.calculatePrice(domain);
 
     return (
-      <Form error={submitError} onSubmit={onSubmit}>
-        <Grid container centered stackable>
-          <GridRow centered columns={2}>
-            <GridColumn>
-              <FormDropdown
-                search
-                selection
-                fluid
-                allowAdditions
-                label={
-                  domainPrice && !this.includesDomain() ? (
-                    <div
-                      style={{ color: "red" }}
-                    >{`Domain (Warning: You will be charged $${domainPrice} for purchase of new domain ${domain})`}</div>
-                  ) : (
-                    "Domain"
-                  )
-                }
-                name="domain"
-                customError={domainError}
-                validate={[validateRequired, validateDomain]}
-                options={domains}
-                onAddItem={this.handleAddDomain}
-              />
-              {this.renderSuggestDomains()}
-            </GridColumn>
-            <GridColumn>
-              <FormDropdown
-                label="Template"
-                name="templateRef"
-                lazyLoad
-                labeled
-                defaultValue={templateRef}
-                selection
-                search
-                display="block"
-                tabletDisplay="inline-block"
-                defaultValue={templateRef}
-                options={this.templateOptions}
-                placeholder="Please select a template"
-                loading={isFetchTemplatesLoading}
-                validate={[validateRequired]}
-              />
-            </GridColumn>
-          </GridRow>
-          <GridRow centered columns={2}>
-            <GridColumn>
-              <FormDropdown
-                label="Theme"
-                name="themeRef"
-                defaultValue={themeRef}
-                lazyLoad
-                selection
-                display="block"
-                tabletDisplay="inline-block"
-                options={this.themeOptions}
-                disabled={this.themeOptions.length === 0}
-                placeholder="Please select a theme"
-                loading={isFetchTemplatesLoading}
-                validate={[validateRequired]}
-              />
-            </GridColumn>
+      <Segment padded>
+        <Form error={submitError} onSubmit={onSubmit}>
+          <Segment padded>
+            <Header textAlign="left">Experiment</Header>
+            <Grid container centered stackable>
+              <GridRow centered columns={2}>
+                <GridColumn>
+                  <FormDropdown
+                    search
+                    selection
+                    fluid
+                    allowAdditions
+                    info="Previously purchased domains will be available for future experiments for up to 1 year."
+                    label="Domain"
+                    name="domain"
+                    customError={domainError}
+                    validate={[validateRequired, validateDomain]}
+                    options={domains}
+                    onAddItem={this.handleAddDomain}
+                  />
+                  {this.renderSuggestDomains()}
+                </GridColumn>
+                <GridColumn>
+                  <FormDropdown
+                    label="Template"
+                    name="templateRef"
+                    lazyLoad
+                    labeled
+                    defaultValue={templateRef}
+                    selection
+                    search
+                    display="block"
+                    tabletDisplay="inline-block"
+                    defaultValue={templateRef}
+                    options={this.templateOptions}
+                    placeholder="Please select a template"
+                    loading={isFetchTemplatesLoading}
+                    validate={[validateRequired]}
+                  />
+                </GridColumn>
+              </GridRow>
+              <GridRow centered columns={2}>
+                <GridColumn>
+                  <FormDropdown
+                    label="Theme"
+                    name="themeRef"
+                    defaultValue={themeRef}
+                    lazyLoad
+                    selection
+                    display="block"
+                    tabletDisplay="inline-block"
+                    options={this.themeOptions}
+                    disabled={this.themeOptions.length === 0}
+                    placeholder="Please select a theme"
+                    loading={isFetchTemplatesLoading}
+                    validate={[validateRequired]}
+                  />
+                </GridColumn>
 
-            <GridColumn />
-          </GridRow>
+                <GridColumn />
+              </GridRow>
+            </Grid>
+          </Segment>
 
-          <GridRow>
-            <GridColumn>
-              <Button disabled={submitting || pristine} isLoading={submitting}>
-                Create
-              </Button>
-            </GridColumn>
-          </GridRow>
-        </Grid>
-      </Form>
+          <Segment padded>
+            <Header textAlign="left">Budget</Header>
+            <Grid container centered stackable>
+              <GridRow centered columns={2}>
+                <GridColumn>
+                  <FormInput
+                    fluid
+                    type="date"
+                    label="End Date"
+                    name="endDate"
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="When do you wish experiment to end?"
+                    validate={[validateRequired]}
+                  />
+                </GridColumn>
+                <GridColumn>
+                  <FormInput
+                    fluid
+                    type="number"
+                    label="Budget ($)"
+                    name="budget"
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="How much do you wish to spend?"
+                    info="This is the budget that will be spent on driving traffic to your experiment."
+                    validate={[validateRequired]}
+                  />
+                </GridColumn>
+              </GridRow>
+            </Grid>
+          </Segment>
+
+          <Segment padded>
+            <Header textAlign="left">Cost</Header>
+            <Grid container centered stackable>
+              <GridRow centered columns={1}>
+                <GridColumn>
+                  <Table
+                    celled
+                    padded
+                    textAlign="center"
+                    verticalAlign="middle"
+                  >
+                    <TableHeader>
+                      <TableHeaderCell>Service Fee ($)</TableHeaderCell>
+                      <TableHeaderCell>Domain Fee ($)</TableHeaderCell>
+                      <TableHeaderCell>Ad budget ($)</TableHeaderCell>
+                      <TableHeaderCell>Total ($)</TableHeaderCell>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>20</TableCell>
+                        <TableCell>{domainPrice}</TableCell>
+                        <TableCell>{budget}</TableCell>
+                        <TableCell>
+                          {20 +
+                            (parseInt(domainPrice) || 0) +
+                            (parseInt(budget) || 0)}
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </GridColumn>
+              </GridRow>
+              <GridRow>
+                <GridColumn>
+                  <Button
+                    positive
+                    disabled={submitting || pristine}
+                    isLoading={submitting}
+                    onClick={() => this.setState({ isConfirmOpen: true })}
+                  >
+                    Next
+                  </Button>
+                </GridColumn>
+              </GridRow>
+            </Grid>
+          </Segment>
+        </Form>
+      </Segment>
     );
   }
 }

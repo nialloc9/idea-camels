@@ -31,7 +31,7 @@ export class Input extends Component {
 
     return (
       <Form.Field>
-        <label style={{ fontWeight: 800, marginBottom: "10px" }}>
+        <label style={{ fontWeight: 800 }}>
           {label}
           {info !== "" && (
             <ToolTipIcon name="info circle" tooltip={info} color="orange" />

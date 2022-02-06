@@ -15,14 +15,14 @@ const initialState = {
   templates: [],
   theme: [],
   newExperiment: {
-    name: "",
+    budget: undefined,
+    endDate: undefined,
     expiry: undefined,
     content: undefined,
     theme: undefined,
     templateRef: undefined,
     themeRef: undefined,
     domainRef: undefined,
-    imageFiles: {},
   },
 };
 

@@ -3,7 +3,9 @@ import { Block } from "../Styled/Block";
 import { BackgroundImage } from "../Styled/Image";
 import { FileUpload } from "../Form/FileUpload";
 import { styled } from "../../../../utils/style";
-import { createImagePreview } from "../../../../utils/utils";
+import { upload } from "../../../../utils/request";
+import { handleResizeFile } from "../../../../utils/utils";
+import { connect } from "../../../../store";
 
 const Edit = styled.span`
   cursor: pointer;
@@ -12,13 +14,14 @@ const Edit = styled.span`
   }
 `;
 
-export default class EditableBackgroundImage extends Component {
+class EditableBackgroundImage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       error: undefined,
       isOpen: false,
+      isLoading: false,
       src: props.src,
     };
   }
@@ -29,6 +32,9 @@ export default class EditableBackgroundImage extends Component {
       borderStyle,
       border,
       padding,
+      maxImageHeight,
+      maxImageWidth,
+      maxImageSize,
       label = "Upload Image",
       ...rest
     } = this.props;
@@ -38,10 +44,33 @@ export default class EditableBackgroundImage extends Component {
 
   handleOpen = () => this.setState({ isOpen: !this.state.isOpen });
 
-  handleSubmit = (files) => {
-    const { onSubmit } = this.props;
-    onSubmit(files[0]);
-    this.setState({ isOpen: false, src: createImagePreview(files[0]) });
+  handleSubmit = async (files) => {
+    try {
+      const {
+        token,
+        maxImageHeight,
+        maxImageWidth,
+        maxImageSize,
+        onSubmit,
+      } = this.props;
+
+      this.setState({ isLoading: true });
+
+      const resizedImage = await handleResizeFile({
+        file: files[0],
+        maxHeight: maxImageHeight,
+        maxWidth: maxImageWidth,
+        size: maxImageSize,
+      });
+
+      const { url } = await upload({ file: resizedImage, token });
+
+      onSubmit(url);
+
+      this.setState({ isOpen: false, src: url, isLoading: false });
+    } catch ({ message }) {
+      this.setState({ error: message, isLoading: false });
+    }
   };
 
   handeError = (files) => {
@@ -53,7 +82,7 @@ export default class EditableBackgroundImage extends Component {
   };
 
   render() {
-    const { isOpen, error, src } = this.state;
+    const { isOpen, isLoading, error, src } = this.state;
 
     const {
       iconSize,
@@ -86,6 +115,7 @@ export default class EditableBackgroundImage extends Component {
           minHeight={editMinHeight}
         >
           <FileUpload
+            isLoading={isLoading}
             iconSize={iconSize}
             borderStyle={borderStyle}
             border={border}
@@ -101,3 +131,9 @@ export default class EditableBackgroundImage extends Component {
     );
   }
 }
+
+const mapStateToProps = ({ account: { token } }) => ({
+  token,
+});
+
+export default connect(mapStateToProps, {})(EditableBackgroundImage);

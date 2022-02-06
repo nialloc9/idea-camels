@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { Menu, Item, MenuMenu } from "../Styled/Menu";
 import { EditableText, EditableImage } from "../Edit";
 import { remCalc, withTheme } from "../../../../utils/style";
-import { createImagePreview } from "../../../../utils/utils";
 
 const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
   const handleTextSubmit = (index) => (value) => {
@@ -31,12 +30,11 @@ const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
             label=""
             border="none"
             padding={0}
-            onSubmit={(file) =>
+            onSubmit={(url) =>
               onSetExperiment({
                 content: {
-                  navigation: { logo: { src: createImagePreview(file) } },
+                  navigation: { logo: { src: url } },
                 },
-                imageFiles: { navigation: { logo: { src: file } } },
               })
             }
           />
@@ -44,7 +42,12 @@ const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
         <MenuMenu position="right">
           {content.navigation.items.map(({ text }, i) => (
             <Item key={text} name={text}>
-              <EditableText initialText={text} onSubmit={handleTextSubmit(i)} />
+              <EditableText
+                color={theme.colors.white000}
+                anchorColor={theme.colors.white000}
+                initialText={text}
+                onSubmit={handleTextSubmit(i)}
+              />
             </Item>
           ))}
         </MenuMenu>

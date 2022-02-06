@@ -1,1 +1,1 @@
-export { Button } from "semantic-ui-react";
+export { Button, Confirm } from "semantic-ui-react";

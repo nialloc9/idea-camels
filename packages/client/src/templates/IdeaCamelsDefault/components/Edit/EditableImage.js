@@ -4,6 +4,7 @@ import { Image } from "../Styled/Image";
 import { FileUpload } from "../Form/FileUpload";
 import { styled } from "../../../../utils/style";
 import { upload } from "../../../../utils/request";
+import { handleResizeFile } from "../../../../utils/utils";
 import { connect } from "../../../../store";
 
 const Edit = styled.span`
@@ -31,6 +32,9 @@ class EditableImage extends Component {
       borderStyle,
       border,
       padding,
+      maxImageHeight,
+      maxImageWidth,
+      maxImageSize,
       label = "Upload Image",
       ...rest
     } = this.props;
@@ -41,10 +45,24 @@ class EditableImage extends Component {
 
   handleSubmit = async (files) => {
     try {
+      const {
+        token,
+        maxImageHeight,
+        maxImageWidth,
+        maxImageSize,
+        onSubmit,
+      } = this.props;
+
       this.setState({ isLoading: true });
-      const { token } = this.props;
-      const { url } = await upload({ file: files[0], token });
-      const { onSubmit } = this.props;
+
+      const resizedImage = await handleResizeFile({
+        file: files[0],
+        maxHeight: maxImageHeight,
+        maxWidth: maxImageWidth,
+        size: maxImageSize,
+      });
+
+      const { url } = await upload({ file: resizedImage, token });
 
       onSubmit(url);
       this.setState({ isOpen: false, src: url, isLoading: false });

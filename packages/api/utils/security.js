@@ -84,7 +84,7 @@ const requiredParams = ({
     const { Authorization, authorization } = headers;
 
     const bearer = Authorization || authorization;
-    console.log("yoman", body, headers);
+
     if (isAuth && !bearer) {
       reject(
         errors["2003"]({

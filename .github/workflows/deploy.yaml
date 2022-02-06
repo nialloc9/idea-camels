@@ -1,0 +1,17 @@
+name: Ideacamels-Deployment
+on:
+  push:
+    branches:
+      - master
+jobs:
+  Deploy-Builder:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying ${{ github.repository }} and branch ${{ github.ref }}."
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."

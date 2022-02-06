@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS themes;
 CREATE TABLE themes
 (
   theme_ref int NOT NULL AUTO_INCREMENT,
-  name VARCHAR(50) DEFAULT '',
   content VARCHAR(50) DEFAULT '',
   theme VARCHAR(50) DEFAULT '',
   created_by int(9),
@@ -19,7 +18,6 @@ CREATE TABLE themes
 INSERT INTO `idea_camels`.`themes`
 (
   `theme_ref`,
-  `name`,
   `content`,
   `theme`,
   `created_by`,
@@ -31,7 +29,6 @@ INSERT INTO `idea_camels`.`themes`
 VALUES
   (
     1,
-    "ideacamels",
     'themes/ideacamels_default.json',
     'contents/ideacamels_default.json',
     1,
