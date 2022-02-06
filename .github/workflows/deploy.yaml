@@ -11,7 +11,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Deploy Client
+        run: cd packages/client && make deploy
+      - name: Deploy Builder
+        run: cd packages/builder && make deploy
+      - name: Deploy API
+        run: cd packages/api && make deploy
+      - name: Deploy Infra
+        run: cd packages/infrastructure && make deploy
