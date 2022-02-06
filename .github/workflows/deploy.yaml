@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - master
+env:
+  AWS_PROFILE: default
 jobs:
   Deploy-Builder:
     runs-on: ubuntu-latest
@@ -14,6 +16,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
           aws-profile: default
+
       - run: echo "Deploying ${{ github.repository }} and branch ${{ github.ref }}."
       - name: Check out repository code
         uses: actions/checkout@v2
