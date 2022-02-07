@@ -15,7 +15,7 @@ deploy:
 
 deploy-via-cicd:
 	aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin $(ECR_HOSTNAME)
-	docker build --no-cache -t $(ECR_HOSTNAME)/$(NAME):${BUILD_MINOR_VERSION} -t $(ECR_HOSTNAME)/$(NAME):latest .
-	docker push $(ECR_HOSTNAME)/$(NAME):${BUILD_MINOR_VERSION}
+	docker build --no-cache -t $(ECR_HOSTNAME)/$(NAME):${GITHUB_RUN_NUMBER} -t $(ECR_HOSTNAME)/$(NAME):latest .
+	docker push $(ECR_HOSTNAME)/$(NAME):${GITHUB_RUN_NUMBER}
 	docker push $(ECR_HOSTNAME)/$(NAME):latest
 	AWS_REGION=${AWS_REGION} aws lambda update-function-code --function-name  prod_ideacamels_api --publish --image-uri $(ECR_HOSTNAME)/$(NAME):latest
