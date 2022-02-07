@@ -52,7 +52,6 @@ resource "aws_api_gateway_account" "account" {
 resource "aws_iam_role" "api_gateway_account" {
   name = "api_gateway_cloudwatch_global"
 
-  depends_on         = [aws_iam_role_policy.api_gateway_account]
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
