@@ -46,6 +46,8 @@ resource "aws_api_gateway_rest_api" "lambda_api" {
   name = "${var.environment}_lambda_api"
 }
 
+
+
 resource "aws_api_gateway_resource" "proxy" {
   rest_api_id = aws_api_gateway_rest_api.lambda_api.id
   parent_id   = aws_api_gateway_rest_api.lambda_api.root_resource_id
@@ -77,8 +79,24 @@ resource "aws_api_gateway_deployment" "apideploy" {
 
   rest_api_id = aws_api_gateway_rest_api.lambda_api.id
   stage_name  = "prod"
+
+  stage_description = "${md5(file("api.tf"))}"
+
+  lifecycle = {
+    ignore_changes = ["description"]
+  }
 }
 
+resource "aws_api_gateway_method_settings" "lambda_api" {
+  rest_api_id = aws_api_gateway_rest_api.lambda_api.id
+  stage_name  = "prod"
+  method_path = "*/*"
+  settings {
+    logging_level      = "INFO"
+    data_trace_enabled = true
+    metrics_enabled    = true
+  }
+}
 
 resource "aws_lambda_permission" "lambda_api" {
   statement_id  = "AllowAPIGatewayInvoke"
