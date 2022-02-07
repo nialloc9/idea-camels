@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - master
+
+env:
+  BUILD_MINOR_VERSION: ${{ github.run_id }}
+
 jobs:
   Deploy-Client:
     runs-on: ubuntu-latest
@@ -19,9 +23,9 @@ jobs:
       - name: Install Node Modukes
         run: cd packages/client && npm install
       - name: Build Client
-        run: cd packages/client && npm run build
+        run: cd packages/client && CI=false npm run build
       - name: Deploy Client
-        run: cd packages/client && CI=false make deploy-via-cicd
+        run: cd packages/client && make deploy-via-cicd
 
   Deploy-Builder:
     runs-on: ubuntu-latest
