@@ -82,9 +82,6 @@ resource "aws_api_gateway_deployment" "apideploy" {
 
   stage_description = "${md5(file("api.tf"))}"
 
-  lifecycle = {
-    ignore_changes = ["description"]
-  }
 }
 
 resource "aws_api_gateway_method_settings" "lambda_api" {
