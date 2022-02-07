@@ -18,6 +18,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Build Client
+        run: cd packages/client && npm build
       - name: Deploy Client
         run: cd packages/client && make deploy
 
