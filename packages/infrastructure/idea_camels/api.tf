@@ -45,11 +45,14 @@ module "lambda_api" {
 # needs to be enabled at account level
 resource "aws_api_gateway_account" "account" {
   cloudwatch_role_arn = aws_iam_role.api_gateway_account.arn
+
+  depends_on = [aws_iam_role.api_gateway_account]
 }
 
 resource "aws_iam_role" "api_gateway_account" {
   name = "api_gateway_cloudwatch_global"
 
+  depends_on         = [aws_iam_role_policy.api_gateway_account]
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
