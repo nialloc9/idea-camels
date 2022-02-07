@@ -58,7 +58,7 @@ destroy-prod:
 	AWS_PROFILE=${PROD} ENV=prod make destroy
 
 deploy-via-cicd:
-	terraform init \
+	terraform init  -backend-config=environments/prod/backend.tfvars \
 	&& terraform apply -auto-approve --var-file=environments/prod/variables.tfvars -target=module.domain.aws_acm_certificate.cert \
 	&& terraform apply -auto-approve --var-file=environments/prod/variables.tfvars -target=module.ecr.api_ecr.aws_ecr_repository \
 	&& terraform apply -auto-approve --var-file=environments/prod/variables.tfvars \
