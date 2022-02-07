@@ -146,6 +146,8 @@ resource "aws_api_gateway_method_settings" "lambda_api" {
     data_trace_enabled = var.enable_api_gateway_logging
     metrics_enabled    = var.enable_api_gateway_logging
   }
+
+  depends_on = [aws_api_gateway_account.account]
 }
 
 resource "aws_lambda_permission" "lambda_api" {
