@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - master
-env:
-  AWS_PROFILE: default
 jobs:
   Deploy-Client:
     runs-on: ubuntu-latest
