@@ -13,6 +13,7 @@ exports.handler = async (event) => {
     }
 
     const { uri, required = [], isAuth = false, func } = endpoint;
+    logger.info(endpoint, `${uri} found`);
 
     const data = await validateAndParse({
       uri,
