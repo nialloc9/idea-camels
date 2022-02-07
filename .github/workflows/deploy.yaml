@@ -174,3 +174,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy Infra
         run: cd packages/infrastructure/idea_camels && make deploy-via-cicd
+      - name: Archive PEM
+        uses: actions/upload-artifact@v2
+        with:
+          name: bastion-pem-file
+          path: packages/infrastructure/idea_camels/prod_ideacamels.pem
+          retention-days: 5
