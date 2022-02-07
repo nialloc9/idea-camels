@@ -31,7 +31,7 @@ const localhost = {
 
 const staging = { ...localhost };
 
-const production = {
+const prod = {
   ...staging,
   api: {
     ...staging.api,
@@ -50,5 +50,5 @@ const production = {
 
 export default {
   staging,
-  production,
+  prod,
 }[REACT_APP_ENV] || localhost;

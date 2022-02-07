@@ -4,6 +4,9 @@ on:
     branches:
       - master
 
+env:
+  REACT_APP_ENV: prod
+
 jobs:
   check:
     outputs:
