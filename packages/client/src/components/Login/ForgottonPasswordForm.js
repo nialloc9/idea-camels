@@ -14,7 +14,7 @@ class ForgottenPasswordForm extends Component {
   static propTypes = {
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.string.isRequired,
+    submitError: PropTypes.string.isRequired,
     successMessage: PropTypes.string.isRequired,
     onModalBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,

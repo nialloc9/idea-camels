@@ -32,14 +32,14 @@ class LoginForm extends Component {
     const {
       submitting,
       pristine,
-      errorMessage,
+      submitError,
       onModalCancel,
       onResetPasswordClick,
       onSubmit,
     } = this.props;
 
     return (
-      <Form error={errorMessage} onSubmit={onSubmit}>
+      <Form error={submitError} onSubmit={onSubmit}>
         <Grid stackable container columns={1}>
           <GridColumn>
             <Grid columns={2} stackable>

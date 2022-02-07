@@ -21,6 +21,7 @@ export const onFetchAccount = ({
   const onSetState = setState(dispatch);
 
   const payload = { isFetchLoading: true };
+
   try {
     onSetState(payload);
 
@@ -28,7 +29,7 @@ export const onFetchAccount = ({
       uri: `account/login`,
       body: { email, password, rememberMe },
     });
-    console.log("actions", response);
+
     const {
       data: { token, account },
     } = response;
@@ -37,7 +38,6 @@ export const onFetchAccount = ({
     payload.data = account;
     payload.fetchErrorMessage = "";
   } catch ({ message }) {
-    console.log("message", message);
     return { [FORM_ERROR]: message };
   } finally {
     payload.isFetchLoading = false;

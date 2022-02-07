@@ -8,6 +8,10 @@ exports.handler = async (event) => {
 
     const endpoint = endpoints.find(({ uri }) => uri === path);
 
+    if (!endpoint) {
+      throw { name: "NotFoundError", message: "Endpoint not found", code: 404 };
+    }
+
     const { uri, required = [], isAuth = false, func } = endpoint;
 
     const data = await validateAndParse({

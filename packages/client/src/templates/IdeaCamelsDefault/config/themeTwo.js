@@ -1,5 +1,5 @@
-const MAIN_000 = "yellow";
-const MAIN_001 = "grey";
+const MAIN_000 = "#506C64";
+const MAIN_001 = "#DB5461";
 
 const TEXT_000 = "#2a2a2a";
 
