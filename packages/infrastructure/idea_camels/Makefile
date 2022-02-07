@@ -57,8 +57,16 @@ deploy-prod:
 destroy-prod:
 	AWS_PROFILE=${PROD} ENV=prod make destroy
 
+deploy-via-cicd:
+	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars -target=module.domain.aws_acm_certificate.cert \
+	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars -target=module.ecr.api_ecr.aws_ecr_repository \
+	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars \
+	&& terraform output
+
+# BASTION
 ssh-prod-bastion:
 	ssh -i "${PROD_PATH_TO_SSH}" ${BASTION_USERNAME}@${PROD_BASTION_PUBLIC_IP}
 
 prod-bastion-proxy-db:
 	ssh -i "${PROD_PATH_TO_SSH}" -f -N -L ${PROD_LOCAL_DB_PORT}:${PROD_REMOTE_DB_HOSTNAME}:${REMOTE_DB_PORT} ${BASTION_USERNAME}@${PROD_BASTION_PUBLIC_IP} -v
+

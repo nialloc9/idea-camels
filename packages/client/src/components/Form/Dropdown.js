@@ -30,7 +30,6 @@ export class Dropdown extends Component {
       info,
       error,
       customError,
-      errorColored = false,
       warn,
       touched,
       ...rest

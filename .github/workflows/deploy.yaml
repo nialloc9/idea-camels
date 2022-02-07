@@ -14,16 +14,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
 
-      - run: echo "Deploying ${{ github.repository }} and branch ${{ github.ref }}."
       - name: Check out repository code
         uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: Install Node Modukes
         run: cd packages/client && npm install
       - name: Build Client
         run: cd packages/client && npm run build
       - name: Deploy Client
-        run: cd packages/client && make deploy
+        run: cd packages/client && CI=false make deploy-via-cicd
 
   Deploy-Builder:
     runs-on: ubuntu-latest
@@ -35,12 +33,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
 
-      - run: echo "Deploying ${{ github.repository }} and branch ${{ github.ref }}."
       - name: Check out repository code
         uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: Deploy Builder
-        run: cd packages/builder && AWS_PROFILE=default make deploy
+        run: cd packages/builder && make deploy-via-cicd
 
   Deploy-API:
     runs-on: ubuntu-latest
@@ -52,12 +48,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
 
-      - run: echo "Deploying ${{ github.repository }} and branch ${{ github.ref }}."
       - name: Check out repository code
         uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: Deploy API
-        run: cd packages/api && AWS_PROFILE=default make deploy
+        run: cd packages/api && make deploy-via-cicd
 
   Deploy-Infra:
     runs-on: ubuntu-latest
@@ -69,9 +63,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
 
-      - run: echo "Deploying ${{ github.repository }} and branch ${{ github.ref }}."
       - name: Check out repository code
         uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: Deploy Infra
-        run: cd packages/infrastructure && AWS_PROFILE=default make deploy
+        run: cd packages/infrastructure/idea_camels && make deploy-via-cicd

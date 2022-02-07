@@ -11,3 +11,9 @@ deploy:
 	docker build -t $(ECR_HOSTNAME)/$(NAME):${VERSION} -t $(ECR_HOSTNAME)/$(NAME):latest .
 	docker push $(ECR_HOSTNAME)/$(NAME):${VERSION}
 	docker push $(ECR_HOSTNAME)/$(NAME):latest
+
+deploy-via-cicd:
+	aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin $(ECR_HOSTNAME)
+	docker build -t $(ECR_HOSTNAME)/$(NAME):${VERSION} -t $(ECR_HOSTNAME)/$(NAME):latest .
+	docker push $(ECR_HOSTNAME)/$(NAME):${VERSION}
+	docker push $(ECR_HOSTNAME)/$(NAME):latest
