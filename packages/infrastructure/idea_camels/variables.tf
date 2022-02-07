@@ -89,3 +89,8 @@ variable "create_cert_validations" {
   description = "Set to false when destroying"
   default     = true
 }
+
+variable "enable_api_gateway_logging" {
+  default     = false
+  description = "Enable api gateway logging"
+}

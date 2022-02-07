@@ -42,11 +42,34 @@ module "lambda_api" {
   ]
 }
 
+# needs to be enabled at account level
+resource "aws_api_gateway_account" "account" {
+  cloudwatch_role_arn = aws_iam_role.api_gateway_account.arn
+}
+
+resource "aws_iam_role" "api_gateway_account" {
+  name = "api_gateway_cloudwatch_global"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "apigateway.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_api_gateway_rest_api" "lambda_api" {
   name = "${var.environment}_lambda_api"
 }
-
-
 
 resource "aws_api_gateway_resource" "proxy" {
   rest_api_id = aws_api_gateway_rest_api.lambda_api.id
@@ -80,6 +103,7 @@ resource "aws_api_gateway_deployment" "apideploy" {
   rest_api_id = aws_api_gateway_rest_api.lambda_api.id
   stage_name  = "prod"
 
+  # without this nothing will ever deploy as no changes have occured to aws_api_gateway_deployment module
   stage_description = "${md5(file("api.tf"))}"
 
 }
@@ -90,8 +114,8 @@ resource "aws_api_gateway_method_settings" "lambda_api" {
   method_path = "*/*"
   settings {
     logging_level      = "INFO"
-    data_trace_enabled = true
-    metrics_enabled    = true
+    data_trace_enabled = var.enable_api_gateway_logging
+    metrics_enabled    = var.enable_api_gateway_logging
   }
 }
 
