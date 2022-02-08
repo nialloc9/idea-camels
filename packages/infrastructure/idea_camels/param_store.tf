@@ -23,8 +23,6 @@ resource "aws_ssm_parameter" "secret" {
   lifecycle {
     ignore_changes = [value, ]
   }
-
-  tags = var.tags
 }
 
 data "aws_ssm_parameter" "api_jwt_secret" {

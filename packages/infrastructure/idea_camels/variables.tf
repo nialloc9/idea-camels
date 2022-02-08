@@ -94,3 +94,10 @@ variable "enable_api_gateway_logging" {
   default     = false
   description = "Enable api gateway logging"
 }
+
+locals {
+  default_tags = {
+    environment = var.environment
+    project     = "ideacamels"
+  }
+}

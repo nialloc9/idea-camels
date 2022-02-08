@@ -3,7 +3,6 @@ module "builder_security_group" {
   name        = "builder"
   environment = var.environment
   vpc_id      = aws_vpc.ideacamels_main.id
-  tags        = var.tags
 }
 
 module "api_security_group" {
@@ -11,7 +10,6 @@ module "api_security_group" {
   name        = "api"
   environment = var.environment
   vpc_id      = aws_vpc.ideacamels_main.id
-  tags        = var.tags
 }
 
 module "db_security_group" {
@@ -19,7 +17,6 @@ module "db_security_group" {
   name        = "db"
   environment = var.environment
   vpc_id      = aws_vpc.ideacamels_main.id
-  tags        = var.tags
 
   rules = [
     {
@@ -66,7 +63,6 @@ module "bastion_security_group" {
   name        = "bastion"
   environment = var.environment
   vpc_id      = aws_vpc.ideacamels_main.id
-  tags        = var.tags
 
   rules = [
     {

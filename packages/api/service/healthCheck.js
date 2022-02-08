@@ -22,6 +22,7 @@ const onDBHealthCheck = () =>
 const onGoogleAdsCheck = () =>
   new Promise(async (resolve, reject) => {
     try {
+      logger.info("Starting google health checks");
       await getMetrics();
       logger.info("Metrics okay");
       await listCampaigns();

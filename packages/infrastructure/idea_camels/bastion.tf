@@ -38,8 +38,6 @@ resource "aws_instance" "bastion" {
   key_name               = aws_key_pair.generated_key.key_name
   vpc_security_group_ids = [module.bastion_security_group.id]
   subnet_id              = aws_subnet.idea_camels_main_public[0].id
-
-  tags = var.tags
 }
 
 output "bastion_ip" {

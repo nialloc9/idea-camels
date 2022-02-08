@@ -2,7 +2,6 @@ resource "aws_security_group" "security_group" {
   name        = "${var.environment}_${var.name}"
   description = "${var.environment} ${var.name}"
   vpc_id      = var.vpc_id
-  tags        = var.tags
 }
 // If issue of rule does not exist appears. Comment out rules below. init. apply. uncomment. init, apply
 resource "aws_security_group_rule" "builder-ingress" {

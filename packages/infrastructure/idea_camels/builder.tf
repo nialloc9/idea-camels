@@ -128,5 +128,4 @@ resource "aws_cloudwatch_log_group" "ideacamels_builder" {
   name = "${var.environment}_ideacamels_builder"
 
   retention_in_days = 90
-  tags              = var.tags
 }

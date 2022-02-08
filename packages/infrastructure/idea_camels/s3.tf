@@ -13,5 +13,4 @@ resource "aws_s3_bucket" "themes" {
     expose_headers  = []
   }
 
-  tags = var.tags
 }
