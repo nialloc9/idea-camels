@@ -79,12 +79,6 @@ variable "www_record_ttl" {
   type        = number
 }
 
-variable "tags" {
-  description = "tags to add to resources"
-  default     = {}
-  type        = map(string)
-}
-
 variable "create_cert_validations" {
   description = "Set to false when destroying"
   default     = true
