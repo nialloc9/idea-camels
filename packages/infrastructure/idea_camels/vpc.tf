@@ -38,12 +38,12 @@ resource "aws_eip" "ideacamels_main" {
   depends_on = [aws_internet_gateway.ideacamels_main]
 }
 
-resource "aws_eip" "ideacamels_main_2" {
+resource "aws_eip" "ideacamels_main_1" {
   vpc        = true
   depends_on = [aws_internet_gateway.ideacamels_main]
 }
 
-resource "aws_eip" "ideacamels_main_3" {
+resource "aws_eip" "ideacamels_main_2" {
   vpc        = true
   depends_on = [aws_internet_gateway.ideacamels_main]
 }
