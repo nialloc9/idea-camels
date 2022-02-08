@@ -2,26 +2,57 @@ const { endpoints } = require("./utils/server");
 const { validateAndParse } = require("./utils/security");
 const { logger } = require("./utils/utils");
 
+const responseHandler = {
+  success: (body) => {
+    const payload = {
+      statusCode: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+        "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
+        "Access-Control-Allow-Methods": "POST",
+      },
+      body: JSON.stringify(body),
+    };
+
+    logger.info(payload, "SUCCESS");
+    return payload;
+  },
+  error: ({ message = "Internal Server Error", data }) => {
+    logger.error(data, message);
+    return {
+      statusCode: 500,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+        "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
+        "Access-Control-Allow-Methods": "POST",
+      },
+      body: JSON.stringify({
+        statusCode: 500,
+        error: message,
+        data: JSON.stringify(data),
+      }),
+    };
+  },
+};
+
 exports.handler = async (event) => {
   try {
     const { path, body, headers } = event;
 
-    const endpoint = endpoints.find(({ uri }) => uri === path);
+    const endpoint = endpoints.find(({ uri }) => {
+      console.log("=========HERE========");
+      console.log({ path, uri, isSame: path === uri });
+      console.log("=========HERE========");
+      return uri === path;
+    });
 
-    if (!endpoint) {
-      return {
-        statusCode: 404,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-          "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
-          "Access-Control-Allow-Methods": "POST",
-        },
-        body: {
-          event,
-        },
-      };
-    }
+    if (!endpoint)
+      return responseHandler.error({
+        message: "Endpoint Not Found",
+        data: { event },
+      });
 
     const { uri, required = [], isAuth = false, func } = endpoint;
     logger.info(endpoint, `${uri} found`);
@@ -35,27 +66,11 @@ exports.handler = async (event) => {
 
     const payload = await func({ data, uri, caller: data.caller });
 
-    return {
-      statusCode: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-        "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
-        "Access-Control-Allow-Methods": "POST",
-      },
-      body: JSON.stringify({ payload, uri }),
-    };
+    return responseHandler.success({ payload, uri });
   } catch (error) {
-    logger.error("error", error);
-    return {
-      statusCode: 500,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-        "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
-        "Access-Control-Allow-Methods": "POST",
-      },
-      body: error,
-    };
+    return responseHandler.error({
+      message: error.message,
+      data: { error: JSON.stringify(error), event },
+    });
   }
 };
