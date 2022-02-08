@@ -38,7 +38,27 @@ resource "aws_eip" "ideacamels_main" {
   depends_on = [aws_internet_gateway.ideacamels_main]
 }
 
+resource "aws_eip" "ideacamels_main_2" {
+  vpc        = true
+  depends_on = [aws_internet_gateway.ideacamels_main]
+}
+
+resource "aws_eip" "ideacamels_main_3" {
+  vpc        = true
+  depends_on = [aws_internet_gateway.ideacamels_main]
+}
+
 resource "aws_nat_gateway" "ideacamels_main" {
   allocation_id = aws_eip.ideacamels_main.id
   subnet_id     = aws_subnet.idea_camels_main_public[0].id
+}
+
+resource "aws_nat_gateway" "ideacamels_main_1" {
+  allocation_id = aws_eip.ideacamels_main.id
+  subnet_id     = aws_subnet.idea_camels_main_public[1].id
+}
+
+resource "aws_nat_gateway" "ideacamels_main_2" {
+  allocation_id = aws_eip.ideacamels_main.id
+  subnet_id     = aws_subnet.idea_camels_main_public[2].id
 }
