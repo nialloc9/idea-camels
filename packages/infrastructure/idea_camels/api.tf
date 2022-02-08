@@ -34,7 +34,7 @@ module "lambda_api" {
   env_variables        = local.lambda_api.env_variables
   timeout              = "600"
   security_group_ids   = [module.api_security_group.id]
-  subnet_ids           = [aws_subnet.idea_camels_main_public[0].id]
+  subnet_ids           = aws_subnet.idea_camels_main_public[0].id
   depends_on = [
     module.api_ecr,
     module.api_security_group.id,
