@@ -2,7 +2,6 @@ resource "aws_route53_zone" "main" {
   name = var.domain
 
   force_destroy = true
-  tags          = var.tags
 }
 
 resource "aws_route53_record" "web" {

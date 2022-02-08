@@ -19,7 +19,5 @@ module "main" {
     aws.main       = aws.main
     aws.cloudfront = aws.cloudfront
   }
-
-  tags = var.tags
 }
 
