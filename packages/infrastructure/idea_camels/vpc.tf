@@ -31,8 +31,7 @@ resource "aws_main_route_table_association" "idea_camels_main" {
 }
 
 resource "aws_eip" "ideacamels_main" {
-  vpc        = true
-  depends_on = [aws_internet_gateway.ideacamels_main]
+  vpc = true
 }
 
 resource "aws_nat_gateway" "ideacamels_main" {
