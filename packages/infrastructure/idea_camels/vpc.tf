@@ -53,12 +53,16 @@ resource "aws_nat_gateway" "ideacamels_main" {
   subnet_id     = aws_subnet.idea_camels_main_public[0].id
 }
 
-resource "aws_nat_gateway" "ideacamels_main_1" {
-  allocation_id = aws_eip.ideacamels_main_1.id
-  subnet_id     = aws_subnet.idea_camels_main_public[1].id
+resource "aws_route_table" "route_table_private" {
+  vpc_id = aws_vpc.ideacamels_main.id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.ideacamels_main.id
+  }
 }
 
-resource "aws_nat_gateway" "ideacamels_main_2" {
-  allocation_id = aws_eip.ideacamels_main_2.id
-  subnet_id     = aws_subnet.idea_camels_main_public[2].id
+resource "aws_route_table_association" "route_table_association_private" {
+  subnet_id      = aws_subnet.idea_camels_main_public[0].id
+  route_table_id = aws_route_table.route_table_private.id
 }
