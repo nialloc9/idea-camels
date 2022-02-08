@@ -157,7 +157,7 @@ resource "aws_lambda_permission" "lambda_api" {
 
   # The "/*/*" portion grants access from any method on any resource
   # within the API Gateway REST API.
-  source_arn = "${aws_api_gateway_rest_api.lambda_api.execution_arn}/*/*/*"
+  source_arn = "*"
 }
 
 module "cors_lambda" {
