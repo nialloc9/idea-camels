@@ -18,7 +18,6 @@ resource "aws_security_group_rule" "builder-ingress" {
 }
 
 variable "name" {}
-variable "tags" {}
 
 variable "vpc_id" {}
 variable "environment" {}

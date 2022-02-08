@@ -18,8 +18,6 @@ module "db_security_group" {
   environment = var.environment
   vpc_id      = aws_vpc.ideacamels_main.id
 
-  tags = local.default_tags
-
   rules = [
     {
       "name"              = "ingress",
