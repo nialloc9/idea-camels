@@ -139,7 +139,7 @@ resource "aws_api_gateway_deployment" "apideploy" {
 resource "aws_api_gateway_method_settings" "lambda_api" {
   rest_api_id = aws_api_gateway_rest_api.lambda_api.id
   stage_name  = var.environment
-  method_path = "*/*"
+  method_path = "*/*/*"
   settings {
     logging_level      = "INFO"
     data_trace_enabled = var.enable_api_gateway_logging
@@ -157,7 +157,7 @@ resource "aws_lambda_permission" "lambda_api" {
 
   # The "/*/*" portion grants access from any method on any resource
   # within the API Gateway REST API.
-  source_arn = "${aws_api_gateway_rest_api.lambda_api.execution_arn}/*/POST/*"
+  source_arn = "${aws_api_gateway_rest_api.lambda_api.execution_arn}/*/*/*"
 }
 
 module "cors_lambda" {
@@ -182,3 +182,4 @@ module "cors_lambda" {
     "next-query",
   ]
 }
+
