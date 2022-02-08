@@ -54,11 +54,11 @@ resource "aws_nat_gateway" "ideacamels_main" {
 }
 
 resource "aws_nat_gateway" "ideacamels_main_1" {
-  allocation_id = aws_eip.ideacamels_main.id
+  allocation_id = aws_eip.ideacamels_main_1.id
   subnet_id     = aws_subnet.idea_camels_main_public[1].id
 }
 
 resource "aws_nat_gateway" "ideacamels_main_2" {
-  allocation_id = aws_eip.ideacamels_main.id
+  allocation_id = aws_eip.ideacamels_main_2.id
   subnet_id     = aws_subnet.idea_camels_main_public[2].id
 }
