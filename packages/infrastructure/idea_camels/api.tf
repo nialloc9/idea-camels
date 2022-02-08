@@ -150,14 +150,14 @@ resource "aws_api_gateway_method_settings" "lambda_api" {
 }
 
 resource "aws_lambda_permission" "lambda_api" {
-  statement_id  = "AllowAPIGatewayInvoke"
+  statement_id  = "AllowExecutionFromApiGateway"
   action        = "lambda:InvokeFunction"
   function_name = module.lambda_api.name
   principal     = "apigateway.amazonaws.com"
 
   # The "/*/*" portion grants access from any method on any resource
   # within the API Gateway REST API.
-  source_arn = "${aws_api_gateway_rest_api.lambda_api.execution_arn}/*/*"
+  source_arn = "${aws_api_gateway_rest_api.lambda_api.execution_arn}/*/*/*"
 }
 
 module "cors_lambda" {

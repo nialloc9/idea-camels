@@ -81,7 +81,7 @@ resource "aws_iam_role" "lambda" {
     {
       "Action": "sts:AssumeRole",
       "Principal": {
-        "Service": ["apigateway.amazonaws.com","lambda.amazonaws.com"]
+        "Service": "lambda.amazonaws.com"
       },
       "Effect": "Allow",
       "Sid": ""
