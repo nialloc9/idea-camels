@@ -9,7 +9,18 @@ exports.handler = async (event) => {
     const endpoint = endpoints.find(({ uri }) => uri === path);
 
     if (!endpoint) {
-      throw { name: "NotFoundError", message: "Endpoint not found", code: 404 };
+      return {
+        statusCode: 404,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+          "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
+          "Access-Control-Allow-Methods": "POST",
+        },
+        body: {
+          event,
+        },
+      };
     }
 
     const { uri, required = [], isAuth = false, func } = endpoint;
