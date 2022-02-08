@@ -32,3 +32,13 @@ resource "aws_main_route_table_association" "idea_camels_main" {
   vpc_id         = aws_vpc.ideacamels_main.id
   route_table_id = aws_route_table.ideacamels_main.id
 }
+
+resource "aws_eip" "ideacamels_main" {
+  vpc        = true
+  depends_on = [aws_internet_gateway.internet_gateway]
+}
+
+resource "aws_nat_gateway" "ideacamels_main" {
+  allocation_id = aws_eip.ideacamels_main.id
+  subnet_id     = aws_subnet.idea_camels_main_public.id
+}
