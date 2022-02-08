@@ -41,12 +41,7 @@ exports.handler = async (event) => {
   try {
     const { path, body, headers } = event;
 
-    const endpoint = endpoints.find(({ uri }) => {
-      console.log("=========HERE========");
-      console.log({ path, uri, isSame: path === uri });
-      console.log("=========HERE========");
-      return uri === path;
-    });
+    const endpoint = endpoints.find(({ uri }) => uri === path);
 
     if (!endpoint)
       return responseHandler.error({
