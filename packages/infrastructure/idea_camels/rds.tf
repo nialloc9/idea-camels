@@ -17,5 +17,5 @@ resource "aws_db_instance" "ideacamels" {
   db_subnet_group_name   = aws_db_subnet_group.ideacamels_main.id
   vpc_security_group_ids = [module.db_security_group.id]
 
-  depends_on = [aws_subnet.idea_camels_main_public, module.db_security_group.id, aws_db_subnet_group.ideacamels_main]
+  depends_on = [aws_subnet.ideacamels_main_private, module.db_security_group.id, aws_db_subnet_group.ideacamels_main]
 }
