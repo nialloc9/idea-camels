@@ -38,7 +38,7 @@ module "lambda_api" {
   depends_on = [
     module.api_ecr,
     module.api_security_group.id,
-    aws_subnet.idea_camels_main_public
+    aws_subnet.ideacamels_main_public
   ]
 }
 

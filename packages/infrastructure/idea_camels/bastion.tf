@@ -37,7 +37,7 @@ resource "aws_instance" "bastion" {
   instance_type          = "t2.micro"
   key_name               = aws_key_pair.generated_key.key_name
   vpc_security_group_ids = [module.bastion_security_group.id]
-  subnet_id              = aws_subnet.idea_camels_main_public[0].id
+  subnet_id              = aws_subnet.ideacamels_main_public.id
 }
 
 output "bastion_ip" {
