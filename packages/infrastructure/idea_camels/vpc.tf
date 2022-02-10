@@ -74,7 +74,7 @@ resource "aws_nat_gateway" "ideacamels_main" {
 
 resource "aws_default_network_acl" "default_network_acl" {
   default_network_acl_id = aws_vpc.ideacamels_main.default_network_acl_id
-  subnet_ids             = aws_subnet.ideacamels_main_public.id
+  subnet_ids             = [aws_subnet.ideacamels_main_public.id, aws_subnet.ideacamels_main_private.id]
 
   ingress {
     protocol   = -1
