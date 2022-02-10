@@ -118,7 +118,7 @@ resource "aws_ecs_service" "builder" {
 
   network_configuration {
     security_groups = [module.builder_security_group.id]
-    subnets         = aws_subnet.idea_camels_main_public.*.id
+    subnets         = aws_subnet.ideacamels_main_public.id
   }
 
   depends_on = [aws_iam_role_policy.builder]
