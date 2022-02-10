@@ -178,7 +178,7 @@ export default withTheme(({ theme: { block4 } }) => (
                 </SubHeading>
                 <ButtonContainer>
                   <AnalyticsButton
-                    href="/coming-soon"
+                    href="/sign-up"
                     color="black"
                     size={block4.button.size}
                     basic

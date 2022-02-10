@@ -33,6 +33,7 @@ class CreateForm extends Component {
       domainError: undefined,
       domainPrice: undefined,
       domains: this.mapDomains(domains.map(({ name }) => name)),
+      keywordsIndex: 1,
     };
   }
 
@@ -126,6 +127,13 @@ class CreateForm extends Component {
     }
   };
 
+  hasMaxKeywords = () => this.state.keywordsIndex.length >= 3;
+
+  handleAddKeywords = () =>
+    this.setState(({ keywordsIndex }) => ({
+      keywordsIndex: this.hasMaxKeywords() ? keywordsIndex : keywordsIndex + 1,
+    }));
+
   render() {
     const {
       submitting,
@@ -137,7 +145,7 @@ class CreateForm extends Component {
       onSubmit,
     } = this.props;
 
-    const { domainError, domains } = this.state;
+    const { domainError, domains, keywordsIndex } = this.state;
 
     const domainPrice = this.calculatePrice(domain);
 
@@ -238,7 +246,107 @@ class CreateForm extends Component {
               </GridRow>
             </Grid>
           </Segment>
+          <Segment padded>
+            <Header textAlign="left">Keywords</Header>
+            <Grid container centered stackable>
+              <GridRow centered columns={2}>
+                <GridColumn>
+                  <FormInput
+                    fluid
+                    type="text"
+                    label={`Keyword 1`}
+                    name={`keyword1`}
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="Keywords to check for in search engine"
+                    info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                    validate={[validateRequired]}
+                  />
+                </GridColumn>
+                <GridColumn>
+                  <FormInput
+                    fluid
+                    type="text"
+                    label={`Keyword 2`}
+                    name={`keyword2`}
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="Keywords to check for in search engine"
+                    info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                    validate={[validateRequired]}
+                  />
+                </GridColumn>
+              </GridRow>
+              {keywordsIndex >= 2 && (
+                <GridRow centered columns={2}>
+                  <GridColumn>
+                    <FormInput
+                      fluid
+                      type="text"
+                      label={`Keyword 3`}
+                      name={`keyword3`}
+                      display="block"
+                      tabletDisplay="inline-block"
+                      placeholder="Keywords to check for in search engine"
+                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                    />
+                  </GridColumn>
+                  <GridColumn>
+                    <FormInput
+                      fluid
+                      type="text"
+                      label={`Keyword 4`}
+                      name={`keyword4`}
+                      display="block"
+                      tabletDisplay="inline-block"
+                      placeholder="Keywords to check for in search engine"
+                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                    />
+                  </GridColumn>
+                </GridRow>
+              )}
+              {keywordsIndex >= 3 && (
+                <GridRow centered columns={2}>
+                  <GridColumn>
+                    <FormInput
+                      fluid
+                      type="text"
+                      label={`Keyword 5`}
+                      name={`keyword5`}
+                      display="block"
+                      tabletDisplay="inline-block"
+                      placeholder="Keywords to check for in search engine"
+                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                    />
+                  </GridColumn>
+                  <GridColumn>
+                    <FormInput
+                      fluid
+                      type="text"
+                      label={`Keyword 6`}
+                      name={`keyword6`}
+                      display="block"
+                      tabletDisplay="inline-block"
+                      placeholder="Keywords to check for in search engine"
+                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                    />
+                  </GridColumn>
+                </GridRow>
+              )}
 
+              {keywordsIndex !== 3 && (
+                <GridRow columns={1}>
+                  <GridColumn>
+                    <Button
+                      display="left"
+                      icon="plus"
+                      onClick={this.handleAddKeywords}
+                    />
+                  </GridColumn>
+                </GridRow>
+              )}
+            </Grid>
+          </Segment>
           <Segment padded>
             <Header textAlign="left">Cost</Header>
             <Grid container centered stackable>

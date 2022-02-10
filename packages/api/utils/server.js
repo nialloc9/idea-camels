@@ -128,6 +128,7 @@ const endpoints = [
       "endDate",
       "budget",
       "templateRef",
+      "keywords",
       "caller",
     ],
     isAuth: true,

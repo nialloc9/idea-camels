@@ -23,6 +23,12 @@ const initialState = {
     templateRef: undefined,
     themeRef: undefined,
     domainRef: undefined,
+    keyword1: undefined,
+    keyword2: undefined,
+    keyword3: undefined,
+    keyword4: undefined,
+    keyword5: undefined,
+    keyword6: undefined,
   },
 };
 

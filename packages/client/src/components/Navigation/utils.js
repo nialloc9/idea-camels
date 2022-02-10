@@ -1,9 +1,11 @@
 export const items = [
-  { text: "About Us", href: "/coming-soon" },
-  { text: "Products", href: "/coming-soon" },
+  { text: "About Us", href: "/about-us" },
+  { text: "Products", href: "/products" },
+  { text: "Pricing", href: "/pricing" },
   { text: "Sign Up", href: "/sign-up" },
 ];
 export const loggedinItems = [
-  { text: "About Us", href: "/coming-soon" },
-  { text: "Products", href: "/coming-soon" },
+  { text: "About Us", href: "/about-us" },
+  { text: "Products", href: "/products" },
+  { text: "Pricing", href: "/pricing" },
 ];

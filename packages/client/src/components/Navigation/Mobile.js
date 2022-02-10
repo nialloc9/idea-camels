@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Menu, Item } from "../Styled/Menu";
 import { Block } from "../Styled/Block";
 import { Button } from "../Styled/Button";
+import { Login } from "../Login";
 import { items } from "./utils";
 import { theme } from "../../config";
 import withAnalytics from "../../hoc/withAnalytics";
@@ -55,6 +56,18 @@ export default () => {
             </Block>
           </AnalyticsMenuItem>
         ))}
+
+      {isOpen && (
+        <Login
+          Trigger={({ onClick }) => (
+            <AnalyticsMenuItem onClick={onClick} name="login">
+              <Block textAlign="center" width="100%">
+                Login
+              </Block>
+            </AnalyticsMenuItem>
+          )}
+        />
+      )}
     </Menu>
   );
 };

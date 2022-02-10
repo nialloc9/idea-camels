@@ -34,7 +34,7 @@ module "lambda_api" {
   env_variables        = local.lambda_api.env_variables
   timeout              = "600"
   security_group_ids   = [module.api_security_group.id]
-  subnet_ids           = [aws_subnet.idea_camels_main_public[0].id]
+  subnet_ids           = [aws_subnet.ideacamels_main_private.id]
   depends_on = [
     module.api_ecr,
     module.api_security_group.id,
@@ -183,3 +183,7 @@ module "cors_lambda" {
   ]
 }
 
+resource "aws_iam_role_policy_attachment" "instance" {
+  role       = module.lambda_api.iam_role_arn
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}

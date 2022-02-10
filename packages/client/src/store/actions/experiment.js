@@ -71,6 +71,12 @@ export const onCreate = () => async (dispatch, getState) => {
           endDate,
           templateRef,
           domainRef,
+          keyword1,
+          keyword2,
+          keyword3,
+          keyword4,
+          keyword5,
+          keyword6,
         },
       },
     } = getState();
@@ -85,6 +91,7 @@ export const onCreate = () => async (dispatch, getState) => {
         endDate: convertDateToUnix(endDate),
         templateRef,
         domainRef,
+        keywords: [keyword1, keyword2, keyword3, keyword4, keyword5, keyword6],
       },
     });
 
@@ -111,6 +118,12 @@ export const onPrepareExperiment = ({
   templateRef,
   budget,
   endDate,
+  keyword1,
+  keyword2,
+  keyword3,
+  keyword4,
+  keyword5,
+  keyword6,
 }) => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
 
@@ -136,6 +149,12 @@ export const onPrepareExperiment = ({
     content,
     endDate,
     budget: parseInt(budget),
+    keyword1,
+    keyword2,
+    keyword3,
+    keyword4,
+    keyword5,
+    keyword6,
   };
 
   try {

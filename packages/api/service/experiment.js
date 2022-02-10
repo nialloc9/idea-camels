@@ -60,6 +60,7 @@ const onCreateExperiment = ({
     budget,
     endDate,
     templateRef,
+    keywords,
   },
   caller,
 }) =>
@@ -128,8 +129,6 @@ const onCreateExperiment = ({
 
       const { name } = domains[0];
 
-      // TODO add ability to add budget
-
       const { error: taskError } = await runTask({
         cluster: config.aws.clusters.builder.name,
         taskDefinition: config.aws.clusters.builder.taskDefinition,
@@ -141,6 +140,9 @@ const onCreateExperiment = ({
           { name: "TEMPLATE_REF", value: templateRef.toString() },
         ],
       });
+
+      // TODO add ability to add budget
+      // TODO add ability to add keywords
 
       if (taskError) {
         throw new Error(taskError);

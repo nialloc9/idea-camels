@@ -5,11 +5,12 @@ import Footer from "./components/Footer";
 import { theme } from "./config";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
-import Demo from "./pages/Demo";
 import ComingSoon from "./pages/ComingSoon";
 import CreateExperiment from "./pages/CreateExperiment";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
+import Pricing from "./pages/Pricing";
+import AboutUs from "./pages/AboutUs";
 import store, { Provider } from "./store";
 import { history } from "./store/middleware/history";
 import { Router, Switch, OpenRoute, PrivateRoute } from "./components/Router";
@@ -30,10 +31,6 @@ const routes = [
     isAuth: true,
   },
   {
-    path: "/demo",
-    component: Demo,
-  },
-  {
     path: "/create-experiment",
     component: CreateExperiment,
     isAuth: true,
@@ -41,6 +38,14 @@ const routes = [
   {
     path: "/sign-up",
     component: SignUp,
+  },
+  {
+    path: "/pricing",
+    component: Pricing,
+  },
+  {
+    path: "/about-us",
+    component: AboutUs,
   },
   {
     path: "/404",
