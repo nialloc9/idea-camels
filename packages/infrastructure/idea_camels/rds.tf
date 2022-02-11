@@ -1,6 +1,6 @@
 resource "aws_db_subnet_group" "ideacamels_main" {
   name       = "${var.environment}_ideacamels_db"
-  subnet_ids = [aws_subnet.ideacamels_main_private.id]
+  subnet_ids = [aws_subnet.ideacamels_main_private.id, aws_subnet.ideacamels_main_private_2.id]
 }
 
 resource "aws_db_instance" "ideacamels" {

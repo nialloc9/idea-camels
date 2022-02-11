@@ -39,7 +39,7 @@ resource "aws_main_route_table_association" "ideacamels_main_public" {
 # private subnet
 resource "aws_subnet" "ideacamels_main_private" {
   vpc_id     = aws_vpc.ideacamels_main.id
-  cidr_block = "10.0.128.0/17"
+  cidr_block = "10.0.128.0/18"
 }
 
 resource "aws_route_table" "ideacamels_main_private" {
@@ -54,6 +54,26 @@ resource "aws_route_table" "ideacamels_main_private" {
 resource "aws_route_table_association" "ideacamels_main_private" {
   subnet_id      = aws_subnet.ideacamels_main_private.id
   route_table_id = aws_route_table.ideacamels_main_private.id
+}
+
+# private subnet 2
+resource "aws_subnet" "ideacamels_main_private_2" {
+  vpc_id     = aws_vpc.ideacamels_main.id
+  cidr_block = "10.0.192.0/18"
+}
+
+resource "aws_route_table" "ideacamels_main_private_2" {
+  vpc_id = aws_vpc.ideacamels_main.id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.ideacamels_main.id
+  }
+}
+
+resource "aws_route_table_association" "ideacamels_main_private_2" {
+  subnet_id      = aws_subnet.ideacamels_main_private_2.id
+  route_table_id = aws_route_table.ideacamels_main_private_2.id
 }
 
 # create internet gateway
@@ -93,9 +113,4 @@ resource "aws_default_network_acl" "default_network_acl" {
     from_port  = 0
     to_port    = 0
   }
-}
-
-resource "aws_iam_role_policy_attachment" "iam_role_policy_attachment_lambda_vpc_access_execution" {
-  role       = module.lambda_api.iam_role_name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }

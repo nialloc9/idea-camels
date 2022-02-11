@@ -184,6 +184,6 @@ module "cors_lambda" {
 }
 
 resource "aws_iam_role_policy_attachment" "instance" {
-  role       = module.lambda_api.iam_role_arn
+  role       = module.lambda_api.iam_role_name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
