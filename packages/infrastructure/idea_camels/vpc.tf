@@ -19,7 +19,7 @@ resource "aws_vpc" "ideacamels_main" {
 # public subnet
 resource "aws_subnet" "ideacamels_main_public" {
   vpc_id     = aws_vpc.ideacamels_main.id
-  cidr_block = "10.0.0.0/17"
+  cidr_block = "10.0.0.0/18"
 }
 
 resource "aws_route_table" "ideacamels_main_public" {
@@ -39,7 +39,7 @@ resource "aws_main_route_table_association" "ideacamels_main_public" {
 # private subnet
 resource "aws_subnet" "ideacamels_main_private" {
   vpc_id     = aws_vpc.ideacamels_main.id
-  cidr_block = "10.0.128.0/18"
+  cidr_block = "10.0.64.0/18"
 }
 
 resource "aws_route_table" "ideacamels_main_private" {
@@ -56,10 +56,10 @@ resource "aws_route_table_association" "ideacamels_main_private" {
   route_table_id = aws_route_table.ideacamels_main_private.id
 }
 
-# private subnet 2
+# private subnet 2 10.0.192.0/18 — is left spare and can be used for 4th subet if needed
 resource "aws_subnet" "ideacamels_main_private_2" {
   vpc_id     = aws_vpc.ideacamels_main.id
-  cidr_block = "10.0.192.0/18"
+  cidr_block = "10.0.128.0/18"
 }
 
 resource "aws_route_table" "ideacamels_main_private_2" {
