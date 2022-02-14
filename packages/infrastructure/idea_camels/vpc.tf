@@ -20,6 +20,8 @@ resource "aws_vpc" "ideacamels_main" {
 resource "aws_subnet" "ideacamels_main_public" {
   vpc_id     = aws_vpc.ideacamels_main.id
   cidr_block = "10.0.0.0/18"
+
+  tags = mege(local.default_tags, { "subnet_type" = "public" })
 }
 
 resource "aws_route_table" "ideacamels_main_public" {
@@ -28,11 +30,14 @@ resource "aws_route_table" "ideacamels_main_public" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.ideacamels_main.id
   }
+  tags = mege(local.default_tags, { "subnet_type" = "public" })
 }
 
 resource "aws_main_route_table_association" "ideacamels_main_public" {
   vpc_id         = aws_vpc.ideacamels_main.id
   route_table_id = aws_route_table.ideacamels_main_public.id
+
+  tags = mege(local.default_tags, { "subnet_type" = "public" })
 }
 
 
@@ -40,6 +45,8 @@ resource "aws_main_route_table_association" "ideacamels_main_public" {
 resource "aws_subnet" "ideacamels_main_private" {
   vpc_id     = aws_vpc.ideacamels_main.id
   cidr_block = "10.0.64.0/18"
+
+  tags = mege(local.default_tags, { "subnet_type" = "private" })
 }
 
 resource "aws_route_table" "ideacamels_main_private" {
@@ -49,17 +56,20 @@ resource "aws_route_table" "ideacamels_main_private" {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.ideacamels_main.id
   }
+  tags = mege(local.default_tags, { "subnet_type" = "private" })
 }
 
 resource "aws_route_table_association" "ideacamels_main_private" {
   subnet_id      = aws_subnet.ideacamels_main_private.id
   route_table_id = aws_route_table.ideacamels_main_private.id
+  tags           = mege(local.default_tags, { "subnet_type" = "private" })
 }
 
 # private subnet 2 10.0.192.0/18 — is left spare and can be used for 4th subet if needed
 resource "aws_subnet" "ideacamels_main_private_2" {
   vpc_id     = aws_vpc.ideacamels_main.id
   cidr_block = "10.0.128.0/18"
+  tags       = mege(local.default_tags, { "subnet_type" = "private" })
 }
 
 resource "aws_route_table" "ideacamels_main_private_2" {
@@ -69,11 +79,13 @@ resource "aws_route_table" "ideacamels_main_private_2" {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.ideacamels_main.id
   }
+  tags = mege(local.default_tags, { "subnet_type" = "private" })
 }
 
 resource "aws_route_table_association" "ideacamels_main_private_2" {
   subnet_id      = aws_subnet.ideacamels_main_private_2.id
   route_table_id = aws_route_table.ideacamels_main_private_2.id
+  tags           = mege(local.default_tags, { "subnet_type" = "private" })
 }
 
 # create internet gateway
@@ -89,7 +101,7 @@ resource "aws_eip" "ideacamels_main" {
 
 resource "aws_nat_gateway" "ideacamels_main" {
   allocation_id = aws_eip.ideacamels_main.id
-  subnet_id     = aws_subnet.ideacamels_main_private.id
+  subnet_id     = aws_subnet.ideacamels_main_public.id
 }
 
 resource "aws_default_network_acl" "default_network_acl" {
