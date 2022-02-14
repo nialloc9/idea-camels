@@ -36,8 +36,6 @@ resource "aws_route_table" "ideacamels_main_public" {
 resource "aws_main_route_table_association" "ideacamels_main_public" {
   vpc_id         = aws_vpc.ideacamels_main.id
   route_table_id = aws_route_table.ideacamels_main_public.id
-
-  tags = merge(local.default_tags, { "subnet_type" = "public" })
 }
 
 
@@ -62,7 +60,6 @@ resource "aws_route_table" "ideacamels_main_private" {
 resource "aws_route_table_association" "ideacamels_main_private" {
   subnet_id      = aws_subnet.ideacamels_main_private.id
   route_table_id = aws_route_table.ideacamels_main_private.id
-  tags           = merge(local.default_tags, { "subnet_type" = "private" })
 }
 
 # private subnet 2 10.0.192.0/18 — is left spare and can be used for 4th subet if needed
@@ -85,7 +82,6 @@ resource "aws_route_table" "ideacamels_main_private_2" {
 resource "aws_route_table_association" "ideacamels_main_private_2" {
   subnet_id      = aws_subnet.ideacamels_main_private_2.id
   route_table_id = aws_route_table.ideacamels_main_private_2.id
-  tags           = merge(local.default_tags, { "subnet_type" = "private" })
 }
 
 # create internet gateway
