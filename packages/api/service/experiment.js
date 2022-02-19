@@ -2,7 +2,11 @@ const { onGetWithThemeByAccountRef, onCreate } = require("../data/experiment");
 const { onCreate: onCreateTheme } = require("../data/theme");
 const { onGet: onGetDomainByDomainRef } = require("../data/domain");
 const { generateRandomId } = require("../utils/utils");
-const { listCampaigns, getMetrics } = require("../utils/googleAds");
+const {
+  listCampaigns,
+  getMetrics,
+  createCampaign,
+} = require("../utils/googleAds");
 const { runTask, uploadToS3 } = require("../utils/aws");
 const { writeToTmpFile } = require("../utils/file");
 const { handleSuccess } = require("../utils/utils");
@@ -143,7 +147,7 @@ const onCreateExperiment = ({
 
       // TODO add ability to add budget
       // TODO add ability to add keywords
-
+      // await createCampaign({})
       if (taskError) {
         throw new Error(taskError);
       }

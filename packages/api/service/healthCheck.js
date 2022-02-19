@@ -1,9 +1,5 @@
 const { ping } = require("../utils/database");
-const {
-  listBudgets,
-  listCampaigns,
-  getMetrics,
-} = require("../utils/googleAds");
+const { getMetrics } = require("../utils/googleAds");
 const { handleSuccess, logger } = require("../utils/utils");
 
 const onHealthCheck = () =>
@@ -25,10 +21,6 @@ const onGoogleAdsCheck = () =>
       logger.info("Starting google health checks");
       await getMetrics();
       logger.info("Metrics okay");
-      await listCampaigns();
-      logger.info("Campaigns okay");
-      await listBudgets();
-      logger.info("Budgets okay");
       resolve(handleSuccess("okay"));
     } catch (error) {
       reject(error);

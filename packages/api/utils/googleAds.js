@@ -78,7 +78,7 @@ const client = new GoogleAdsApi({
 });
 
 const customer = client.Customer({
-  customer_account_id: config.googleAds.customerId,
+  customer_id: config.googleAds.customerIdSplit,
   refresh_token: config.googleAds.refreshToken,
   logging: { verbosity: !config.isProd ? "info" : "debug" },
 });
@@ -128,7 +128,7 @@ const listCampaigns = async () => {
     return [];
   }
 
-  return await customer.customerClients.list();
+  return await customer.campaigns.get();
 };
 
 /**
@@ -282,7 +282,7 @@ const getMetrics = async ({
     ],
     metrics: mappedMetrics,
     order_by: metricMap[orderBy],
-    sort_order: "desc",
+    order: [{ field: "ad_group.id", sort_order: "DESC" }],
   };
 
   if (adGroupResourceName) {
