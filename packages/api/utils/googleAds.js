@@ -1,69 +1,22 @@
 const { GoogleAdsApi, enums, toMicros, fromMicros } = require("google-ads-api");
 const config = require("./config");
-const { reverseObjectKeyValues, changeKeys, logger } = require("./utils");
+const { logger } = require("./utils");
 const {
   campaignBudget: campaignBudgetMock,
   campaign: campaignMock,
   adGroup: adGroupMock,
   adGroupAd: adGroupAdMock,
+  adGroupCriterion: adGroupCriterionMock,
 } = require("./mocks/googleAds");
 
 /**
  * Object Hierarchy: https://developers.google.com/adwords/api/docs/guides/objects-methods
  */
 
-// https://opteo.com/dev/google-ads-api/#budget
-const budgetMap = {
-  amount_micros: "amountMicros",
-  delivery_method: "deliveryMethod",
-  name: "name",
-};
-
-const budgetMapReversed = reverseObjectKeyValues(budgetMap);
-
-// https://opteo.com/dev/google-ads-api/#campaign
-const campaignMap = {
-  advertising_channel_type: "advertisingChannelType",
-  bidding_strategy_type: "biddingStrategyType",
-  campaign_budget: "campaignBudget",
-  end_date: "endDate",
-  name: "name",
-  paymentMode: "paymentMode",
-  start_date: "startDate",
-  status: "status",
-  target_spend: "targetSpend",
-};
-
-const adGroupMap = {
-  campaign: "campaign", //campaign name (required)
-  cpc_bid_micros: "maxCostPerClick", // max cost per click (required)
-  cpm_bid_micros: "maxCostPer1000Impressions", // mac cost per 1,000 impression (required)
-  id: "id", //ad group id (output)
-  name: "name", // ad group name (required)
-  resource_name: "resourceName", // name of ad group (output)
-  status: "status", // enums.AdGroupAdStatus (required)
-  type: "type", // enums.AdGroupType (required) 2 is SEARCH_STANDARD
-};
-
-const adGroupMapReversed = reverseObjectKeyValues(adGroupMap);
-
-const adGroupAdMap = {
-  ad: "ad", // the ad object (required)
-  ad_group: "adGroup", // name of ad_group (output)
-  ad_strength: "adStrength",
-  policy_summary: "policySummary", // information on policy for the ad. Has status of whether it has been approved or not.
-  resource_name: "resourceName",
-  status: "type", // enums.AdGroupAdStatus (required)
-};
-
-const adGroupAdMapReversed = reverseObjectKeyValues(adGroupAdMap);
-
 const metricMap = {
   clicks: "metrics.clicks",
   impressions: "metrics.impressions",
 };
-
-const campaignMapReversed = reverseObjectKeyValues(campaignMap);
 
 /**
  * https://opteo.com/dev/google-ads-api/#authentication
@@ -78,9 +31,10 @@ const client = new GoogleAdsApi({
 });
 
 const customer = client.Customer({
-  customer_id: config.googleAds.customerIdSplit,
+  customer_id: "5213472317",
   refresh_token: config.googleAds.refreshToken,
   logging: { verbosity: !config.isProd ? "info" : "debug" },
+  // login_customer_id: '5465623599'
 });
 
 /**
@@ -94,25 +48,7 @@ const createCampaign = async (campaign) => {
   }
 
   const { results } = await customer.campaigns.create(
-    { ...changeKeys(campaign, campaignMapReversed), target_spend: {} },
-    { validate_only: !config.isProd }
-  );
-
-  return config.isProd ? results[0] : campaignMock.resource_name;
-};
-
-/**
- * @description https://opteo.com/dev/google-ads-api/#update-campaign
- * @param {name, budget, type, status } param0
- */
-const updateCampaign = async (campaign) => {
-  if (config.noInternet) {
-    logger.info("NO INTERNET TO UPDATE CAMPAIGN");
-    return {};
-  }
-
-  const { results } = await customer.campaigns.update(
-    changeKeys(campaign, campaignMapReversed),
+    [{ ...campaign, target_spend: {} }],
     { validate_only: !config.isProd }
   );
 
@@ -120,15 +56,32 @@ const updateCampaign = async (campaign) => {
 };
 
 /**
- * @description https://opteo.com/dev/google-ads-api/#list-campaignbudget
+ * @description https://opteo.com/dev/google-ads-api/#update-campaign
+ * @param {name, budget, type, status } param0
  */
-const listCampaigns = async () => {
+const updateCampaign = async (campaign, customerProvider = customer) => {
+  if (config.noInternet) {
+    logger.info("NO INTERNET TO UPDATE CAMPAIGN");
+    return {};
+  }
+
+  const { results } = await customerProvider.campaigns.update(campaign, {
+    validate_only: !config.isProd,
+  });
+
+  return config.isProd ? results[0] : campaignMock;
+};
+
+/**
+ * @description https://opteo.com/dev/google-ads-api/#get-campaign
+ */
+const getCampaign = async (resourceName) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO LIST CAMPAIGNS");
     return [];
   }
 
-  return await customer.campaigns.get();
+  return await customer.campaigns.get(resourceName);
 };
 
 /**
@@ -147,6 +100,7 @@ const deleteCampaign = async (name) => {
 
 /**
  * @description https://opteo.com/dev/google-ads-api/#campaignbudget
+ * Check out budgets at: https://ads.google.com/aw/budgets?ocid=578971088&workspaceId=0&euid=426173980&__u=4645609020&uscid=578971088&__c=7184293712&authuser=0
  */
 const createBudget = async (budget) => {
   if (config.noInternet) {
@@ -154,24 +108,23 @@ const createBudget = async (budget) => {
     return {};
   }
 
-  const { results } = await customer.campaignBudgets.create(
-    changeKeys(budget, budgetMapReversed),
-    { validate_only: !config.isProd }
-  );
+  const { results } = await customer.campaignBudgets.create([budget], {
+    validate_only: !config.isProd,
+  });
 
-  return config.isProd ? results[0] : campaignBudgetMock.resource_name;
+  return config.isProd ? results[0] : campaignBudgetMock;
 };
 
 /**
- * @description https://opteo.com/dev/google-ads-api/#list-campaignbudget
+ * @description https://opteo.com/dev/google-ads-api/#get-campaignbudget
  */
-const listBudgets = async () => {
+const getBudget = async (resourceName) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO LIST BUDGETS");
     return [];
   }
 
-  return await customer.campaignBudgets.list();
+  return await customer.campaignBudgets.get(resourceName);
 };
 
 /**
@@ -198,10 +151,9 @@ const createAdGroup = async (adGroup) => {
     return {};
   }
 
-  const { results } = await customer.adGroups.create(
-    changeKeys(adGroup, adGroupMapReversed),
-    { validate_only: !config.isProd }
-  );
+  const { results } = await customer.adGroups.create([adGroup], {
+    validate_only: !config.isProd,
+  });
 
   return config.isProd ? results[0] : adGroupMock.resource_name;
 };
@@ -216,10 +168,9 @@ const updateAdGroup = async (adGroup) => {
     return {};
   }
 
-  const { results } = await customer.adGroups.update(
-    changeKeys(adGroup, adGroupMapReversed),
-    { validate_only: !config.isProd }
-  );
+  const { results } = await customer.adGroups.update(adGroup, {
+    validate_only: !config.isProd,
+  });
 
   return config.isProd ? results[0] : adGroupMock;
 };
@@ -234,10 +185,9 @@ const createAdGroupAd = async (adGroupAd) => {
     return {};
   }
 
-  const { results } = await customer.adGroupAds.create(
-    changeKeys(adGroupAd, adGroupAdMapReversed),
-    { validate_only: !config.isProd }
-  );
+  const { results } = await customer.adGroupAds.create([adGroupAd], {
+    validate_only: !config.isProd,
+  });
 
   return config.isProd ? results[0] : adGroupAdMock.resource_name;
 };
@@ -252,12 +202,28 @@ const updateAdGroupAd = async (adGroupAd) => {
     return {};
   }
 
-  const { results } = await customer.adGroupAds.update(
-    changeKeys(adGroupAd, adGroupAdMapReversed),
-    { validate_only: !config.isProd }
-  );
+  const { results } = await customer.adGroupAds.update(adGroupAd, {
+    validate_only: !config.isProd,
+  });
 
   return config.isProd ? results[0] : adGroupAdMock;
+};
+
+/**
+ * @description https://opteo.com/dev/google-ads-api/#create-adgroupcriterion
+ * @param { campaign, maxCostPerClick, maxCostPer1000Impressions, status, type } param0
+ */
+const createAdGroupCriterion = async (adGroupCriterions) => {
+  if (config.noInternet) {
+    logger.info("NO INTERNET TO CREATE AD GROUP CRITERIAN");
+    return {};
+  }
+
+  const { results } = await customer.adGroupCriteria.create(adGroupCriterions, {
+    validate_only: !config.isProd,
+  });
+
+  return config.isProd ? results : [adGroupCriterionMock];
 };
 
 const getMetrics = async ({
@@ -319,13 +285,14 @@ const createAdPayload = ({
 module.exports = {
   createCampaign,
   updateCampaign,
-  listCampaigns,
+  getCampaign,
   createBudget,
   deleteCampaign,
   deleteBudget,
-  listBudgets,
+  getBudget,
   createAdGroup,
   updateAdGroup,
+  createAdGroupCriterion,
   createAdGroupAd,
   updateAdGroupAd,
   getMetrics,

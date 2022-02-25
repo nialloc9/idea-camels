@@ -18,7 +18,11 @@ import { Message } from "../Message";
 import { ListHeader, List, ListItem } from "../List";
 import { withForm } from "../../hoc/withForm";
 import { toTitleCase } from "../../utils/utils";
-import { validateRequired, validateDomain } from "../../utils/form";
+import {
+  validateRequired,
+  validateDomain,
+  validateMaxLength,
+} from "../../utils/form";
 import { onPrepareExperiment } from "../../store/actions/experiment";
 import { connect } from "../../store";
 import templates, { findTemplate } from "../../templates";
@@ -215,6 +219,163 @@ class CreateForm extends Component {
           </Segment>
 
           <Segment padded>
+            <Header textAlign="left">Ad</Header>
+            <Grid container centered stackable>
+              <GridRow centered columns={2}>
+                <GridColumn>
+                  <FormInput
+                    fluid
+                    type="text"
+                    label="Headline"
+                    name="headline"
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="Please type a headline for your experiment"
+                    info="This will be used as the headline for your ads run in this experiment so make it snappy."
+                    validate={[validateRequired, validateMaxLength(25)]}
+                  />
+                </GridColumn>
+                <GridColumn>
+                  <FormInput
+                    fluid
+                    type="text"
+                    label="Headline 2"
+                    name="headline2"
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="Please type a second headline for your experiment"
+                    info="This will appear below your main headline for your ads run in this experiment."
+                    validate={[validateRequired, validateMaxLength(25)]}
+                  />
+                </GridColumn>
+              </GridRow>
+
+              <GridRow centered columns={2}>
+                <GridColumn>
+                  <FormInput
+                    fluid
+                    type="text"
+                    label="Description"
+                    name="description"
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="Please type a description for your experiment"
+                    info="This will be used as the description for your ads run in this experiment. It will appear underneath your headline."
+                    validate={[validateRequired, validateMaxLength(35)]}
+                  />
+                </GridColumn>
+                <GridColumn />
+              </GridRow>
+            </Grid>
+          </Segment>
+
+          <Segment padded>
+            <Header textAlign="left">Keywords</Header>
+            <Grid container centered stackable>
+              <GridRow centered columns={2}>
+                <GridColumn>
+                  <FormInput
+                    fluid
+                    type="text"
+                    label={`Keyword 1`}
+                    name={`keyword1`}
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="Keywords to check for in search engine"
+                    info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                    validate={[validateRequired, validateMaxLength(80)]}
+                  />
+                </GridColumn>
+                <GridColumn>
+                  <FormInput
+                    fluid
+                    type="text"
+                    label={`Keyword 2`}
+                    name={`keyword2`}
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="Keywords to check for in search engine"
+                    info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                    validate={[validateRequired, validateMaxLength(80)]}
+                  />
+                </GridColumn>
+              </GridRow>
+              {keywordsIndex >= 2 && (
+                <GridRow centered columns={2}>
+                  <GridColumn>
+                    <FormInput
+                      fluid
+                      type="text"
+                      label={`Keyword 3`}
+                      name={`keyword3`}
+                      display="block"
+                      tabletDisplay="inline-block"
+                      placeholder="Keywords to check for in search engine"
+                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                      validate={[validateMaxLength(80)]}
+                    />
+                  </GridColumn>
+                  <GridColumn>
+                    <FormInput
+                      fluid
+                      type="text"
+                      label={`Keyword 4`}
+                      name={`keyword4`}
+                      display="block"
+                      tabletDisplay="inline-block"
+                      placeholder="Keywords to check for in search engine"
+                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                      validate={[validateMaxLength(80)]}
+                    />
+                  </GridColumn>
+                </GridRow>
+              )}
+              {keywordsIndex >= 3 && (
+                <GridRow centered columns={2}>
+                  <GridColumn>
+                    <FormInput
+                      fluid
+                      type="text"
+                      label={`Keyword 5`}
+                      name={`keyword5`}
+                      display="block"
+                      tabletDisplay="inline-block"
+                      placeholder="Keywords to check for in search engine"
+                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                      validate={[validateMaxLength(80)]}
+                    />
+                  </GridColumn>
+                  <GridColumn>
+                    <FormInput
+                      fluid
+                      type="text"
+                      label={`Keyword 6`}
+                      name={`keyword6`}
+                      display="block"
+                      tabletDisplay="inline-block"
+                      placeholder="Keywords to check for in search engine"
+                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                      validate={[validateMaxLength(80)]}
+                    />
+                  </GridColumn>
+                </GridRow>
+              )}
+
+              {keywordsIndex !== 3 && (
+                <GridRow columns={1}>
+                  <GridColumn>
+                    <Button
+                      display="left"
+                      icon="plus"
+                      onClick={this.handleAddKeywords}
+                    />
+                  </GridColumn>
+                </GridRow>
+              )}
+            </Grid>
+          </Segment>
+
+          <Segment padded>
             <Header textAlign="left">Budget</Header>
             <Grid container centered stackable>
               <GridRow centered columns={2}>
@@ -246,107 +407,7 @@ class CreateForm extends Component {
               </GridRow>
             </Grid>
           </Segment>
-          <Segment padded>
-            <Header textAlign="left">Keywords</Header>
-            <Grid container centered stackable>
-              <GridRow centered columns={2}>
-                <GridColumn>
-                  <FormInput
-                    fluid
-                    type="text"
-                    label={`Keyword 1`}
-                    name={`keyword1`}
-                    display="block"
-                    tabletDisplay="inline-block"
-                    placeholder="Keywords to check for in search engine"
-                    info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                    validate={[validateRequired]}
-                  />
-                </GridColumn>
-                <GridColumn>
-                  <FormInput
-                    fluid
-                    type="text"
-                    label={`Keyword 2`}
-                    name={`keyword2`}
-                    display="block"
-                    tabletDisplay="inline-block"
-                    placeholder="Keywords to check for in search engine"
-                    info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                    validate={[validateRequired]}
-                  />
-                </GridColumn>
-              </GridRow>
-              {keywordsIndex >= 2 && (
-                <GridRow centered columns={2}>
-                  <GridColumn>
-                    <FormInput
-                      fluid
-                      type="text"
-                      label={`Keyword 3`}
-                      name={`keyword3`}
-                      display="block"
-                      tabletDisplay="inline-block"
-                      placeholder="Keywords to check for in search engine"
-                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                    />
-                  </GridColumn>
-                  <GridColumn>
-                    <FormInput
-                      fluid
-                      type="text"
-                      label={`Keyword 4`}
-                      name={`keyword4`}
-                      display="block"
-                      tabletDisplay="inline-block"
-                      placeholder="Keywords to check for in search engine"
-                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                    />
-                  </GridColumn>
-                </GridRow>
-              )}
-              {keywordsIndex >= 3 && (
-                <GridRow centered columns={2}>
-                  <GridColumn>
-                    <FormInput
-                      fluid
-                      type="text"
-                      label={`Keyword 5`}
-                      name={`keyword5`}
-                      display="block"
-                      tabletDisplay="inline-block"
-                      placeholder="Keywords to check for in search engine"
-                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                    />
-                  </GridColumn>
-                  <GridColumn>
-                    <FormInput
-                      fluid
-                      type="text"
-                      label={`Keyword 6`}
-                      name={`keyword6`}
-                      display="block"
-                      tabletDisplay="inline-block"
-                      placeholder="Keywords to check for in search engine"
-                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                    />
-                  </GridColumn>
-                </GridRow>
-              )}
 
-              {keywordsIndex !== 3 && (
-                <GridRow columns={1}>
-                  <GridColumn>
-                    <Button
-                      display="left"
-                      icon="plus"
-                      onClick={this.handleAddKeywords}
-                    />
-                  </GridColumn>
-                </GridRow>
-              )}
-            </Grid>
-          </Segment>
           <Segment padded>
             <Header textAlign="left">Cost</Header>
             <Grid container centered stackable>

@@ -25,8 +25,8 @@ const {
 const localhost = {
   port: SERVER_PORT,
   webAddress: "https://ideacamels.com",
-  env: ENV,
-  isProd: ENV === "prod",
+  env: "prod",
+  isProd: true,
   name: "idea-camels-server",
   security: {
     password_secret: PASSWORD_SECRET,
@@ -65,6 +65,11 @@ const localhost = {
       builder: {
         name: BUILDER_CLUSTER_NAME,
         taskDefinition: BUILDER_TASK_NAME,
+        subnets: [
+          "subnet-06e725c20e88ab312",
+          "subnet-04c65c0b93103f38a",
+          "subnet-00e4d89d867db50a0",
+        ],
       },
     },
   },

@@ -77,6 +77,9 @@ export const onCreate = () => async (dispatch, getState) => {
           keyword4,
           keyword5,
           keyword6,
+          headline,
+          headline2,
+          description,
         },
       },
     } = getState();
@@ -92,6 +95,9 @@ export const onCreate = () => async (dispatch, getState) => {
         templateRef,
         domainRef,
         keywords: [keyword1, keyword2, keyword3, keyword4, keyword5, keyword6],
+        headline,
+        headline2,
+        description,
       },
     });
 
@@ -124,6 +130,8 @@ export const onPrepareExperiment = ({
   keyword4,
   keyword5,
   keyword6,
+  headline,
+  description,
 }) => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
 
@@ -155,6 +163,8 @@ export const onPrepareExperiment = ({
     keyword4,
     keyword5,
     keyword6,
+    headline,
+    description,
   };
 
   try {

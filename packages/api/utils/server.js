@@ -128,6 +128,8 @@ const endpoints = [
       "endDate",
       "budget",
       "templateRef",
+      "headline",
+      "headline2",
       "keywords",
       "caller",
     ],

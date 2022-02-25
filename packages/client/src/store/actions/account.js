@@ -37,8 +37,11 @@ export const onFetchAccount = ({
     payload.token = token;
     payload.data = account;
     payload.fetchErrorMessage = "";
-  } catch ({ message }) {
-    return { [FORM_ERROR]: message };
+  } catch ({ message, response: { data: { code } = {} } = {} }) {
+    return {
+      [FORM_ERROR]:
+        code === 1003 ? "Invalid email/password combination" : message,
+    };
   } finally {
     payload.isFetchLoading = false;
     onSetState(payload);

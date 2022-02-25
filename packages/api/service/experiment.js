@@ -3,14 +3,18 @@ const { onCreate: onCreateTheme } = require("../data/theme");
 const { onGet: onGetDomainByDomainRef } = require("../data/domain");
 const { generateRandomId } = require("../utils/utils");
 const {
-  listCampaigns,
   getMetrics,
   createCampaign,
+  createBudget,
+  createAdGroup,
+  createAdGroupAd,
+  createAdGroupCriterion,
 } = require("../utils/googleAds");
 const { runTask, uploadToS3 } = require("../utils/aws");
 const { writeToTmpFile } = require("../utils/file");
-const { handleSuccess } = require("../utils/utils");
+const { handleSuccess, getDateInYYMMDD } = require("../utils/utils");
 const config = require("../utils/config");
+const {} = require("../utils/mocks/googleAds");
 
 const onGetAccountExperiments = ({
   data: {
@@ -64,6 +68,9 @@ const onCreateExperiment = ({
     budget,
     endDate,
     templateRef,
+    description,
+    headline,
+    headline2,
     keywords,
   },
   caller,
@@ -133,24 +140,120 @@ const onCreateExperiment = ({
 
       const { name } = domains[0];
 
-      const { error: taskError } = await runTask({
-        cluster: config.aws.clusters.builder.name,
-        taskDefinition: config.aws.clusters.builder.taskDefinition,
-        environmentVariables: [
-          {
-            name: "EXPERIMENT_REF",
-            value: newExperiment.experiment_ref.toString(),
-          },
-          { name: "TEMPLATE_REF", value: templateRef.toString() },
-        ],
-      });
+      // const { error: taskError } = await runTask({
+      //   cluster: config.aws.clusters.builder.name,
+      //   taskDefinition: config.aws.clusters.builder.taskDefinition,
+      //   environmentVariables: [
+      //     {
+      //       name: "EXPERIMENT_REF",
+      //       value: newExperiment.experiment_ref.toString(),
+      //     },
+      //     { name: "TEMPLATE_REF", value: templateRef.toString() },
+      //   ],
+      // });
+
+      // if (taskError) {
+      //   throw new Error(taskError);
+      // }
 
       // TODO add ability to add budget
       // TODO add ability to add keywords
-      // await createCampaign({})
-      if (taskError) {
-        throw new Error(taskError);
-      }
+
+      const campaignBudget = {
+        amount_micros: budget * 1000000,
+        explicitly_shared: false, // only for this campaign
+        name: `${accountRef}-${domainRef}-${newExperiment.experiment_ref}-${name}-budget`,
+        period: 2, // DAILY - period to spend budget
+        status: 2, // ENABLED
+        type: 2, // STANDARD - caps daily spend at twice the specified budget amount
+      };
+
+      const { resource_name: budgetName } = await createBudget(campaignBudget);
+
+      const campaign = {
+        advertising_channel_type: 2, // search
+        bidding_strategy_type: 9, // target spend. i.e get as many clicks as possible in budget
+        campaign_budget: budgetName,
+        end_date: getDateInYYMMDD(endDate),
+        name: `${accountRef}-${domainRef}-${newExperiment.experiment_ref}-${name}-campaign`,
+        payment_mode: 4, // CLICKs i.e pay perclick
+        start_date: getDateInYYMMDD(),
+        status: 2, // ENABLED
+      };
+
+      const { resource_name: campaignName } = await createCampaign(campaign);
+
+      const adGroup = {
+        ad_rotation_mode: 2, // OPTIMIZE - Optimize ad group ads base don clicks or concersions
+        campaign: campaignName,
+        cpc_bid_micros: (budget / 5) * 1000000,
+        cpm_bid_micros: (budget / 5) * 1000000,
+        explorer_auto_optimizer_setting: { opt_in: false },
+        name: `${accountRef}-${domainRef}-${newExperiment.experiment_ref}-${name}-adgroup`,
+        status: 2, // ENABLED
+        targeting_setting: {},
+        type: 2, // SEARCH CAMPAIGNS
+        url_custom_parameters: [],
+      };
+
+      const { resource_name: adGroupName } = await createAdGroup(adGroup);
+
+      const adGroupAd = {
+        ad: {
+          added_by_google_ads: false,
+          device_preference: 0,
+          expanded_text_ad: {
+            description,
+            headline_part1: headline,
+            headline_part2: headline2,
+          },
+          final_app_urls: [],
+          final_mobile_urls: [],
+          final_urls: [`https://${name}`],
+          url_collections: [],
+          url_custom_parameters: [],
+        },
+        ad_group: adGroupName,
+        status: 2, // ENABLED
+      };
+
+      const { resource_name: adGroupAdName } = await createAdGroupAd(adGroupAd);
+
+      const keywordCriterians = keywords.reduce((total = [], curr) => {
+        if (curr) {
+          total.push({
+            ad_group: adGroupName,
+            final_mobile_urls: [],
+            final_urls: [],
+            keyword: { match_type: 4, text: curr }, // Broad range match of keyword
+            negative: false, // target the keyword. True is exlude keyword
+            status: 2, // ENABLED
+          });
+        }
+
+        return total;
+      }, []);
+
+      const criterions = await createAdGroupCriterion(keywordCriterians);
+
+      const criterionsToAddToDb = criterions.reduce(
+        (total = [], { resource_name: criterionName }, index) => {
+          total[`keyword${index}`] = criterionName;
+
+          return total;
+        },
+        []
+      );
+
+      const ideacamelsCampaign = {
+        accountRef,
+        experimentRef: newExperiment.experiment_ref,
+        campaignName,
+        budgetName,
+        adGroupName,
+        adGroupAdName,
+        ...criterionsToAddToDb,
+      };
 
       resolve(
         handleSuccess("SERVICE - Create Experiment Success", {
@@ -158,9 +261,11 @@ const onCreateExperiment = ({
           name,
           content: contentKey,
           theme: themeKey,
+          campaign: ideacamelsCampaign,
         })
       );
     } catch (error) {
+      console.log("error", error);
       reject(error);
     }
   });

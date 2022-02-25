@@ -18,10 +18,9 @@ const campaign = {
   ad_serving_optimization_status: 2,
   advertising_channel_sub_type: 0,
   advertising_channel_type: 3,
-  base_campaign:
-    "customers/${config.googleAds.customerIdSplit}/campaigns/1568629385",
+  base_campaign: `customers/${config.googleAds.customerIdSplit}/campaigns/1568629385`,
   bidding_strategy_type: 9,
-  campaign_budget: `customers/${config.googleAds.customerIdSplit}/campaignBudgets/1624493702`,
+  campaign_budget: `customers/${config.googleAds.customerIdSplit}/campaignBudgets/${campaignBudget.id}`,
   end_date: "2037-12-30",
   experiment_type: 2,
   frequency_caps: [],
@@ -51,7 +50,7 @@ const campaign = {
 const adGroup = {
   ad_rotation_mode: 0,
   base_ad_group: `customers/${config.googleAds.customerIdSplit}/adGroups/56761341338`,
-  campaign: `customers/${config.googleAds.customerIdSplit}/campaigns/1568629385`,
+  campaign: `customers/${config.googleAds.customerIdSplit}/campaigns/${campaign.id}`,
   cpc_bid_micros: 6000000,
   cpm_bid_micros: 10000,
   cpv_bid_micros: 0,
@@ -103,15 +102,37 @@ const adGroupAd = {
     url_collections: [],
     url_custom_parameters: [],
   },
-  ad_group: `customers/${config.googleAds.customerIdSplit}/adGroups/56761341338`,
+  ad_group: `customers/${config.googleAds.customerIdSplit}/adGroups/${adGroup.id}`,
   ad_strength: 0,
   policy_summary: {
     approval_status: 0,
     policy_topic_entries: [],
     review_status: 2,
   },
-  resource_name: `customers/${config.googleAds.customerIdSplit}/adGroupAds/56761341338~284706472002`,
+  resource_name: `customers/${config.googleAds.customerIdSplit}/adGroupAds/${adGroup.id}~284706472002`,
   status: 2,
+};
+
+const adGroupCriterion = {
+  ad_group: `customers/${config.googleAds.customerIdSplit}/adGroups/${adGroup.id}`,
+  approval_status: 4,
+  criterion_id: 521456008776,
+  disapproval_reasons: [],
+  effective_cpc_bid_micros: 1000000,
+  effective_cpc_bid_source: 6,
+  effective_cpm_bid_micros: 10000,
+  effective_cpm_bid_source: 6,
+  effective_cpv_bid_source: 0,
+  effective_percent_cpc_bid_source: 0,
+  final_mobile_urls: [],
+  final_urls: [],
+  keyword: { match_type: 4, text: "test-keyword-478619" },
+  negative: false,
+  resource_name: `customers/${config.googleAds.customerIdSplit}/adGroupCriteria/${adGroup.id}~521456008776`,
+  status: 3,
+  system_serving_status: 3,
+  type: 2,
+  url_custom_parameters: [],
 };
 
 module.exports = {
@@ -119,4 +140,5 @@ module.exports = {
   campaign,
   adGroup,
   adGroupAd,
+  adGroupCriterion,
 };

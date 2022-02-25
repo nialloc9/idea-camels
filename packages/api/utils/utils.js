@@ -93,6 +93,14 @@ const replaceSubString = (target, subString, newString = "") =>
 const getDateInSeconds = (date) => new Date(date).getTime();
 
 /**
+ * @description gets date in yyyy-mm-dd
+ * @param "date"
+ * @returns "date"
+ */
+const getDateInYYMMDD = (date = new Date()) =>
+  new Date(date).toISOString().split("T")[0];
+
+/**
  * @description changes key/value to value/key
  * @param {*} obj
  */
@@ -134,6 +142,7 @@ module.exports = {
   createTimestamp,
   changeMilliSecondsToDateString,
   checkDateIsBefore,
+  getDateInYYMMDD,
   replaceSubString,
   getDateInSeconds,
   reverseObjectKeyValues,

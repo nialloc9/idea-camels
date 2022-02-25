@@ -20,10 +20,13 @@ const runTask = (
   newProvider
 ) =>
   new Promise((resolve) => {
-    // if (!config.isProd || config.noInternet) {
-    //   logger.warn({ environmentVariables }, "Env is not prod or there is no internet");
-    //   return resolve({ error: undefined, data: {} });
-    // }
+    if (!config.isProd || config.noInternet) {
+      logger.warn(
+        { environmentVariables },
+        "Env is not prod or there is no internet"
+      );
+      return resolve({ error: undefined, data: {} });
+    }
     const provider = newProvider || defaultECSProvider;
 
     provider.runTask(
@@ -34,16 +37,15 @@ const runTask = (
         networkConfiguration: {
           awsvpcConfiguration: {
             assignPublicIp: "ENABLED",
-            subnets: [
-              "subnet-04e887a31667eed1d",
-              "subnet-0839da8b9ce40d74d",
-              "subnet-0a8dd93b64b17b982",
-            ],
+            subnets: config.aws.clusters.builder.subnets,
           },
         },
         overrides: {
           containerOverrides: [
-            { name: "builder-prod", environment: environmentVariables },
+            {
+              name: config.aws.clusters.builder.taskDefinition,
+              environment: environmentVariables,
+            },
           ],
         },
       },

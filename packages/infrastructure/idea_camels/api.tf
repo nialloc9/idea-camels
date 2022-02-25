@@ -33,6 +33,7 @@ module "lambda_api" {
   environment          = var.environment
   env_variables        = local.lambda_api.env_variables
   timeout              = "600"
+  memory               = "512"
   security_group_ids   = [module.api_security_group.id]
   subnet_ids           = [aws_subnet.ideacamels_main_private.id]
   depends_on = [

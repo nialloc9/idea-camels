@@ -29,6 +29,8 @@ const initialState = {
     keyword4: undefined,
     keyword5: undefined,
     keyword6: undefined,
+    headline: undefined,
+    description: undefined,
   },
 };
 
