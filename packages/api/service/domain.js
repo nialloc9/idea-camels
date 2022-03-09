@@ -11,7 +11,10 @@ const {
 } = require("../utils/aws");
 const errors = require("../utils/errors");
 const { handleSuccess } = require("../utils/utils");
-const { getDomainPriceWithMarkUp } = require("../utils/price");
+const {
+  getDomainPriceWithMarkUp,
+  calculateDomainPrice,
+} = require("../utils/payments");
 const { chargeCustomer } = require("../utils/stripe");
 
 const onGetAccountDomains = ({
@@ -137,8 +140,22 @@ const onPurchaseDomain = ({
         data: { payment_customer_id },
       } = await onGetAccount({ data: { accountRef }, caller });
 
+      const {
+        data: { prices: domainPrices },
+      } = await onListDomainPrices({ caller });
+
+      const domainPrice = calculateDomainPrice({ domain, domainPrices });
+
+      const domainPricePlusMarkUp = getDomainPriceWithMarkUp(domainPrice);
+
       // TODO: charge customer for domain
-      // await chargeCustomer({ customerId: payment_customer_id, amount, caller, accountRef, description: `Purchasing ${domain}` });
+      await chargeCustomer({
+        customerId: payment_customer_id,
+        amount: domainPricePlusMarkUp,
+        caller,
+        accountRef,
+        description: `Purchasing ${domain}`,
+      });
 
       if (registerError) {
         const code =

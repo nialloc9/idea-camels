@@ -1,6 +1,7 @@
 const { onGetWithThemeByAccountRef, onCreate } = require("../data/experiment");
 const { onCreate: onCreateTheme } = require("../data/theme");
 const { onGet: onGetDomainByDomainRef } = require("../data/domain");
+const { onGet: onGetAccount } = require("../data/account");
 const {
   generateRandomId,
   handleSuccess,
@@ -17,6 +18,10 @@ const {
 const { runTask, uploadToS3 } = require("../utils/aws");
 const { writeToTmpFile } = require("../utils/file");
 const { chargeCustomer } = require("../utils/stripe");
+const {
+  calculateAdBudgetMinusMarkup,
+  calculateTotalExperimentCost,
+} = require("../utils/payments");
 const config = require("../utils/config");
 
 const onGetAccountExperiments = ({
@@ -80,6 +85,32 @@ const onCreateExperiment = ({
 }) =>
   new Promise(async (resolve, reject) => {
     try {
+      const { data: accountData } = await onGetAccount({
+        data: { accountRef },
+        caller,
+      });
+
+      const { payment_customer_id } = accountData[0];
+      const {
+        data: { domains },
+      } = await onGetDomainByDomainRef({
+        data: { accountRef, domainRef },
+        caller,
+      });
+
+      const { name } = domains[0];
+      console.log(
+        "calculateTotalExperimentCost({ budget }",
+        calculateTotalExperimentCost({ budget })
+      );
+      await chargeCustomer({
+        customerId: payment_customer_id,
+        amount: calculateTotalExperimentCost({ budget }),
+        caller,
+        accountRef,
+        description: `Creating experiment for ${name}`,
+      });
+
       const {
         path: contentPath,
         cleanup: onContentCleanUp,
@@ -134,33 +165,24 @@ const onCreateExperiment = ({
         caller,
       });
 
-      const {
-        data: { domains },
-      } = await onGetDomainByDomainRef({
-        data: { accountRef, domainRef },
-        caller,
+      const { error: taskError } = await runTask({
+        cluster: config.aws.clusters.builder.name,
+        taskDefinition: config.aws.clusters.builder.taskDefinition,
+        environmentVariables: [
+          {
+            name: "EXPERIMENT_REF",
+            value: newExperiment.experiment_ref.toString(),
+          },
+          { name: "TEMPLATE_REF", value: templateRef.toString() },
+        ],
       });
 
-      const { name } = domains[0];
-
-      // const { error: taskError } = await runTask({
-      //   cluster: config.aws.clusters.builder.name,
-      //   taskDefinition: config.aws.clusters.builder.taskDefinition,
-      //   environmentVariables: [
-      //     {
-      //       name: "EXPERIMENT_REF",
-      //       value: newExperiment.experiment_ref.toString(),
-      //     },
-      //     { name: "TEMPLATE_REF", value: templateRef.toString() },
-      //   ],
-      // });
-
-      // if (taskError) {
-      //   throw new Error(taskError);
-      // }
+      if (taskError) {
+        throw new Error(taskError);
+      }
 
       const campaignBudget = {
-        amount_micros: budget * 1000000,
+        amount_micros: calculateAdBudgetMinusMarkup({ budget }) * 1000000,
         explicitly_shared: false, // only for this campaign
         name: `${accountRef}-${domainRef}-${newExperiment.experiment_ref}-${name}-budget`,
         period: 2, // DAILY - period to spend budget

@@ -99,10 +99,10 @@ const localhost = {
       bucketName: THEMES_BUCKET,
     },
   },
-  price: {
-    domain: {
-      markup: 20,
-    },
+  payments: {
+    serviceCharge: 20,
+    domainPercentageMarkUp: 20,
+    advertPercentageMarkup: 10,
   },
   noInternet: false,
   logSuccessResponse: true,

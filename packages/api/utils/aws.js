@@ -59,10 +59,10 @@ const runTask = (
  */
 const validateDomain = ({ domain, caller }, newProvider) =>
   new Promise((resolve, reject) => {
-    // if(!config.isProd || config.noInternet) {
-    //   logger.warn({ domain }, "Env is not prod or there is no internet")
-    //   return resolve({ error: undefined, data: {} })
-    // }
+    if (!config.isProd || config.noInternet) {
+      logger.warn({ domain }, "Env is not prod or there is no internet");
+      return resolve({ error: undefined, data: {} });
+    }
     const provider = newProvider || defaultRoute53Provider;
 
     provider.checkDomainAvailability({ DomainName: domain }, (err, data) => {

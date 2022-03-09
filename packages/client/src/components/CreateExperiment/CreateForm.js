@@ -468,13 +468,24 @@ export default connect(
   ({
     experiment: { newExperiment },
     domain: { isFetchLoading, data: domains, suggestedDomains, prices },
-  }) => ({
-    isFetcDomainsLoading: isFetchLoading,
-    newExperiment,
-    domains,
-    suggestedDomains,
-    domainPrices: prices,
-    initialValues: newExperiment,
-  }),
+  }) => {
+    const selectedDomain = domains.find(
+      ({ domain_ref }) => domain_ref === newExperiment.domainRef
+    );
+
+    const domain = selectedDomain && selectedDomain.name;
+
+    return {
+      isFetcDomainsLoading: isFetchLoading,
+      newExperiment,
+      domains,
+      suggestedDomains,
+      domainPrices: prices,
+      initialValues: {
+        ...newExperiment,
+        domain,
+      },
+    };
+  },
   { onSubmit: onPrepareExperiment }
 )(withForm(CreateForm));
