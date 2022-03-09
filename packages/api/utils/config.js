@@ -123,9 +123,10 @@ const prod = {
   },
 };
 
-module.exports =
-  {
-    localhost,
-    staging,
-    prod,
-  }[ENV] || localhost;
+module.exports = prod;
+// module.exports =[
+//   {
+//     localhost,
+//     staging,
+//     prod,
+//   }[ENV] || localhost;]

@@ -27,7 +27,7 @@ const Navigation = withTheme(({ theme, content }) => {
           <Image
             maxWidth={remCalc(23)}
             alt={content.navigation.logo.alt}
-            src={theme.logos.main000}
+            src={content.navigation.logo.src}
           />
         </AnalyticsMenuItem>
         <MenuMenu position="right">

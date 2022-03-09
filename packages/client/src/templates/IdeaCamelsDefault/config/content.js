@@ -1,10 +1,7 @@
-import placeholder1 from "../../../static/placeholder.png";
-import placeholder2 from "../../../static/placeholder2.png";
-
 export default {
   navigation: {
     logo: {
-      src: placeholder1,
+      src: "s3://prod-themes/placeholder_images/placeholder.png",
       alot: "Logo text.",
     },
     items: [
@@ -14,7 +11,10 @@ export default {
     ],
   },
   block1: {
-    logo: { src: placeholder1, alt: "test" },
+    logo: {
+      src: "s3://prod-themes/placeholder_images/placeholder.png",
+      alt: "test",
+    },
     heading: { text: "Have an idea? Not sure if it is worth doing?" },
     subHeading: {
       text:
@@ -22,7 +22,9 @@ export default {
     },
     button: { text: "Buy Now" },
   },
-  block2: { image: { src: placeholder2 } },
+  block2: {
+    image: { src: "s3://prod-themes/placeholder_images/placeholder2.png" },
+  },
   block3: {
     heading: { text: "Welcome to Idea Camels" },
     mainText: {
@@ -61,7 +63,10 @@ export default {
       text: "Do not waste time on development and validate your idea now.",
     },
     card: {
-      image: { src: placeholder1, alt: "test" },
+      image: {
+        src: "s3://prod-themes/placeholder_images/placeholder.png",
+        alt: "test",
+      },
       heading: { text: "Test your ideas" },
       subHeading: {
         text:
@@ -73,21 +78,30 @@ export default {
   block5: {
     carousel: [
       {
-        image: { src: placeholder1, alt: "" },
+        image: {
+          src: "s3://prod-themes/placeholder_images/placeholder.png",
+          alt: "",
+        },
         header: {
           text:
             "Create a landing page in minutes from our predesigned templates",
         },
       },
       {
-        image: { src: placeholder1, alt: "" },
+        image: {
+          src: "s3://prod-themes/placeholder_images/placeholder.png",
+          alt: "",
+        },
         header: {
           text:
             "Register keywords and a budget to drive traffic to your landing page",
         },
       },
       {
-        image: { src: placeholder1, alt: "" },
+        image: {
+          src: "s3://prod-themes/placeholder_images/placeholder.png",
+          alt: "",
+        },
         header: {
           text:
             "Analysis the results and build an email list of interested customers",
@@ -103,7 +117,10 @@ export default {
   },
   footer: {
     column1: {
-      image: { src: placeholder1, alt: "test" },
+      image: {
+        src: "s3://prod-themes/placeholder_images/placeholder.png",
+        alt: "test",
+      },
       text: { text: "Idea Camels" },
     },
     column2: [

@@ -60,9 +60,4 @@ const production = {
   },
 };
 
-module.exports =
-  {
-    localhost,
-    staging,
-    production,
-  }[ENV] || localhost;
+module.exports = production;
