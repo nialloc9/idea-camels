@@ -19,6 +19,7 @@ const onGetByExperimentRef = ({ data: { experimentRef } }) =>
         handleSuccess(`DATA - GET_EXPERIMENT_BY_EXPERIMENT_REF`, results)
       );
     } catch (error) {
+      console.log("er", error);
       reject(error);
     }
   });

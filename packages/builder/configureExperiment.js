@@ -28,4 +28,8 @@ const main = async () => {
   }
 };
 
-main();
+try {
+  main();
+} catch (error) {
+  console.log(error);
+}

@@ -14,7 +14,13 @@ const DatabasePool = mysql.createPool({
   database,
   port,
 });
-
+console.log({
+  host,
+  user,
+  password,
+  database,
+  port,
+});
 const getConnection = async (caller) =>
   new Promise((resolve, reject) => {
     DatabasePool.getConnection((error, connection) => {
