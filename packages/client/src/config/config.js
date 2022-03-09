@@ -27,6 +27,11 @@ const localhost = {
     default_cookie_expiration: null,
     extended_cookie_expiration: 30,
   },
+  payments: {
+    publishableKey:
+      "pk_test_51KXMllIWny9rFbsQ3XsAORBTBeGFQTXlKIcPKYTCiYS7rPPVb4QJlmQOm1uXxlLJOYqMykAGBpG4snwa0F6lI5UF00GBeiIBlD",
+    serviceCharge: 20,
+  },
 };
 
 const staging = { ...localhost };
@@ -45,6 +50,11 @@ const prod = {
     ...staging.hotjar,
     id: 1710788,
     version: 6,
+  },
+  payments: {
+    ...staging.payments,
+    publishableKey:
+      "pk_live_51KXMllIWny9rFbsQGZrfmEUhExwDecjeMhvE72qJun6uCNXdt4UBpSlHtjCNMdNQMOGzlwcykXBwUa2si2ZZKOIs00HKvOY6zM",
   },
 };
 

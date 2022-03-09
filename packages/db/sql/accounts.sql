@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS accounts;
 CREATE TABLE accounts
 (
   account_ref int NOT NULL AUTO_INCREMENT,
+  payment_customer_id VARCHAR(200) DEFAULT '',
   email VARCHAR(200) DEFAULT '',
   first_name VARCHAR(200) DEFAULT '',
   last_name VARCHAR(200) DEFAULT '',
@@ -23,6 +24,7 @@ ALTER TABLE accounts ADD INDEX (email);
 INSERT INTO `idea_camels`.`accounts`
 (
   `account_ref`,
+  `payment_customer_id`,
   `email`,
   `first_name`,
   `last_name`,
@@ -36,6 +38,7 @@ INSERT INTO `idea_camels`.`accounts`
 VALUES
   (
     1,
+    "1",
     'nialloc9@gmail.com',
     'Niall',
     "O' Connor",

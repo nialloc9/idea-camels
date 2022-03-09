@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import Pricing from "./pages/Pricing";
 import AboutUs from "./pages/AboutUs";
+import Settings from "./pages/Settings";
 import store, { Provider } from "./store";
 import { history } from "./store/middleware/history";
 import { Router, Switch, OpenRoute, PrivateRoute } from "./components/Router";
@@ -33,6 +34,11 @@ const routes = [
   {
     path: "/create-experiment",
     component: CreateExperiment,
+    isAuth: true,
+  },
+  {
+    path: "/settings",
+    component: Settings,
     isAuth: true,
   },
   {

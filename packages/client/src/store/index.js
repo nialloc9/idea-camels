@@ -16,11 +16,11 @@ store.subscribe(() => {
     experiment: { newExperiment, formIndex },
   } = store.getState();
 
-  const { token, rememberMe, data } = account;
+  const { token, rememberMe, data, card } = account;
 
   setCookie(
     "account",
-    encodeCookie({ token, rememberMe, data }),
+    encodeCookie({ token, rememberMe, data, card }),
     "/",
     rememberMe
       ? config.security.extended_cookie_expiration

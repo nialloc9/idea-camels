@@ -2,6 +2,7 @@ import { EXPERIMENT_SET } from "../constants/experiment";
 import { DOMAIN_SET } from "../constants/domain";
 import { postApi } from "../../utils/request";
 import { deepMerge, convertDateToUnix } from "../../utils/utils";
+import { calculateTotalExperimentPrice } from "../../utils/payments";
 import { findThemeAndContent } from "../../templates";
 
 /**
@@ -131,6 +132,7 @@ export const onPrepareExperiment = ({
   keyword5,
   keyword6,
   headline,
+  headline2,
   description,
 }) => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
@@ -164,6 +166,7 @@ export const onPrepareExperiment = ({
     keyword5,
     keyword6,
     headline,
+    headline2,
     description,
   };
 

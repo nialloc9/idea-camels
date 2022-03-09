@@ -17,8 +17,8 @@ const main = async () => {
     writeTfVars({ experimentRef, domain });
     await writeConfig({ themeKey, contentKey, experimentRef });
 
-    // TODO run cron to update database to expired for domains going to expire tomorrow
-    // TODO run cron to send email for domains going to expire in 1 month and in 1 week
+    // TODO: run cron to update database to expired for domains going to expire tomorrow
+    // TODO: run cron to send email for domains going to expire in 1 month and in 1 week
 
     logger.info(`========= EXPERIMENT ${experimentRef} CREATED =========`);
     process.exit(0);

@@ -8,4 +8,5 @@ export const loggedinItems = [
   { text: "About Us", href: "/about-us" },
   { text: "Products", href: "/products" },
   { text: "Pricing", href: "/pricing" },
+  { text: "Settings", href: "/settings" },
 ];

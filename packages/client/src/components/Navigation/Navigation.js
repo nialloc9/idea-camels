@@ -138,6 +138,13 @@ class LoggedIn extends Component {
         </AnalyticsMenuItem>
         <MenuMenu position="right">
           <AnalyticsMenuItem
+            name="Settings"
+            onClick={this.handleItemClick}
+            action="navigation-settings"
+            label="click"
+            href="/settings"
+          />
+          <AnalyticsMenuItem
             name="Log Out"
             onClick={() => {
               this.handleItemClick({}, { item: "logout" });

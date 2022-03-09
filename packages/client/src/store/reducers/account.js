@@ -5,7 +5,11 @@ import { getCookie, decodecookie } from "../../utils/cookie";
 const initialState = {
   token: "",
   data: {},
+  card: {},
   forgottonPasswordSuccessMessage: "",
+  isAddCardLoading: false,
+  addCardErrorMessage: "",
+  updateSuccessMesssage: "",
 };
 
 const cookie = getCookie("account");

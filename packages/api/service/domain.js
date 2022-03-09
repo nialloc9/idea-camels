@@ -2,6 +2,7 @@ const {
   onGet: onGetDomain,
   onCreate: onCreateDomain,
 } = require("../data/domain");
+const { onGet: onGetAccount } = require("../data/domain");
 const {
   validateDomain,
   registerDomain,
@@ -11,6 +12,7 @@ const {
 const errors = require("../utils/errors");
 const { handleSuccess } = require("../utils/utils");
 const { getDomainPriceWithMarkUp } = require("../utils/price");
+const { chargeCustomer } = require("../utils/stripe");
 
 const onGetAccountDomains = ({
   data: {
@@ -22,8 +24,8 @@ const onGetAccountDomains = ({
     try {
       const response = await onGetDomain({ data: { accountRef }, caller });
 
-      // TODO run cron to update database to expired for domains going to expire tomorrow
-      // TODO run cron to send email for domains going to expire in 1 month and in 1 week
+      // TODO: run cron to update database to expired for domains going to expire tomorrow
+      // TODO: run cron to send email for domains going to expire in 1 month and in 1 week
       resolve(response);
     } catch (error) {
       reject(error);
@@ -97,7 +99,9 @@ const onPurchaseDomain = ({
     domain,
     durationInYears = 1,
     autoRenew = false,
-    decodedToken: { accountRef },
+    decodedToken: {
+      data: { accountRef },
+    },
   },
   caller,
 }) =>
@@ -128,6 +132,13 @@ const onPurchaseDomain = ({
         durationInYears,
         autoRenew,
       });
+
+      const {
+        data: { payment_customer_id },
+      } = await onGetAccount({ data: { accountRef }, caller });
+
+      // TODO: charge customer for domain
+      // await chargeCustomer({ customerId: payment_customer_id, amount, caller, accountRef, description: `Purchasing ${domain}` });
 
       if (registerError) {
         const code =

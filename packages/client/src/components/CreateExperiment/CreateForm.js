@@ -19,6 +19,10 @@ import { ListHeader, List, ListItem } from "../List";
 import { withForm } from "../../hoc/withForm";
 import { toTitleCase } from "../../utils/utils";
 import {
+  calculateDomainPrice,
+  calculateTotalExperimentPrice,
+} from "../../utils/payments";
+import {
   validateRequired,
   validateDomain,
   validateMaxLength,
@@ -81,24 +85,6 @@ class CreateForm extends Component {
 
   mapDomains = (domains) => domains.map((o) => this.createDomainValue(o));
 
-  calculatePrice = (value) => {
-    const {
-      domains,
-      values: { domain },
-      domainPrices,
-    } = this.props;
-
-    const isDomainAlreadyOwned = domains.find(({ name }) => name === value)
-      ? true
-      : false;
-
-    if (!value || isDomainAlreadyOwned) return 0;
-
-    const { price } = domainPrices.find(({ name }) => value.includes(name));
-
-    return price;
-  };
-
   handleAddDomain = (e, { value }) => {
     const { domains } = this.state;
 
@@ -140,22 +126,29 @@ class CreateForm extends Component {
 
   render() {
     const {
+      isFetcDomainsLoading,
       submitting,
       pristine,
       isFetchTemplatesLoading,
       submitError,
       values: { budget, domain },
-      newExperiment: { templateRef, themeRef },
+      newExperiment,
+      domainPrices,
+      domains: ownedDomains,
       onSubmit,
     } = this.props;
 
-    const { domainError, domains, keywordsIndex } = this.state;
+    const { templateRef, themeRef } = newExperiment;
 
-    const domainPrice = this.calculatePrice(domain);
+    const { domainError, domains, keywordsIndex } = this.state;
 
     return (
       <Segment padded>
-        <Form error={submitError} onSubmit={onSubmit}>
+        <Form
+          error={submitError}
+          initialValues={newExperiment}
+          onSubmit={onSubmit}
+        >
           <Segment padded>
             <Header textAlign="left">Experiment</Header>
             <Grid container centered stackable>
@@ -166,6 +159,8 @@ class CreateForm extends Component {
                     selection
                     fluid
                     allowAdditions
+                    disabled={isFetcDomainsLoading}
+                    loading={isFetcDomainsLoading}
                     info="Previously purchased domains will be available for future experiments for up to 1 year."
                     label="Domain"
                     name="domain"
@@ -400,7 +395,7 @@ class CreateForm extends Component {
                     display="block"
                     tabletDisplay="inline-block"
                     placeholder="How much do you wish to spend?"
-                    info="This is the budget that will be spent on driving traffic to your experiment."
+                    info="This is the budget that will be spent on driving traffic to your experiment. We recommend using at least $100 to ensure you buy enough ads to get meaningful click throughs."
                     validate={[validateRequired]}
                   />
                 </GridColumn>
@@ -428,12 +423,21 @@ class CreateForm extends Component {
                     <TableBody>
                       <TableRow>
                         <TableCell>20</TableCell>
-                        <TableCell>{domainPrice}</TableCell>
+                        <TableCell>
+                          {calculateDomainPrice({
+                            domain,
+                            domains: ownedDomains,
+                            domainPrices,
+                          })}
+                        </TableCell>
                         <TableCell>{budget}</TableCell>
                         <TableCell>
-                          {20 +
-                            (parseInt(domainPrice) || 0) +
-                            (parseInt(budget) || 0)}
+                          {calculateTotalExperimentPrice({
+                            domain,
+                            domains: ownedDomains,
+                            domainPrices,
+                            budget,
+                          })}
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -463,12 +467,14 @@ class CreateForm extends Component {
 export default connect(
   ({
     experiment: { newExperiment },
-    domain: { data: domains, suggestedDomains, prices },
+    domain: { isFetchLoading, data: domains, suggestedDomains, prices },
   }) => ({
+    isFetcDomainsLoading: isFetchLoading,
     newExperiment,
     domains,
     suggestedDomains,
     domainPrices: prices,
+    initialValues: newExperiment,
   }),
   { onSubmit: onPrepareExperiment }
 )(withForm(CreateForm));

@@ -31,6 +31,7 @@ const initialState = {
     keyword6: undefined,
     headline: undefined,
     description: undefined,
+    price: undefined,
   },
 };
 

@@ -45,6 +45,7 @@ export default {
   },
   logos: {
     main000: whiteLogo,
+    main001: logoColor,
   },
   // landing page
   breakpoints: {

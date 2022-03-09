@@ -13,6 +13,42 @@ const setState = (dispatch) => (payload) =>
     payload,
   });
 
+/**
+ * @description adds a new card to a customers account
+ * @param {*} param0
+ * @returns
+ */
+export const onAddNewCard = ({ id, card }) => async (dispatch, getState) => {
+  const onSetState = setState(dispatch);
+
+  const payload = { isAddCardLoading: true, addCardErrorMessage: "" };
+
+  try {
+    onSetState(payload);
+
+    const {
+      account: { token },
+    } = getState();
+
+    await postApi({
+      uri: `payment/add-card`,
+      token,
+      body: {
+        cardToken: id,
+      },
+    });
+
+    payload.card = card;
+
+    payload.addCardErrorMessage = "";
+  } catch ({ message }) {
+    payload.addCardErrorMessage = message;
+  } finally {
+    payload.isAddCardLoading = false;
+    onSetState(payload);
+  }
+};
+
 export const onFetchAccount = ({
   email,
   password,
@@ -31,11 +67,12 @@ export const onFetchAccount = ({
     });
 
     const {
-      data: { token, account },
+      data: { token, account, card },
     } = response;
 
     payload.token = token;
     payload.data = account;
+    payload.card = card;
     payload.fetchErrorMessage = "";
   } catch ({ message, response: { data: { code } = {} } = {} }) {
     return {
@@ -109,6 +146,54 @@ export const onCreateAccount = ({
     return { [FORM_ERROR]: message };
   } finally {
     payload.isCreateLoading = false;
+    onSetState(payload);
+  }
+};
+
+/**
+ * @description updates a customers account information
+ * @param {*} param0
+ * @returns
+ */
+export const onUpdateAccount = ({
+  firstName,
+  lastName,
+  phone,
+  email,
+  password,
+  confirmPassword,
+}) => async (dispatch, getState) => {
+  const onSetState = setState(dispatch);
+  const payload = { isUpdateLoading: true, updateSuccessMesssage: "" };
+  try {
+    if (password && password !== confirmPassword) {
+      return { [FORM_ERROR]: "Passwords do not match" };
+    }
+
+    const {
+      account: { token },
+    } = getState();
+
+    onSetState(payload);
+
+    await postApi({
+      uri: `account/update`,
+      token,
+      body: { updateData: { firstName, lastName, phone, email, password } },
+    });
+
+    payload.data = {
+      firstName,
+      lastName,
+      phone,
+      email,
+    };
+
+    payload.updateSuccessMesssage = "Successfully Updated";
+  } catch ({ message }) {
+    return { [FORM_ERROR]: message };
+  } finally {
+    payload.isUpdateLoading = false;
     onSetState(payload);
   }
 };

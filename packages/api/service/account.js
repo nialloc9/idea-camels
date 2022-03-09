@@ -5,6 +5,7 @@ const {
 } = require("../data/account");
 const { onCreate: onCreateToken } = require("../data/token");
 const {
+  createPasswordHash,
   validatePassword,
   scrubAccount,
   createJwToken,
@@ -13,6 +14,12 @@ const { handleSuccess } = require("../utils/utils");
 const { now } = require("../utils/date");
 const errors = require("../utils/errors");
 const config = require("../utils/config");
+const {
+  getCustomer,
+  createCustomer,
+  getCard,
+  updateCustomer,
+} = require("../utils/stripe");
 const { sendEmail } = require("../utils/mailer/mailer");
 const { resetPassword } = require("../utils/mailer/templates/resetPassword");
 
@@ -63,12 +70,29 @@ const onLogin = ({ data: { email, password, rememberMe = false }, caller }) =>
         ),
       };
 
+      const paymentProfile = await getCustomer({
+        customerId: account.payment_customer_id,
+      });
+
+      if (paymentProfile.default_source) {
+        const { card } = await getCard({
+          customerId: account.payment_customer_id,
+          cardId: paymentProfile.default_source,
+        });
+        responseData.card = card || {};
+      }
+
       resolve(handleSuccess("account found", responseData));
     } catch (error) {
       reject(error);
     }
   });
 
+/**
+ * @description checks token to see if still valid, if so reissues a new token
+ * @param {*} param0
+ * @returns
+ */
 const onReauthorise = ({
   data: {
     decodedToken: {
@@ -113,10 +137,25 @@ const onCreate = ({ data, caller }) =>
         );
       }
 
-      const { data: account } = await onCreateAccount({ data, caller });
+      const { id: stripeCustomerId } = await createCustomer({
+        email: data.email,
+        name: `${data.firstName} ${data.lastName}`,
+        phone: data.phone,
+        metadata: {
+          created_by_caller: caller,
+        },
+      });
 
-      // TODO Create stripe account
-      // TODO send onboarding email
+      const { data: account } = await onCreateAccount({
+        data: {
+          ...data,
+          stripeCustomerId,
+          password: createPasswordHash({ password: data.password }),
+        },
+        caller,
+      });
+
+      // TODO: send onboarding email
 
       const responeData = {
         account: scrubAccount(account, ["password"]),
@@ -129,12 +168,41 @@ const onCreate = ({ data, caller }) =>
     }
   });
 
-const onUpdate = ({ data: { updateData }, caller }) =>
+const onUpdate = ({
+  data: {
+    updateData,
+    decodedToken: {
+      data: { accountRef },
+    },
+  },
+  caller,
+}) =>
   new Promise(async (resolve, reject) => {
     try {
+      const dataToUpdate = { ...updateData };
+
+      if (dataToUpdate.password) {
+        dataToUpdate.password = createPasswordHash({
+          password: dataToUpdate.password,
+        });
+      }
+
       const response = await onUpdateAccount({
-        data: { ...updateData, accountRef: data.decodedToken.accountRef },
+        data: { accountRef, lastUpdatedBy: accountRef, data: dataToUpdate },
         caller,
+      });
+
+      const { data } = await onGet({ data: { accountRef }, caller });
+
+      const { payment_customer_id } = data[0];
+
+      await updateCustomer({
+        customerId: payment_customer_id,
+        accountRef,
+        caller,
+        phone: dataToUpdate.phone,
+        email: dataToUpdate.email,
+        name: `${dataToUpdate.firstName} ${dataToUpdate.lastName}`,
       });
 
       resolve(response);

@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import Default from "../../templates/IdeaCamelsDefault";
 import { Segment } from "../Styled/Segment";
 import { Button } from "../Styled/Button";
+import { Checkout } from "../Payments";
 import { Message } from "../Styled/Message";
 import { remCalc } from "../../utils/style";
 import {
@@ -29,14 +30,8 @@ const Template = ({
     <Fragment>
       <Segment padded>
         <Button onClick={() => onSetFormIndex(0)}>Back</Button>
-        <Button
-          disabled={isCreateLoading}
-          loading={isCreateLoading}
-          positive
-          onClick={onSubmit}
-        >
-          Create Experiment
-        </Button>
+        {/* <Checkout text="Create Experiment" disabled={isCreateLoading} loading={isCreateLoading} onClick={onSubmit} /> */}
+
         {createErrorMessage && <Message error>{createErrorMessage}</Message>}
       </Segment>
       <Segment padded maxHeight={remCalc(700)} overflow="hidden auto">

@@ -8,10 +8,10 @@ import { pipelineHof } from "../utils/form";
 export const withForm = (WrappedComponent) =>
   class Event extends Component {
     render() {
-      const { onSubmit, ...rest } = this.props;
+      const { initialValues, onSubmit, ...rest } = this.props;
 
       return (
-        <ReactFinalForm onSubmit={onSubmit}>
+        <ReactFinalForm initialValues={initialValues} onSubmit={onSubmit}>
           {({ handleSubmit, ...formProps }) => (
             <WrappedComponent
               {...formProps}

@@ -18,9 +18,12 @@ const onGet = ({ data: { email, accountRef }, caller }) =>
       const results = await query(getQuery, undefined, caller, "GET_ACCOUNT");
 
       resolve(
-        handleSuccess(`DATA - GET_ACCOUNT - FROM ${caller}`, results, [
-          "password",
-        ])
+        handleSuccess(
+          `DATA - GET_ACCOUNT - FROM ${caller}`,
+          results,
+          ["password"],
+          false
+        )
       );
     } catch (error) {
       reject(error);
@@ -45,7 +48,6 @@ const onCreate = ({ data, caller }) =>
       );
       const timestamp = now();
 
-      scrubAccount;
       resolve(
         handleSuccess(`DATA - CREATE_ACCOUNT - FROM ${caller}`, {
           ...scrubAccount(mappedData),
@@ -80,7 +82,7 @@ const onUpdate = ({
 
       resolve(
         handleSuccess(`DATA - UPDATE_ACCOUNT - FROM ${caller}`, {
-          ...data,
+          ...scrubAccount(data),
           account_ref: accountRef,
           last_updated_at: now(),
         })

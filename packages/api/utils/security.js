@@ -2,7 +2,12 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const config = require("./config");
 const errors = require("./errors");
-const { generateRandomId, createTimestamp, logger } = require("./utils");
+const {
+  generateRandomId,
+  createTimestamp,
+  replaceValuesInObj,
+  logger,
+} = require("./utils");
 
 const {
   jwt: { secret },
@@ -23,7 +28,6 @@ const jwtVerify = (jwToken) => {
 
 const scrubAccount = (account = {}, scrub = ["password"]) => {
   const newAccount = { ...account };
-
   scrub.forEach((o) => {
     delete newAccount[o];
   });
@@ -118,6 +122,17 @@ const requiredParams = ({
 const createHash = ({ secret, data, algo = "sha256" }) =>
   crypto.createHmac(algo, secret).update(data).digest("hex");
 
+/**
+ * @description creates a hash of the password using standard security practice
+ * @param {*} param0
+ * @returns
+ */
+const createPasswordHash = ({ password }) =>
+  createHash({
+    secret: config.security.password_secret,
+    data: password,
+  });
+
 const validatePassword = ({
   password,
   hashedPassword,
@@ -125,10 +140,7 @@ const validatePassword = ({
   service = "login service",
 }) =>
   new Promise((resolve, reject) => {
-    const inputHash = createHash({
-      secret: config.security.password_secret,
-      data: password,
-    });
+    const inputHash = createPasswordHash({ password });
 
     if (inputHash !== hashedPassword) {
       reject(
@@ -143,6 +155,25 @@ const validatePassword = ({
 
     return resolve();
   });
+
+const logIncoming = ({ endpoint, headers, body }) => {
+  if (
+    endpoint === "/account/create" ||
+    endpoint === "/account/login" ||
+    endpoint === "/account/update"
+  ) {
+    return logger.info(
+      {
+        endpoint,
+        headers,
+        body: { ...body, data: { ...body.data, password: "*********" } },
+      },
+      "INCOMING"
+    );
+  }
+
+  logger.info({ endpoint, headers, body }, "INCOMING");
+};
 /**
  * @description validates and parses req
  * @param {*} param0
@@ -155,7 +186,7 @@ const validateAndParse = async ({
 }) =>
   new Promise(async (resolve, reject) => {
     try {
-      logger.info({ endpoint, headers, body }, "INCOMING");
+      logIncoming({ endpoint, headers, body });
 
       await requiredParams({ endpoint, body, headers, required, isAuth });
 
@@ -163,7 +194,7 @@ const validateAndParse = async ({
 
       if (isAuth) {
         const { Authorization, authorization } = headers;
-        console.log("headers", headers);
+
         const bearer = Authorization || authorization;
 
         const [, token] = bearer.split(" ");
@@ -187,6 +218,7 @@ module.exports = {
   requiredParam,
   requiredParams,
   createHash,
+  createPasswordHash,
   validateAndParse,
   validatePassword,
   scrubAccount,

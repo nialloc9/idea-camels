@@ -1,7 +1,11 @@
 const { onGetWithThemeByAccountRef, onCreate } = require("../data/experiment");
 const { onCreate: onCreateTheme } = require("../data/theme");
 const { onGet: onGetDomainByDomainRef } = require("../data/domain");
-const { generateRandomId } = require("../utils/utils");
+const {
+  generateRandomId,
+  handleSuccess,
+  getDateInYYMMDD,
+} = require("../utils/utils");
 const {
   getMetrics,
   createCampaign,
@@ -12,9 +16,8 @@ const {
 } = require("../utils/googleAds");
 const { runTask, uploadToS3 } = require("../utils/aws");
 const { writeToTmpFile } = require("../utils/file");
-const { handleSuccess, getDateInYYMMDD } = require("../utils/utils");
+const { chargeCustomer } = require("../utils/stripe");
 const config = require("../utils/config");
-const {} = require("../utils/mocks/googleAds");
 
 const onGetAccountExperiments = ({
   data: {
@@ -38,8 +41,8 @@ const onGetAccountExperiments = ({
 
       const campaigns = await listCampaigns();
 
-      // TODO run cron to update database to expired for domains going to expire tomorrow
-      // TODO run cron to send email for domains going to expire in 1 month and in 1 week
+      // TODO: run cron to update database to expired for domains going to expire tomorrow
+      // TODO: run cron to send email for domains going to expire in 1 month and in 1 week
       resolve(
         handleSuccess(`SERVICE - GET_ACCOUNT_EXPERIMENTS - FROM ${caller}`, {
           experiments,
@@ -155,9 +158,6 @@ const onCreateExperiment = ({
       // if (taskError) {
       //   throw new Error(taskError);
       // }
-
-      // TODO add ability to add budget
-      // TODO add ability to add keywords
 
       const campaignBudget = {
         amount_micros: budget * 1000000,

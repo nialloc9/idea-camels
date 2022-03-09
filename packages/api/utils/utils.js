@@ -23,7 +23,12 @@ const logger = {
  * @returns {{result: {successMessage: string, data: *}}}
  * @private
  */
-const handleSuccess = (message, data = {}, scrub = []) => {
+const handleSuccess = (
+  message,
+  data = {},
+  scrub = [],
+  shouldLogData = true
+) => {
   const newData = { ...data };
 
   scrub.forEach((o) => {
@@ -36,7 +41,8 @@ const handleSuccess = (message, data = {}, scrub = []) => {
     data: newData,
   };
 
-  logger.info(response, "SUCCESS");
+  const toLog = shouldLogData ? response : { ...response, data: "**********" };
+  logger.info(toLog, "SUCCESS");
 
   return response;
 };

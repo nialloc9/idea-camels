@@ -11,6 +11,7 @@ const {
   onGetAccountDomains,
   onPurchaseDomain,
   onListDomainPrices,
+  onCheckIsDomainAvailable,
 } = require("../service/domain");
 const {
   onGetAccountExperiments,
@@ -23,6 +24,7 @@ const {
   onGoogleAdsCheck,
 } = require("../service/healthCheck");
 const { getSignedUrl } = require("../service/upload");
+const { onAddCard, onChargeCustomer } = require("../service/payment");
 const { logger } = require("./utils");
 
 console.log("==== CONFIG ====");
@@ -113,6 +115,12 @@ const endpoints = [
     isAuth: true,
   },
   {
+    uri: "/domain/check-if-available",
+    func: onCheckIsDomainAvailable,
+    required: ["caller", "domain"],
+    isAuth: true,
+  },
+  {
     uri: "/experiment/get-by-account",
     required: ["caller"],
     func: onGetAccountExperiments,
@@ -154,6 +162,18 @@ const endpoints = [
     uri: "/upload/get-upload-url",
     required: ["caller", "type"],
     func: getSignedUrl,
+    isAuth: true,
+  },
+  {
+    uri: "/payment/charge-customer",
+    required: ["amount", "caller", "type"],
+    func: onChargeCustomer,
+    isAuth: true,
+  },
+  {
+    uri: "/payment/add-card",
+    required: ["cardToken", "caller"],
+    func: onAddCard,
     isAuth: true,
   },
   {
