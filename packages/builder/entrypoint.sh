@@ -1,13 +1,13 @@
 !/bin/bash
-echo "Starting ${ENV} build..."
-echo "====== INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
-rm -rf experiments/${EXPERIMENT_REF}/infrastructure 
-mkdir -p experiments/${EXPERIMENT_REF}/infrastructure 
-cd ./infrastructure 
-cp -r ./ ../experiments/${EXPERIMENT_REF}/infrastructure 
-cd ..
+# echo "Starting ${ENV} build..."
+# echo "====== INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
+# rm -rf experiments/${EXPERIMENT_REF}/infrastructure 
+# mkdir -p experiments/${EXPERIMENT_REF}/infrastructure 
+# cd ./infrastructure 
+# cp -r ./ ../experiments/${EXPERIMENT_REF}/infrastructure 
+# cd ..
 
-echo "====== FINISHED INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
+# echo "====== FINISHED INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 
 echo "====== INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
 rm -rf experiments/${EXPERIMENT_REF}/client
@@ -17,27 +17,28 @@ cp -r ./ ../../experiments/${EXPERIMENT_REF}/client
 cd ../../
 echo "====== FINISHED INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
 
-node ./configureExperiment.js
+# node ./configureExperiment.js
 
-echo "====== BUILDING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
+# echo "====== BUILDING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 
-cd ./experiments/${EXPERIMENT_REF}/infrastructure 
+# cd ./experiments/${EXPERIMENT_REF}/infrastructure 
 
-rm -rf .terraform 
-terraform init -backend-config=environment/backend.tfvars -var-file=environment/variables.tfvars
+# rm -rf .terraform 
+# terraform init -backend-config=environment/backend.tfvars -var-file=environment/variables.tfvars
 
-echo "====== FINISHED BUILDING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
+# echo "====== FINISHED BUILDING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 
-if [ ENV="prod" ]
-then
-echo "====== DEPLOYING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
+# if [ ENV="prod" ]
+# then
+# echo "====== DEPLOYING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 
-terraform apply -auto-approve --var-file=./environment/variables.tfvars -target=module.experiment.aws_acm_certificate.cert
-terraform apply -auto-approve --var-file=./environment/variables.tfvars
-echo "====== FINISHED DEPLOYING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
-fi
+# terraform apply -auto-approve --var-file=./environment/variables.tfvars -target=module.experiment.aws_acm_certificate.cert
+# terraform apply -auto-approve --var-file=./environment/variables.tfvars
+# echo "====== FINISHED DEPLOYING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
+# fi
 
-cd ../client
+# cd ../client
+cd experiments/${EXPERIMENT_REF}/client
 
 echo "====== BUILDING CLIENT FOR ${EXPERIMENT_REF} ======"
 rm -rf ./build

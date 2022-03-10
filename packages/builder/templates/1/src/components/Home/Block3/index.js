@@ -12,6 +12,7 @@ import { Grid, GridColumn } from "../../Grid";
 import { Card } from "../../Card";
 
 const Container = styled.section`
+  text-align: center;
   min-height: ${({
     theme: {
       block3: { height },

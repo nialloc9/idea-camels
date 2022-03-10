@@ -1,19 +1,21 @@
 export default {
   navigation: {
     logo: {
-      src: "s3://prod-themes/placeholder_images/placeholder.png",
-      alot: "Logo text.",
+      src:
+        "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder.png",
+      alt: "placeholder image",
     },
     items: [
       { text: "About Us", href: "coming-soon" },
-      { text: "Products", href: "comint-soon" },
-      { text: "Sign Up", href: "comint-soon" },
+      { text: "Products", href: "coming-soon" },
+      { text: "Sign Up", href: "coming-soon" },
     ],
   },
   block1: {
     logo: {
-      src: "s3://prod-themes/placeholder_images/placeholder.png",
-      alt: "test",
+      src:
+        "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder.png",
+      alt: "placeholder image",
     },
     heading: { text: "Have an idea? Not sure if it is worth doing?" },
     subHeading: {
@@ -23,7 +25,11 @@ export default {
     button: { text: "Buy Now" },
   },
   block2: {
-    image: { src: "s3://prod-themes/placeholder_images/placeholder2.png" },
+    image: {
+      src:
+        "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder2.png",
+      alt: "placeholder image",
+    },
   },
   block3: {
     heading: { text: "Welcome to Idea Camels" },
@@ -64,8 +70,9 @@ export default {
     },
     card: {
       image: {
-        src: "s3://prod-themes/placeholder_images/placeholder.png",
-        alt: "test",
+        src:
+          "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder.png",
+        alt: "placeholder image",
       },
       heading: { text: "Test your ideas" },
       subHeading: {
@@ -79,8 +86,9 @@ export default {
     carousel: [
       {
         image: {
-          src: "s3://prod-themes/placeholder_images/placeholder.png",
-          alt: "",
+          src:
+            "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder2.png",
+          alt: "placeholder image",
         },
         header: {
           text:
@@ -89,8 +97,9 @@ export default {
       },
       {
         image: {
-          src: "s3://prod-themes/placeholder_images/placeholder.png",
-          alt: "",
+          src:
+            "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder2.png",
+          alt: "placeholder image",
         },
         header: {
           text:
@@ -99,8 +108,9 @@ export default {
       },
       {
         image: {
-          src: "s3://prod-themes/placeholder_images/placeholder.png",
-          alt: "",
+          src:
+            "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder2.png",
+          alt: "placeholder image",
         },
         header: {
           text:
@@ -118,8 +128,9 @@ export default {
   footer: {
     column1: {
       image: {
-        src: "s3://prod-themes/placeholder_images/placeholder.png",
-        alt: "test",
+        src:
+          "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder.png",
+        alt: "placeholder image",
       },
       text: { text: "Idea Camels" },
     },

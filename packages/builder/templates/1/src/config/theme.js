@@ -54,7 +54,7 @@ module.exports = {
   block3: {
     color: "#2a2a2a",
     fontFamily: "Cairo, 'Playfair Display', sans-serif",
-    height: 650,
+    height: 700,
     backgroundColor: "white",
     overlay: {
       backgroundColor: "white",

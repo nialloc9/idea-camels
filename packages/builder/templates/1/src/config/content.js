@@ -1,8 +1,9 @@
 module.exports = {
   navigation: {
     logo: {
-      src: "test",
-      alot: "Logo text.",
+      src:
+        "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder.png",
+      alot: "Logo placeholder",
     },
     items: [
       {
@@ -11,18 +12,19 @@ module.exports = {
       },
       {
         text: "Products",
-        href: "comint-soon",
+        href: "coming-soon",
       },
       {
         text: "Sign Up",
-        href: "comint-soon",
+        href: "coming-soon",
       },
     ],
   },
   block1: {
     logo: {
-      src: "test",
-      alt: "test",
+      src:
+        "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder.png",
+      alt: "placeholder image",
     },
     heading: {
       text: "Have an idea? Not sure if it's worth doing?",
@@ -37,7 +39,9 @@ module.exports = {
   },
   block2: {
     image: {
-      src: "test",
+      src:
+        "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder2.png",
+      alt: "placeholder image",
     },
   },
   block3: {
@@ -96,8 +100,9 @@ module.exports = {
     },
     card: {
       image: {
-        src: "test",
-        alt: "test",
+        src:
+          "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder.png",
+        alt: "placeholder image",
       },
       heading: {
         text: "Test your ideas",
@@ -114,7 +119,8 @@ module.exports = {
     carousel: [
       {
         image: {
-          src: "test",
+          src:
+            "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder2.png",
           alt: "",
         },
         header: {
@@ -124,8 +130,9 @@ module.exports = {
       },
       {
         image: {
-          src: "test",
-          alt: "",
+          src:
+            "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder2.png",
+          alt: "placeholder image",
         },
         header: {
           text:
@@ -134,8 +141,9 @@ module.exports = {
       },
       {
         image: {
-          src: "test",
-          alt: "",
+          src:
+            "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder2.png",
+          alt: "placeholder image",
         },
         header: {
           text:
@@ -157,8 +165,9 @@ module.exports = {
   footer: {
     column1: {
       image: {
-        src: "test",
-        alt: "test",
+        src:
+          "https://prod-themes.s3.eu-west-1.amazonaws.com/placeholder_images/placeholder.png",
+        alt: "placeholder image",
       },
       text: {
         text: "Idea Camels",
