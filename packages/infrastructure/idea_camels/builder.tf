@@ -102,8 +102,9 @@ resource "aws_ecs_task_definition" "builder" {
             },
             {
               "name": "JWT_TOKEN",
-              "value": "${data.aws_ssm_parameter.api_jwt_secret.value}",
+              "value": "${data.aws_ssm_parameter.api_jwt_secret.value}"
             }
+            
     ],
     "entryPoint": [
       "/bin/bash",
