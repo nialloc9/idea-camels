@@ -99,6 +99,10 @@ resource "aws_ecs_task_definition" "builder" {
             {
               "name": "DB_PASSWORD",
               "value": "${data.aws_ssm_parameter.database_password.value}"
+            },
+            {
+              "name": "JWT_TOKEN",
+              "value": "${data.aws_ssm_parameter.api_jwt_secret.value}",
             }
     ],
     "entryPoint": [

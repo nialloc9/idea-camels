@@ -23,13 +23,18 @@ module "domain" {
   fqdn   = var.fqdn
 }
 
-# Need to recreate to be fargate task
-# module "api" {
-#   source = "../modules/serverless_api"
+resource "aws_ses_domain_identity" "idea_camels_domain_identity" {
+  domain = var.domain
 
-#   providers = {
-#     "aws.main" = "aws.main"
-#   }
+  depends_on = [module.domain]
+}
 
-#   coming_soon_table_arn = module.database.coming_soon_table_arn
-# }
+resource "aws_route53_record" "example_amazonses_verification_record" {
+  zone_id = "ABCDEFGHIJ123"
+  name    = "_amazonses.${var.domain}"
+  type    = "TXT"
+  ttl     = "600"
+  records = [aws_ses_domain_identity.idea_camels_domain_identity.verification_token]
+
+  depends_on = [module.domain]
+}
