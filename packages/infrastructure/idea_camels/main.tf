@@ -30,7 +30,7 @@ resource "aws_ses_domain_identity" "idea_camels_domain_identity" {
 }
 
 resource "aws_route53_record" "example_amazonses_verification_record" {
-  zone_id = "ABCDEFGHIJ123"
+  zone_id = module.domain.route53_zone_id
   name    = "_amazonses.${var.domain}"
   type    = "TXT"
   ttl     = "600"
