@@ -19,3 +19,6 @@ export const logger = {
   info: (message, context = {}) => console.info(`${message} : `, context),
   error: (message, context = {}) => console.error(`${message} : `, context),
 };
+
+/** returns a random id */
+export const generateRandomId = () => Math.random().toString(36).substr(2, 10);

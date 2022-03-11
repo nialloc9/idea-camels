@@ -48,7 +48,7 @@ const sendEmail = ({ subject, from, to, text, html, caller }) =>
     transporter.sendMail(mailOptions, (error) => {
       if (error) {
         return reject(
-          errors["3005"]({ data: { to }, reason: error.message, caller })
+          errors["3004"]({ data: { to }, reason: error.message, caller })
         );
       }
 

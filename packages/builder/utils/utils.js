@@ -40,8 +40,19 @@ const handleSuccess = (message, data = {}, scrub = []) => {
 
   return response;
 };
+/** returns a random id */
+const generateRandomId = () => Math.random().toString(36).substr(2, 10);
+
+/**
+ * creates a new timestamp in the format passed
+ * @param {string} timestamp
+ */
+const createTimestamp = (timestamp) =>
+  timestamp ? new Date(timestamp) : new Date();
 
 module.exports = {
   handleSuccess,
   logger,
+  generateRandomId,
+  createTimestamp,
 };

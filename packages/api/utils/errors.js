@@ -155,6 +155,16 @@ const file = {
     reason,
     data,
   }),
+  3004: ({ endpoint, service, dataLayer, caller, reason, data } = {}) => ({
+    message: "could not send email",
+    code: 3004,
+    endpoint,
+    service,
+    dataLayer,
+    caller,
+    reason,
+    data,
+  }),
 };
 
 const database = {

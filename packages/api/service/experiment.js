@@ -162,17 +162,17 @@ const onCreateExperiment = ({
         caller,
       });
 
-      // const { error: taskError } = await runTask({
-      //   cluster: config.aws.clusters.builder.name,
-      //   taskDefinition: config.aws.clusters.builder.taskDefinition,
-      //   environmentVariables: [
-      //     {
-      //       name: "EXPERIMENT_REF",
-      //       value: newExperiment.experiment_ref.toString(),
-      //     },
-      //     { name: "TEMPLATE_REF", value: templateRef.toString() },
-      //   ],
-      // });
+      const { error: taskError } = await runTask({
+        cluster: config.aws.clusters.builder.name,
+        taskDefinition: config.aws.clusters.builder.taskDefinition,
+        environmentVariables: [
+          {
+            name: "EXPERIMENT_REF",
+            value: newExperiment.experiment_ref.toString(),
+          },
+          { name: "TEMPLATE_REF", value: templateRef.toString() },
+        ],
+      });
 
       if (taskError) {
         throw new Error(taskError);

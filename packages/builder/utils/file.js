@@ -1,5 +1,6 @@
 const fs = require("fs");
 const { logger } = require("./utils");
+const { createJwToken } = require("./security");
 const config = require("./config");
 
 const AWS = require("aws-sdk");
@@ -81,7 +82,13 @@ export default {
     themeKey: "${themeKey}",
     contentKey: "${contentKey}",
     theme,
-    content
+    content,
+    security: {
+      token: "${createJwToken({ experimentRef })}"
+    },
+    api: {
+      base: "https://v1xwkm07ta.execute-api.eu-west-1.amazonaws.com/prod",
+    }
 };    
     `;
 

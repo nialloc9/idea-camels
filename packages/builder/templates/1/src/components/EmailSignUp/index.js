@@ -54,10 +54,7 @@ export default class EmailSignUp extends Component {
     try {
       const { email } = this.state;
 
-      await post(
-        "https://z68olw9sk5.execute-api.eu-west-1.amazonaws.com/prod/coming-soon",
-        { email }
-      );
+      await post("lead/create", { email });
 
       handleEvent("email-sign-up");
     } catch (err) {

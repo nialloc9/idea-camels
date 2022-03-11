@@ -7,6 +7,7 @@ const {
   DB_NAME,
   DB_PORT,
   EXPERIMENT_REF,
+  JWT_SECRET = "test",
 } = process.env;
 
 const localhost = {
@@ -45,6 +46,9 @@ const localhost = {
   experiment: {
     experimentRef: EXPERIMENT_REF,
   },
+  security: {
+    secret: JWT_SECRET,
+  },
   noInternet: true,
 };
 
@@ -59,5 +63,5 @@ const production = {
     ...staging.aws,
   },
 };
-
+console.log(production);
 module.exports = production;

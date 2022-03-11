@@ -9,13 +9,13 @@
 
 # echo "====== FINISHED INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 
-echo "====== INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
-rm -rf experiments/${EXPERIMENT_REF}/client
-mkdir -p experiments/${EXPERIMENT_REF}/client
-cd templates/${TEMPLATE_REF}
-cp -r ./ ../../experiments/${EXPERIMENT_REF}/client 
-cd ../../
-echo "====== FINISHED INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
+# echo "====== INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
+# rm -rf experiments/${EXPERIMENT_REF}/client
+# mkdir -p experiments/${EXPERIMENT_REF}/client
+# cd templates/${TEMPLATE_REF}
+# cp -r ./ ../../experiments/${EXPERIMENT_REF}/client 
+# cd ../../
+# echo "====== FINISHED INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
 
 # node ./configureExperiment.js
 

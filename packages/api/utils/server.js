@@ -22,9 +22,11 @@ const {
   onHealthCheck,
   onDBHealthCheck,
   onGoogleAdsCheck,
+  onEmailCheck,
 } = require("../service/healthCheck");
 const { getSignedUrl } = require("../service/upload");
 const { onAddCard, onChargeCustomer } = require("../service/payment");
+const { onGetLead, onCreateLead } = require("../service/lead");
 const { logger } = require("./utils");
 
 console.log("==== CONFIG ====");
@@ -177,6 +179,18 @@ const endpoints = [
     isAuth: true,
   },
   {
+    uri: "/lead/get",
+    required: ["caller"],
+    func: onGetLead,
+    isAuth: true,
+  },
+  {
+    uri: "/lead/create",
+    required: ["email", "caller"],
+    func: onCreateLead,
+    isAuth: true,
+  },
+  {
     uri: "/health-check",
     required: [],
     func: onHealthCheck,
@@ -190,6 +204,11 @@ const endpoints = [
     uri: "/health-check-3",
     required: [],
     func: onGoogleAdsCheck,
+  },
+  {
+    uri: "/health-check-4",
+    required: [],
+    func: onEmailCheck,
   },
 ];
 

@@ -1,6 +1,8 @@
 const { ping } = require("../utils/database");
 const { getMetrics } = require("../utils/googleAds");
 const { handleSuccess, logger } = require("../utils/utils");
+const config = require("../utils/config");
+const { sendEmail } = require("../utils/mailer/mailer");
 
 const onHealthCheck = () =>
   new Promise(async (resolve) => resolve(handleSuccess("okay")));
@@ -27,8 +29,26 @@ const onGoogleAdsCheck = () =>
     }
   });
 
+const onEmailCheck = () =>
+  new Promise(async (resolve, reject) => {
+    try {
+      logger.info("Starting email health checks");
+      await sendEmail({
+        to: config.company.support.email,
+        from: config.company.support.email,
+        subject: `Idea camels health check`,
+        html: `<div>test</div>`,
+      });
+      logger.info("Email okay");
+      resolve(handleSuccess("okay"));
+    } catch (error) {
+      reject(error);
+    }
+  });
+
 module.exports = {
   onHealthCheck,
   onDBHealthCheck,
   onGoogleAdsCheck,
+  onEmailCheck,
 };

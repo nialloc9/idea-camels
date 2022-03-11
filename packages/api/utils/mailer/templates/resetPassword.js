@@ -9,9 +9,7 @@ const {
 } = config;
 
 const resetPassword = (token) => {
-  const encodedToken = encodeURIComponent(token);
-
-  const link = `${webAddress}/token/password-reset/${encodeURIComponent(
+  const link = `${webAddress}/password-reset?token=${encodeURIComponent(
     token
   )}`;
 
