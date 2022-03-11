@@ -1,7 +1,7 @@
 locals {
   support_email = "support@ideacamels.com"
 
-  dns_records = [
+  additional_dns_records = [
     {
       name  = "_amazonses.${var.domain}"
       ttl   = 600
@@ -92,12 +92,12 @@ resource "aws_ses_domain_identity" "idea_camels_domain_identity" {
 }
 
 resource "aws_route53_record" "ideacamels_route53_additional_records" {
-  count   = length(local.param_store)
+  count   = length(local.additional_dns_records)
   zone_id = module.domain.route53_zone_id
-  name    = local.param_store[count.index].name
-  type    = local.param_store[count.index].type
-  ttl     = local.param_store[count.index].ttl
-  records = [local.param_store[count.index].value]
+  name    = local.additional_dns_records[count.index].name
+  type    = local.additional_dns_records[count.index].type
+  ttl     = local.additional_dns_records[count.index].ttl
+  records = [local.additional_dns_records[count.index].value]
 
   depends_on = [module.domain]
 }
