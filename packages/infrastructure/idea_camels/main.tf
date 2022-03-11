@@ -9,12 +9,6 @@ locals {
       value = aws_ses_domain_identity.idea_camels_domain_identity.verification_token
     },
     {
-      name  = "_amazonses.ideacamels.com."
-      ttl   = 300
-      type  = "TXT"
-      value = "yPHTB1NffNZ9mM2RiGeG59YNJtJu2y9KYhPQVBZLlVo="
-    },
-    {
       name  = "ideacamels.com."
       ttl   = 300
       type  = "MX"
