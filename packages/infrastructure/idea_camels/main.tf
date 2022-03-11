@@ -1,3 +1,7 @@
+locals {
+  support_email = "support@ideacamels.com"
+}
+
 terraform {
   backend "s3" {
   }
@@ -37,4 +41,8 @@ resource "aws_route53_record" "example_amazonses_verification_record" {
   records = [aws_ses_domain_identity.idea_camels_domain_identity.verification_token]
 
   depends_on = [module.domain]
+}
+
+resource "aws_ses_email_identity" "support_email" {
+  email = local.support_email
 }
