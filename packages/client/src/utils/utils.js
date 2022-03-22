@@ -78,3 +78,13 @@ export const handleResizeFile = async ({
  * @returns {number}
  */
 export const convertDateToUnix = (date) => new Date(date).valueOf();
+
+/**
+ * @description gets query parameter by name from url
+ * @param {*} name
+ * @returns
+ */
+export const getQueryParameterByName = (name) => {
+  const match = RegExp("[?&]" + name + "=([^&]*)").exec(window.location.search);
+  return match && decodeURIComponent(match[1].replace(/\+/g, " "));
+};

@@ -8,6 +8,7 @@ const initialState = {
   card: {},
   forgottonPasswordSuccessMessage: "",
   isAddCardLoading: false,
+  resetPasswordSuccessMesssage: "",
   addCardErrorMessage: "",
   updateSuccessMesssage: "",
 };

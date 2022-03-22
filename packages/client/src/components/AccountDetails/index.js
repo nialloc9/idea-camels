@@ -20,56 +20,76 @@ import { validateMinLength } from "@nialloc9/vcheck/lib/validation";
 export default withForm(
   ({
     onSubmit,
+    isCompactError,
+    isCompactSuccess,
     successMessage,
     submitError,
     submitting,
     pristine,
     passwordRequired = true,
+    shouldShowFirstName = true,
+    shouldShowLastName = true,
+    shouldShowEmail = true,
+    shouldShowPhone = true,
     buttonText = "Sign Up",
   }) => (
-    <Form error={submitError} success={successMessage} onSubmit={onSubmit}>
+    <Form
+      isCompactError={isCompactError}
+      isCompactSuccess={isCompactSuccess}
+      error={submitError}
+      success={successMessage}
+      onSubmit={onSubmit}
+    >
       <Grid container centered stackable>
         <GridRow centered columns={2}>
-          <GridColumn>
-            <FormInput
-              label="First Name"
-              name="firstName"
-              defaultValue=""
-              validate={[validateRequiredName]}
-            />
-          </GridColumn>
-          <GridColumn>
-            <FormInput
-              label="Last Name"
-              name="lastName"
-              defaultValue=""
-              validate={[validateRequiredLastName, validateMaxLength(20)]}
-            />
-          </GridColumn>
+          {shouldShowFirstName && (
+            <GridColumn>
+              <FormInput
+                label="First Name"
+                name="firstName"
+                defaultValue=""
+                validate={[validateRequiredName]}
+              />
+            </GridColumn>
+          )}
+          {shouldShowLastName && (
+            <GridColumn>
+              <FormInput
+                label="Last Name"
+                name="lastName"
+                defaultValue=""
+                validate={[validateRequiredLastName, validateMaxLength(20)]}
+              />
+            </GridColumn>
+          )}
         </GridRow>
         <GridRow centered columns={2}>
-          <GridColumn>
-            <FormInput
-              label="Email"
-              type="email"
-              name="email"
-              defaultValue=""
-              validate={[
-                validateRequiredEmail,
-                validateEmail,
-                validateMaxLength(100),
-              ]}
-            />
-          </GridColumn>
-          <GridColumn>
-            <FormInput
-              label="Phone"
-              name="phone"
-              type="phone"
-              defaultValue=""
-              validate={[validateRequired, validatePhoneNumber]}
-            />
-          </GridColumn>
+          {shouldShowEmail && (
+            <GridColumn>
+              <FormInput
+                label="Email"
+                type="email"
+                name="email"
+                defaultValue=""
+                validate={[
+                  validateRequiredEmail,
+                  validateEmail,
+                  validateMaxLength(100),
+                ]}
+              />
+            </GridColumn>
+          )}
+          {shouldShowPhone && (
+            <GridColumn>
+              <FormInput
+                label="Phone"
+                name="phone"
+                type="phone"
+                defaultValue=""
+                validate={[validateRequired, validatePhoneNumber]}
+              />
+            </GridColumn>
+          )}
         </GridRow>
         <GridRow centered columns={2}>
           <GridColumn>

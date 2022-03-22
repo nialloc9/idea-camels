@@ -221,20 +221,20 @@ const onForgottonPassword = ({ data: { email }, caller }) =>
 
       if (!userData[0]) {
         return resolve(
-          handleSuccess(`email not sent to ${email}`, {
+          handleSuccess("email not found", {
             email,
           })
         );
       }
 
-      const { user_ref: userRef } = userData[0];
+      const { account_ref: accountRef } = userData[0];
 
-      const token = createJwToken({ userRef });
+      const token = createJwToken({ accountRef });
 
       await onCreateToken({
         data: {
           token,
-          type: RESET_PASSWORD_EMAIL,
+          type: "RESET_PASSWORD_EMAIL",
           email,
         },
         caller,
@@ -242,8 +242,8 @@ const onForgottonPassword = ({ data: { email }, caller }) =>
 
       await sendEmail({
         to: email,
-        from: config.supportEmail,
-        subject: `${name} Reset Password`,
+        from: config.company.support.email,
+        subject: "IdeaCamels Reset Password",
         html: resetPassword(token),
       });
 

@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import Pricing from "./pages/Pricing";
 import AboutUs from "./pages/AboutUs";
 import Settings from "./pages/Settings";
+import PasswordReset from "./pages/PasswordReset";
 import store, { Provider } from "./store";
 import { history } from "./store/middleware/history";
 import { Router, Switch, OpenRoute, PrivateRoute } from "./components/Router";
@@ -52,6 +53,10 @@ const routes = [
   {
     path: "/about-us",
     component: AboutUs,
+  },
+  {
+    path: "/password-reset",
+    component: PasswordReset,
   },
   {
     path: "/404",

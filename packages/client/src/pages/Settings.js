@@ -4,7 +4,7 @@ import { Block } from "../components/Styled/Block";
 import { Segment } from "../components/Styled/Segment";
 import { Header } from "../components/Styled/Header";
 import Billing from "../components/Billing";
-import SignUp from "../components/SignUp";
+import AccountDetails from "../components/AccountDetails";
 import withPageAnalytics from "../hoc/withPageAnalytics";
 import { remCalc } from "../utils/style";
 import { connect } from "../store";
@@ -26,7 +26,7 @@ const Page = ({
           <GridColumn>
             <Segment padded>
               <Header>Account</Header>
-              <SignUp
+              <AccountDetails
                 passwordRequired={false}
                 successMessage={updateSuccessMesssage}
                 buttonText="Update"

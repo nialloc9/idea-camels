@@ -2,6 +2,7 @@ import { ACCOUNT_SET } from "../constants/account";
 import { onResetStore } from "./store";
 import { postApi } from "../../utils/request";
 import { FORM_ERROR } from "../../utils/form";
+import { getQueryParameterByName } from "../../utils/utils";
 
 /**
  * sets the loading state
@@ -198,31 +199,66 @@ export const onUpdateAccount = ({
   }
 };
 
+/**
+ * @description sends a forgotton password email
+ * @param {*} param0
+ * @returns
+ */
 export const onForgottonPassword = ({ email }) => async (dispatch) => {
   const onSetState = setState(dispatch);
   const payload = {
     isForgottonPasswordLoading: true,
-    forgottonPasswordErrorMessage: "",
     forgottonPasswordSuccessMessage: "",
   };
   try {
     onSetState(payload);
 
-    const response = await postApi({
+    await postApi({
       uri: `account/forgotton-password`,
       body: { email },
     });
 
-    const {
-      data: { token },
-    } = response;
-    payload.token = token;
     payload.createErrorMessage = "";
   } catch ({ message }) {
-    payload.forgottonPasswordErrorMessage = message;
+    return { [FORM_ERROR]: message };
   } finally {
     payload.isForgottonPasswordLoading = false;
     payload.forgottonPasswordSuccessMessage = `An email has been sent to ${email}.`;
+    onSetState(payload);
+  }
+};
+
+/**
+ * @description takes token from url and updates password
+ * @param {*} param0
+ * @returns
+ */
+export const onResetPassword = ({ password, confirmPassword }) => async (
+  dispatch
+) => {
+  const onSetState = setState(dispatch);
+  const payload = {
+    resetPasswordSuccessMessage: "",
+  };
+  try {
+    if (password && password !== confirmPassword) {
+      return { [FORM_ERROR]: "Passwords do not match" };
+    }
+
+    onSetState(payload);
+
+    const token = getQueryParameterByName("token");
+
+    await postApi({
+      uri: `account/update`,
+      token,
+      body: { updateData: { password } },
+    });
+
+    payload.resetPasswordSuccessMessage = "Successfully Updated";
+  } catch ({ message }) {
+    return { [FORM_ERROR]: message };
+  } finally {
     onSetState(payload);
   }
 };
