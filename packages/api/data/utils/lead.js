@@ -1,11 +1,15 @@
-const dbNames = {
-  email: "email",
-  leadRef: "lead_ref",
-  experimentRef: "experiment_ref",
-  createdAt: "created_at",
-  deletedFlag: "deleted_flag",
-  lastUpdatedAt: "last_updated_at",
-};
+const {
+  convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase,
+} = require("../../utils/utils");
+
+const dbNames = convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase([
+  `lead_ref`,
+  `experiment_ref`,
+  `email`,
+  `created_at`,
+  `last_updated_at`,
+  `deleted_flag`,
+]);
 
 const mapper = (account) =>
   Object.keys(account).reduce((total, curr) => {

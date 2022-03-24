@@ -227,9 +227,9 @@ const createAdGroupCriterion = async (adGroupCriterions) => {
 };
 
 const getMetrics = async ({
-  metrics = ["clicks"],
+  metrics = ["clicks", "metrics.impressions"],
   orderBy = "clicks",
-  adGroupResourceName,
+  adGroupResourceName = [],
 } = {}) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO GET AGGROUP METRICS");
@@ -253,7 +253,7 @@ const getMetrics = async ({
 
   if (adGroupResourceName) {
     body.constraints = [
-      { key: "ad_group.resource_name", op: "=", val: adGroupResourceName },
+      { key: "ad_group.resource_name", op: "IN", val: adGroupResourceName },
     ];
   }
 

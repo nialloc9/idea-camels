@@ -61,7 +61,11 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
         return resolve(results);
       });
     } catch (error) {
-      console.log("error", { host, user, password, database, port }, error);
+      console.log(
+        "error",
+        { query, data, host, user, password, database, port },
+        error
+      );
       return reject(
         errors["4001"]({
           dataLayer,

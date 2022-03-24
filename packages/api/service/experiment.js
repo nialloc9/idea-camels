@@ -1,12 +1,12 @@
-const { onGetWithThemeByAccountRef, onCreate } = require("../data/experiment");
+const {
+  onGetWithThemeAndCampaignByAccountRef,
+  onCreate,
+} = require("../data/experiment");
 const { onCreate: onCreateTheme } = require("../data/theme");
 const { onGet: onGetDomainByDomainRef } = require("../data/domain");
 const { onGet: onGetAccount } = require("../data/account");
-const {
-  generateRandomId,
-  handleSuccess,
-  getDateInYYMMDD,
-} = require("../utils/utils");
+const { onCreate: onCreateCampaign } = require("../data/campaign");
+const { generateRandomId, handleSuccess } = require("../utils/utils");
 const {
   getMetrics,
   createCampaign,
@@ -18,12 +18,25 @@ const {
 const { runTask, uploadToS3 } = require("../utils/aws");
 const { writeToTmpFile } = require("../utils/file");
 const { chargeCustomer } = require("../utils/stripe");
-const {
-  calculateAdBudgetMinusMarkup,
-  calculateTotalExperimentCost,
-} = require("../utils/payments");
+const { calculateTotalExperimentCost } = require("../utils/payments");
 const config = require("../utils/config");
+const {
+  mapCriterionsToDb,
+  mapKeywordsToCriterionToCreate,
+  mapExperimentsToAdGroupNames,
+  mapBuildExperimentToECSConfig,
+  mapExperimentToCampaignBudget,
+  mapExperimentToCampaign,
+  mapExperimentToAdGroup,
+  mapExperimentToAdGroupAd,
+  mapMetricsToExperiment,
+} = require("./utils/experiment");
 
+/**
+ * @description gets experiments linked to account
+ * @param {*} param0
+ * @returns
+ */
 const onGetAccountExperiments = ({
   data: {
     decodedToken: {
@@ -34,26 +47,34 @@ const onGetAccountExperiments = ({
 }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const metrics = await getMetrics({
-        metrics: ["clicks", "impressions"],
-        orderBy: "clicks",
-        adGroupResourceName: "customers/9074082905/adGroups/108117690178",
-      });
-
       const {
         data: { experiments },
-      } = await onGetWithThemeByAccountRef({ data: { accountRef }, caller });
+      } = await onGetWithThemeAndCampaignByAccountRef({
+        data: { accountRef },
+        caller,
+      });
 
-      const campaigns = await listCampaigns();
+      const response = {
+        experiments,
+      };
+
+      if (experiments.length > 0) {
+        const metrics = await getMetrics({
+          metrics: ["clicks", "impressions"],
+          orderBy: "clicks",
+          adGroupResourceName: mapExperimentsToAdGroupNames(experiments), // e.g ["customers/9074082905/adGroups/108117690178"]
+        });
+
+        response.experiments = mapMetricsToExperiment({ experiments, metrics });
+      }
 
       // TODO: run cron to update database to expired for domains going to expire tomorrow
       // TODO: run cron to send email for domains going to expire in 1 month and in 1 week
       resolve(
-        handleSuccess(`SERVICE - GET_ACCOUNT_EXPERIMENTS - FROM ${caller}`, {
-          experiments,
-          metrics,
-          campaigns,
-        })
+        handleSuccess(
+          `SERVICE - GET_ACCOUNT_EXPERIMENTS - FROM ${caller}`,
+          response
+        )
       );
     } catch (error) {
       reject(error);
@@ -162,117 +183,85 @@ const onCreateExperiment = ({
         caller,
       });
 
-      const { error: taskError } = await runTask({
-        cluster: config.aws.clusters.builder.name,
-        taskDefinition: config.aws.clusters.builder.taskDefinition,
-        environmentVariables: [
-          {
-            name: "EXPERIMENT_REF",
-            value: newExperiment.experiment_ref.toString(),
-          },
-          { name: "TEMPLATE_REF", value: templateRef.toString() },
-        ],
-      });
+      const { error: taskError } = await runTask(
+        mapBuildExperimentToECSConfig({
+          experimentRef: newExperiment.experiment_ref,
+          templateRef,
+        })
+      );
 
       if (taskError) {
         throw new Error(taskError);
       }
 
-      const campaignBudget = {
-        amount_micros: calculateAdBudgetMinusMarkup({ budget }) * 1000000,
-        explicitly_shared: false, // only for this campaign
-        name: `${accountRef}-${domainRef}-${newExperiment.experiment_ref}-${name}-budget`,
-        period: 2, // DAILY - period to spend budget
-        status: 2, // ENABLED
-        type: 2, // STANDARD - caps daily spend at twice the specified budget amount
-      };
+      const { resource_name: budgetName } = await createBudget(
+        mapExperimentToCampaignBudget({
+          budget,
+          accountRef,
+          domainRef,
+          experimentRef: newExperiment.experiment_ref,
+          name,
+        })
+      );
 
-      const { resource_name: budgetName } = await createBudget(campaignBudget);
+      const { resource_name: campaignName } = await createCampaign(
+        mapExperimentToCampaign({
+          accountRef,
+          experimentRef: newExperiment.experiment_ref,
+          budgetName,
+          domainRef,
+          endDate,
+          name,
+        })
+      );
 
-      const campaign = {
-        advertising_channel_type: 2, // search
-        bidding_strategy_type: 9, // target spend. i.e get as many clicks as possible in budget
-        campaign_budget: budgetName,
-        end_date: getDateInYYMMDD(endDate),
-        name: `${accountRef}-${domainRef}-${newExperiment.experiment_ref}-${name}-campaign`,
-        payment_mode: 4, // CLICKs i.e pay perclick
-        start_date: getDateInYYMMDD(),
-        status: 2, // ENABLED
-      };
+      const { resource_name: adGroupName } = await createAdGroup(
+        mapExperimentToAdGroup({
+          campaignName,
+          budget,
+          experimentRef: newExperiment.experiment_ref,
+          accountRef,
+          domainRef,
+          name,
+        })
+      );
 
-      const { resource_name: campaignName } = await createCampaign(campaign);
+      const { resource_name: adGroupAdName } = await createAdGroupAd(
+        mapExperimentToAdGroupAd({
+          name,
+          adGroupName,
+          description,
+          headline,
+          headline2,
+        })
+      );
 
-      const adGroup = {
-        ad_rotation_mode: 2, // OPTIMIZE - Optimize ad group ads base don clicks or concersions
-        campaign: campaignName,
-        cpc_bid_micros: (budget / 5) * 1000000,
-        cpm_bid_micros: (budget / 5) * 1000000,
-        explorer_auto_optimizer_setting: { opt_in: false },
-        name: `${accountRef}-${domainRef}-${newExperiment.experiment_ref}-${name}-adgroup`,
-        status: 2, // ENABLED
-        targeting_setting: {},
-        type: 2, // SEARCH CAMPAIGNS
-        url_custom_parameters: [],
-      };
-
-      const { resource_name: adGroupName } = await createAdGroup(adGroup);
-
-      const adGroupAd = {
-        ad: {
-          added_by_google_ads: false,
-          device_preference: 0,
-          expanded_text_ad: {
-            description,
-            headline_part1: headline,
-            headline_part2: headline2,
-          },
-          final_app_urls: [],
-          final_mobile_urls: [],
-          final_urls: [`https://${name}`],
-          url_collections: [],
-          url_custom_parameters: [],
-        },
-        ad_group: adGroupName,
-        status: 2, // ENABLED
-      };
-
-      const { resource_name: adGroupAdName } = await createAdGroupAd(adGroupAd);
-
-      const keywordCriterians = keywords.reduce((total = [], curr) => {
-        if (curr) {
-          total.push({
-            ad_group: adGroupName,
-            final_mobile_urls: [],
-            final_urls: [],
-            keyword: { match_type: 4, text: curr }, // Broad range match of keyword
-            negative: false, // target the keyword. True is exlude keyword
-            status: 2, // ENABLED
-          });
-        }
-
-        return total;
-      }, []);
+      const keywordCriterians = mapKeywordsToCriterionToCreate({
+        keywords,
+        adGroupName,
+      });
 
       const criterions = await createAdGroupCriterion(keywordCriterians);
 
-      const criterionsToAddToDb = criterions.reduce(
-        (total = [], { resource_name: criterionName }, index) => {
-          total[`keyword${index}`] = criterionName;
+      const mappedCriterionToDb = mapCriterionsToDb({
+        criterions,
+        keywords,
+      });
 
-          return total;
+      const { data: campaignData } = await onCreateCampaign({
+        data: {
+          accountRef,
+          experimentRef: newExperiment.experiment_ref,
+          campaignName,
+          budgetName,
+          adGroupName,
+          adGroupAdName,
+          headline,
+          headline2,
+          ...mappedCriterionToDb,
         },
-        []
-      );
-
-      const ideacamelsCampaign = {
-        accountRef,
-        experimentRef: newExperiment.experiment_ref,
-        campaignName,
-        budgetName,
-        adGroupName,
-        adGroupAdName,
-        ...criterionsToAddToDb,
-      };
+        caller,
+      });
 
       resolve(
         handleSuccess("SERVICE - Create Experiment Success", {
@@ -280,11 +269,10 @@ const onCreateExperiment = ({
           name,
           content: contentKey,
           theme: themeKey,
-          campaign: ideacamelsCampaign,
+          campaign: campaignData,
         })
       );
     } catch (error) {
-      console.log("error", error);
       reject(error);
     }
   });

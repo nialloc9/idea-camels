@@ -2,14 +2,55 @@ const { query } = require("../utils/database");
 const { handleSuccess } = require("../utils/utils");
 const { mapper } = require("./utils/experiment");
 const { now } = require("../utils/date");
+const { addSelectQueryColumns } = require("./utils/utils");
 
 /**
  * gets experiments by account ref
  */
-const onGetWithThemeByAccountRef = ({ data: { accountRef }, caller }) =>
+const onGetWithThemeAndCampaignByAccountRef = ({
+  data: { accountRef },
+  caller,
+}) =>
   new Promise(async (resolve, reject) => {
     try {
-      const getQuery = `SELECT e.experiment_ref, e.theme_ref, e.template_ref, e.domain_ref, e.end_date, e.budget, e.created_at, e.last_updated_at, e.deleted_flag, t.content, t.theme, d.name FROM experiments as e INNER JOIN themes as t ON e.theme_ref = t.theme_ref INNER JOIN domains as d ON e.domain_ref = d.domain_ref WHERE e.account_ref=${accountRef} AND e.deleted_flag != 1`;
+      const values = [
+        "c.experiment_ref",
+        "c.campaign_name",
+        "c.budget_name",
+        "c.ad_group_name",
+        "c.ad_group_ad_name",
+        "c.criterion_0_name",
+        "c.criterion_1_name",
+        "c.criterion_2_name",
+        "c.criterion_3_name",
+        "c.criterion_4_name",
+        "c.criterion_5_name",
+        "c.keyword_0",
+        "c.keyword_1",
+        "c.keyword_2",
+        "c.keyword_3",
+        "c.keyword_4",
+        "c.keyword_5",
+        "c.keyword_6",
+        "c.headline",
+        "c.headline_2",
+        "e.experiment_ref",
+        "e.theme_ref",
+        "e.template_ref",
+        "e.domain_ref",
+        "e.end_date",
+        "e.budget",
+        "e.created_at",
+        "e.last_updated_at",
+        "e.deleted_flag",
+        "t.content",
+        "t.theme",
+        "d.name",
+      ];
+
+      const getQuery = `SELECT ${addSelectQueryColumns(
+        values
+      )} FROM experiments as e INNER JOIN themes as t ON e.theme_ref = t.theme_ref INNER JOIN domains as d ON e.domain_ref = d.domain_ref INNER JOIN campaigns as c on e.experiment_ref = c.experiment_ref WHERE e.account_ref=${accountRef} AND e.deleted_flag != 1`;
 
       const results = await query(
         getQuery,
@@ -92,7 +133,7 @@ const onUpdate = ({
   });
 
 module.exports = {
-  onGetWithThemeByAccountRef,
+  onGetWithThemeAndCampaignByAccountRef,
   onCreate,
   onUpdate,
 };

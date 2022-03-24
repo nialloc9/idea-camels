@@ -141,6 +141,21 @@ const uppercaseSentenceWords = (str) => {
   return splitStr.join(" ");
 };
 
+/**
+ * @description converts a string that is snake_case to camelCase
+ */
+const snakeToCamel = (str) =>
+  str.replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+
+/**
+ * @description converts an array to an object thats key is camelCase and value is snake_case
+ */
+const convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase = (names) =>
+  names.reduce((total = {}, curr) => {
+    total[snakeToCamel(curr)] = curr;
+    return total;
+  }, {});
+
 module.exports = {
   handleSuccess,
   generateRandomNumber,
@@ -154,5 +169,7 @@ module.exports = {
   reverseObjectKeyValues,
   changeKeys,
   uppercaseSentenceWords,
+  snakeToCamel,
+  convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase,
   logger,
 };

@@ -17,7 +17,6 @@ const {
   onGetAccountExperiments,
   onCreateExperiment,
 } = require("../service/experiment");
-const { onCreateCampaign } = require("../service/campaign");
 const {
   onHealthCheck,
   onDBHealthCheck,
@@ -143,21 +142,6 @@ const endpoints = [
       "keywords",
       "caller",
     ],
-    isAuth: true,
-  },
-  {
-    uri: "/campaign/create",
-    required: [
-      "caller",
-      "amount",
-      "maxCostPerClick",
-      "maxCostPer1000Impressions",
-      "adDescription",
-      "adHeadlinePart1",
-      "adHeadlinePart2",
-      "targetSpend",
-    ],
-    func: onCreateCampaign,
     isAuth: true,
   },
   {
