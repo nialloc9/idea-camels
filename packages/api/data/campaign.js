@@ -9,11 +9,17 @@ const { now } = require("../utils/date");
 const onGet = ({ data: { accountRef }, caller }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const getQuery = `SELECT * FROM campaigns WHERE account_ref='${accountRef}`;
+      const getQuery = accountRef
+        ? `SELECT * FROM campaigns WHERE account_ref='${accountRef}`
+        : "SELECT * FROM campaigns";
 
-      const results = await query(getQuery, undefined, caller, "GET_CAMPAING");
+      const results = await query(getQuery, undefined, caller, "GET_CAMPAIGN");
 
-      resolve(handleSuccess(`DATA - GET_CAMPAING - FROM ${caller}`, results));
+      resolve(
+        handleSuccess(`DATA - GET_CAMPAING - FROM ${caller}`, {
+          campaigns: results,
+        })
+      );
     } catch (error) {
       reject(error);
     }

@@ -32,7 +32,7 @@ export const Experiments = ({ experiments, match = {}, isLoading }) => {
       <Dropdown pointing text={experimentText}>
         <DropdownMenu size="mini">
           {experiments.map(({ experiment_ref, name }) => (
-            <SoftLink to={`/home/${experiment_ref}`}>
+            <SoftLink to={`/home?experiment_ref=${experiment_ref}`}>
               <DropdownItem key={`experiment-${experiment_ref}`}>
                 {name}
               </DropdownItem>

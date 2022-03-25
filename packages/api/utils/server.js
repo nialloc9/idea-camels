@@ -25,7 +25,8 @@ const {
 } = require("../service/healthCheck");
 const { getSignedUrl } = require("../service/upload");
 const { onAddCard, onChargeCustomer } = require("../service/payment");
-const { onGetLead, onCreateLead } = require("../service/lead");
+const { onCreateLead } = require("../service/lead");
+const { onGetAdPerformance } = require("../service/report");
 const { logger } = require("./utils");
 
 console.log("==== CONFIG ====");
@@ -163,16 +164,15 @@ const endpoints = [
     isAuth: true,
   },
   {
-    uri: "/lead/get",
-    required: ["caller"],
-    func: onGetLead,
-    isAuth: true,
-  },
-  {
     uri: "/lead/create",
     required: ["email", "caller"],
     func: onCreateLead,
     isAuth: true,
+  },
+  {
+    uri: "/report/get-ad-performance",
+    required: [],
+    func: onGetAdPerformance,
   },
   {
     uri: "/health-check",

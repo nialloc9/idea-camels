@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
 import { Grid, GridRow, GridColumn } from "../components/Grid";
 import { List, ListItem } from "../components/List";
+import { useLocation } from "../components/Router";
 import { Segment } from "../components/Styled/Segment";
+import { Button } from "../components/Styled/Button";
 import {
   Table,
   TableHeader,
@@ -10,97 +12,96 @@ import {
   TableCell,
   TableBody,
 } from "../components/Styled/Table";
-import { Input } from "../components/Form/Input";
-import { Button } from "../components/Button";
+import { Block } from "../components/Styled/Block";
+import { Message } from "../components/Message";
+
 import { PieChart } from "../components/PieChart";
 import { Header } from "../components/Header";
-import { Progress } from "../components/Progress";
-import { Block } from "../components/Styled/Block";
 import withPageAnalytics from "../hoc/withPageAnalytics";
 import theme from "../config/theme";
 import { remCalc } from "../utils/style";
+import { formatToUtc } from "../utils/utils";
+import { connect } from "../store";
 
-const defaultKeywords = [
-  {
-    text: "Test my idea",
-    estimatedCostPerClick: 1,
-    estimatedDailyClicks: 12,
-  },
-  {
-    text: "Is my idea good?",
-    estimatedCostPerClick: 3,
-    estimatedDailyClicks: 1,
-  },
-  {
-    text: "Business idea",
-    estimatedCostPerClick: 8,
-    estimatedDailyClicks: 4,
-  },
-  {
-    text: "Marketing idea",
-    estimatedCostPerClick: 6,
-    estimatedDailyClicks: 12,
-  },
-  {
-    text: "Is my website idea good?",
-    estimatedCostPerClick: 7,
-    estimatedDailyClicks: 6,
-  },
-  {
-    text: "Test my website idea cheaply",
-    estimatedCostPerClick: 1,
-    estimatedDailyClicks: 1,
-  },
-];
+const renderInputListItem = ({ keywords }) =>
+  keywords.map((o) => <ListItem key={`keywords-${o}`}>{o}</ListItem>);
 
-const renderCostRow = ({
-  text,
-  estimatedCostPerClick,
-  estimatedDailyClicks,
-}) => (
-  <TableRow>
-    <TableCell>{text}</TableCell>
-    <TableCell>£{estimatedCostPerClick}</TableCell>
-    <TableCell>{estimatedDailyClicks}</TableCell>
-    <TableCell>£{estimatedCostPerClick * estimatedDailyClicks}</TableCell>
-  </TableRow>
-);
+const Home = ({ experiments = [] }) => {
+  const location = new URLSearchParams(useLocation().search);
+  const experimentRef = location.get("experiment_ref");
 
-const totalCost = defaultKeywords.reduce(
-  (total, { estimatedCostPerClick, estimatedDailyClicks }) =>
-    total + estimatedCostPerClick * estimatedDailyClicks,
-  0
-);
+  const experiment = experiments.find(
+    (o) => o.experiment_ref === parseInt(experimentRef)
+  );
 
-const renderInputListItem = ({ text }) => (
-  <ListItem key={`keywords-${text}`}>
-    <Input fluid value={text} />
-  </ListItem>
-);
+  if (!experiment) {
+    return (
+      <Block
+        padding={remCalc(50)}
+        textAlign="center"
+        margin="auto"
+        minHeight={remCalc(600)}
+      >
+        <Message compact textAlign="center">
+          Please create an experiment to get started.
+        </Message>
+      </Block>
+    );
+  }
+  console.log(experiment);
+  const {
+    metrics: { clicks, impressions },
+    leads,
+    keyword_0,
+    keyword_1,
+    keyword_2,
+    keyword_3,
+    keyword_4,
+    keyword_5,
+    headline,
+    headline2,
+  } = experiment;
 
-export default withPageAnalytics(() => (
-  <Fragment>
-    <Grid columns={2} padded centered stackable>
-      <GridRow>
-        <GridColumn>
-          <Segment height="100%">
-            <Segment>
-              <Header>Metrics</Header>
-              <Table basic="very" celled>
-                <TableHeader>
-                  <TableRow>
-                    <TableHeaderCell>Impressions</TableHeaderCell>
-                    <TableHeaderCell>Clicks</TableHeaderCell>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>12</TableCell>
-                    <TableCell>2</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+  return (
+    <Fragment>
+      <Grid columns={2} padded centered stackable>
+        <GridRow>
+          <GridColumn>
+            <Block textAlign="left">
+              <Button primary floated="left">
+                Edit Experiment
+              </Button>
+            </Block>
+          </GridColumn>
+        </GridRow>
+        <GridRow>
+          <GridColumn>
+            <Segment height="100%">
+              <Segment size="small" height="100%" textAlign="center">
+                <PieChart
+                  width={remCalc(250)}
+                  data={[
+                    {
+                      title: "Clicks",
+                      value: clicks,
+                      color: theme.colors.main000,
+                      tooltip:
+                        "Searched for and clicked on your add. A great indicator of interest.",
+                    },
+                    {
+                      title: "Impressions",
+                      value: impressions,
+                      color: "orange",
+                      tooltip:
+                        "Searched for and looked at your ad. Can be good indicator of interest.",
+                    },
+                  ]}
+                  title="Metrics"
+                />
+              </Segment>
             </Segment>
+          </GridColumn>
+          <GridColumn>
             <Segment>
               <Header>Confirmed Interest</Header>
               <Table basic="very" celled>
@@ -111,95 +112,52 @@ export default withPageAnalytics(() => (
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>test@test.com</TableCell>
-                    <TableCell>10/09/20</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>test@test.com</TableCell>
-                    <TableCell>10/09/20</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>test@test.com</TableCell>
-                    <TableCell>10/09/20</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>test@test.com</TableCell>
-                    <TableCell>10/09/20</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>test@test.com</TableCell>
-                    <TableCell>10/09/20</TableCell>
-                  </TableRow>
+                  {leads.map(({ email, created_at }) => (
+                    <TableRow>
+                      <TableCell>{email}</TableCell>
+                      <TableCell>{formatToUtc(new Date(created_at))}</TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </Segment>
-          </Segment>
-        </GridColumn>
-        <GridColumn>
-          <Segment size="small" height="100%" textAlign="center">
-            <PieChart
-              width={remCalc(250)}
-              data={[
-                {
-                  title: "Organic",
-                  value: 10,
-                  color: theme.colors.main000,
-                  tooltip: "Came via paid search",
-                },
-                {
-                  title: "Non-Organic",
-                  value: 15,
-                  color: "orange",
-                  tooltip: "Came via natural search",
-                },
-              ]}
-              title="Results"
-            />
-          </Segment>
-        </GridColumn>
-      </GridRow>
-      <GridRow>
-        <GridColumn>
-          <Segment>
-            <Segment>
-              <Header>Daily Budget</Header>
-              <Input value={`£${Math.ceil((totalCost / 100) * 120)}`} />
+          </GridColumn>
+        </GridRow>
+        <GridRow>
+          <GridColumn>
+            <Segment height="100%">
+              <Segment padded>
+                <Header>Headlines</Header>
+                <List>
+                  <ListItem>{headline}</ListItem>
+                  <ListItem>{headline2}</ListItem>
+                </List>
+              </Segment>
+              <Segment padded>
+                <Header>Keywords</Header>
+                <List>
+                  {renderInputListItem({
+                    keywords: [
+                      keyword_0,
+                      keyword_1,
+                      keyword_2,
+                      keyword_3,
+                      keyword_4,
+                      keyword_5,
+                    ],
+                  })}
+                </List>
+              </Segment>
             </Segment>
-            <Segment padded>
-              <Progress
-                percent={80}
-                color="orange"
-                label={`Projected Cost: £${totalCost}`}
-              />
-              <Block paddingTop={20}>
-                <Table basic="very" celled>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHeaderCell>Keywords</TableHeaderCell>
-                      <TableHeaderCell>
-                        Estimated Cost Per Click
-                      </TableHeaderCell>
-                      <TableHeaderCell>Estimated Daily Clicks</TableHeaderCell>
-                      <TableHeaderCell>Estimated Daiy Cost</TableHeaderCell>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>{defaultKeywords.map(renderCostRow)}</TableBody>
-                </Table>
-              </Block>
-            </Segment>
-          </Segment>
-        </GridColumn>
-        <GridColumn>
-          <Segment height="100%">
-            <Segment padded>
-              <Header>Add your keywords</Header>
-              <List>{defaultKeywords.map(renderInputListItem)}</List>
-              <Button icon="plus" />
-            </Segment>
-          </Segment>
-        </GridColumn>
-      </GridRow>
-    </Grid>
-  </Fragment>
-));
+          </GridColumn>
+        </GridRow>
+      </Grid>
+    </Fragment>
+  );
+};
+
+const mapStateToProps = ({ experiment: { data } }) => ({
+  experiments: data,
+});
+
+export default connect(mapStateToProps, {})(withPageAnalytics(Home));

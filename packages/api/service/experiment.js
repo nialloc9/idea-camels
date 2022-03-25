@@ -6,6 +6,7 @@ const { onCreate: onCreateTheme } = require("../data/theme");
 const { onGet: onGetDomainByDomainRef } = require("../data/domain");
 const { onGet: onGetAccount } = require("../data/account");
 const { onCreate: onCreateCampaign } = require("../data/campaign");
+const { onGetMultiple: onGetMultipleLeads } = require("../data/leads");
 const { generateRandomId, handleSuccess } = require("../utils/utils");
 const {
   getMetrics,
@@ -30,6 +31,7 @@ const {
   mapExperimentToAdGroup,
   mapExperimentToAdGroupAd,
   mapMetricsToExperiment,
+  mapExperimentsToLeads,
 } = require("./utils/experiment");
 
 /**
@@ -60,12 +62,37 @@ const onGetAccountExperiments = ({
 
       if (experiments.length > 0) {
         const metrics = await getMetrics({
-          metrics: ["clicks", "impressions"],
+          metrics: [
+            "clicks",
+            "impressions",
+            "average_cpm",
+            "average_cpc",
+            "cost_micros",
+            "engagements",
+            "gmail_forwards",
+          ],
           orderBy: "clicks",
           adGroupResourceName: mapExperimentsToAdGroupNames(experiments), // e.g ["customers/9074082905/adGroups/108117690178"]
         });
 
-        response.experiments = mapMetricsToExperiment({ experiments, metrics });
+        const experimentsWithMetrics = mapMetricsToExperiment({
+          experiments,
+          metrics,
+        });
+
+        const { data: leads } = await onGetMultipleLeads({
+          data: {
+            experimentRef: experimentsWithMetrics.map(
+              ({ experiment_ref }) => experiment_ref
+            ),
+          },
+          caller,
+        });
+
+        response.experiments = mapExperimentsToLeads({
+          experiments: experimentsWithMetrics,
+          leads,
+        });
       }
 
       // TODO: run cron to update database to expired for domains going to expire tomorrow

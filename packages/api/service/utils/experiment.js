@@ -170,10 +170,32 @@ const mapMetricsToExperiment = ({ metrics, experiments }) => {
     },
     {}
   );
-  console.log(mappedMetricsToAdGroupName, experiments);
+
   return experiments.map((o) => ({
     ...o,
     metrics: mappedMetricsToAdGroupName[o.ad_group_name],
+  }));
+};
+
+/**
+ * @description maps leads to experiments
+ */
+const mapExperimentsToLeads = ({ leads = [], experiments = [] }) => {
+  const newLeads = Array.isArray(leads) ? leads : [];
+
+  const leadsMappedToExperimentRef = newLeads.reduce((total = {}, curr) => {
+    if (total[curr.experiment_ref]) {
+      total[curr.experiment_ref].push(curr);
+    } else {
+      total[curr.experiment_ref] = [curr];
+    }
+
+    return total;
+  }, {});
+
+  return experiments.map((o) => ({
+    ...o,
+    leads: leadsMappedToExperimentRef[o.experiment_ref] || [],
   }));
 };
 
@@ -187,4 +209,5 @@ module.exports = {
   mapExperimentToAdGroup,
   mapExperimentToAdGroupAd,
   mapMetricsToExperiment,
+  mapExperimentsToLeads,
 };

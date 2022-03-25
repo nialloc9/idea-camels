@@ -4,6 +4,30 @@ const { mapper } = require("./utils/experiment");
 const { now } = require("../utils/date");
 const { addSelectQueryColumns } = require("./utils/utils");
 
+const onGet = ({ caller }) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const getQuery = `SELECT * FROM experiments`;
+
+      const results = await query(
+        getQuery,
+        undefined,
+        caller,
+        "GET_EXPERIMENTS"
+      );
+
+      console.log("yo", results);
+
+      resolve(
+        handleSuccess(`DATA - GET_EXPERIMENTSF - FROM ${caller}`, {
+          experiments: results,
+        })
+      );
+    } catch (error) {
+      reject(error);
+    }
+  });
+
 /**
  * gets experiments by account ref
  */
@@ -56,12 +80,12 @@ const onGetWithThemeAndCampaignByAccountRef = ({
         getQuery,
         undefined,
         caller,
-        "GET_EXPERIMENTS_BY_ACCOUNT_REF"
+        "GET_EXPERIMENTS_WITH_THEME_AND_CAMPAIGN_BY_ACCOUNT_REF"
       );
 
       resolve(
         handleSuccess(
-          `DATA - GET_EXPERIMENTS_BY_ACCOUNT_REF - FROM ${caller}`,
+          `DATA - GET_EXPERIMENTS_WITH_THEME_AND_CAMPAIGN_BY_ACCOUNT_REF - FROM ${caller}`,
           { experiments: results }
         )
       );
@@ -133,6 +157,7 @@ const onUpdate = ({
   });
 
 module.exports = {
+  onGet,
   onGetWithThemeAndCampaignByAccountRef,
   onCreate,
   onUpdate,

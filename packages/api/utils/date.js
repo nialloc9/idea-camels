@@ -23,7 +23,7 @@ const getYearsFromDate = (years = 1, date = new Date()) => {
   return date;
 };
 
-const getDate = ({ timestamp, format, date }) => {
+const getDate = ({ format, date }) => {
   const newDate = date || new Date();
   console.log(newDate, newDate.getFullYear());
   return (

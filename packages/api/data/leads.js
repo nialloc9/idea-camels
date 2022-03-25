@@ -9,14 +9,38 @@ const { now } = require("../utils/date");
 const onGet = ({ data: { experimentRef, leadRef }, caller }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const whereClause = email
-        ? `experiment_ref='${experimentRef}';`
+      const whereClause = experimentRef
+        ? `experiment_ref=${experimentRef};`
         : `lead_ref='${leadRef}';`;
       const getQuery = `SELECT * FROM leads WHERE ${whereClause}`;
 
       const results = await query(getQuery, undefined, caller, "GET_LEAD");
 
       resolve(handleSuccess(`DATA - GET_LEAD - FROM ${caller}`, results));
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+/**
+ * gets multple leads
+ */
+const onGetMultiple = ({ data: { experimentRef, leadRef }, caller }) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const whereClause = experimentRef ? `experiment_ref` : `lead_ref`;
+      const getQuery = `SELECT * FROM leads WHERE ${whereClause} IN (?)`;
+
+      const results = await query(
+        getQuery,
+        experimentRef || leadRef,
+        caller,
+        "GET_MULTIPLE_LEADS"
+      );
+
+      resolve(
+        handleSuccess(`DATA - GET_MULTIPLE_LEADS - FROM ${caller}`, results)
+      );
     } catch (error) {
       reject(error);
     }
@@ -86,6 +110,7 @@ const onUpdate = ({
 
 module.exports = {
   onGet,
+  onGetMultiple,
   onCreate,
   onUpdate,
 };

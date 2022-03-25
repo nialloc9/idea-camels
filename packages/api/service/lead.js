@@ -1,25 +1,5 @@
-const { onGet, onCreate } = require("../data/leads");
-const errors = require("../utils/errors");
+const { onCreate } = require("../data/leads");
 const { handleSuccess } = require("../utils/utils");
-
-/**
- * gets leads from database
- * @param {*} param0
- * @returns
- */
-const onGetLead = ({ data: { leadRef, experimentRef }, caller }) =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const response = await onGet({
-        data: { leadRef, experimentRef },
-        caller,
-      });
-
-      resolve(response);
-    } catch (error) {
-      reject(error);
-    }
-  });
 
 /**
  * @description creates a lead
@@ -50,6 +30,5 @@ const onCreateLead = ({
   });
 
 module.exports = {
-  onGetLead,
   onCreateLead,
 };
