@@ -19,7 +19,6 @@ const onGetByExperimentRef = ({ data: { experimentRef } }) =>
         handleSuccess(`DATA - GET_EXPERIMENT_BY_EXPERIMENT_REF`, results)
       );
     } catch (error) {
-      console.log("er", error);
       reject(error);
     }
   });
@@ -34,7 +33,7 @@ const onUpdate = ({ data: { experimentRef, data: updateData }, caller }) =>
 
       const data = {
         last_updated_at: now(),
-        ...mapper(updateData),
+        ...updateData,
       };
 
       await query(updateQuery, data, caller, "UPDATE_EXPERIMENT");
