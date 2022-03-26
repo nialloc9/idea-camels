@@ -24,6 +24,34 @@ const onGetByExperimentRef = ({ data: { experimentRef } }) =>
     }
   });
 
+/**
+ * updates an experiment
+ */
+const onUpdate = ({ data: { experimentRef, data: updateData }, caller }) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const updateQuery = `UPDATE experiments SET ? WHERE experiment_ref='${experimentRef}'`;
+
+      const data = {
+        last_updated_at: now(),
+        ...mapper(updateData),
+      };
+
+      await query(updateQuery, data, caller, "UPDATE_EXPERIMENT");
+
+      resolve(
+        handleSuccess(`DATA - UPDATE_EXPERIMENT - FROM ${caller}`, {
+          ...data,
+          account_ref: accountRef,
+          last_updated_at: now(),
+        })
+      );
+    } catch (error) {
+      reject(error);
+    }
+  });
+
 module.exports = {
   onGetByExperimentRef,
+  onUpdate,
 };

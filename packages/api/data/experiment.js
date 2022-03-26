@@ -126,7 +126,7 @@ const onCreate = ({ data, caller }) =>
   });
 
 /**
- * updates an account
+ * updates an experiment
  */
 const onUpdate = ({
   data: { accountRef, lastUpdatedBy, data: updateData },

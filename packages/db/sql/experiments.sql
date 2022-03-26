@@ -11,6 +11,7 @@ CREATE TABLE experiments
   template_ref int NOT NULL,
   end_date bigint NOT NULL,
   budget int NOT NULL,
+  status VARCHAR(50) DEFAULT 'PENDING',
   created_by int(9),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

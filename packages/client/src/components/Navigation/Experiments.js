@@ -29,7 +29,7 @@ export const Experiments = ({ experiments, match = {}, isLoading }) => {
 
   return (
     <AnalyticsMenuItem action="navigation-experiments" label="click">
-      <Dropdown pointing text={experimentText}>
+      <Dropdown text={experimentText}>
         <DropdownMenu size="mini">
           {experiments.map(({ experiment_ref, name }) => (
             <SoftLink to={`/home?experiment_ref=${experiment_ref}`}>
