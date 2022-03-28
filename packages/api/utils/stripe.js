@@ -16,7 +16,7 @@ const getCustomer = ({ customerId }) =>
  * @param {*} param0
  * @returns
  */
-const createCustomer = ({ name, email, phone, caller, description }) =>
+const createCustomer = async ({ name, email, phone, caller, description }) =>
   stripeProvider.customers.create({
     name,
     email,
