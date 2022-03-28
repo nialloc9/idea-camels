@@ -5,7 +5,6 @@ import Footer from "./components/Footer";
 import { theme } from "./config";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
-import ComingSoon from "./pages/ComingSoon";
 import CreateExperiment from "./pages/CreateExperiment";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
@@ -18,10 +17,6 @@ import { history } from "./store/middleware/history";
 import { Router, Switch, OpenRoute, PrivateRoute } from "./components/Router";
 
 const routes = [
-  {
-    path: "/coming-soon",
-    component: ComingSoon,
-  },
   {
     path: "/home/:experimentId",
     component: Home,
