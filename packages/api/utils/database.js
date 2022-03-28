@@ -26,7 +26,7 @@ const getConnection = async (caller) =>
     DatabasePool.getConnection((error, connection) => {
       logger.error(error);
       if (error) {
-        console.log("here2", error);
+        console.log("DATABASE_CONNECTION_ERROR", error);
         return reject(
           errors["4000"]({
             caller,

@@ -129,4 +129,4 @@ module.exports = prod;
 //     localhost,
 //     staging,
 //     prod,
-//   }[ENV] || localhost;]
+//   }[ENV] || localhost]

@@ -41,10 +41,9 @@ const client = new GoogleAdsApi({
 });
 
 const customer = client.Customer({
-  customer_id: "5213472317",
+  customer_id: config.googleAds.customerIdSplit,
   refresh_token: config.googleAds.refreshToken,
   logging: { verbosity: !config.isProd ? "info" : "debug" },
-  // login_customer_id: '5465623599'
 });
 
 /**
