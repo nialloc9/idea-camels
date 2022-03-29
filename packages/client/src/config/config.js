@@ -1,3 +1,5 @@
+import { logger } from "../utils/utils";
+
 const { REACT_APP_ENV } = process.env;
 
 const {
@@ -58,7 +60,14 @@ const production = {
   },
 };
 
-export default {
-  staging,
-  production,
-}[REACT_APP_ENV] || localhost;
+const selectedConfig =
+  {
+    staging,
+    production,
+  }[REACT_APP_ENV] || localhost;
+
+if (!selectedConfig.isProd) {
+  logger.info("============== CONFIG ==============", selectedConfig);
+}
+
+export default selectedConfig;
