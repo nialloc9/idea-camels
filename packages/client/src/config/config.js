@@ -8,7 +8,7 @@ const {
 
 const localhost = {
   env: REACT_APP_ENV,
-  isProd: REACT_APP_ENV === "production",
+  isProd: REACT_APP_ENV === "prod",
   pathname,
   social: {
     facebook: "https://facebook.com",
