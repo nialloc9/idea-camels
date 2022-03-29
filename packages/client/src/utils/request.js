@@ -17,21 +17,25 @@ export const post = async ({
   },
   token,
 }) => {
-  const headersToSend = token
-    ? { ...headers, Authorization: `Bearer ${token}` }
-    : headers;
+  try {
+    const headersToSend = token
+      ? { ...headers, Authorization: `Bearer ${token}` }
+      : headers;
 
-  const { data } = await axios.post(
-    url,
-    { ...body, caller: generateRandomId() },
-    { headers: headersToSend }
-  );
+    const { data } = await axios.post(
+      url,
+      { ...body, caller: generateRandomId() },
+      { headers: headersToSend }
+    );
 
-  if (data.code !== 200) {
-    throw new Error(getError(data));
+    if (data.code !== 200) {
+      throw new Error(getError(data));
+    }
+
+    return data;
+  } catch (error) {
+    throw new Error(getError(error));
   }
-
-  return data;
 };
 
 /**

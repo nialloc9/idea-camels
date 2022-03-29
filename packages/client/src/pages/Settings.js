@@ -17,34 +17,31 @@ const Page = ({
   phone,
   email,
   onUpdateAccount,
-}) => {
-  console.log({ firstName });
-  return (
-    <Block minHeight={remCalc(500)}>
-      <Grid padded centered stackable>
-        <GridRow columns={2}>
-          <GridColumn>
-            <Segment padded>
-              <Header>Account</Header>
-              <AccountDetails
-                passwordRequired={false}
-                successMessage={updateSuccessMesssage}
-                buttonText="Update"
-                onSubmit={onUpdateAccount}
-                initialValues={{ firstName, lastName, phone, email }}
-              />
-            </Segment>
-          </GridColumn>
-          <GridColumn>
-            <Segment padded>
-              <Billing />
-            </Segment>
-          </GridColumn>
-        </GridRow>
-      </Grid>
-    </Block>
-  );
-};
+}) => (
+  <Block minHeight={remCalc(500)}>
+    <Grid padded centered stackable>
+      <GridRow columns={2}>
+        <GridColumn>
+          <Segment padded>
+            <Header>Account</Header>
+            <AccountDetails
+              passwordRequired={false}
+              successMessage={updateSuccessMesssage}
+              buttonText="Update"
+              onSubmit={onUpdateAccount}
+              initialValues={{ firstName, lastName, phone, email }}
+            />
+          </Segment>
+        </GridColumn>
+        <GridColumn>
+          <Segment padded>
+            <Billing />
+          </Segment>
+        </GridColumn>
+      </GridRow>
+    </Grid>
+  </Block>
+);
 
 export default connect(
   ({

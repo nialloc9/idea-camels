@@ -1,3 +1,5 @@
+import { logger } from "../utils/utils";
+
 const errors = {
   1000: "Email already in use.",
   1001: "Domain is not owned by this account.",
@@ -11,4 +13,8 @@ const errors = {
 const defaultError = ({ code = 500 }) =>
   `An error has occured. Please reload your browser. Code: ${code}.`;
 
-export const getError = ({ code }) => errors[code] || defaultError({ code });
+export const getError = (error) => {
+  logger.error("API_ERROR", error);
+  const { code } = error;
+  return errors[code] || defaultError({ code });
+};
