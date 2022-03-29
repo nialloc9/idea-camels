@@ -180,18 +180,6 @@ class LoggedIn extends Component {
             </Block>
           </AnalyticsMenuItem>,
         ]}
-
-        {isOpen && (
-          <Login
-            Trigger={({ onClick }) => (
-              <AnalyticsMenuItem onClick={onClick} name="login">
-                <Block textAlign="center" width="100%">
-                  Login
-                </Block>
-              </AnalyticsMenuItem>
-            )}
-          />
-        )}
       </Menu>
     );
   }
