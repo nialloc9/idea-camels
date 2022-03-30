@@ -1,6 +1,6 @@
 import axios from "axios";
 import { config } from "../config";
-import { generateRandomId } from "./utils";
+import { generateRandomId, logger } from "./utils";
 
 /**
  * @description sends http request
@@ -19,6 +19,12 @@ export const post = async ({
   const headersToSend = token
     ? { ...headers, Authorization: `Bearer ${token}` }
     : headers;
+
+  logger.log("========== API CALL ==========", {
+    url,
+    data: { ...body, caller: generateRandomId() },
+    config: { headers: headersToSend },
+  });
 
   const { data } = await axios.post(
     url,
