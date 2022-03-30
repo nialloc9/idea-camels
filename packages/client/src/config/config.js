@@ -1,14 +1,14 @@
 import { logger } from "../utils/utils";
 
-const { REACT_APP_ENV } = process.env;
+const { NODE_ENV } = process.env;
 
 const {
   location: { pathname },
 } = window;
 
 const localhost = {
-  env: REACT_APP_ENV,
-  isProd: REACT_APP_ENV === "prod",
+  env: NODE_ENV,
+  isProd: NODE_ENV === "production",
   pathname,
   social: {
     facebook: "https://facebook.com",
@@ -64,10 +64,8 @@ const selectedConfig =
   {
     staging,
     production,
-  }[REACT_APP_ENV] || localhost;
+  }[NODE_ENV] || localhost;
 
-if (!selectedConfig.isProd) {
-  logger.info("============== CONFIG ==============", selectedConfig);
-}
+logger.info("============== CONFIG ==============", selectedConfig);
 
 export default selectedConfig;
