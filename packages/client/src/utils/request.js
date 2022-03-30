@@ -32,6 +32,10 @@ export const post = async ({
     { headers: headersToSend }
   );
 
+  logger.log("========== API CALL SUCCESS RESPONSE ==========", {
+    data,
+  });
+
   return data;
 };
 

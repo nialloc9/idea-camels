@@ -64,7 +64,11 @@ const NotLoggedIn = ({ theme }) => {
       {isOpen && (
         <Login
           Trigger={({ onClick }) => (
-            <AnalyticsMenuItem onClick={onClick} name="login">
+            <AnalyticsMenuItem
+              onClick={onClick}
+              name="login"
+              action="navigation-login"
+            >
               <Block textAlign="center" width="100%">
                 Login
               </Block>

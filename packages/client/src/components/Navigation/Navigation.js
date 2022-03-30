@@ -55,7 +55,11 @@ const NotLoggedIn = ({ theme }) => {
           ))}
           <Login
             Trigger={({ onClick }) => (
-              <AnalyticsMenuItem onClick={onClick} name="login" />
+              <AnalyticsMenuItem
+                onClick={onClick}
+                name="login"
+                action="navigation-login"
+              />
             )}
           />
         </MenuMenu>
