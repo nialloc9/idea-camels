@@ -20,21 +20,11 @@ export const post = async ({
     ? { ...headers, Authorization: `Bearer ${token}` }
     : headers;
 
-  logger.log("========== API CALL ==========", {
-    url,
-    data: { ...body, caller: generateRandomId() },
-    config: { headers: headersToSend },
-  });
-
   const { data } = await axios.post(
     url,
     { ...body, caller: generateRandomId() },
     { headers: headersToSend }
   );
-
-  logger.log("========== API CALL SUCCESS RESPONSE ==========", {
-    data,
-  });
 
   return data;
 };
@@ -52,14 +42,23 @@ export const postApi = async ({ uri, body, headers, token }) => {
       headers,
       token,
     });
-    console.log(1, data);
+    logger.log("========== POST API CALL RESPONSE ==========", {
+      data,
+    });
     return { data };
-  } catch ({
-    response: {
-      statusText,
-      data: { message, code, data },
-    },
-  }) {
+  } catch (error) {
+    logger.log("========== POST API CALL SUCCESS RESPONSE ==========", {
+      error,
+      response: error.response,
+    });
+
+    const {
+      response: {
+        statusText,
+        data: { message, code, data },
+      },
+    } = error;
+
     return {
       error: {
         message: message || statusText,

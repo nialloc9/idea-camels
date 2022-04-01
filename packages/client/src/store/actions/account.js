@@ -23,32 +23,29 @@ const setState = (dispatch) => (payload) =>
 export const onAddNewCard = ({ id, card }) => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
 
-  const payload = { isAddCardLoading: true, addCardErrorMessage: "" };
+  onSetState({ isAddCardLoading: true, addCardErrorMessage: "" });
 
-  try {
-    onSetState(payload);
+  const {
+    account: { token },
+  } = getState();
 
-    const {
-      account: { token },
-    } = getState();
+  const { error } = await postApi({
+    uri: `payment/add-card`,
+    token,
+    body: {
+      cardToken: id,
+    },
+  });
 
-    await postApi({
-      uri: `payment/add-card`,
-      token,
-      body: {
-        cardToken: id,
-      },
+  if (error) {
+    const { message } = error;
+    return onSetState({
+      isAddCardLoading: false,
+      addCardErrorMessage: message,
     });
-
-    payload.card = card;
-
-    payload.addCardErrorMessage = "";
-  } catch ({ message }) {
-    payload.addCardErrorMessage = message;
-  } finally {
-    payload.isAddCardLoading = false;
-    onSetState(payload);
   }
+
+  onSetState({ isAddCardLoading: false, addCardErrorMessage: "", card });
 };
 
 /**

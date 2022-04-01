@@ -1,12 +1,13 @@
 import { logger } from "../utils/utils";
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV, GITHUB_RUN_NUMBER = "test" } = process.env;
 
 const {
   location: { pathname },
 } = window;
 
 const localhost = {
+  buildNumber: GITHUB_RUN_NUMBER,
   env: NODE_ENV,
   isProd: NODE_ENV === "production",
   pathname,
