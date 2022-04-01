@@ -7,14 +7,14 @@ import { generateRandomId, logger } from "./utils";
  * @param {*} param0
  * @returns
  */
-const configureErrorResponse = (err) => {
+const configureErrorResponse = ({ error: err }) => {
   try {
     if (config.env === "development") {
       const {
         response: {
           data: { message },
         },
-      } = err.error;
+      } = err;
 
       return {
         message: message || "An error has occured. Please try again.",
