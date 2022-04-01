@@ -36,6 +36,7 @@ export default withTheme(({ theme, content, onSetExperiment }) => {
           onClick={handleMenuClick}
           icon="align justify"
           backgroundColor={theme.colors.main001}
+          action="navigation-menu-button-click"
           color={theme.colors.white000}
         />
       </Item>

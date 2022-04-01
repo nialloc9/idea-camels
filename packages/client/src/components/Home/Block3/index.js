@@ -201,7 +201,6 @@ export default withTheme(({ theme: { block3 } }) => (
             color="black"
             size={block3.overlay.button.size}
             basic
-            action="block3-button"
             action="learn-more-click"
           >
             Learn More

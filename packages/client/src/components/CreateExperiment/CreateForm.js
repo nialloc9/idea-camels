@@ -362,6 +362,7 @@ class CreateForm extends Component {
                     <Button
                       display="left"
                       icon="plus"
+                      action="add-keywords-click"
                       onClick={this.handleAddKeywords}
                     />
                   </GridColumn>
@@ -450,6 +451,7 @@ class CreateForm extends Component {
                     positive
                     disabled={submitting || pristine}
                     isLoading={submitting}
+                    action="create-experiment-form-1-submit-click"
                     onClick={() => this.setState({ isConfirmOpen: true })}
                   >
                     Next

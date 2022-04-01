@@ -28,11 +28,17 @@ const Template = ({
   return (
     <Fragment>
       <Segment padded>
-        <Button onClick={() => onSetFormIndex(0)}>Back</Button>
+        <Button
+          action="template-create-back-click"
+          onClick={() => onSetFormIndex(0)}
+        >
+          Back
+        </Button>
         <Button
           positive
           disabled={isCreateLoading}
           loading={isCreateLoading}
+          action="create-experiment-form-2-submit-click"
           onClick={onSubmit}
         >
           Create Experiment

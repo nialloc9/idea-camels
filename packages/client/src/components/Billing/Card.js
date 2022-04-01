@@ -20,7 +20,7 @@ export const Card = ({ last4Digits, brand, expiry, onClick }) => {
       </GridColumn>
       <GridColumn>{expiry}</GridColumn>
       <GridColumn>
-        <Button primary onClick={onClick}>
+        <Button primary action="update-card-submit-click" onClick={onClick}>
           Update
         </Button>
       </GridColumn>

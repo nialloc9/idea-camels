@@ -9,7 +9,6 @@ import { Grid, GridColumn } from "../Grid";
 import { Button } from "../Styled/Button";
 import { Message } from "../Styled/Message";
 import { config } from "../../config";
-import { withLoader } from "../../hoc/withLoader";
 
 const stripePromise = loadStripe(config.payments.publishableKey);
 
@@ -61,11 +60,16 @@ class CheckoutForm extends React.Component {
             <CardElement />
           </GridColumn>
           <GridColumn>
-            {showCancelButton && <Button onClick={onCancel}>Cancel</Button>}
+            {showCancelButton && (
+              <Button action="add-card-cancel-click" onClick={onCancel}>
+                Cancel
+              </Button>
+            )}
             <Button
               primary
               disabled={loading}
               loading={loading}
+              action="add-card-submit-click"
               onClick={this.handleSubmit}
             >
               Add Card

@@ -41,7 +41,7 @@ const NotLoggedIn = ({ theme }) => {
           icon="align justify"
           backgroundColor={theme.colors.main001}
           color={theme.colors.white000}
-          action="navigation-mobile-button"
+          action="navigation-mobile-button-click"
           label="click"
         />
       </Item>
@@ -125,7 +125,7 @@ class LoggedIn extends Component {
             icon="align justify"
             backgroundColor={theme.colors.main001}
             color={theme.colors.white000}
-            action="navigation-mobile-button"
+            action="navigation-mobile-button-click"
             label="click"
           />
         </Item>

@@ -69,7 +69,12 @@ class ForgottenPasswordForm extends Component {
                 >
                   Submit
                 </Button>
-                <Button onClick={onModalBack}>Back</Button>
+                <Button
+                  action="forgotton-password-back-click"
+                  onClick={onModalBack}
+                >
+                  Back
+                </Button>
               </GridColumn>
             </Grid>
           </Form>

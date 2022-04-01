@@ -70,6 +70,7 @@ export default class EditableButton extends Component {
           {...this.buttonProps}
           hoverFilter={false}
           hoverOpacity="0.5"
+          action="editable-button-click"
           onClick={this.handleOpen}
         >
           {text}
