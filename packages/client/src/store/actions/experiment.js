@@ -2,7 +2,6 @@ import { EXPERIMENT_SET } from "../constants/experiment";
 import { DOMAIN_SET } from "../constants/domain";
 import { postApi } from "../../utils/request";
 import { deepMerge, convertDateToUnix } from "../../utils/utils";
-import { calculateTotalExperimentPrice } from "../../utils/payments";
 import { findThemeAndContent } from "../../templates";
 
 /**
@@ -25,93 +24,106 @@ const setDomainState = (dispatch) => (payload) =>
     payload,
   });
 
+/**
+ * @description fetchs account experiments
+ * @returns
+ */
 export const onFetch = () => async (dispatch, getState) => {
+  const {
+    account: { token },
+    experiment: { isFetchInitialised },
+  } = getState();
+
+  if (isFetchInitialised) return;
+
   const onSetState = setState(dispatch);
-  const payload = { isFetchLoading: true, fetchErrorMessage: "" };
-  try {
-    const {
-      account: { token },
-      experiment: { isFetchInitialised },
-    } = getState();
 
-    if (isFetchInitialised) return;
+  onSetState({ isFetchLoading: true, fetchErrorMessage: "" });
 
-    onSetState(payload);
+  const { data, error } = await postApi({
+    uri: `experiment/get-by-account`,
+    token,
+  });
 
-    const response = await postApi({ uri: `experiment/get-by-account`, token });
-
-    const {
-      data: { experiments },
-    } = response;
-
-    payload.data = experiments;
-    payload.fetchErrorMessage = "";
-    payload.isFetchInitialised = true;
-  } catch ({ message }) {
-    payload.fetchErrorMessage = message;
-  } finally {
-    payload.isFetchLoading = false;
-    onSetState(payload);
+  if (error) {
+    return onSetState({
+      isFetchLoading: false,
+      fetchErrorMessage: error.message,
+    });
   }
+
+  const { experiments } = data;
+
+  onSetState({
+    isFetchInitialised: true,
+    isFetchLoading: false,
+    fetchErrorMessage: "",
+    data: experiments,
+  });
 };
 
+/**
+ * @description creates a new experiment for the account
+ * @returns
+ */
 export const onCreate = () => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
-  const payload = { isCreateLoading: true, createErrorMessage: "" };
-  try {
-    onSetState(payload);
 
-    const {
-      account: { token },
-      experiment: {
-        data,
-        newExperiment: {
-          content,
-          theme,
-          budget,
-          endDate,
-          templateRef,
-          domainRef,
-          keyword1,
-          keyword2,
-          keyword3,
-          keyword4,
-          keyword5,
-          keyword6,
-          headline,
-          headline2,
-          description,
-        },
-      },
-    } = getState();
+  onSetState({ isCreateLoading: true, createErrorMessage: "" });
 
-    const response = await postApi({
-      uri: `experiment/create`,
-      token,
-      body: {
+  const {
+    account: { token },
+    experiment: {
+      data,
+      newExperiment: {
         content,
         theme,
         budget,
-        endDate: convertDateToUnix(endDate),
+        endDate,
         templateRef,
         domainRef,
-        keywords: [keyword1, keyword2, keyword3, keyword4, keyword5, keyword6],
+        keyword1,
+        keyword2,
+        keyword3,
+        keyword4,
+        keyword5,
+        keyword6,
         headline,
         headline2,
         description,
       },
+    },
+  } = getState();
+
+  const { data: experiment, error } = await postApi({
+    uri: `experiment/create`,
+    token,
+    body: {
+      content,
+      theme,
+      budget,
+      endDate: convertDateToUnix(endDate),
+      templateRef,
+      domainRef,
+      keywords: [keyword1, keyword2, keyword3, keyword4, keyword5, keyword6],
+      headline,
+      headline2,
+      description,
+    },
+  });
+
+  if (error) {
+    return onSetState({
+      isCreateLoading: false,
+      createErrorMessage: error.message,
     });
-
-    const { data: experiment } = response;
-
-    payload.data = [experiment, ...data];
-    payload.createErrorMessage = "";
-  } catch ({ message }) {
-    payload.createErrorMessage = message;
-  } finally {
-    payload.isCreateLoading = false;
-    onSetState(payload);
   }
+
+  onSetState({
+    isCreateLoading: false,
+    createErrorMessage: "",
+    data: [experiment, ...data],
+  });
 };
 
 /**
@@ -143,13 +155,6 @@ export const onPrepareExperiment = ({
     experiment: { newExperiment },
   } = getState();
 
-  const domainPayload = {
-    isDomainAvailable: false,
-    domainAvailableErrorMessage: "",
-    suggestedDomains: [],
-    data: domains,
-  };
-
   const { theme, content } = findThemeAndContent({ templateRef, themeRef });
 
   const experimentPayload = {
@@ -170,36 +175,39 @@ export const onPrepareExperiment = ({
     description,
   };
 
-  try {
-    const existingDomain = domains.find(({ name }) => name === domain);
+  const existingDomain = domains.find(({ name }) => name === domain);
 
-    // if does not exist purchase new domain
-    if (!existingDomain) {
-      const { data } = await postApi({
-        uri: `domain/purchase`,
-        token,
-        body: { domain },
+  if (!existingDomain) {
+    const {
+      data: domainPurchaseData,
+      error: domainPurchaseError,
+    } = await postApi({
+      uri: `domain/purchase`,
+      token,
+      body: { domain },
+    });
+
+    if (domainPurchaseError) {
+      return setDomainState({
+        isDomainAvailable: false,
+        createErrorMessage: domainPurchaseError.message,
       });
-
-      experimentPayload.domainRef = data.domainRef;
-      domainPayload.data = [data, ...domains];
-    } else {
-      experimentPayload.domainRef = existingDomain.domain_ref;
     }
 
-    onSetState({
-      formIndex: 1,
-      newExperiment: deepMerge(newExperiment, experimentPayload),
-    }); // formIndex 1 means go to next form
-  } catch ({ message, suggested }) {
-    domainPayload.isDomainAvailable = false;
-    domainPayload.suggestedDomains = suggested;
-    domainPayload.createErrorMessage = !message.includes("Domain not available")
-      ? message
-      : "";
-  } finally {
-    setDomainState(domainPayload);
+    experimentPayload.domainRef = domainPurchaseData.domainRef;
+    setDomainState({
+      isDomainAvailable: true,
+      createErrorMessage: "",
+      data: [domainPurchaseData, ...domains],
+    });
+  } else {
+    experimentPayload.domainRef = existingDomain.domain_ref;
   }
+
+  onSetState({
+    formIndex: 1,
+    newExperiment: deepMerge(newExperiment, experimentPayload),
+  }); // formIndex 1 means go to next form
 };
 
 /**

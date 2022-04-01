@@ -25,23 +25,28 @@ export const onFetch = () => async (dispatch, getState) => {
 
   if (isFetchLoading || isFetchInitialised) return;
 
-  const payload = { isFetchLoading: true, fetchErrorMessage: "", data: [] };
-  try {
-    onSetState(payload);
+  onSetState({ isFetchLoading: true, fetchErrorMessage: "", data: [] });
 
-    const {
-      data: { domains },
-    } = await postApi({ uri: `domain/get-by-account`, token });
+  const { error, data } = await postApi({
+    uri: `domain/get-by-account`,
+    token,
+  });
 
-    payload.data = domains;
-    payload.isFetchInitialised = true;
-  } catch ({ message }) {
-    payload.fetchErrorMessage = message;
-  } finally {
-    payload.isFetchLoading = false;
-
-    onSetState(payload);
+  if (error) {
+    return onSetState({
+      isFetchLoading: false,
+      fetchErrorMessage: error.message,
+    });
   }
+
+  const { domains } = data;
+
+  onSetState({
+    isFetchInitialised: true,
+    isFetchLoading: false,
+    fetchErrorMessage: "",
+    data: domains,
+  });
 };
 
 /**
@@ -58,25 +63,27 @@ export const onFetchDomainPrices = () => async (dispatch, getState) => {
 
   if (isFetchPricesLoading) return;
 
-  const payload = {
+  onSetState({
     isFetchPricesLoading: true,
     fetchPricesErrorMessage: "",
     prices: [],
-  };
-  try {
-    onSetState(payload);
+  });
 
-    const {
-      data: { prices },
-    } = await postApi({ uri: `domain/get-prices`, token });
+  const { error, data } = await postApi({ uri: `domain/get-prices`, token });
 
-    payload.prices = prices;
-    payload.isFetchPricesInitialised = true;
-  } catch ({ message }) {
-    payload.fetchPricesErrorMessage = message;
-  } finally {
-    payload.isFetchPricesLoading = false;
-
-    onSetState(payload);
+  if (error) {
+    return onSetState({
+      isFetchPricesLoading: false,
+      fetchPricesErrorMessage: error.message,
+    });
   }
+
+  const { prices } = data;
+
+  onSetState({
+    isFetchPricesLoading: false,
+    isFetchPricesInitialised: true,
+    fetchPricesErrorMessage: "",
+    prices,
+  });
 };

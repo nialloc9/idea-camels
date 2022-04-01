@@ -77,30 +77,38 @@ export const onFetchAccount = ({
   onSetState({ fetchErrorMessage: "", token, account, card });
 };
 
+/**
+ * @description checks token stored in storage to see if it is valid and if so returns account associated
+ * @param {*} originalToken
+ * @returns
+ */
 export const onReAuthAccount = (originalToken) => async (dispatch) => {
   if (originalToken === "") return;
 
-  try {
-    const onSetState = setState(dispatch);
+  const onSetState = setState(dispatch);
 
-    const response = await postApi({
-      uri: `account/reauthorise`,
-      token: originalToken,
-    });
+  const { error, data } = await postApi({
+    uri: `account/reauthorise`,
+    token: originalToken,
+  });
 
-    const {
-      data: { token, account },
-    } = response;
-
-    onSetState({
-      token,
-      account,
-    });
-  } catch (error) {
-    dispatch(onResetStore());
+  if (error) {
+    return dispatch(onResetStore());
   }
+
+  const { token, account } = data;
+
+  onSetState({
+    token,
+    account,
+  });
 };
 
+/**
+ * @description creates an account for the user
+ * @param {*} param0
+ * @returns
+ */
 export const onCreateAccount = ({
   firstName,
   lastName,
@@ -109,41 +117,32 @@ export const onCreateAccount = ({
   password,
   confirmPassword,
 }) => async (dispatch) => {
-  const onSetState = setState(dispatch);
-  const payload = { isCreateLoading: true };
-  try {
-    if (password !== confirmPassword) {
-      return { [FORM_ERROR]: "Passwords do not match" };
-    }
-
-    onSetState(payload);
-
-    const response = await postApi({
-      uri: `account/create`,
-      body: { firstName, lastName, phone, email, password },
-    });
-
-    const {
-      data: { token },
-    } = response;
-    payload.token = token;
-    payload.data = {
-      firstName,
-      lastName,
-      phone,
-      email,
-      password,
-    };
-  } catch ({ message, ...rest }) {
-    console.log({
-      message,
-      rest,
-    });
-    return { [FORM_ERROR]: message };
-  } finally {
-    payload.isCreateLoading = false;
-    onSetState(payload);
+  if (password !== confirmPassword) {
+    return { [FORM_ERROR]: "Passwords do not match" };
   }
+
+  const onSetState = setState(dispatch);
+
+  onSetState({ isCreateLoading: true });
+
+  const { data, error } = await postApi({
+    uri: `account/create`,
+    body: { firstName, lastName, phone, email, password },
+  });
+
+  if (error) {
+    onSetState({ isCreateLoading: false });
+
+    return { [FORM_ERROR]: error.message };
+  }
+
+  const { token } = data;
+
+  onSetState({
+    isCreateLoading: false,
+    token,
+    data: { firstName, lastName, phone, email, password },
+  });
 };
 
 /**
@@ -159,39 +158,40 @@ export const onUpdateAccount = ({
   password,
   confirmPassword,
 }) => async (dispatch, getState) => {
+  if (password && password !== confirmPassword) {
+    return { [FORM_ERROR]: "Passwords do not match" };
+  }
+
   const onSetState = setState(dispatch);
-  const payload = { isUpdateLoading: true, updateSuccessMesssage: "" };
-  try {
-    if (password && password !== confirmPassword) {
-      return { [FORM_ERROR]: "Passwords do not match" };
-    }
 
-    const {
-      account: { token },
-    } = getState();
+  onSetState({ isUpdateLoading: true, updateSuccessMesssage: "" });
 
-    onSetState(payload);
+  const {
+    account: { token },
+  } = getState();
 
-    await postApi({
-      uri: `account/update`,
-      token,
-      body: { updateData: { firstName, lastName, phone, email, password } },
-    });
+  const { error } = await postApi({
+    uri: `account/update`,
+    token,
+    body: { updateData: { firstName, lastName, phone, email, password } },
+  });
 
-    payload.data = {
+  if (error) {
+    onSetState({ isUpdateLoading: false });
+
+    return { [FORM_ERROR]: error.message };
+  }
+
+  onSetState({
+    isUpdateLoading: false,
+    updateSuccessMesssage: "Successfully Updated",
+    data: {
       firstName,
       lastName,
       phone,
       email,
-    };
-
-    payload.updateSuccessMesssage = "Successfully Updated";
-  } catch ({ message }) {
-    return { [FORM_ERROR]: message };
-  } finally {
-    payload.isUpdateLoading = false;
-    onSetState(payload);
-  }
+    },
+  });
 };
 
 /**
@@ -201,26 +201,31 @@ export const onUpdateAccount = ({
  */
 export const onForgottonPassword = ({ email }) => async (dispatch) => {
   const onSetState = setState(dispatch);
-  const payload = {
+
+  onSetState({
     isForgottonPasswordLoading: true,
     forgottonPasswordSuccessMessage: "",
-  };
-  try {
-    onSetState(payload);
+  });
 
-    await postApi({
-      uri: `account/forgotton-password`,
-      body: { email },
+  const { error } = await postApi({
+    uri: `account/forgotton-password`,
+    body: { email },
+  });
+
+  if (error) {
+    onSetState({
+      isForgottonPasswordLoading: false,
     });
 
-    payload.createErrorMessage = "";
-  } catch ({ message }) {
-    return { [FORM_ERROR]: message };
-  } finally {
-    payload.isForgottonPasswordLoading = false;
-    payload.forgottonPasswordSuccessMessage = `An email has been sent to ${email}.`;
-    onSetState(payload);
+    return { [FORM_ERROR]: error.message };
   }
+
+  onSetState({ isForgottonPasswordLoading: false });
+
+  onSetState({
+    isForgottonPasswordLoading: false,
+    forgottonPasswordSuccessMessage: `An email has been sent to ${email}.`,
+  });
 };
 
 /**
@@ -231,31 +236,31 @@ export const onForgottonPassword = ({ email }) => async (dispatch) => {
 export const onResetPassword = ({ password, confirmPassword }) => async (
   dispatch
 ) => {
-  const onSetState = setState(dispatch);
-  const payload = {
-    resetPasswordSuccessMessage: "",
-  };
-  try {
-    if (password && password !== confirmPassword) {
-      return { [FORM_ERROR]: "Passwords do not match" };
-    }
-
-    onSetState(payload);
-
-    const token = getQueryParameterByName("token");
-
-    await postApi({
-      uri: `account/update`,
-      token,
-      body: { updateData: { password } },
-    });
-
-    payload.resetPasswordSuccessMessage = "Successfully Updated";
-  } catch ({ message }) {
-    return { [FORM_ERROR]: message };
-  } finally {
-    onSetState(payload);
+  if (password && password !== confirmPassword) {
+    return { [FORM_ERROR]: "Passwords do not match" };
   }
+
+  const onSetState = setState(dispatch);
+
+  onSetState({
+    resetPasswordSuccessMessage: "",
+  });
+
+  const token = getQueryParameterByName("token");
+
+  const { error } = await postApi({
+    uri: `account/update`,
+    token,
+    body: { updateData: { password } },
+  });
+
+  if (error) {
+    return { [FORM_ERROR]: error.message };
+  }
+
+  onSetState({
+    resetPasswordSuccessMessage: "Successfully Updated",
+  });
 };
 
 export const onLogout = () => (dispatch) => dispatch(onResetStore());
