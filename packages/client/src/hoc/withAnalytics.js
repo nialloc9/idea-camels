@@ -10,7 +10,11 @@ export default (WrappedComponent) =>
     };
 
     handleClick = (...e) => {
-      const { action, label, onClick } = this.props;
+      const {
+        action,
+        label = window.location.pathname.substr(1).split("/")[0],
+        onClick,
+      } = this.props;
 
       handleEvent(action, label);
 

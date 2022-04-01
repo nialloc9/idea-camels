@@ -6,8 +6,7 @@ import {
   getMarginsOrPaddings,
   createMediaQuery,
 } from "../../../utils/style";
-import withAnalytics from "../../../hoc/withAnalytics";
-import { Button } from "../../Button";
+import { Button } from "../../Styled/Button";
 import { Grid, GridColumn } from "../../Grid";
 import { Card } from "../../Card";
 
@@ -184,8 +183,6 @@ const features = [
   },
 ];
 
-const AnalyticsButton = withAnalytics(Button);
-
 export default withTheme(({ theme: { block3 } }) => (
   <Container>
     <Overlay>
@@ -199,15 +196,16 @@ export default withTheme(({ theme: { block3 } }) => (
           matter of days if your new idea is worth persuing.
         </MainText>
         <ButtonContainer>
-          <AnalyticsButton
+          <Button
             href="/products"
             color="black"
             size={block3.overlay.button.size}
             basic
             action="block3-button"
+            action="learn-more-click"
           >
             Learn More
-          </AnalyticsButton>
+          </Button>
         </ButtonContainer>
       </TextContainer>
 

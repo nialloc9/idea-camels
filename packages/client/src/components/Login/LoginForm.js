@@ -114,7 +114,11 @@ class LoginForm extends Component {
             >
               Submit
             </Button>
-            <Button type="button" onClick={onModalCancel}>
+            <Button
+              type="button"
+              action="login-button-click"
+              onClick={onModalCancel}
+            >
               Cancel
             </Button>
           </GridColumn>

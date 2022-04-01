@@ -2,7 +2,7 @@ import React from "react";
 import { remCalc, styled, withTheme } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
 import { Image } from "../../Image";
-import { Button } from "../../Button";
+import { Button } from "../../Styled/Button";
 
 const Container = styled.section`
   min-height: ${({
@@ -119,8 +119,6 @@ const ButtonContainer = styled.div`
 
 const AnalyticsImage = withAnalytics(Image);
 
-const AnalyticsButton = withAnalytics(Button);
-
 export default withTheme(({ theme: { block1 } }) => (
   <Container>
     <InnerContainer>
@@ -141,15 +139,16 @@ export default withTheme(({ theme: { block1 } }) => (
       </SubHeading>
 
       <ButtonContainer>
-        <AnalyticsButton
+        <Button
           href="/sign-up"
           action="block1-button"
           color="black"
           size={block1.buttonSize}
           basic
+          action="sign-up"
         >
           Buy Now
-        </AnalyticsButton>
+        </Button>
       </ButtonContainer>
     </InnerContainer>
   </Container>

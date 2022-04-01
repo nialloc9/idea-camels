@@ -4,7 +4,6 @@ import { Button } from "../Styled/Button";
 import { Form } from "../Form/Form";
 import { FormInput } from "../Form/Input";
 import { withForm } from "../../hoc/withForm";
-import withAnalytics from "../../hoc/withAnalytics";
 import {
   validateRequiredName,
   validateRequiredLastName,
@@ -17,8 +16,6 @@ import {
   validatePhoneNumber,
 } from "../../utils/form";
 import { validateMinLength } from "@nialloc9/vcheck/lib/validation";
-
-const AnalyticsButton = withAnalytics(Button);
 
 export default withForm(
   ({
@@ -35,8 +32,6 @@ export default withForm(
     shouldShowEmail = true,
     shouldShowPhone = true,
     buttonText = "Sign Up",
-    analyticsAction = "sign-up-click",
-    analyticsLabel,
   }) => (
     <Form
       isCompactError={isCompactError}
@@ -126,15 +121,14 @@ export default withForm(
         </GridRow>
         <GridRow>
           <GridColumn>
-            <AnalyticsButton
+            <Button
               primary
               disabled={submitting || pristine}
               isLoading={submitting}
-              action={analyticsAction}
-              label={analyticsLabel}
+              action="sign-up-click"
             >
               {buttonText}
-            </AnalyticsButton>
+            </Button>
           </GridColumn>
         </GridRow>
       </Grid>

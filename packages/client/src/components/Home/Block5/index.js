@@ -5,8 +5,7 @@ import {
   withTheme,
   getMarginsOrPaddings,
 } from "../../../utils/style";
-import withAnalytics from "../../../hoc/withAnalytics";
-import { Button } from "../../Button";
+import { Button } from "../../Styled/Button";
 import Carausel from "./Carousel";
 
 const Container = styled.section`
@@ -120,8 +119,6 @@ const StyledButton = styled(Button)`
   }) => button.color} !important;
 `;
 
-const AnalyticsButton = withAnalytics(StyledButton);
-
 export default withTheme(({ theme: { block5 } }) => (
   <Fragment>
     <Carausel />
@@ -135,13 +132,13 @@ export default withTheme(({ theme: { block5 } }) => (
           <Author>- Tim Ford, Marketing Director</Author>
         </QuoteContainer>
         <ButtonContainer>
-          <AnalyticsButton
+          <Button
             href="/sign-up"
             size={block5.button.size}
-            action="block5-button"
+            action="join-us-click"
           >
             JOIN US
-          </AnalyticsButton>
+          </Button>
         </ButtonContainer>
       </InnerContainer>
     </Container>

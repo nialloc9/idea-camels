@@ -10,9 +10,7 @@ import { Grid, GridRow, GridColumn } from "../../Grid";
 import { Segment } from "../../Styled/Segment";
 import { Divider } from "../../Divider";
 import { Image } from "../../Image";
-import { Button } from "../../Button";
-
-const AnalyticsButton = withAnalytics(Button);
+import { Button } from "../../Styled/Button";
 
 const Container = styled.section`
   min-height: ${({
@@ -177,15 +175,15 @@ export default withTheme(({ theme: { block4 } }) => (
                   adwords to see if it is worth continuing. All in one place.
                 </SubHeading>
                 <ButtonContainer>
-                  <AnalyticsButton
+                  <Button
                     href="/sign-up"
                     color="black"
                     size={block4.button.size}
                     basic
-                    action="block4-button"
+                    action="get-started-click"
                   >
                     Get Started
-                  </AnalyticsButton>
+                  </Button>
                 </ButtonContainer>
               </GridColumn>
             </GridRow>

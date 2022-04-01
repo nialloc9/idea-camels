@@ -76,10 +76,13 @@ export const onFetchAccount = ({
     payload.data = account;
     payload.card = card;
     payload.fetchErrorMessage = "";
-  } catch ({ message, response: { data: { code } = {} } = {} }) {
+  } catch ({ message, ...rest }) {
+    console.log({
+      message,
+      rest,
+    });
     return {
-      [FORM_ERROR]:
-        code === 1003 ? "Invalid email/password combination" : message,
+      [FORM_ERROR]: message,
     };
   } finally {
     payload.isFetchLoading = false;
@@ -144,7 +147,11 @@ export const onCreateAccount = ({
       email,
       password,
     };
-  } catch ({ message }) {
+  } catch ({ message, ...rest }) {
+    console.log({
+      message,
+      rest,
+    });
     return { [FORM_ERROR]: message };
   } finally {
     payload.isCreateLoading = false;

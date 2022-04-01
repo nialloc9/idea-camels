@@ -19,15 +19,12 @@ import { Message } from "../components/Message";
 import { PieChart } from "../components/PieChart";
 import { Header } from "../components/Header";
 import withPageAnalytics from "../hoc/withPageAnalytics";
-import withAnalytics from "../hoc/withAnalytics";
 import { withLoader } from "../hoc/withLoader";
 import theme from "../config/theme";
 import { remCalc } from "../utils/style";
 import { formatToUtc } from "../utils/utils";
 import { connect } from "../store";
 import { getExperimentNotSelectedMessage } from "./utils/home";
-
-const AnalyticsButton = withAnalytics(Button);
 
 const LoaderMessage = withLoader(Message);
 
@@ -111,16 +108,15 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
       <Grid columns={2} padded centered stackable>
         <GridRow>
           <GridColumn>
-            <AnalyticsButton
+            <Button
               primary
               floated="left"
               href={`https://${name}`}
               target="_blank"
               action="view-experiment-click"
-              label="home-page"
             >
               View Experiment
-            </AnalyticsButton>
+            </Button>
           </GridColumn>
           <GridColumn />
         </GridRow>

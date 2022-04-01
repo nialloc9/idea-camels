@@ -10,10 +10,7 @@ const Page = ({ onCreateAccount }) => {
   return (
     <Section minHeight="100vh" justifyContent="center" display="flex">
       <Block display="flex" justifyContent="center" flexDirection="column">
-        <AccountDetails
-          analyticsLabel="sign-up-page"
-          onSubmit={onCreateAccount}
-        />
+        <AccountDetails onSubmit={onCreateAccount} />
       </Block>
     </Section>
   );
