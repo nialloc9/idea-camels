@@ -1,13 +1,13 @@
 import { logger } from "../utils/utils";
 
-const { NODE_ENV, GITHUB_RUN_NUMBER = "test" } = process.env;
+const { NODE_ENV, REACT_APP_BUILD_VERSION = "development-build" } = process.env;
 
 const {
   location: { pathname },
 } = window;
 
-const localhost = {
-  buildNumber: GITHUB_RUN_NUMBER,
+const development = {
+  buildNumber: REACT_APP_BUILD_VERSION,
   env: NODE_ENV,
   isProd: NODE_ENV === "production",
   pathname,
@@ -37,7 +37,7 @@ const localhost = {
   },
 };
 
-const staging = { ...localhost };
+const staging = { ...development };
 
 const production = {
   ...staging,
@@ -65,7 +65,7 @@ const selectedConfig =
   {
     staging,
     production,
-  }[NODE_ENV] || localhost;
+  }[NODE_ENV] || development;
 
 logger.info("============== CONFIG ==============", selectedConfig);
 

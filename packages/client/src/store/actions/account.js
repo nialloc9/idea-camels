@@ -3,7 +3,6 @@ import { onResetStore } from "./store";
 import { postApi } from "../../utils/request";
 import { FORM_ERROR } from "../../utils/form";
 import { getQueryParameterByName } from "../../utils/utils";
-import { handleEvent } from "../../utils/analytics";
 
 /**
  * sets the loading state

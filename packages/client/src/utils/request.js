@@ -3,6 +3,39 @@ import { config } from "../config";
 import { generateRandomId, logger } from "./utils";
 
 /**
+ * @description configures error based one environment as localhost uses express server not lambda api
+ * @param {*} param0
+ * @returns
+ */
+const configureErrorResponse = (err) => {
+  try {
+    if (config.env === "development") {
+      const {
+        response: {
+          data: { message },
+        },
+      } = err.error;
+
+      return {
+        message: message || "An error has occured. Please try again.",
+      };
+    }
+
+    const {
+      response: {
+        data: { error },
+      },
+    } = err;
+
+    return {
+      message: error || "An error has occured. Please try again.",
+    };
+  } catch (e) {
+    return { message: e.message };
+  }
+};
+
+/**
  * @description sends http request
  * @param {*} param0
  * @returns
@@ -47,25 +80,11 @@ export const postApi = async ({ uri, body, headers, token }) => {
     });
     return { data };
   } catch (error) {
-    logger.log("========== POST API CALL SUCCESS RESPONSE ==========", {
+    logger.log("========== POST API CALL ERROR RESPONSE ==========", {
       error,
       response: error.response,
     });
-
-    const {
-      response: {
-        statusText,
-        data: { message, code, data },
-      },
-    } = error;
-
-    return {
-      error: {
-        message: message || statusText,
-        code,
-        data,
-      },
-    };
+    return { error: configureErrorResponse({ error }) };
   }
 };
 
