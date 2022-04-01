@@ -44,13 +44,31 @@ export const post = async ({
  * @param {*} param0
  * @returns
  */
-export const postApi = async ({ uri, body, headers, token }) =>
-  await post({
-    url: `${config.api.base}/${uri}`,
-    body,
-    headers,
-    token,
-  });
+export const postApi = async ({ uri, body, headers, token }) => {
+  try {
+    const { data } = await post({
+      url: `${config.api.base}/${uri}`,
+      body,
+      headers,
+      token,
+    });
+    console.log(1, data);
+    return { data };
+  } catch ({
+    response: {
+      statusText,
+      data: { message, code, data },
+    },
+  }) {
+    return {
+      error: {
+        message: message || statusText,
+        code,
+        data,
+      },
+    };
+  }
+};
 
 /**
  * @description uploads a file to the server

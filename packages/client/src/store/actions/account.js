@@ -51,6 +51,11 @@ export const onAddNewCard = ({ id, card }) => async (dispatch, getState) => {
   }
 };
 
+/**
+ * @description fetchs an account using email and password
+ * @param {*} param0
+ * @returns
+ */
 export const onFetchAccount = ({
   email,
   password,
@@ -58,36 +63,22 @@ export const onFetchAccount = ({
 }) => async (dispatch) => {
   const onSetState = setState(dispatch);
 
-  const payload = { isFetchLoading: true };
+  onSetState({ isFetchLoading: true, fetchErrorMessage: "" });
 
-  try {
-    onSetState(payload);
+  const { data, error } = await postApi({
+    uri: `account/login`,
+    body: { email, password, rememberMe },
+  });
 
-    const response = await postApi({
-      uri: `account/login`,
-      body: { email, password, rememberMe },
-    });
-
-    const {
-      data: { token, account, card },
-    } = response;
-
-    payload.token = token;
-    payload.data = account;
-    payload.card = card;
-    payload.fetchErrorMessage = "";
-  } catch ({ message, ...rest }) {
-    console.log({
-      message,
-      rest,
-    });
+  if (error) {
     return {
-      [FORM_ERROR]: message,
+      [FORM_ERROR]: error.message,
     };
-  } finally {
-    payload.isFetchLoading = false;
-    onSetState(payload);
   }
+
+  const { token, account, card } = data;
+
+  onSetState({ fetchErrorMessage: "", token, account, card });
 };
 
 export const onReAuthAccount = (originalToken) => async (dispatch) => {
