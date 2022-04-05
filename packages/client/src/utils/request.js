@@ -41,7 +41,7 @@ const configureErrorResponse = ({ error: err }) => {
  * @returns
  */
 const configureSuccessResponse = (response) =>
-  config.env === "development" ? response.data : response.payload;
+  config.env === "development" ? response.data : response.data.payload;
 
 /**
  * @description sends http request
