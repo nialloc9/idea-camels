@@ -53,13 +53,11 @@ export const post = async ({
     ? { ...headers, Authorization: `Bearer ${token}` }
     : headers;
 
-  const { data } = await axios.post(
+  return await axios.post(
     url,
     { ...body, caller: generateRandomId() },
     { headers: headersToSend }
   );
-
-  return data;
 };
 
 /**
