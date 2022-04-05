@@ -149,7 +149,7 @@ const onCreate = ({ data, caller }) =>
       const { data: account } = await onCreateAccount({
         data: {
           ...data,
-          stripeCustomerId,
+          paymentCustomerId: stripeCustomerId,
           password: createPasswordHash({ password: data.password }),
         },
         caller,

@@ -25,8 +25,8 @@ const {
 const localhost = {
   port: SERVER_PORT,
   webAddress: "https://ideacamels.com",
-  env: "prod",
-  isProd: true,
+  env: ENV,
+  isProd: ENV === "prod",
   name: "idea-camels-server",
   security: {
     password_secret: PASSWORD_SECRET,
@@ -123,10 +123,9 @@ const prod = {
   },
 };
 
-module.exports = prod;
-// module.exports =[
-//   {
-//     localhost,
-//     staging,
-//     prod,
-//   }[ENV] || localhost]
+module.exports = [
+  {
+    staging,
+    prod,
+  }[ENV] || localhost,
+];
