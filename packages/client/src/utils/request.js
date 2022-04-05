@@ -53,11 +53,15 @@ export const post = async ({
     ? { ...headers, Authorization: `Bearer ${token}` }
     : headers;
 
-  return await axios.post(
+  const response = await axios.post(
     url,
     { ...body, caller: generateRandomId() },
     { headers: headersToSend }
   );
+
+  logger.log("========== POST API CALL RESPONSE ==========", response);
+
+  return response;
 };
 
 /**
@@ -73,9 +77,7 @@ export const postApi = async ({ uri, body, headers, token }) => {
       headers,
       token,
     });
-    logger.log("========== POST API CALL RESPONSE ==========", {
-      data,
-    });
+
     return { data };
   } catch (error) {
     logger.log("========== POST API CALL ERROR RESPONSE ==========", {

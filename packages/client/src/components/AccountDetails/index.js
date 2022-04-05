@@ -124,7 +124,7 @@ export default withForm(
             <Button
               primary
               disabled={submitting || pristine}
-              isLoading={submitting}
+              loading={submitting}
               action="sign-up-click"
             >
               {buttonText}
