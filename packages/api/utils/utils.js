@@ -9,8 +9,8 @@ const defaultLogger = bunyan.createLogger({
 });
 
 const logger = {
-  info: (data, message) => defaultLogger.info(data, message),
-  warn: (data, message) => defaultLogger.warn(data, message),
+  info: (data, message = "INFO") => defaultLogger.info(data, message),
+  warn: (data, message = "WARN") => defaultLogger.warn(data, message),
   error: (data, message = "ERROR") => defaultLogger.error(data, message),
 };
 

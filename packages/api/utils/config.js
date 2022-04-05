@@ -123,9 +123,8 @@ const prod = {
   },
 };
 
-module.exports = [
+module.exports =
   {
     staging,
     prod,
-  }[ENV] || localhost,
-];
+  }[ENV] || localhost;
