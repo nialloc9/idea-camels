@@ -188,3 +188,30 @@ resource "aws_iam_role_policy_attachment" "instance" {
   role       = module.lambda_api.iam_role_name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
+
+resource "aws_iam_policy" "api_permissions" {
+  name        = "${var.environment}_${var.name}"
+  path        = "/"
+  description = "IAM policy for logging from ${var.environment} ${var.name} lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "route53domains:*",
+        "ecs:runTask"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "api_permissions" {
+  role       = module.lambda_api.iam_role_name
+  policy_arn = aws_iam_policy.api_permissions.arn
+}
