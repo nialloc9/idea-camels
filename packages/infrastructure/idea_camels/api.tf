@@ -190,9 +190,9 @@ resource "aws_iam_role_policy_attachment" "instance" {
 }
 
 resource "aws_iam_policy" "api_permissions" {
-  name        = "${var.environment}_${var.name}"
+  name        = "${var.environment}_${var.name}_api_permissions"
   path        = "/"
-  description = "IAM policy for logging from ${var.environment} ${var.name} lambda"
+  description = "IAM policy for api permissions for ${var.environment} ${var.name} lambda"
 
   policy = <<EOF
 {
