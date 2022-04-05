@@ -227,7 +227,7 @@ const onCreateExperiment = ({
           accountRef,
           domainRef,
           experimentRef: newExperiment.experiment_ref,
-          name,
+          name: `${name}_${caller}`,
         })
       );
 
@@ -238,7 +238,7 @@ const onCreateExperiment = ({
           budgetName,
           domainRef,
           endDate,
-          name,
+          name: `${name}_${caller}`,
         })
       );
 
@@ -249,13 +249,13 @@ const onCreateExperiment = ({
           experimentRef: newExperiment.experiment_ref,
           accountRef,
           domainRef,
-          name,
+          name: `${name}_${caller}`,
         })
       );
 
       const { resource_name: adGroupAdName } = await createAdGroupAd(
         mapExperimentToAdGroupAd({
-          name,
+          name: `${name}_${caller}`,
           adGroupName,
           description,
           headline,
