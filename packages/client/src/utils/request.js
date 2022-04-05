@@ -61,7 +61,11 @@ export const post = async ({
 
   logger.log("========== POST API CALL RESPONSE ==========", response);
 
-  return response;
+  const {
+    data: { payload },
+  } = response;
+
+  return payload;
 };
 
 /**
