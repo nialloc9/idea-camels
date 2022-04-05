@@ -255,7 +255,7 @@ const onCreateExperiment = ({
 
       const { resource_name: adGroupAdName } = await createAdGroupAd(
         mapExperimentToAdGroupAd({
-          name: `${name}_${caller}`,
+          name,
           adGroupName,
           description,
           headline,
