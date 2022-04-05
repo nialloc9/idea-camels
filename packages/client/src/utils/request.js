@@ -36,6 +36,14 @@ const configureErrorResponse = ({ error: err }) => {
 };
 
 /**
+ * @description configures response based one environment as localhost uses express server not lambda api
+ * @param {*} param0
+ * @returns
+ */
+const configureSuccessResponse = (response) =>
+  config.env === "development" ? response.data : response.payload;
+
+/**
  * @description sends http request
  * @param {*} param0
  * @returns
@@ -61,11 +69,7 @@ export const post = async ({
 
   logger.log("========== POST API CALL RESPONSE ==========", response);
 
-  const {
-    data: { payload },
-  } = response;
-
-  return payload;
+  return configureSuccessResponse(response);
 };
 
 /**

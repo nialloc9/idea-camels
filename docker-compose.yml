@@ -6,8 +6,6 @@ services:
       - "3000:3000"
     volumes:
       - ./packages/client:/usr/src/app:cached
-    env_file:
-      - ./packages/client/.dev.env
     command: tail -f /dev/null
   idea-camels-api:
     build:

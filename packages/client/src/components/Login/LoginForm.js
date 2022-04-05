@@ -110,13 +110,14 @@ class LoginForm extends Component {
               loading={submitting}
               primary
               type="submit"
+              action="login-submit-click"
               margin={`0 ${remCalc(10)} 0 0`}
             >
               Submit
             </Button>
             <Button
               type="button"
-              action="login-button-click"
+              action="login-cancel-click"
               onClick={onModalCancel}
             >
               Cancel

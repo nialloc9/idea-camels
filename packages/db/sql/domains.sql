@@ -7,7 +7,7 @@ CREATE TABLE domains
   domain_ref int NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) DEFAULT '',
   account_ref int NOT NULL,
-  expiry TIMESTAMP NOT NULL,
+  expiry TIMESTAMP,
   created_by int(9) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

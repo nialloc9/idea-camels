@@ -136,18 +136,6 @@ class LoggedIn extends Component {
             match={match}
           />,
           <AnalyticsMenuItem
-            name="logo"
-            active={activeItem === "logo"}
-            onClick={this.handleItemClick}
-            action="navigation-experiment-design"
-            label="click"
-            href="/experiment-design"
-          >
-            <Block textAlign="center" width="100%">
-              Experiment Design
-            </Block>
-          </AnalyticsMenuItem>,
-          <AnalyticsMenuItem
             name="create-experiment"
             active={activeItem === "create-experiment"}
             onClick={this.handleItemClick}

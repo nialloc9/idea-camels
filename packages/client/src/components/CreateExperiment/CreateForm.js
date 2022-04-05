@@ -26,6 +26,7 @@ import {
   validateRequired,
   validateDomain,
   validateMaxLength,
+  validateMinValue,
 } from "../../utils/form";
 import { onPrepareExperiment } from "../../store/actions/experiment";
 import { connect } from "../../store";
@@ -126,6 +127,7 @@ class CreateForm extends Component {
 
   render() {
     const {
+      hasValidCard,
       isFetcDomainsLoading,
       submitting,
       pristine,
@@ -400,7 +402,7 @@ class CreateForm extends Component {
                     tabletDisplay="inline-block"
                     placeholder="How much do you wish to spend?"
                     info="This is the budget that will be spent on driving traffic to your experiment. We recommend using at least $100 to ensure you buy enough ads to get meaningful click throughs."
-                    validate={[validateRequired]}
+                    validate={[validateRequired, validateMinValue(20)]}
                   />
                 </GridColumn>
               </GridRow>

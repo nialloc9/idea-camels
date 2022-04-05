@@ -3,6 +3,8 @@ import Default from "../../templates/IdeaCamelsDefault";
 import { Segment } from "../Styled/Segment";
 import { Button } from "../Styled/Button";
 import { Message } from "../Styled/Message";
+import Billing from "../Billing";
+import withModal from "../../hoc/withModal";
 import { remCalc } from "../../utils/style";
 import {
   onCreate,
@@ -11,7 +13,10 @@ import {
 } from "../../store/actions/experiment";
 import { connect } from "../../store";
 
+const BillingModal = withModal(Billing);
+
 const Template = ({
+  hasValidCard,
   isCreateLoading,
   createErrorMessage,
   newExperiment: { templateRef = 1, content, theme },
@@ -34,15 +39,19 @@ const Template = ({
         >
           Back
         </Button>
-        <Button
-          positive
-          disabled={isCreateLoading}
-          loading={isCreateLoading}
-          action="create-experiment-form-2-submit-click"
-          onClick={onSubmit}
-        >
-          Create Experiment
-        </Button>
+        {hasValidCard ? (
+          <Button
+            positive
+            disabled={isCreateLoading}
+            loading={isCreateLoading}
+            action="create-experiment-form-2-submit-click"
+            onClick={onSubmit}
+          >
+            Create Experiment
+          </Button>
+        ) : (
+          <BillingModal buttonText="Add Card" modalHeaderText="Add Card" />
+        )}
 
         {createErrorMessage && <Message error>{createErrorMessage}</Message>}
       </Segment>
@@ -58,7 +67,11 @@ const Template = ({
 };
 
 export default connect(
-  ({ experiment: { isCreateLoading, createErrorMessage, newExperiment } }) => ({
+  ({
+    experiment: { isCreateLoading, createErrorMessage, newExperiment },
+    account: { card },
+  }) => ({
+    hasValidCard: !!card.id,
     isCreateLoading,
     createErrorMessage,
     newExperiment,
