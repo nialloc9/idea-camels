@@ -161,6 +161,7 @@ class CreateForm extends Component {
                     allowAdditions
                     disabled={isFetcDomainsLoading}
                     loading={isFetcDomainsLoading}
+                    action="select-domain-click"
                     info="Previously purchased domains will be available for future experiments for up to 1 year."
                     label="Domain"
                     name="domain"
@@ -181,6 +182,7 @@ class CreateForm extends Component {
                     selection
                     search
                     display="block"
+                    action="select-template-click"
                     tabletDisplay="inline-block"
                     defaultValue={templateRef}
                     options={this.templateOptions}
@@ -199,6 +201,7 @@ class CreateForm extends Component {
                     lazyLoad
                     selection
                     display="block"
+                    action="select-theme-click"
                     tabletDisplay="inline-block"
                     options={this.themeOptions}
                     disabled={this.themeOptions.length === 0}

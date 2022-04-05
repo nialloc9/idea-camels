@@ -1,5 +1,5 @@
 const { onGet: onGetAccount } = require("../data/account");
-const { handleSuccess, logger } = require("../utils/utils");
+const { handleSuccess } = require("../utils/utils");
 const { updateCustomer, chargeCustomer } = require("../utils/stripe");
 
 const onAddCard = ({
