@@ -124,7 +124,7 @@ const onPurchaseDomain = ({
           errors["1005"]({
             service: "onPurchaseDomain",
             caller,
-            reason: error.stack,
+            reason: "domain unavailable",
             data: { suggested },
           })
         );

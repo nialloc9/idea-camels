@@ -85,6 +85,22 @@ export const convertDateToUnix = (date) => new Date(date).valueOf();
 const createDate = (timestamp) => new Date(timestamp);
 
 /**
+ * @description get date x number of weeks from now
+ * @param {*} weeks
+ * @returns
+ */
+export const getWeeksFromNow = (weeks) =>
+  new Date(new Date().setDate(new Date().getDate() + weeks * 7));
+
+/**
+ * @description gets date x number of months from now
+ * @param {*} months
+ * @returns
+ */
+export const getDateMonthsFromNow = (months) =>
+  new Date(new Date().setMonth(new Date().getMonth() + months));
+
+/**
  * @description formats date to UTC
  */
 export const formatToUtc = (date = createDate()) => {

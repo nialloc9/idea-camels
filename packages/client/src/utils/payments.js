@@ -5,16 +5,12 @@ import { config } from "../config";
  * @param {*} param0
  * @returns
  */
-export const calculateDomainPrice = ({ domain, domains, domainPrices }) => {
-  const isDomainAlreadyOwned = domains.find(({ name }) => name === domain)
-    ? true
-    : false;
+export const calculateDomainPrice = ({ domain, domainPrices }) => {
+  if (!domain || domainPrices.length === 0) return 0;
 
-  if (!domain || isDomainAlreadyOwned) return 0;
-
-  const { price } = domainPrices.find(({ name }) => domain.includes(name));
-
-  return price;
+  const domainPrice = domainPrices.find(({ name }) => domain.includes(name));
+  if (!domainPrice) return 0;
+  return domainPrice.price;
 };
 
 /**
@@ -24,11 +20,10 @@ export const calculateDomainPrice = ({ domain, domains, domainPrices }) => {
  */
 export const calculateTotalExperimentPrice = ({
   domain,
-  domains,
   domainPrices,
   budget,
 }) => {
-  const domainPrice = calculateDomainPrice({ domain, domains, domainPrices });
+  const domainPrice = calculateDomainPrice({ domain, domainPrices });
 
   return (
     config.payments.serviceCharge +

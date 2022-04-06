@@ -3,17 +3,9 @@ import { STORE_RESET } from "../constants/store";
 import { getCache } from "../../utils/cache";
 
 const initialState = {
-  isFetchLoading: false,
-  isFetchInitialised: false,
-  isFetchTemplatesLoading: false,
-  isFetchTemplatesInitialised: false,
   isFetchPricesLoading: false,
   isFetchPricesInitialised: false,
-  createErrorMessage: "",
-  fetchErrorMessage: "",
   fetchPricesErrorMessage: "",
-  data: [],
-  suggestedDomains: [],
   prices: [],
 };
 

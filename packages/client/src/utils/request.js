@@ -12,23 +12,27 @@ const configureErrorResponse = ({ error: err }) => {
     if (config.env === "development") {
       const {
         response: {
-          data: { message },
+          data: { message, data, code },
         },
       } = err;
 
       return {
         message: message || "An error has occured. Please try again.",
+        data,
+        code,
       };
     }
 
     const {
       response: {
-        data: { error },
+        data: { error, data, code },
       },
     } = err;
 
     return {
       message: error || "An error has occured. Please try again.",
+      data,
+      code,
     };
   } catch (e) {
     return { message: e.message };

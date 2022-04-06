@@ -15,16 +15,6 @@ const setState = (dispatch) => (payload) =>
   });
 
 /**
- * sets the state
- * @param payload
- */
-const setDomainState = (dispatch) => (payload) =>
-  dispatch({
-    type: DOMAIN_SET,
-    payload,
-  });
-
-/**
  * @description fetchs account experiments
  * @returns
  */
@@ -81,7 +71,7 @@ export const onCreate = () => async (dispatch, getState) => {
         budget,
         endDate,
         templateRef,
-        domainRef,
+        domain,
         keyword1,
         keyword2,
         keyword3,
@@ -95,6 +85,31 @@ export const onCreate = () => async (dispatch, getState) => {
     },
   } = getState();
 
+  // const {
+  //   data: domainPurchaseData,
+  //   error: domainPurchaseError,
+  // } = await postApi({
+  //   uri: `domain/purchase`,
+  //   token,
+  //   body: { domain },
+  // });
+
+  // if (domainPurchaseError) {
+  //   dispatch({
+  //     type: DOMAIN_SET,
+  //     payload: {
+  //       suggested: domainPurchaseError.data.suggested,
+  //     },
+  //   });
+  //   return onSetState({
+  //     isCreateLoading: false,
+  //     createErrorMessage:
+  //       domainPurchaseError.code === 1005
+  //         ? `${domain} is not available. Please click back and choose a new domain.`
+  //         : domainPurchaseError.message,
+  //   });
+  // }
+
   const { data: experiment, error } = await postApi({
     uri: `experiment/create`,
     token,
@@ -104,7 +119,7 @@ export const onCreate = () => async (dispatch, getState) => {
       budget,
       endDate: convertDateToUnix(endDate),
       templateRef,
-      domainRef,
+      domainRef: 1,
       keywords: [keyword1, keyword2, keyword3, keyword4, keyword5, keyword6],
       headline,
       headline2,
@@ -150,8 +165,6 @@ export const onPrepareExperiment = ({
   const onSetState = setState(dispatch);
 
   const {
-    account: { token },
-    domain: { data: domains },
     experiment: { newExperiment },
   } = getState();
 
@@ -160,6 +173,7 @@ export const onPrepareExperiment = ({
   const experimentPayload = {
     themeRef,
     templateRef,
+    domain,
     theme,
     content,
     endDate,
@@ -174,35 +188,6 @@ export const onPrepareExperiment = ({
     headline2,
     description,
   };
-
-  const existingDomain = domains.find(({ name }) => name === domain);
-
-  if (!existingDomain) {
-    const {
-      data: domainPurchaseData,
-      error: domainPurchaseError,
-    } = await postApi({
-      uri: `domain/purchase`,
-      token,
-      body: { domain },
-    });
-
-    if (domainPurchaseError) {
-      return setDomainState({
-        isDomainAvailable: false,
-        createErrorMessage: domainPurchaseError.message,
-      });
-    }
-
-    experimentPayload.domainRef = domainPurchaseData.domainRef;
-    setDomainState({
-      isDomainAvailable: true,
-      createErrorMessage: "",
-      data: [domainPurchaseData, ...domains],
-    });
-  } else {
-    experimentPayload.domainRef = existingDomain.domain_ref;
-  }
 
   onSetState({
     formIndex: 1,

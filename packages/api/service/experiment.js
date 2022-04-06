@@ -122,7 +122,6 @@ const onCreateExperiment = ({
     content,
     theme,
     budget,
-    endDate,
     templateRef,
     description,
     headline,
@@ -200,8 +199,8 @@ const onCreateExperiment = ({
         themeRef,
         accountRef,
         domainRef,
-        budget: parseInt(budget),
         endDate: parseInt(endDate),
+        budget: parseInt(budget),
         templateRef,
       };
 

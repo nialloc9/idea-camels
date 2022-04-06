@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Grid, GridRow, GridColumn } from "../Grid";
 import { Button } from "../Styled/Button";
 import { Segment } from "../Styled/Segment";
@@ -17,7 +17,11 @@ import { FormDropdown } from "../Form/Dropdown";
 import { Message } from "../Message";
 import { ListHeader, List, ListItem } from "../List";
 import { withForm } from "../../hoc/withForm";
-import { toTitleCase } from "../../utils/utils";
+import {
+  toTitleCase,
+  getWeeksFromNow,
+  getDateMonthsFromNow,
+} from "../../utils/utils";
 import {
   calculateDomainPrice,
   calculateTotalExperimentPrice,
@@ -33,21 +37,12 @@ import { connect } from "../../store";
 import templates, { findTemplate } from "../../templates";
 
 class CreateForm extends Component {
-  constructor(props) {
-    super(props);
-
-    const { domains } = this.props;
-
-    this.state = {
-      domainError: undefined,
-      domainPrice: undefined,
-      domains: this.mapDomains(domains.map(({ name }) => name)),
-      keywordsIndex: 1,
-    };
-  }
+  state = {
+    domainPrice: undefined,
+    keywordsIndex: 1,
+  };
 
   static defaultProps = {
-    domains: [],
     domainPrices: [],
     suggestedDomains: [],
   };
@@ -84,38 +79,27 @@ class CreateForm extends Component {
 
   createDomainValue = (o) => ({ key: o, text: o, value: o });
 
-  mapDomains = (domains) => domains.map((o) => this.createDomainValue(o));
-
-  handleAddDomain = (e, { value }) => {
-    const { domains } = this.state;
-
-    const domainError = validateDomain(value);
-
-    const newState = {
-      domainError,
-      domains: domainError
-        ? domains
-        : [this.createDomainValue(value), ...domains],
-    };
-
-    this.setState(newState);
-  };
-
   renderSuggestDomains = () => {
     const { suggestedDomains = [] } = this.props;
+    console.log(
+      "suggestedDomains",
+      suggestedDomains,
+      suggestedDomains.length,
+      suggestedDomains.length === 0
+    );
 
-    if (suggestedDomains.length > 0) {
-      return (
-        <Message error>
-          <ListHeader>Suggested Domain Names</ListHeader>
-          <List>
-            {suggestedDomains.map((o) => (
-              <ListItem key={o}>{o}</ListItem>
-            ))}
-          </List>
-        </Message>
-      );
-    }
+    if (suggestedDomains.length === 0) return null;
+
+    return (
+      <Message>
+        <ListHeader>Suggested Domain</ListHeader>
+        <List bulleted>
+          {suggestedDomains.map(({ DomainName }) => (
+            <ListItem key={DomainName}>{DomainName}</ListItem>
+          ))}
+        </List>
+      </Message>
+    );
   };
 
   hasMaxKeywords = () => this.state.keywordsIndex.length >= 3;
@@ -127,8 +111,6 @@ class CreateForm extends Component {
 
   render() {
     const {
-      hasValidCard,
-      isFetcDomainsLoading,
       submitting,
       pristine,
       isFetchTemplatesLoading,
@@ -136,13 +118,12 @@ class CreateForm extends Component {
       values: { budget, domain },
       newExperiment,
       domainPrices,
-      domains: ownedDomains,
       onSubmit,
     } = this.props;
 
     const { templateRef, themeRef } = newExperiment;
 
-    const { domainError, domains, keywordsIndex } = this.state;
+    const { keywordsIndex } = this.state;
 
     return (
       <Segment padded>
@@ -156,21 +137,15 @@ class CreateForm extends Component {
             <Grid container centered stackable>
               <GridRow centered columns={2}>
                 <GridColumn>
-                  <FormDropdown
-                    search
-                    selection
+                  <FormInput
                     fluid
-                    allowAdditions
-                    disabled={isFetcDomainsLoading}
-                    loading={isFetcDomainsLoading}
-                    action="select-domain-click"
-                    info="Previously purchased domains will be available for future experiments for up to 1 year."
+                    type="text"
                     label="Domain"
                     name="domain"
-                    customError={domainError}
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="Please add a domain to purchase for your experiment"
                     validate={[validateRequired, validateDomain]}
-                    options={domains}
-                    onAddItem={this.handleAddDomain}
                   />
                   {this.renderSuggestDomains()}
                 </GridColumn>
@@ -390,6 +365,8 @@ class CreateForm extends Component {
                     tabletDisplay="inline-block"
                     placeholder="When do you wish experiment to end?"
                     validate={[validateRequired]}
+                    min={getWeeksFromNow(2).toISOString().split("T")[0]}
+                    max={getDateMonthsFromNow(6).toISOString().split("T")[0]}
                   />
                 </GridColumn>
                 <GridColumn>
@@ -432,7 +409,6 @@ class CreateForm extends Component {
                         <TableCell>
                           {calculateDomainPrice({
                             domain,
-                            domains: ownedDomains,
                             domainPrices,
                           })}
                         </TableCell>
@@ -440,7 +416,6 @@ class CreateForm extends Component {
                         <TableCell>
                           {calculateTotalExperimentPrice({
                             domain,
-                            domains: ownedDomains,
                             domainPrices,
                             budget,
                           })}
@@ -472,27 +447,11 @@ class CreateForm extends Component {
 }
 
 export default connect(
-  ({
-    experiment: { newExperiment },
-    domain: { isFetchLoading, data: domains, suggestedDomains, prices },
-  }) => {
-    const selectedDomain = domains.find(
-      ({ domain_ref }) => domain_ref === newExperiment.domainRef
-    );
-
-    const domain = selectedDomain && selectedDomain.name;
-
-    return {
-      isFetcDomainsLoading: isFetchLoading,
-      newExperiment,
-      domains,
-      suggestedDomains,
-      domainPrices: prices,
-      initialValues: {
-        ...newExperiment,
-        domain,
-      },
-    };
-  },
+  ({ experiment: { newExperiment }, domain: { suggested, prices } }) => ({
+    newExperiment,
+    suggestedDomains: suggested,
+    domainPrices: prices,
+    initialValues: newExperiment,
+  }),
   { onSubmit: onPrepareExperiment }
 )(withForm(CreateForm));

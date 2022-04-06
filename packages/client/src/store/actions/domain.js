@@ -12,44 +12,6 @@ const setState = (dispatch) => (payload) =>
   });
 
 /**
- * @description fetches domains owned by account
- * @returns
- */
-export const onFetch = () => async (dispatch, getState) => {
-  const onSetState = setState(dispatch);
-
-  const {
-    account: { token },
-    domain: { isFetchLoading, isFetchInitialised },
-  } = getState();
-
-  if (isFetchLoading || isFetchInitialised) return;
-
-  onSetState({ isFetchLoading: true, fetchErrorMessage: "", data: [] });
-
-  const { error, data } = await postApi({
-    uri: `domain/get-by-account`,
-    token,
-  });
-
-  if (error) {
-    return onSetState({
-      isFetchLoading: false,
-      fetchErrorMessage: error.message,
-    });
-  }
-
-  const { domains } = data;
-
-  onSetState({
-    isFetchInitialised: true,
-    isFetchLoading: false,
-    fetchErrorMessage: "",
-    data: domains,
-  });
-};
-
-/**
  * @description fetches domain prices
  * @returns
  */
