@@ -7,6 +7,10 @@ const main = async () => {
     experiment: { experimentRef },
   } = config;
 
+  logger.info(
+    `=========  EXPERIMENT ${experimentRef} STATUS UPDATING TO ${process.env.STATUS}  =========`
+  );
+
   await onUpdate({
     data: { experimentRef, updateData: { status: process.env.STATUS } },
   });
@@ -22,6 +26,6 @@ const main = async () => {
 try {
   main();
 } catch (e) {
-  logger.error(error);
+  console.log(error);
   process.exit(1);
 }
