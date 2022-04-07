@@ -64,8 +64,6 @@ const writeConfig = async ({
   const path = `./experiments/${experimentRef}/client/src/config/config.js`;
 
   const str = `
-import content from "./content";
-import theme from "./theme";
 
 export default {
     env: "prod",
@@ -81,8 +79,6 @@ export default {
     },
     themeKey: "${themeKey}",
     contentKey: "${contentKey}",
-    theme,
-    content,
     security: {
       token: "${createJwToken({ experimentRef })}"
     },
@@ -93,7 +89,7 @@ export default {
     `;
 
   writeToFile(path, str);
-  logger.info({ experimentRef }, "Finished writing content");
+  logger.info({ experimentRef }, "Finished writing config");
 };
 module.exports = {
   downloadFileFromStorage,
