@@ -168,7 +168,10 @@ export const onPrepareExperiment = ({
     experiment: { newExperiment },
   } = getState();
 
-  const { theme, content } = findThemeAndContent({ templateRef, themeRef });
+  const {
+    theme: { theme },
+    content,
+  } = findThemeAndContent({ templateRef, themeRef });
 
   const experimentPayload = {
     themeRef,

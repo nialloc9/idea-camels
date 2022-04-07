@@ -28,7 +28,7 @@ export const findThemeAndContent = ({ templateRef, themeRef }) => {
     config: { themes, content },
   } = findTemplate(templateRef);
 
-  const { theme } = themes.find(({ ref }) => themeRef === ref);
+  const theme = themes.find(({ ref }) => themeRef === ref);
 
   return { theme, content };
 };
