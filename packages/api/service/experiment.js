@@ -165,7 +165,7 @@ const onCreateExperiment = ({
         cleanup: onThemeCleanUp,
       } = await writeToTmpFile({ data: theme });
 
-      const filename = `${generateRandomId()}.js`;
+      const filename = `${generateRandomId()}.json`;
 
       const { key: themeKey } = await uploadToS3({
         path: themePath,
