@@ -53,12 +53,12 @@ const writeConfig = async ({
   await downloadFileFromStorage(
     bucket,
     contentKey,
-    `./experiments/${experimentRef}/client/src/config/content.json`
+    `./experiments/${experimentRef}/client/src/config/content.js`
   );
   await downloadFileFromStorage(
     bucket,
     themeKey,
-    `./experiments/${experimentRef}/client/src/config/theme.json`
+    `./experiments/${experimentRef}/client/src/config/theme.js`
   );
 
   const path = `./experiments/${experimentRef}/client/src/config/config.js`;
