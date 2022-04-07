@@ -119,6 +119,7 @@ const onCreateExperiment = ({
       data: { accountRef },
     },
     domainRef,
+    endDate,
     content,
     theme,
     budget,
