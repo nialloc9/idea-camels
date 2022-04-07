@@ -50,9 +50,16 @@ const generateRandomId = () => Math.random().toString(36).substr(2, 10);
 const createTimestamp = (timestamp) =>
   timestamp ? new Date(timestamp) : new Date();
 
+/**
+ * @description creates ISO timestamp for now
+ * @returns
+ */
+const now = () => new Date().toISOString();
+
 module.exports = {
   handleSuccess,
   logger,
   generateRandomId,
   createTimestamp,
+  now,
 };

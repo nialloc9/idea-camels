@@ -42,6 +42,7 @@ const getConnection = async () =>
 const query = async (query, data, dataLayer, newConnection) =>
   new Promise(async (resolve, reject) => {
     const connection = newConnection || (await getConnection());
+    console.log("connection", connection);
     connection.query(query, data, (error, results) => {
       connection.release();
 

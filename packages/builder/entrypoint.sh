@@ -35,7 +35,7 @@ echo "====== FINISHED BUILDING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 if [ ENV="prod" ]
 then
 echo "====== DEPLOYING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
-STATUS="DEPLOYING_INFRA" node ./updateStatus.js
+STATUS="DEPLOYING_INFRA" node ../../../updateStatus.js
 
 terraform apply -auto-approve --var-file=./environment/variables.tfvars -target=module.experiment.aws_acm_certificate.cert
 terraform apply -auto-approve --var-file=./environment/variables.tfvars
@@ -46,7 +46,7 @@ cd ../client
 cd experiments/${EXPERIMENT_REF}/client
 
 echo "====== BUILDING CLIENT FOR ${EXPERIMENT_REF} ======"
-STATUS="BUILDING_CLIENT" node ./updateStatus.js
+STATUS="BUILDING_CLIENT" node ../../../updateStatus.js
 rm -rf ./build
 npm install
 npm run build 
@@ -57,10 +57,10 @@ ls
 
 if [ ENV="prod" ]
 then
-STATUS="DEPLOYING_CLIENT" node ./updateStatus.js
+STATUS="DEPLOYING_CLIENT" node ../../../updateStatus.js
 echo "====== DEPLOYING CLIENT FOR ${EXPERIMENT_REF} ======"
 aws s3 sync ./build s3://${DOMAIN} --delete
 echo "====== FINSIHED DEPLOYING CLIENT FOR ${EXPERIMENT_REF} ======"
 fi
 
-STATUS="COMPLETE" node ./updateStatus.js
+STATUS="COMPLETE" node ../../../updateStatus.js

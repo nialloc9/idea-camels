@@ -1,4 +1,6 @@
 const { onUpdate } = require("./data/experiment");
+const { logger } = require("./utils/utils");
+const config = require("./utils/config");
 
 const main = async () => {
   try {

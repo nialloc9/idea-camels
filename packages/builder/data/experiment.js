@@ -1,5 +1,5 @@
 const { query } = require("../utils/database");
-const { handleSuccess } = require("../utils/utils");
+const { handleSuccess, now } = require("../utils/utils");
 
 /**
  * gets experiments by experiment ref
@@ -36,7 +36,7 @@ const onUpdate = ({ data: { experimentRef, data: updateData }, caller }) =>
         ...updateData,
       };
 
-      await query(updateQuery, data, caller, "UPDATE_EXPERIMENT");
+      await query(updateQuery, data, "UPDATE_EXPERIMENT");
 
       resolve(
         handleSuccess(`DATA - UPDATE_EXPERIMENT - FROM ${caller}`, {
