@@ -2,7 +2,7 @@ const { onUpdate } = require("./data/experiment");
 const { logger } = require("./utils/utils");
 const config = require("./utils/config");
 
-try {
+const main = async () => {
   const {
     experiment: { experimentRef },
   } = config;
@@ -17,8 +17,11 @@ try {
   logger.info(
     `=========  EXPERIMENT ${experimentRef} STATUS UPDATED TO ${process.env.STATUS}  =========`
   );
-  process.exit(0);
-} catch (error) {
+};
+
+try {
+  main();
+} catch (e) {
   logger.error(error);
   process.exit(1);
 }
