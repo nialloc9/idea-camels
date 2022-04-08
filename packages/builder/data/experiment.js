@@ -41,8 +41,7 @@ const onUpdate = ({ data: { experimentRef, data: updateData }, caller }) =>
       resolve(
         handleSuccess(`DATA - UPDATE_EXPERIMENT - FROM ${caller}`, {
           ...data,
-          account_ref: accountRef,
-          last_updated_at: now(),
+          experiment_ref: experimentRef,
         })
       );
     } catch (error) {
