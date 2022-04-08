@@ -43,7 +43,6 @@ destroy:
 	export AWS_PROFILE=$(AWS_PROFILE) \
 	&& export AWS_REGION=$(AWS_REGION) \
 	&& terraform destroy -var="create_cert_validations=false" --var-file=environments/$(ENV)/variables.tfvars
-	echo "yoyo"
 	
 # INFRA
 init-prod:

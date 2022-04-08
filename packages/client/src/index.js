@@ -5,7 +5,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 import "semantic-ui-css/semantic.min.css";
-
+console.log("fda");
 ReactDOM.render(
   <React.StrictMode>
     <App />
