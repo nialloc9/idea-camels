@@ -13,6 +13,8 @@ const main = async () => {
 
   await onUpdate({
     data: { experimentRef, updateData: { status: process.env.STATUS } },
+  }).catch((e) => {
+    throw e;
   });
 
   // TODO: run cron to update database to expired for domains going to expire tomorrow

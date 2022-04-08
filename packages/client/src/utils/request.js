@@ -1,5 +1,5 @@
 import axios from "axios";
-import { config } from "../config";
+import { config as defaultConfig } from "../config";
 import { generateRandomId, logger } from "./utils";
 
 /**
@@ -7,7 +7,10 @@ import { generateRandomId, logger } from "./utils";
  * @param {*} param0
  * @returns
  */
-export const configureErrorResponse = ({ error: err }) => {
+export const configureErrorResponse = ({
+  error: err,
+  config = defaultConfig,
+}) => {
   try {
     if (config.env === "development") {
       const {
@@ -44,8 +47,10 @@ export const configureErrorResponse = ({ error: err }) => {
  * @param {*} param0
  * @returns
  */
-export const configureSuccessResponse = (response) =>
-  config.env === "development" ? response.data : response.data.payload;
+export const configureSuccessResponse = ({
+  response,
+  config = defaultConfig,
+}) => (config.env === "development" ? response.data : response.data.payload);
 
 /**
  * @description sends http request
@@ -73,7 +78,7 @@ export const post = async ({
 
   logger.log("========== POST API CALL RESPONSE ==========", response);
 
-  return configureSuccessResponse(response);
+  return configureSuccessResponse({ response });
 };
 
 /**
@@ -81,7 +86,13 @@ export const post = async ({
  * @param {*} param0
  * @returns
  */
-export const postApi = async ({ uri, body, headers, token }) => {
+export const postApi = async ({
+  uri,
+  body,
+  headers,
+  token,
+  config = defaultConfig,
+}) => {
   try {
     const { data } = await post({
       url: `${config.api.base}/${uri}`,

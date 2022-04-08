@@ -38,7 +38,7 @@ const runTask = (
           awsvpcConfiguration: {
             assignPublicIp: "ENABLED",
             subnets: config.aws.clusters.builder.subnets,
-            securityGroups: config.aws.clusters.builder.securityGroupId,
+            securityGroups: [config.aws.clusters.builder.securityGroupId],
           },
         },
         overrides: {

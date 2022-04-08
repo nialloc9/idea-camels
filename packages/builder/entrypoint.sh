@@ -48,7 +48,6 @@ echo "====== FINISHED DEPLOYING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 fi
 
 cd ../client
-cd experiments/${EXPERIMENT_REF}/client
 
 echo "====== BUILDING CLIENT FOR ${EXPERIMENT_REF} ======"
 STATUS="BUILDING_CLIENT" node ../../../updateStatus.js

@@ -75,11 +75,6 @@ const localhost = {
           BUILDER_SUBNET_ID_PRIVATE_0,
           BUILDER_SUBNET_ID_PRIVATE_1,
         ],
-        // subnets: [
-        //   "subnet-06e725c20e88ab312",
-        //   "subnet-04c65c0b93103f38a",
-        //   "subnet-00e4d89d867db50a0",
-        // ],
       },
     },
   },

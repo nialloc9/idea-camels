@@ -17,7 +17,8 @@ export const getMarginsOrPaddings = (values) => {
   if (!Array.isArray(values)) {
     return String(values)
       .split(" ")
-      .map((o) => remCalc(o).join(" "));
+      .map((o) => `${remCalc(o)} `)
+      .join(" ");
   }
 
   return `${remCalc(values[0])} ${remCalc(values[1])} ${remCalc(
