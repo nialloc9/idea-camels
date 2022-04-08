@@ -1,4 +1,4 @@
-FROM node:15-alpine
+FROM node:14
 
 USER root
 
@@ -6,23 +6,9 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN apk add --no-cache \
-  python \
-  py-pip \
-  py-setuptools \
-  ca-certificates \
-  openssl \
-  groff \
-  less \
-  bash \
-  curl \
-  jq \
-  git \
-  zip && \
-  pip install --no-cache-dir --upgrade pip awscli && \
-  aws configure set preview.cloudfront true
+RUN apt-get update
 
-RUN apk add --no-cache make 
+RUN apt-get install -y awscli
 
 ENV TERRAFORM_VERSION 0.15.3
 
