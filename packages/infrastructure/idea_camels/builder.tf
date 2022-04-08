@@ -116,19 +116,6 @@ resource "aws_ecs_task_definition" "builder" {
 DEFINITION
 }
 
-# resource "aws_ecs_service" "builder" {
-#   name            = "builder-${var.environment}"
-#   cluster         = aws_ecs_cluster.ideacamels.id
-#   task_definition = aws_ecs_task_definition.builder.arn
-
-#   network_configuration {
-#     security_groups = [module.builder_security_group.id]
-#     subnets         = [aws_subnet.ideacamels_main_public.id]
-#   }
-
-#   depends_on = [aws_iam_role_policy.builder, aws_subnet.ideacamels_main_public]
-# }
-
 resource "aws_cloudwatch_log_group" "ideacamels_builder" {
   name = "${var.environment}_ideacamels_builder"
 

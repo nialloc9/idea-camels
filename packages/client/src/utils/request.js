@@ -7,7 +7,7 @@ import { generateRandomId, logger } from "./utils";
  * @param {*} param0
  * @returns
  */
-const configureErrorResponse = ({ error: err }) => {
+export const configureErrorResponse = ({ error: err }) => {
   try {
     if (config.env === "development") {
       const {
@@ -44,7 +44,7 @@ const configureErrorResponse = ({ error: err }) => {
  * @param {*} param0
  * @returns
  */
-const configureSuccessResponse = (response) =>
+export const configureSuccessResponse = (response) =>
   config.env === "development" ? response.data : response.data.payload;
 
 /**
