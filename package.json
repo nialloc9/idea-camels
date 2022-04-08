@@ -22,11 +22,11 @@
     "prettier": "^2.1.1"
   },
   "lint-staged": {
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,css,md}": "prettier --write && make run_client_tests"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && make run_tests"
+      "pre-commit": "lint-staged"
     }
   },
   "dependencies": {

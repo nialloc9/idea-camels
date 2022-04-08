@@ -65,7 +65,7 @@ then
 STATUS="DEPLOYING_CLIENT" node ../../../updateStatus.js
 echo "====== DEPLOYING CLIENT FOR ${EXPERIMENT_REF} ======"
 aws s3 sync ./build s3://${DOMAIN} --delete
-echo "====== FINSIHED yo DEPLOYING CLIENT FOR ${EXPERIMENT_REF} ======"
+echo "====== FINSIHED yoyo DEPLOYING CLIENT FOR ${EXPERIMENT_REF} ======"
 fi
 
 STATUS="COMPLETE" node ../../../updateStatus.js
