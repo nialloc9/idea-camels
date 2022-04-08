@@ -42,7 +42,10 @@ const handleSuccess = (
   };
 
   const toLog = shouldLogData ? response : { ...response, data: "**********" };
-  logger.info(toLog, "SUCCESS");
+
+  if (shouldLogData) {
+    logger.info(toLog, "SUCCESS");
+  }
 
   return response;
 };
