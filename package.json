@@ -26,8 +26,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "make run_tests"
+      "pre-commit": "lint-staged && make run_tests"
     }
   },
   "dependencies": {
