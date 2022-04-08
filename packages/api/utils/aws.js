@@ -38,6 +38,7 @@ const runTask = (
           awsvpcConfiguration: {
             assignPublicIp: "ENABLED",
             subnets: config.aws.clusters.builder.subnets,
+            securityGroups: config.aws.clusters.builder.securityGroupId,
           },
         },
         overrides: {
@@ -280,13 +281,12 @@ const uploadToS3 = async (
         },
         (error) => {
           if (error) {
-            console.log(2, error);
             return reject(
               errors["3002"]({
                 service: "SERVICE_UPLOAD",
                 caller,
                 reason: error.message || error.code,
-                data: { Key, Bucket },
+                data: { Key, Bucket, error },
               })
             );
           }

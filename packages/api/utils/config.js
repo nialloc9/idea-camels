@@ -20,6 +20,10 @@ const {
   BUILDER_CLUSTER_NAME = "ideacamels-prod",
   BUILDER_TASK_NAME = "builder-prod",
   THEMES_BUCKET = `prod-themes`,
+  BUILDER_SECURITY_GROUP_ID,
+  BUILDER_SUBNET_ID_PUBLIC,
+  BUILDER_SUBNET_ID_PRIVATE_0,
+  BUILDER_SUBNET_ID_PRIVATE_1,
 } = process.env;
 
 const localhost = {
@@ -65,11 +69,17 @@ const localhost = {
       builder: {
         name: BUILDER_CLUSTER_NAME,
         taskDefinition: BUILDER_TASK_NAME,
+        securityGroupId: BUILDER_SECURITY_GROUP_ID,
         subnets: [
-          "subnet-06e725c20e88ab312",
-          "subnet-04c65c0b93103f38a",
-          "subnet-00e4d89d867db50a0",
+          BUILDER_SUBNET_ID_PUBLIC,
+          BUILDER_SUBNET_ID_PRIVATE_0,
+          BUILDER_SUBNET_ID_PRIVATE_1,
         ],
+        // subnets: [
+        //   "subnet-06e725c20e88ab312",
+        //   "subnet-04c65c0b93103f38a",
+        //   "subnet-00e4d89d867db50a0",
+        // ],
       },
     },
   },

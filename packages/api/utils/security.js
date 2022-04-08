@@ -200,7 +200,7 @@ const validateAndParse = async ({
         const [, token] = bearer.split(" ");
 
         const [error, decodedToken] = jwtVerify(token);
-        console.log("decode", decodedToken);
+
         if (error) return reject(error);
 
         response.decodedToken = decodedToken;

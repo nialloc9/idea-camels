@@ -25,7 +25,7 @@ const getYearsFromDate = (years = 1, date = new Date()) => {
 
 const getDate = ({ format, date }) => {
   const newDate = date || new Date();
-  console.log(newDate, newDate.getFullYear());
+
   return (
     {
       "YYYY-MM-DD": (dateObject) =>

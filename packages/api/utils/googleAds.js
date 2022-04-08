@@ -262,7 +262,7 @@ const getMetrics = async ({
   }
 
   const mappedMetrics = metrics.map((o) => metricMap[o]);
-  console.log("ma", mappedMetrics);
+
   const body = {
     entity: "ad_group",
     attributes: [

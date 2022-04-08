@@ -14,23 +14,19 @@ const DatabasePool = mysql.createPool({
   database,
   port,
 });
-console.log({
-  host,
-  user,
-  password,
-  database,
-  port,
-});
+
 const getConnection = async (caller) =>
   new Promise((resolve, reject) => {
     DatabasePool.getConnection((error, connection) => {
       logger.error(error);
       if (error) {
-        console.log("DATABASE_CONNECTION_ERROR", error);
         return reject(
           errors["4000"]({
             caller,
             reason: error.message,
+            data: {
+              error,
+            },
           })
         );
       }
@@ -61,10 +57,12 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
         return resolve(results);
       });
     } catch (error) {
-      console.log(
-        "error",
-        { query, data, host, user, password, database, port },
-        error
+      logger.error(
+        {
+          error,
+          query,
+        },
+        "QUERY_FUNCTION"
       );
       return reject(
         errors["4001"]({

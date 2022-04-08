@@ -7,14 +7,6 @@ resource "aws_vpc" "ideacamels_main" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
 }
-# create subnets
-# resource "aws_subnet" "idea_camels_main_public" {
-#   count                   = length(data.aws_availability_zones.aws_az.names)
-#   vpc_id                  = aws_vpc.ideacamels_main.id
-#   cidr_block              = cidrsubnet(aws_vpc.ideacamels_main.cidr_block, 8, count.index + 1)
-#   availability_zone       = data.aws_availability_zones.aws_az.names[count.index]
-#   map_public_ip_on_launch = true
-# }
 
 # public subnet
 resource "aws_subnet" "ideacamels_main_public" {

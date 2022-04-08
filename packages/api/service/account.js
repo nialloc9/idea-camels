@@ -145,7 +145,7 @@ const onCreate = ({ data, caller }) =>
           created_by_caller: caller,
         },
       });
-      console.log(1, stripeCustomerId);
+
       const { data: account } = await onCreateAccount({
         data: {
           ...data,
@@ -154,14 +154,14 @@ const onCreate = ({ data, caller }) =>
         },
         caller,
       });
-      console.log(1, data);
+
       // TODO: send onboarding email
 
       const responeData = {
         account: scrubAccount(account, ["password"]),
         token: createJwToken({ accountRef: account.account_ref }),
       };
-      console.log(3, responeData);
+
       resolve(handleSuccess("account created", responeData));
     } catch (error) {
       reject(error);

@@ -1,23 +1,27 @@
 locals {
   lambda_api = {
     env_variables = {
-      ENV                        = "${var.environment}",
-      DB_USER                    = "${aws_db_instance.ideacamels.username}",
-      DB_PORT                    = "${aws_db_instance.ideacamels.port}",
-      DB_NAME                    = "${aws_db_instance.ideacamels.name}",
-      DB_HOST                    = "${aws_db_instance.ideacamels.address}",
-      DB_PASSWORD                = "${data.aws_ssm_parameter.database_password.value}",
-      GOOGLE_ADS_CUSTOMER_ID     = "${data.aws_ssm_parameter.google_ads_customer_id.value}",
-      BUILDER_CLUSTER_NAME       = "ideacamels-${var.environment}",
-      BUILDER_TASK_NAME          = "builder-${var.environment}",
-      THEMES_BUCKET              = "${aws_s3_bucket.themes.id}",
-      STRIPE_SECRET_KEY          = "${data.aws_ssm_parameter.stripe_secret_key.value}",
-      JWT_SECRET                 = "${data.aws_ssm_parameter.api_jwt_secret.value}",
-      PASSWORD_SECRET            = "${data.aws_ssm_parameter.api_password_secret.value}",
-      GOOGLE_ADS_CLIENT_ID       = "${data.aws_ssm_parameter.google_ads_client_id.value}",
-      GOOGLE_ADS_CLIENT_SECRET   = "${data.aws_ssm_parameter.google_ads_client_secret.value}",
-      GOOGLE_ADS_REFRESH_TOKEN   = "${data.aws_ssm_parameter.google_ads_refresh_token.value}",
-      GOOGLE_ADS_DEVELOPER_TOKEN = "${data.aws_ssm_parameter.google_ads_developer_token.value}"
+      ENV                         = "${var.environment}",
+      DB_USER                     = "${aws_db_instance.ideacamels.username}",
+      DB_PORT                     = "${aws_db_instance.ideacamels.port}",
+      DB_NAME                     = "${aws_db_instance.ideacamels.name}",
+      DB_HOST                     = "${aws_db_instance.ideacamels.address}",
+      DB_PASSWORD                 = "${data.aws_ssm_parameter.database_password.value}",
+      GOOGLE_ADS_CUSTOMER_ID      = "${data.aws_ssm_parameter.google_ads_customer_id.value}",
+      BUILDER_CLUSTER_NAME        = "ideacamels-${var.environment}",
+      BUILDER_TASK_NAME           = "builder-${var.environment}",
+      BUILDER_SECURITY_GROUP_ID   = module.builder_security_group.id,
+      BUILDER_SUBNET_ID_PUBLIC    = aws_subnet.ideacamels_main_public.id,
+      BUILDER_SUBNET_ID_PRIVATE_0 = aws_subnet.ideacamels_main_private.id,
+      BUILDER_SUBNET_ID_PRIVATE_1 = aws_subnet.ideacamels_main_private_2.id,
+      THEMES_BUCKET               = "${aws_s3_bucket.themes.id}",
+      STRIPE_SECRET_KEY           = "${data.aws_ssm_parameter.stripe_secret_key.value}",
+      JWT_SECRET                  = "${data.aws_ssm_parameter.api_jwt_secret.value}",
+      PASSWORD_SECRET             = "${data.aws_ssm_parameter.api_password_secret.value}",
+      GOOGLE_ADS_CLIENT_ID        = "${data.aws_ssm_parameter.google_ads_client_id.value}",
+      GOOGLE_ADS_CLIENT_SECRET    = "${data.aws_ssm_parameter.google_ads_client_secret.value}",
+      GOOGLE_ADS_REFRESH_TOKEN    = "${data.aws_ssm_parameter.google_ads_refresh_token.value}",
+      GOOGLE_ADS_DEVELOPER_TOKEN  = "${data.aws_ssm_parameter.google_ads_developer_token.value}"
     }
   }
 }

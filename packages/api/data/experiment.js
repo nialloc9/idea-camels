@@ -16,8 +16,6 @@ const onGet = ({ caller }) =>
         "GET_EXPERIMENTS"
       );
 
-      console.log("yo", results);
-
       resolve(
         handleSuccess(`DATA - GET_EXPERIMENTSF - FROM ${caller}`, {
           experiments: results,

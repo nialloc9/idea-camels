@@ -34,7 +34,7 @@ const onCreate = ({ data, caller }) =>
       const createQuery = "INSERT INTO campaigns SET ?";
 
       const mappedData = mapper(data);
-      console.log("mappedData", mappedData);
+
       const results = await query(
         createQuery,
         mappedData,

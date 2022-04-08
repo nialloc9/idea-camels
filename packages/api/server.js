@@ -23,7 +23,7 @@ endpoints.forEach(({ uri, required = [], isAuth = false, func }) =>
 
       return sendResponse(res, response);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return sendError(res, { error, uri, caller: req.body.caller });
     }
   })
