@@ -1,9 +1,7 @@
-!/bin/bash
 echo "Starting ${ENV} build..."
 
 echo "====== INITIALISING ROOT FOR ${EXPERIMENT_REF} ======"
 npm install
-echo "====== INITIALISING ROOT FOR ${EXPERIMENT_REF} ======"
 
 echo "====== INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} ======"
 rm -rf experiments/${EXPERIMENT_REF}/infrastructure 

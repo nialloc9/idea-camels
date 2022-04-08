@@ -7,12 +7,20 @@ const main = async () => {
     experiment: { experimentRef },
   } = config;
 
+  const {
+    env: { STATUS },
+  } = process;
+
   logger.info(
-    `=========  EXPERIMENT ${experimentRef} STATUS UPDATING TO ${process.env.STATUS}  =========`
+    {
+      experimentRef,
+      status: STATUS,
+    },
+    `=========  EXPERIMENT STATUS UPDATING  =========`
   );
 
   await onUpdate({
-    data: { experimentRef, updateData: { status: process.env.STATUS } },
+    data: { experimentRef, updateData: { status: STATUS } },
   }).catch((e) => {
     throw e;
   });
@@ -21,7 +29,11 @@ const main = async () => {
   // TODO: run cron to send email for domains going to expire in 1 month and in 1 week
 
   logger.info(
-    `=========  EXPERIMENT ${experimentRef} STATUS UPDATED TO ${process.env.STATUS}  =========`
+    {
+      experimentRef,
+      status: STATUS,
+    },
+    `=========  EXPERIMENT STATUS UPDATED  =========`
   );
 };
 
