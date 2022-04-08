@@ -3,7 +3,7 @@ import { withEnterKey, toTitleCase } from "../utils";
 describe("root utils test suite", () => {
   it("enter key pressed", () => {
     const callback = jest.fn();
-    const preventDefault = () => {};
+    const preventDefault = jest.fn();
     withEnterKey(
       "test",
       callback
