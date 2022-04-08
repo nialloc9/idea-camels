@@ -13,7 +13,7 @@ describe("payments test suite", () => {
         domainPrices,
         budget: 10,
       })
-    ).toEqual(20);
+    ).toEqual(40);
 
     expect(
       calculateTotalExperimentPrice({
@@ -21,6 +21,6 @@ describe("payments test suite", () => {
         domainPrices,
         budget: 10,
       })
-    ).toEqual(10);
+    ).toEqual(30);
   });
 });
