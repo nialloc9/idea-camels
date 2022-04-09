@@ -214,6 +214,7 @@ const onCreateExperiment = ({
         mapBuildExperimentToECSConfig({
           experimentRef: newExperiment.experiment_ref,
           templateRef,
+          caller,
         })
       );
 

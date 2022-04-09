@@ -49,7 +49,11 @@ const mapExperimentsToAdGroupNames = (experiments) =>
  * @param {*} param0
  * @returns
  */
-const mapBuildExperimentToECSConfig = ({ experimentRef, templateRef }) => ({
+const mapBuildExperimentToECSConfig = ({
+  experimentRef,
+  templateRef,
+  caller,
+}) => ({
   cluster: config.aws.clusters.builder.name,
   taskDefinition: config.aws.clusters.builder.taskDefinition,
   environmentVariables: [
@@ -58,6 +62,8 @@ const mapBuildExperimentToECSConfig = ({ experimentRef, templateRef }) => ({
       value: experimentRef.toString(),
     },
     { name: "TEMPLATE_REF", value: templateRef.toString() },
+    { name: "CALLER", value: caller },
+    { name: "ENV", value: config.env },
   ],
 });
 

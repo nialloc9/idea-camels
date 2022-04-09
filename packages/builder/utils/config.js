@@ -57,11 +57,15 @@ const staging = {
   noInternet: false,
 };
 
-const production = {
+const prod = {
   ...staging,
   aws: {
     ...staging.aws,
   },
 };
-console.log(production);
-module.exports = production;
+
+module.exports =
+  {
+    staging,
+    prod,
+  }[ENV] || localhost;
