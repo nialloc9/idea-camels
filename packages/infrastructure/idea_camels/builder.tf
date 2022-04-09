@@ -56,8 +56,8 @@ resource "aws_ecs_task_definition" "builder" {
   execution_role_arn       = aws_iam_role.builder.arn
   task_role_arn            = aws_iam_role.builder.arn
   requires_compatibilities = ["FARGATE"]
-  cpu                      = 256
-  memory                   = 512
+  cpu                      = 512
+  memory                   = 1024
   network_mode             = "awsvpc"
 
   container_definitions = <<DEFINITION
@@ -65,8 +65,6 @@ resource "aws_ecs_task_definition" "builder" {
   {
     "name": "builder-${var.environment}",
     "image": "${module.builder_ecr.repository_url}",
-    "cpu": 512,
-    "memory": 1024,
     "requires_compatibilities": ["FARGATE"], 
     "logConfiguration": {
       "logDriver": "awslogs",
