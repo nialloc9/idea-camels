@@ -63,7 +63,6 @@ const mapBuildExperimentToECSConfig = ({
     },
     { name: "TEMPLATE_REF", value: templateRef.toString() },
     { name: "CALLER", value: caller },
-    { name: "ENV", value: config.env },
   ],
 });
 
