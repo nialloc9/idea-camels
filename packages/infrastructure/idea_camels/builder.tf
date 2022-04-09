@@ -54,6 +54,7 @@ resource "aws_iam_role_policy" "builder" {
 resource "aws_ecs_task_definition" "builder" {
   family                   = "builder-${var.environment}"
   execution_role_arn       = aws_iam_role.builder.arn
+  task_role_arn            = aws_iam_role.builder.arn
   requires_compatibilities = ["FARGATE"]
   cpu                      = 256
   memory                   = 512
@@ -64,8 +65,8 @@ resource "aws_ecs_task_definition" "builder" {
   {
     "name": "builder-${var.environment}",
     "image": "${module.builder_ecr.repository_url}",
-    "cpu": 256,
-    "memory": 512,
+    "cpu": 512,
+    "memory": 1024,
     "requires_compatibilities": ["FARGATE"], 
     "logConfiguration": {
       "logDriver": "awslogs",
@@ -115,6 +116,19 @@ resource "aws_ecs_task_definition" "builder" {
 ]
 DEFINITION
 }
+
+# resource "aws_ecs_service" "builder" {
+#   name            = "builder-${var.environment}"
+#   cluster         = aws_ecs_cluster.ideacamels.id
+#   task_definition = aws_ecs_task_definition.builder.arn
+
+#   network_configuration {
+#     security_groups = [module.builder_security_group.id]
+#     subnets         = [aws_subnet.ideacamels_main_public.id]
+#   }
+
+#   depends_on = [aws_iam_role_policy.builder, aws_subnet.ideacamels_main_public]
+# }
 
 resource "aws_cloudwatch_log_group" "ideacamels_builder" {
   name = "${var.environment}_ideacamels_builder"
