@@ -13,7 +13,7 @@ cd ..
 echo "====== FINISHED INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 
 STATUS="INIT_INFRA" node ./updateStatus.js
-
+echo 'a'
 echo "====== INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
 rm -rf experiments/${EXPERIMENT_REF}/client
 mkdir -p experiments/${EXPERIMENT_REF}/client
