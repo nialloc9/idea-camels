@@ -18,7 +18,7 @@ const main = async () => {
     },
     `=========  EXPERIMENT STATUS UPDATING  =========`
   );
-  console.log(0);
+
   await onUpdate({
     data: { experimentRef, data: { status: STATUS } },
   }).catch((e) => {

@@ -24,6 +24,7 @@ const main = async () => {
 
 try {
   main();
+  process.exit();
 } catch (error) {
   logger.error(error);
   process.exit(1);

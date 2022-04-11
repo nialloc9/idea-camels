@@ -35,9 +35,9 @@ const onUpdate = ({ data: { experimentRef, data: updateData }, caller }) =>
         last_updated_at: now(),
         ...updateData,
       };
-      console.log(2, updateQuery, data);
+
       await query(updateQuery, data, "UPDATE_EXPERIMENT");
-      console.log(3);
+
       resolve(
         handleSuccess(`DATA - UPDATE_EXPERIMENT - FROM ${caller}`, {
           ...data,
