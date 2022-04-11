@@ -41,6 +41,6 @@ try {
   main();
   process.exit();
 } catch (e) {
-  console.log(error);
+  logger.error(error);
   process.exit(1);
 }
