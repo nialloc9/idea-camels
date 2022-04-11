@@ -18,8 +18,8 @@ const DatabasePool = mysql.createPool({
 const getConnection = async (caller) =>
   new Promise((resolve, reject) => {
     DatabasePool.getConnection((error, connection) => {
-      logger.error(error);
       if (error) {
+        logger.error(error);
         return reject(
           errors["4000"]({
             caller,

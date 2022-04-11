@@ -19,7 +19,7 @@ const main = async () => {
   // TODO: run cron to update database to expired for domains going to expire tomorrow
   // TODO: run cron to send email for domains going to expire in 1 month and in 1 week
 
-  logger.info(`=========  EXPERIMENT ${experimentRef} CREATED  =========`);
+  logger.info(`=========  EXPERIMENT ${experimentRef} CONFIGURED  =========`);
 };
 
 try {
