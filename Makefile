@@ -6,3 +6,4 @@ run_api_tests:
 
 run_tests:
 	make run_client_tests
+	make run_api_tests
