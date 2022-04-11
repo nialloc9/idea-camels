@@ -50,8 +50,11 @@ const mapExperimentsToAdGroupNames = (experiments) =>
  * @returns
  */
 const mapBuildExperimentToECSConfig = ({
+  domain,
   experimentRef,
   templateRef,
+  themeKey,
+  contentKey,
   caller,
 }) => ({
   cluster: config.aws.clusters.builder.name,
@@ -63,6 +66,9 @@ const mapBuildExperimentToECSConfig = ({
     },
     { name: "TEMPLATE_REF", value: templateRef.toString() },
     { name: "CALLER", value: caller },
+    { name: "DOMAIN", value: domain },
+    { name: "THEME_KEY", value: themeKey },
+    { name: "CONTENT_KEY", value: contentKey },
   ],
 });
 

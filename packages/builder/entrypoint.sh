@@ -62,6 +62,7 @@ if [ ENV="prod" ]
 then
 STATUS="DEPLOYING_CLIENT" node ../../../updateStatus.js
 echo "====== DEPLOYING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+echo "s3://${DOMAIN}"
 aws s3 sync ./build s3://${DOMAIN} --delete
 echo "====== FINSIHED DEPLOYING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 fi

@@ -7,6 +7,9 @@ const {
   DB_NAME,
   DB_PORT,
   EXPERIMENT_REF,
+  DOMAIN,
+  THEME_KEY,
+  CONTENT_KEY,
   JWT_SECRET = "test",
 } = process.env;
 
@@ -45,6 +48,9 @@ const localhost = {
   },
   experiment: {
     experimentRef: EXPERIMENT_REF,
+    domain: DOMAIN,
+    themeKey: THEME_KEY,
+    contentKey: CONTENT_KEY,
   },
   security: {
     secret: JWT_SECRET,
