@@ -66,11 +66,7 @@ const writeConfig = async ({
 
   await downloadFileFromStorage(bucket, contentKey, `${prefix}/content.js`);
 
-  await downloadFileFromStorage(
-    bucket,
-    `${accountRef}/themes/${themeKey}`,
-    `${prefix}/theme.js`
-  );
+  await downloadFileFromStorage(bucket, themeKey, `${prefix}/theme.js`);
 
   const path = `${prefix}/config.js`;
 
