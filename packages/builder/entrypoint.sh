@@ -1,8 +1,5 @@
 echo "Starting ${ENV} build..."
 
-echo "====== INITIALISING ROOT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
-npm install
-
 echo "====== INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 rm -rf experiments/${EXPERIMENT_REF}/infrastructure 
 mkdir -p experiments/${EXPERIMENT_REF}/infrastructure 
@@ -51,7 +48,6 @@ cd ../client
 echo "====== BUILDING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 STATUS="BUILDING_CLIENT" node ../../../updateStatus.js
 rm -rf ./build
-npm install
 npm run build 
 
 echo "====== FINISHED BUILDING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
