@@ -64,7 +64,7 @@ const localhost = {
 
 const staging = {
   ...localhost,
-  shouldLogStatusInDB: false,
+  shouldLogStatusInDB: true,
   noInternet: false,
 };
 
