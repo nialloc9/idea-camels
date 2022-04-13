@@ -7,6 +7,7 @@ const {
   DB_NAME,
   DB_PORT,
   EXPERIMENT_REF,
+  ACCOUNT_REF,
   DOMAIN,
   THEME_KEY,
   CONTENT_KEY,
@@ -14,6 +15,7 @@ const {
 } = process.env;
 
 const localhost = {
+  shouldLogStatusInDB: false,
   webAddress: "https://ideacamels.com",
   env: ENV,
   isProd: ENV === "production",
@@ -48,6 +50,8 @@ const localhost = {
   },
   experiment: {
     experimentRef: EXPERIMENT_REF,
+    // accountRef: ACCOUNT_REF,
+    accountRef: 1,
     domain: DOMAIN,
     themeKey: THEME_KEY,
     contentKey: CONTENT_KEY,
@@ -60,6 +64,7 @@ const localhost = {
 
 const staging = {
   ...localhost,
+  shouldLogStatusInDB: false,
   noInternet: false,
 };
 

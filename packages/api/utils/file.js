@@ -7,7 +7,7 @@ const writeToTmpFile = ({ data }) =>
     tmp.file((err, path, fd, cleanup) => {
       if (err) throw reject(err);
 
-      appendFile(path, JSON.stringify(data), () => {
+      appendFile(path, data, () => {
         resolve({
           path,
           fd,

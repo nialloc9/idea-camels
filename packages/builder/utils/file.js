@@ -5,15 +5,26 @@ const config = require("./config");
 
 const AWS = require("aws-sdk");
 
-const downloadFileFromStorage = (bucket, key, pathToDownloadTo) =>
-  new Promise((resolve, reject) => {
+const downloadFileFromStorage = async (bucket, key, pathToDownloadTo) =>
+  new Promise(async (resolve, reject) => {
     const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
     const params = { Bucket: bucket, Key: key };
-    logger.info(params, "Downloading file from storage");
-    const file = fs.createWriteStream(pathToDownloadTo);
-    const pipe = s3.getObject(params).createReadStream().pipe(file);
-    pipe.on("error", reject);
-    pipe.on("close", resolve);
+    logger.info(params, `Downloading ${key} from ${bucket}`);
+
+    const readStream = s3.getObject(params).createReadStream();
+
+    readStream.on("error", reject);
+
+    const writeStream = fs.createWriteStream(pathToDownloadTo);
+    writeStream.on("error", reject);
+
+    const res = readStream.pipe(writeStream);
+
+    res.on("error", reject);
+    res.on("close", () => {
+      logger.info(params, `File ${key} downloaded from ${bucket}`);
+      resolve();
+    });
   });
 
 const writeToFile = (path, str) => fs.writeFileSync(path, str);
@@ -47,21 +58,25 @@ const writeConfig = async ({
   themeKey,
   contentKey,
   experimentRef,
+  accountRef,
 }) => {
   logger.info({ experimentRef, bucket }, "Writing config");
 
+  const prefix = `./experiments/${experimentRef}/client/src/config`;
+
   await downloadFileFromStorage(
     bucket,
-    contentKey,
-    `./experiments/${experimentRef}/client/src/config/content.js`
-  );
-  await downloadFileFromStorage(
-    bucket,
-    themeKey,
-    `./experiments/${experimentRef}/client/src/config/theme.js`
+    `${accountRef}/contents/${contentKey}`,
+    `${prefix}/content.js`
   );
 
-  const path = `./experiments/${experimentRef}/client/src/config/config.js`;
+  await downloadFileFromStorage(
+    bucket,
+    `${accountRef}/themes/${themeKey}`,
+    `${prefix}/theme.js`
+  );
+
+  const path = `${prefix}/config.js`;
 
   const str = `
 

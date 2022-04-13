@@ -38,9 +38,12 @@ const main = async () => {
 };
 
 try {
-  main();
-  process.exit();
-} catch (e) {
+  if (config.shouldLogStatusInDB) {
+    main().then(process.exit);
+  } else {
+    logger.info({}, "logging status disabled");
+  }
+} catch (error) {
   logger.error(error);
   process.exit(1);
 }
