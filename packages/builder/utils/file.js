@@ -64,11 +64,7 @@ const writeConfig = async ({
 
   const prefix = `./experiments/${experimentRef}/client/src/config`;
 
-  await downloadFileFromStorage(
-    bucket,
-    `${accountRef}/contents/${contentKey}`,
-    `${prefix}/content.js`
-  );
+  await downloadFileFromStorage(bucket, contentKey, `${prefix}/content.js`);
 
   await downloadFileFromStorage(
     bucket,
