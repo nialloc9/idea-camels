@@ -1,6 +1,6 @@
-import content from "./content";
-import defaultTheme from "./defaultTheme";
-import themeTwo from "./themeTwo";
+import content from "./content.json";
+import defaultTheme from "./defaultTheme.json";
+import themeTwo from "./theme2.json";
 
 export default {
   ref: 1,
