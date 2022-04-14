@@ -1,5 +1,5 @@
 import content from "./content.json";
-import defaultTheme from "./defaultTheme.json";
+import defaultTheme from "./theme1.json";
 import themeTwo from "./theme2.json";
 
 export default {
