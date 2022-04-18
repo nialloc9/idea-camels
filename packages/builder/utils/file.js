@@ -58,15 +58,17 @@ const writeConfig = async ({
   themeKey,
   contentKey,
   experimentRef,
-  accountRef,
 }) => {
-  logger.info({ experimentRef, bucket }, "Writing config");
+  logger.info(
+    { experimentRef, bucket, themeKey, contentKey },
+    "Writing config"
+  );
 
   const prefix = `./experiments/${experimentRef}/client/src/config`;
 
-  await downloadFileFromStorage(bucket, contentKey, `${prefix}/content.js`);
+  await downloadFileFromStorage(bucket, contentKey, `${prefix}/content.json`);
 
-  await downloadFileFromStorage(bucket, themeKey, `${prefix}/theme.js`);
+  await downloadFileFromStorage(bucket, themeKey, `${prefix}/theme.json`);
 
   const path = `${prefix}/config.js`;
 

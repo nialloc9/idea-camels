@@ -47,6 +47,7 @@ cd ../client
 
 echo "====== BUILDING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 STATUS="BUILDING_CLIENT" node ../../../updateStatus.js
+npm run test 
 rm -rf ./build
 npm run build 
 
