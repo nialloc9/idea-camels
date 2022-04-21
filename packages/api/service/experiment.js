@@ -212,17 +212,7 @@ const onCreateExperiment = ({
         data: experiment,
         caller,
       });
-      console.log(
-        "look here",
-        mapBuildExperimentToECSConfig({
-          domain: name,
-          experimentRef: newExperiment.experiment_ref,
-          themeKey,
-          contentKey,
-          templateRef,
-          caller,
-        })
-      );
+
       const { error: taskError } = await runTask(
         mapBuildExperimentToECSConfig({
           domain: name,

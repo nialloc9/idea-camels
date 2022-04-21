@@ -1,3 +1,14 @@
+#
+# This script creates a new experiment from a template
+# 
+# ENV VARIABLES
+# DOMAIN -> Domain name e.g ideacamels.com
+# ENV -> Environment e.g prod
+# EXPERIMENT_REF -> The experiment ref from the database e.g 1
+# TEMPLATE_REF -> The template ref from the database e.g 1
+# CALLER -> Unique ID for this task e.g hfdahaj44
+#
+
 echo "Starting ${ENV} build..."
 
 echo "====== INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"

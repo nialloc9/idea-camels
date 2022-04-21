@@ -12,6 +12,16 @@ const {
   THEME_KEY,
   CONTENT_KEY,
   JWT_SECRET = "test",
+  BUDGET,
+  DOMAIN_REF,
+  HEADLINE,
+  HEADLINE_2,
+  KEYWORD_0,
+  KEYWORD_1,
+  KEYWORD_2,
+  KEYWORD_3,
+  KEYWORD_4,
+  KEYWORD_5,
 } = process.env;
 
 const localhost = {
@@ -55,6 +65,16 @@ const localhost = {
     domain: DOMAIN,
     themeKey: THEME_KEY,
     contentKey: CONTENT_KEY,
+    budget: BUDGET,
+    domainRef: DOMAIN_REF,
+    headline: HEADLINE,
+    headline2: HEADLINE_2,
+    keyword0: KEYWORD_0,
+    keyword1: KEYWORD_1,
+    keyword2: KEYWORD_2,
+    keyword3: KEYWORD_3,
+    keyword4: KEYWORD_4,
+    keyword5: KEYWORD_5,
   },
   security: {
     secret: JWT_SECRET,

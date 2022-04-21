@@ -20,3 +20,6 @@ deploy-via-cicd:
 	docker build -t $(ECR_HOSTNAME)/$(NAME):${MAJOR_VERSION}.${MINOR_VERSION}.${GITHUB_RUN_NUMBER} -t $(ECR_HOSTNAME)/$(NAME):latest .
 	docker push $(ECR_HOSTNAME)/$(NAME):${MAJOR_VERSION}.${MINOR_VERSION}.${GITHUB_RUN_NUMBER}
 	docker push $(ECR_HOSTNAME)/$(NAME):latest
+
+clean-up-experiment:
+	for cmd in 36 37 39 50 41 42 43 44 45 46 47 48 49; do EXPERIMENT_REF=$cmd bash ./remove_experiment.sh; done
