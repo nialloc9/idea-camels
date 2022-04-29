@@ -220,7 +220,12 @@ const onCreateExperiment = ({
           themeKey,
           contentKey,
           templateRef,
+          description,
+          headline,
+          headline2,
+          keywords,
           caller,
+          budget
         })
       );
 
@@ -228,74 +233,74 @@ const onCreateExperiment = ({
         throw new Error(taskError);
       }
 
-      const { resource_name: budgetName } = await createBudget(
-        mapExperimentToCampaignBudget({
-          budget,
-          accountRef,
-          domainRef,
-          experimentRef: newExperiment.experiment_ref,
-          name: `${name}_${caller}`,
-        })
-      );
+      // const { resource_name: budgetName } = await createBudget(
+      //   mapExperimentToCampaignBudget({
+      //     budget,
+      //     accountRef,
+      //     domainRef,
+      //     experimentRef: newExperiment.experiment_ref,
+      //     name: `${name}_${caller}`,
+      //   })
+      // );
 
-      const { resource_name: campaignName } = await createCampaign(
-        mapExperimentToCampaign({
-          accountRef,
-          experimentRef: newExperiment.experiment_ref,
-          budgetName,
-          domainRef,
-          endDate,
-          name: `${name}_${caller}`,
-        })
-      );
+      // const { resource_name: campaignName } = await createCampaign(
+      //   mapExperimentToCampaign({
+      //     accountRef,
+      //     experimentRef: newExperiment.experiment_ref,
+      //     budgetName,
+      //     domainRef,
+      //     endDate,
+      //     name: `${name}_${caller}`,
+      //   })
+      // );
 
-      const { resource_name: adGroupName } = await createAdGroup(
-        mapExperimentToAdGroup({
-          campaignName,
-          budget,
-          experimentRef: newExperiment.experiment_ref,
-          accountRef,
-          domainRef,
-          name: `${name}_${caller}`,
-        })
-      );
+      // const { resource_name: adGroupName } = await createAdGroup(
+      //   mapExperimentToAdGroup({
+      //     campaignName,
+      //     budget,
+      //     experimentRef: newExperiment.experiment_ref,
+      //     accountRef,
+      //     domainRef,
+      //     name: `${name}_${caller}`,
+      //   })
+      // );
 
-      const { resource_name: adGroupAdName } = await createAdGroupAd(
-        mapExperimentToAdGroupAd({
-          name,
-          adGroupName,
-          description,
-          headline,
-          headline2,
-        })
-      );
+      // const { resource_name: adGroupAdName } = await createAdGroupAd(
+      //   mapExperimentToAdGroupAd({
+      //     name,
+      //     adGroupName,
+      //     description,
+      //     headline,
+      //     headline2,
+      //   })
+      // );
 
-      const keywordCriterians = mapKeywordsToCriterionToCreate({
-        keywords,
-        adGroupName,
-      });
+      // const keywordCriterians = mapKeywordsToCriterionToCreate({
+      //   keywords,
+      //   adGroupName,
+      // });
 
-      const criterions = await createAdGroupCriterion(keywordCriterians);
+      // const criterions = await createAdGroupCriterion(keywordCriterians);
 
-      const mappedCriterionToDb = mapCriterionsToDb({
-        criterions,
-        keywords,
-      });
+      // const mappedCriterionToDb = mapCriterionsToDb({
+      //   criterions,
+      //   keywords,
+      // });
 
-      const { data: campaignData } = await onCreateCampaign({
-        data: {
-          accountRef,
-          experimentRef: newExperiment.experiment_ref,
-          campaignName,
-          budgetName,
-          adGroupName,
-          adGroupAdName,
-          headline,
-          headline2,
-          ...mappedCriterionToDb,
-        },
-        caller,
-      });
+      // const { data: campaignData } = await onCreateCampaign({
+      //   data: {
+      //     accountRef,
+      //     experimentRef: newExperiment.experiment_ref,
+      //     campaignName,
+      //     budgetName,
+      //     adGroupName,
+      //     adGroupAdName,
+      //     headline,
+      //     headline2,
+      //     ...mappedCriterionToDb,
+      //   },
+      //   caller,
+      // });
 
       resolve(
         handleSuccess("SERVICE - Create Experiment Success", {
@@ -303,7 +308,7 @@ const onCreateExperiment = ({
           name,
           content: contentKey,
           theme: themeKey,
-          campaign: campaignData,
+          // campaign: campaignData,
         })
       );
     } catch (error) {

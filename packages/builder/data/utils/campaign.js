@@ -2,7 +2,7 @@ const {
   convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase,
 } = require("../../utils/utils");
 
-const dbNames = concustomer_idvertArrayToObjectWithKeysCamelCaseAndValueSnakeCase([
+const dbNames = convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase([
   "campaign_ref",
   "account_ref",
   "experiment_ref",

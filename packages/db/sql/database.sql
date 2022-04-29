@@ -1,3 +1,0 @@
-DROP DATABASE IF EXISTS idea_camels;
-
-CREATE DATABASE idea_camels;

@@ -7,6 +7,11 @@
 # EXPERIMENT_REF -> The experiment ref from the database e.g 1
 # TEMPLATE_REF -> The template ref from the database e.g 1
 # CALLER -> Unique ID for this task e.g hfdahaj44
+# DESCRIPTION -> description of ad
+# HEADLINE -> Headline for ad
+# HEADLINE_2 -> Headline 2 for ad
+# BUDGET -> Budget for ad
+# KEYWORD_{0 - 6} -> Set of keywords for ad
 #
 
 echo "Starting ${ENV} build..."
@@ -64,8 +69,6 @@ npm run build
 
 echo "====== FINISHED BUILDING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 
-ls
-
 if [ ENV="prod" ]
 then
 STATUS="DEPLOYING_CLIENT" node ../../../updateStatus.js
@@ -73,6 +76,21 @@ echo "====== DEPLOYING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 echo "s3://${DOMAIN}"
 aws s3 sync ./build s3://${DOMAIN} --delete
 echo "====== FINSIHED DEPLOYING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+
+STATUS="CLIENT_DEPLOYED" node ../../../updateStatus.js
+
 fi
 
-STATUS="COMPLETE" node ../../../updateStatus.js
+cd ../../../
+
+if [ ENV="prod" ]
+then
+
+STATUS="CONFIGURING_CAMPAIGN" node ./updateStatus.js
+
+node ./configureCampaign.js
+
+STATUS="CAMPAIGN_CONFIGURED" node ./updateStatus.js
+fi
+
+STATUS="COMPLETE" node ./updateStatus.js

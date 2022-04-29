@@ -56,10 +56,35 @@ const createTimestamp = (timestamp) =>
  */
 const now = () => new Date().toISOString();
 
+/**
+ * @description gets date in yyyy-mm-dd
+ * @param "date"
+ * @returns "date"
+ */
+ const getDateInYYMMDD = (date = new Date()) =>
+ new Date(date).toISOString().split("T")[0];
+
+ /**
+ * @description converts a string that is snake_case to camelCase
+ */
+const snakeToCamel = (str) =>
+str.replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+
+ /**
+ * @description converts an array to an object thats key is camelCase and value is snake_case
+ */
+const convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase = (names) =>
+names.reduce((total = {}, curr) => {
+  total[snakeToCamel(curr)] = curr;
+  return total;
+}, {});
+
 module.exports = {
   handleSuccess,
   logger,
   generateRandomId,
   createTimestamp,
   now,
+  getDateInYYMMDD,
+  convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase
 };

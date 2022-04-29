@@ -1,10 +1,45 @@
-const { writeBackendVars, writeTfVars, writeConfig } = require("./utils/file");
 const config = require("./utils/config");
 const { logger } = require("./utils/utils");
+const {
+  mapCriterionsToDb,
+  mapKeywordsToCriterionToCreate,
+  mapExperimentToCampaignBudget,
+  mapExperimentToCampaign,
+  mapExperimentToAdGroup,
+  mapExperimentToAdGroupAd,
+} = require("./utils/campaign");
+const {
+  createCampaign,
+  createBudget,
+  createAdGroup,
+  createAdGroupAd,
+  createAdGroupCriterion,
+} = require("./utils/googleAds");
+const { onCreate: onCreateCampaign } = require("./data/campaign");
 
 const main = async () => {
   const {
     experiment: {
+      budget,
+      domainRef,
+      headline,
+      headline2,
+      description,
+      keyword0,
+      keyword1,
+      keyword2,
+      keyword3,
+      keyword4,
+      keyword5,
+      experimentRef,
+      accountRef,
+      domain,
+      endDate,
+    },
+    caller='test',
+  } = config;
+  logger.info(
+    {
       budget,
       domainRef,
       headline,
@@ -18,29 +53,6 @@ const main = async () => {
       experimentRef,
       accountRef,
       domain,
-      themeKey,
-      contentKey,
-      endDate,
-    },
-    caller,
-  } = config;
-  logger.info(
-    {
-      udget,
-      domainRef,
-      headline,
-      headline2,
-      keyword0,
-      keyword1,
-      keyword2,
-      keyword3,
-      keyword4,
-      keyword5,
-      experimentRef,
-      accountRef,
-      domain,
-      themeKey,
-      contentKey,
       endDate,
       caller,
     },
@@ -97,12 +109,12 @@ const main = async () => {
   });
 
   const criterions = await createAdGroupCriterion(keywordCriterians);
-
+ 
   const mappedCriterionToDb = mapCriterionsToDb({
     criterions,
     keywords,
   });
-
+ 
   await onCreateCampaign({
     data: {
       accountRef,

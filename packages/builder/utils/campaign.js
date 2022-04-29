@@ -1,13 +1,20 @@
-const config = require("../../utils/config");
-const { getDateInYYMMDD } = require("../../utils/utils");
-const { calculateAdBudgetMinusMarkup } = require("../../utils/payments");
+const config = require("./config");
+const { getDateInYYMMDD } = require("./utils");
+
+/**
+ * @description Calculates ad budget to run ads after taking away markup on ads
+ * @param {*} param0
+ * @returns
+ */
+const calculateAdBudgetMinusMarkup = ({ budget }) =>
+  (parseInt(budget) / 100) * (100 - config.payments.advertPercentageMarkup);
 
 /**
  * @description maps criterions to database object and a response object for user that matches API
  * @param {*} criterions
  * @returns
  */
-const mapCriterionsToDb = ({ criterions, keywords }) =>
+const mapCriterionsToDb = ({ criterions = [], keywords }) =>
   criterions.reduce((total = {}, { resource_name: criterionName }, index) => {
     total[`criterion${index}Name`] = criterionName;
     total[`keyword${index}`] = keywords[index];
@@ -35,60 +42,6 @@ const mapKeywordsToCriterionToCreate = ({ keywords, adGroupName }) =>
 
     return total;
   }, []);
-
-/**
- * @description maps experiments to adGroupNames
- * @param {*} experiments
- * @returns
- */
-const mapExperimentsToAdGroupNames = (experiments) =>
-  experiments.map(({ ad_group_name }) => ad_group_name);
-
-/**
- * @description maps experiment to config required for building on ECS
- * @param {*} param0
- * @returns
- */
-const mapBuildExperimentToECSConfig = ({
-  domain,
-  experimentRef,
-  templateRef,
-  themeKey,
-  contentKey,
-  description,
-    headline,
-    headline2,
-    keywords,
-  caller,
-  budget
-}) => {
-
-  const keyWordsToPassAsEnvVariables = keywords.map((o,i) => ({
-    name: `KEYWORD_${i}`,
-    value: o
-  }))
-
-  return ({
-    cluster: config.aws.clusters.builder.name,
-    taskDefinition: config.aws.clusters.builder.taskDefinition,
-    environmentVariables: [
-      {
-        name: "EXPERIMENT_REF",
-        value: experimentRef.toString(),
-      },
-      { name: "TEMPLATE_REF", value: templateRef.toString() },
-      { name: "CALLER", value: caller },
-      { name: "DOMAIN", value: domain },
-      { name: "THEME_KEY", value: themeKey },
-      { name: "CONTENT_KEY", value: contentKey },
-      { name: "DESCRIPTION", value: description },
-      { name: "HEADLINE", value: headline },
-      { name: "HEADLINE_2", value: headline2 },
-      { name: "BUDGET", value: budget.toString() },
-      ...keyWordsToPassAsEnvVariables
-    ],
-  });
-}
 
 /**
  * @description maps experiment to campaign budget
@@ -188,55 +141,11 @@ const mapExperimentToAdGroupAd = ({
   status: 2, // ENABLED
 });
 
-/**
- * @description maps metrics to experiments
- */
-const mapMetricsToExperiment = ({ metrics, experiments }) => {
-  const mappedMetricsToAdGroupName = metrics.reduce(
-    (total = {}, { ad_group, metrics }) => {
-      total[ad_group.resource_name] = metrics;
-      return total;
-    },
-    {}
-  );
-
-  return experiments.map((o) => ({
-    ...o,
-    metrics: mappedMetricsToAdGroupName[o.ad_group_name],
-  }));
-};
-
-/**
- * @description maps leads to experiments
- */
-const mapExperimentsToLeads = ({ leads = [], experiments = [] }) => {
-  const newLeads = Array.isArray(leads) ? leads : [];
-
-  const leadsMappedToExperimentRef = newLeads.reduce((total = {}, curr) => {
-    if (total[curr.experiment_ref]) {
-      total[curr.experiment_ref].push(curr);
-    } else {
-      total[curr.experiment_ref] = [curr];
-    }
-
-    return total;
-  }, {});
-
-  return experiments.map((o) => ({
-    ...o,
-    leads: leadsMappedToExperimentRef[o.experiment_ref] || [],
-  }));
-};
-
 module.exports = {
   mapCriterionsToDb,
   mapKeywordsToCriterionToCreate,
-  mapExperimentsToAdGroupNames,
-  mapBuildExperimentToECSConfig,
   mapExperimentToCampaignBudget,
   mapExperimentToCampaign,
   mapExperimentToAdGroup,
   mapExperimentToAdGroupAd,
-  mapMetricsToExperiment,
-  mapExperimentsToLeads,
 };

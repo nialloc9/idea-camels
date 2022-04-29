@@ -22,4 +22,4 @@ deploy-via-cicd:
 	docker push $(ECR_HOSTNAME)/$(NAME):latest
 
 clean-up-experiment:
-	for cmd in 36 37 39 50 41 42 43 44 45 46 47 48 49; do EXPERIMENT_REF=$cmd bash ./remove_experiment.sh; done
+	for cmd in 49 50 51; do EXPERIMENT_REF=$cmd ENV="prod" DOMAIN="ideacamels.link" AWS_ACCESS_KEY_ID=? AWS_SECRET_ACCESS_KEY=? AWS_REGION=eu-west-1 bash ./remove_experiment.sh; done
