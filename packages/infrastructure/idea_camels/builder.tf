@@ -100,10 +100,13 @@ resource "aws_ecs_task_definition" "builder" {
               "value": "${data.aws_ssm_parameter.database_password.value}"
             },
             {
-              "name": "JWT_TOKEN",
+              "name": "JWT_SECRET",
               "value": "${data.aws_ssm_parameter.api_jwt_secret.value}"
+            },
+            {
+              "name": "API_BASE_URL",
+              "value": "${aws_api_gateway_deployment.apideploy.invoke_url}"
             }
-            
     ],
     "entryPoint": [
       "/bin/bash",

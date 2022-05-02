@@ -35,7 +35,7 @@ export class OpenRoute extends Component {
   }
 
   render() {
-    const { component: Component, exact, path, token, location } = this.props;
+    const { shouldShowNavigation, component: Component, exact, path, token, location } = this.props;
 
     return (
       <Route
@@ -44,7 +44,7 @@ export class OpenRoute extends Component {
         render={(props) =>
           token === "" ? (
             <Fragment>
-              <Navigation {...props} />
+              {shouldShowNavigation && <Navigation {...props} />}
               <Component {...props} />
             </Fragment>
           ) : (

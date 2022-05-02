@@ -33,6 +33,7 @@ export class PrivateRoute extends Component {
 
   render() {
     const {
+      shouldShowNavigation,
       component: Component,
       exact,
       path,
@@ -49,7 +50,7 @@ export class PrivateRoute extends Component {
         render={(props) =>
           token !== "" ? (
             <Fragment key={path}>
-              <Navigation {...props} />
+              {shouldShowNavigation && <Navigation {...props} />}
               <LoadingComponent isLoading={isFetchLoading} />
             </Fragment>
           ) : (

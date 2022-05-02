@@ -1,5 +1,6 @@
 const bunyan = require("bunyan");
 const config = require("./config");
+const { sendEmail } = require("./mailer/mailer");
 
 const defaultLogger = bunyan.createLogger({
   name: config.name,
@@ -11,7 +12,19 @@ const defaultLogger = bunyan.createLogger({
 const logger = {
   info: (data, message = "INFO") => defaultLogger.info(data, message),
   warn: (data, message = "WARN") => defaultLogger.warn(data, message),
-  error: (data, message = "ERROR") => defaultLogger.error(data, message),
+  error: (data = {}, message = "ERROR") => {
+    defaultLogger.error(data, message)
+    try {
+      sendEmail({
+        to: config.company.support.email,
+        from: config.company.support.email,
+        subject: `Error: ${message}`,
+        html: `<div>${JSON.stringify(data)}</div>`,
+      });
+    } catch (error) {
+      defaultLogger.error(error, "Error sending error email")
+    }
+  },
 };
 
 /**

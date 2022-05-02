@@ -76,6 +76,8 @@ module "domain" {
 
   domain = var.domain
   fqdn   = var.fqdn
+
+  single_page_application = true
 }
 
 # VERIFY DOMAIN FOR EMAILS AND CREATE EMAIL ACCOUNT

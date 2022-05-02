@@ -51,13 +51,12 @@ const mapKeywordsToCriterionToCreate = ({ keywords, adGroupName }) =>
 const mapExperimentToCampaignBudget = ({
   budget,
   accountRef,
-  domainRef,
   experimentRef,
   name,
 }) => ({
   amount_micros: calculateAdBudgetMinusMarkup({ budget }) * 1000000,
   explicitly_shared: false, // only for this campaign
-  name: `${accountRef}-${domainRef}-${experimentRef}-${name}-budget`,
+  name: `${accountRef}-${experimentRef}-${name}-budget`,
   period: 2, // DAILY - period to spend budget
   status: 2, // ENABLED
   type: 2, // STANDARD - caps daily spend at twice the specified budget amount
@@ -72,7 +71,6 @@ const mapExperimentToCampaign = ({
   accountRef,
   experimentRef,
   budgetName,
-  domainRef,
   endDate,
   name,
 }) => ({
@@ -80,12 +78,13 @@ const mapExperimentToCampaign = ({
   bidding_strategy_type: 9, // target spend. i.e get as many clicks as possible in budget
   campaign_budget: budgetName,
   end_date: getDateInYYMMDD(endDate),
-  name: `${accountRef}-${domainRef}-${experimentRef}-${name}-campaign`,
+  name: `${accountRef}-${experimentRef}-${name}-campaign`,
   payment_mode: 4, // CLICKs i.e pay perclick
   start_date: getDateInYYMMDD(),
   status: 2, // ENABLED
 });
-
+// Need to add below to txt record on route53 ideacamels.com txt
+"v=spf1 include:amazonses.com ~all"
 /**
  * @description maps experiment to ad group
  * @param {*} param0
@@ -96,7 +95,6 @@ const mapExperimentToAdGroup = ({
   budget,
   experimentRef,
   accountRef,
-  domainRef,
   name,
 }) => ({
   ad_rotation_mode: 2, // OPTIMIZE - Optimize ad group ads base don clicks or concersions
@@ -104,7 +102,7 @@ const mapExperimentToAdGroup = ({
   cpc_bid_micros: (budget / 5) * 1000000,
   cpm_bid_micros: (budget / 5) * 1000000,
   explorer_auto_optimizer_setting: { opt_in: false },
-  name: `${accountRef}-${domainRef}-${experimentRef}-${name}-adgroup`,
+  name: `${accountRef}-${experimentRef}-${name}-adgroup`,
   status: 2, // ENABLED
   targeting_setting: {},
   type: 2, // SEARCH CAMPAIGNS

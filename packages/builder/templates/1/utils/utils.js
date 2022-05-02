@@ -22,3 +22,19 @@ export const logger = {
 
 /** returns a random id */
 export const generateRandomId = () => Math.random().toString(36).substr(2, 10);
+
+/**
+ * @description concatinates array
+ */
+ export const concatArrayToString = ({ arr, seperator = ', ' }) => arr.reduce((total, curr, index) => {
+
+  if(curr && index === 0) {
+    total = total.concat(`"${curr}"`)
+  }
+
+  if(curr && index > 0) {
+      total = total.concat(`${seperator}"${curr}"`)
+  }
+
+  return total
+}, '')

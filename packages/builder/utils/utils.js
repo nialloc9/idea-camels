@@ -79,6 +79,22 @@ names.reduce((total = {}, curr) => {
   return total;
 }, {});
 
+/**
+ * @description concatinates array
+ */
+const concatArrayToString = ({ arr, seperator = ', ' }) => arr.reduce((total, curr, index) => {
+
+  if(curr && index === 0) {
+      total = total.concat(`"${curr}"`)
+  }
+  
+  if(curr && index > 0) {
+      total = total.concat(`${seperator}"${curr}"`)
+  }
+
+  return total
+}, '')
+
 module.exports = {
   handleSuccess,
   logger,
@@ -86,5 +102,6 @@ module.exports = {
   createTimestamp,
   now,
   getDateInYYMMDD,
-  convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase
+  convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase,
+  concatArrayToString
 };

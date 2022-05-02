@@ -20,17 +20,23 @@ variable cloudfront_region {
   description = "AWS Region for Cloudfront (ACM certs only supports us-east-1)"
 }
 
-variable "fqdn" {
+variable fqdn {
   description = "The fully-qualified domain name of the resulting S3 website."
   type        = string
 }
 
-variable "domain" {
+variable domain {
   description = "The domain name."
   type        = string
 }
 
-variable "tags" {
+variable single_page_application {
+  type        = bool
+  default     = false
+  description = "is the experiment a SPA"
+}
+
+variable tags {
   description = "tags to add to resources"
   default     = {}
   type        = map(string)

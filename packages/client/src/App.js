@@ -7,6 +7,7 @@ import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import CreateExperiment from "./pages/CreateExperiment";
 import SignUp from "./pages/SignUp";
+import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 import Pricing from "./pages/Pricing";
 import AboutUs from "./pages/AboutUs";
@@ -54,6 +55,11 @@ const routes = [
     component: PasswordReset,
   },
   {
+    path: "/coming-soon",
+    component: ComingSoon,
+    shouldShowNavigation: false
+  },
+  {
     path: "/404",
     component: NotFound,
   },
@@ -68,11 +74,11 @@ export default () => (
     <Router history={history}>
       <ThemeProvider theme={theme}>
         <Switch>
-          {routes.map(({ path, component, isAuth }) =>
+          {routes.map(({ path, component, isAuth, shouldShowNavigation = true }) =>
             isAuth ? (
-              <PrivateRoute key={path} path={path} component={component} />
+              <PrivateRoute shouldShowNavigation={shouldShowNavigation} key={path} path={path} component={component} />
             ) : (
-              <OpenRoute key={path} path={path} component={component} />
+              <OpenRoute shouldShowNavigation={shouldShowNavigation} key={path} path={path} component={component} />
             )
           )}
         </Switch>

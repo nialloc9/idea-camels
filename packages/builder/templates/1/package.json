@@ -1,75 +1,36 @@
 {
-  "name": "client",
+  "name": "3",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next export",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest"
+  },
   "dependencies": {
-    "@analytics/google-analytics": "^0.5.0",
-    "@emotion/core": "^10.0.27",
-    "@emotion/styled": "^10.0.27",
-    "@nialloc9/vcheck": "^1.0.9",
-    "@reach/router": "^1.2.1",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "analytics": "^0.5.5",
-    "axios": "^0.19.2",
-    "babel-polyfill": "^6.26.0",
-    "cms": "^1.8.1",
-    "emotion": "^10.0.27",
-    "emotion-theming": "^10.0.27",
-    "graphql-cost-analysis": "^1.0.3",
-    "pure-react-carousel": "^1.27.1",
-    "raf": "^3.4.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-hook-form": "^6.9.2",
-    "react-hotjar": "^2.2.1",
-    "react-minimal-pie-chart": "^8.0.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
-    "react-slick": "^0.26.1",
-    "react-static": "^7.2.3",
-    "react-static-plugin-reach-router": "^7.2.3",
-    "react-static-plugin-sitemap": "^7.2.3",
-    "react-static-plugin-source-filesystem": "^7.2.3",
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "emotion": "^11.0.0",
+    "emotion-theming": "^11.0.0",
+    "next": "12.1.5",
+    "pure-react-carousel": "^1.28.1",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "react-slick": "^0.29.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2",
+    "semantic-ui-react": "^2.1.2",
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
+    "eslint": "8.14.0",
+    "eslint-config-next": "12.1.5",
     "husky": "^4.2.5",
+    "jest": "^28.0.3",
     "lint-staged": "^10.3.0",
-    "prettier": "^2.1.1",
-    "serve": "^11.3.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "CI=true react-scripts test",
-    "eject": "react-scripts eject",
-    "serve": "serve -s build -p 3000",
-    "p": "prettier --tab-width 4 --write ./src",
-    "precommit": "lint-staged"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "lint-staged": {
-    "src/*": [
-      "prettier --tab-width 4 --write",
-      "git add"
-    ]
+    "prettier": "^2.1.1"
   }
 }

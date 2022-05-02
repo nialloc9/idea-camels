@@ -1,5 +1,5 @@
 const {
-  ENV = "production",
+  ENV,
   AWS_REGION,
   DB_HOST,
   DB_USER,
@@ -29,10 +29,12 @@ const {
   GOOGLE_ADS_REFRESH_TOKEN = "1//04pgV84bj_fM8CgYIARAAGAQSNwF-L9IrzYIbjpGn4TJQ-NIDgPgYJ4qvaEjm7KlkZeAr5TcM3CTfuY6ERfB64oDSKPZpVrIYRck",
   GOOGLE_ADS_DEVELOPER_TOKEN = "3xrjsEJU_9SaChCM_NUg3Q",
   GOOGLE_ADS_CUSTOMER_ID = "521-347-2317",
+  SHOULD_LOG_STATUS_IN_DB = 'y',
+  API_BASE_URL
 } = process.env;
 
 const localhost = {
-  shouldLogStatusInDB: false,
+  shouldLogStatusInDB: SHOULD_LOG_STATUS_IN_DB == "y",
   webAddress: "https://ideacamels.com",
   env: ENV,
   isProd: true,
@@ -84,6 +86,7 @@ const localhost = {
     keyword3: KEYWORD_3,
     keyword4: KEYWORD_4,
     keyword5: KEYWORD_5,
+    keywords: [KEYWORD_0, KEYWORD_1, KEYWORD_2, KEYWORD_3, KEYWORD_4, KEYWORD_5]
   },
   googleAds: {
     clientId: GOOGLE_ADS_CLIENT_ID,
@@ -92,6 +95,9 @@ const localhost = {
     developerToken: GOOGLE_ADS_DEVELOPER_TOKEN,
     customerId: GOOGLE_ADS_CUSTOMER_ID,
     customerIdSplit: GOOGLE_ADS_CUSTOMER_ID.split("-").join(""),
+  },
+  api: {
+    baseUrl: API_BASE_URL,
   },
   security: {
     secret: JWT_SECRET,
@@ -106,7 +112,6 @@ const localhost = {
 
 const staging = {
   ...localhost,
-  shouldLogStatusInDB: true,
   noInternet: false,
 };
 

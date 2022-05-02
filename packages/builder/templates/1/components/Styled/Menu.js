@@ -16,6 +16,7 @@ export const Menu = styled(
     display,
     height,
     mobileHeight,
+    tabletDisplay,
     ...rest
   }) => <SemanticMenu {...rest} />
 )`

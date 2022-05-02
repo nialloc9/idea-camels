@@ -13,84 +13,91 @@
 # BUDGET -> Budget for ad
 # KEYWORD_{0 - 6} -> Set of keywords for ad
 #
+set -e
 
-echo "Starting ${ENV} build..."
+make init-experiment
+# make configure-infrastructure
+make configure-client
+# make configure-campaign
+# make post-build
 
-echo "====== INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
-rm -rf experiments/${EXPERIMENT_REF}/infrastructure 
-mkdir -p experiments/${EXPERIMENT_REF}/infrastructure 
-cd ./infrastructure 
-cp -r ./ ../experiments/${EXPERIMENT_REF}/infrastructure 
-cd ..
+# echo "Starting ${ENV} build..."
 
-echo "====== FINISHED INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+# echo "====== INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+# rm -rf experiments/${EXPERIMENT_REF}/infrastructure 
+# mkdir -p experiments/${EXPERIMENT_REF}/infrastructure 
+# cd ./infrastructure 
+# cp -r ./ ../experiments/${EXPERIMENT_REF}/infrastructure 
+# cd ..
 
-STATUS="INIT_INFRA" node ./updateStatus.js
+# echo "====== FINISHED INITIALISING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 
-echo "====== INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
-rm -rf experiments/${EXPERIMENT_REF}/client
-mkdir -p experiments/${EXPERIMENT_REF}/client
-cd templates/${TEMPLATE_REF}
-cp -r ./ ../../experiments/${EXPERIMENT_REF}/client 
-cd ../../
-echo "====== FINISHED INITIALISING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+# STATUS="INIT_INFRA" node ./updateStatus.js
 
-STATUS="INIT_CONFIG" node ./updateStatus.js
-node ./configureExperiment.js
+# echo "====== INITIALISING CLIENT FOR ${EXPERIMENT_REF} ======"
+# rm -rf experiments/${EXPERIMENT_REF}/client
+# mkdir -p experiments/${EXPERIMENT_REF}/client
+# cd templates/${TEMPLATE_REF}
+# cp -r ./ ../../experiments/${EXPERIMENT_REF}/client 
+# cd ../../
+# echo "====== FINISHED INITIALISING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 
-STATUS="BUILDING_INFRA" node ./updateStatus.js
+# STATUS="INIT_CONFIG" node ./updateStatus.js
+# node ./configureExperiment.js
 
-echo "====== BUILDING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+# STATUS="BUILDING_INFRA" node ./updateStatus.js
 
-cd ./experiments/${EXPERIMENT_REF}/infrastructure 
+# echo "====== BUILDING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 
-rm -rf .terraform 
-terraform init -backend-config=environment/backend.tfvars -var-file=environment/variables.tfvars
+# cd ./experiments/${EXPERIMENT_REF}/infrastructure 
 
-echo "====== FINISHED BUILDING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+# rm -rf .terraform 
+# terraform init -backend-config=environment/backend.tfvars -var-file=environment/variables.tfvars
 
-if [ ENV="prod" ]
-then
-echo "====== DEPLOYING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
-STATUS="DEPLOYING_INFRA" node ../../../updateStatus.js
+# echo "====== FINISHED BUILDING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 
-terraform apply -auto-approve --var-file=./environment/variables.tfvars -target=module.experiment.aws_acm_certificate.cert
-terraform apply -auto-approve --var-file=./environment/variables.tfvars
-echo "====== FINISHED DEPLOYING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
-fi
+# if [ ENV="prod" ]
+# then
+# echo "====== DEPLOYING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+# STATUS="DEPLOYING_INFRA" node ../../../updateStatus.js
 
-cd ../client
+# terraform apply -auto-approve --var-file=./environment/variables.tfvars -target=module.experiment.aws_acm_certificate.cert
+# terraform apply -auto-approve --var-file=./environment/variables.tfvars
+# echo "====== FINISHED DEPLOYING INFRASTRUCTURE FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+# fi
 
-echo "====== BUILDING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
-STATUS="BUILDING_CLIENT" node ../../../updateStatus.js
-npm run test 
-rm -rf ./build
-npm run build 
+# cd ../client
 
-echo "====== FINISHED BUILDING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+# echo "====== BUILDING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+# STATUS="BUILDING_CLIENT" node ../../../updateStatus.js
+# npm run test 
+# rm -rf ./build
+# npm run build 
 
-if [ ENV="prod" ]
-then
-STATUS="DEPLOYING_CLIENT" node ../../../updateStatus.js
-echo "====== DEPLOYING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
-echo "s3://${DOMAIN}"
-aws s3 sync ./build s3://${DOMAIN} --delete
-echo "====== FINSIHED DEPLOYING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+# echo "====== FINISHED BUILDING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 
-STATUS="CLIENT_DEPLOYED" node ../../../updateStatus.js
+# if [ ENV="prod" ]
+# then
+# STATUS="DEPLOYING_CLIENT" node ../../../updateStatus.js
+# echo "====== DEPLOYING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
+# echo "s3://${DOMAIN}"
+# aws s3 sync ./build s3://${DOMAIN} --delete
+# echo "====== FINSIHED DEPLOYING CLIENT FOR ${EXPERIMENT_REF} FROM ${CALLER} ======"
 
-fi
+# STATUS="CLIENT_DEPLOYED" node ../../../updateStatus.js
 
-cd ../../../
+# fi
 
-if [ ENV="prod" ]
-then
+# cd ../../../
 
-STATUS="CONFIGURING_CAMPAIGN" node ./updateStatus.js
+# if [ ENV="prod" ]
+# then
 
-node ./configureCampaign.js
+# STATUS="CONFIGURING_CAMPAIGN" node ./updateStatus.js
 
-STATUS="CAMPAIGN_CONFIGURED" node ./updateStatus.js
-fi
+# node ./configureCampaign.js
 
-STATUS="COMPLETE" node ./updateStatus.js
+# STATUS="CAMPAIGN_CONFIGURED" node ./updateStatus.js
+# fi
+
+# STATUS="COMPLETE" node ./updateStatus.js
