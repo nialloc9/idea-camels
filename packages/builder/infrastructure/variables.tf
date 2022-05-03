@@ -30,12 +30,6 @@ variable domain {
   type        = string
 }
 
-variable single_page_application {
-  type        = bool
-  default     = false
-  description = "is the experiment a SPA"
-}
-
 variable tags {
   description = "tags to add to resources"
   default     = {}

@@ -15,6 +15,8 @@ module "main" {
 
   cloudfront_price_class = var.cdn_price_class
 
+  single_page_application = var.single_page_application
+  
   providers = {
     aws.main       = aws.main
     aws.cloudfront = aws.cloudfront

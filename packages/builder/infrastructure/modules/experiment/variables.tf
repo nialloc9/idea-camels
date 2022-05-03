@@ -74,3 +74,9 @@ variable "create_cert_validations" {
   description = "Set to false when destroying"
   default     = true
 }
+
+variable single_page_application {
+  type        = bool
+  default     = false
+  description = "is the experiment a SPA"
+}
