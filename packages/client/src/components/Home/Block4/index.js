@@ -5,7 +5,6 @@ import {
   withTheme,
   getMarginsOrPaddings,
 } from "../../../utils/style";
-import withAnalytics from "../../../hoc/withAnalytics";
 import { Grid, GridRow, GridColumn } from "../../Grid";
 import { Segment } from "../../Styled/Segment";
 import { Divider } from "../../Divider";

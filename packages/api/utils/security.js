@@ -141,7 +141,7 @@ const validatePassword = ({
 }) =>
   new Promise((resolve, reject) => {
     const inputHash = createPasswordHash({ password });
-
+    
     if (inputHash !== hashedPassword) {
       reject(
         errors["1003"]({

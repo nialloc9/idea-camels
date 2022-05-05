@@ -15,10 +15,10 @@ export const withLoader = (WrappedComponent) =>
       isInline: true,
       loadingIconSize: "mini",
     };
-
+    
     render() {
       const { isLoading, loadingIconSize, isInline, ...rest } = this.props;
-
+      
       return isLoading ? (
         <Loader size={loadingIconSize} inline={isInline} />
       ) : (

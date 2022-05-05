@@ -35,7 +35,7 @@ class EditableBackgroundImage extends Component {
       maxImageHeight,
       maxImageWidth,
       maxImageSize,
-      label = "Upload Image",
+      label,
       ...rest
     } = this.props;
 

@@ -3,8 +3,12 @@ import IdeaCamelsDefault, {
 } from "./IdeaCamelsDefault";
 
 import Basic, {
-  config as BasicConfig,
+  config as basicConfig,
 } from "./Basic";
+
+import Modern, {
+  config as modernConfig,
+} from "./Modern";
 
 const templates = [
   {
@@ -13,9 +17,14 @@ const templates = [
     config: ideaCamelsDefaultConfig,
   },
   {
-    ref: BasicConfig.ref,
+    ref: basicConfig.ref,
     template: Basic,
-    config: BasicConfig,
+    config: basicConfig,
+  },
+  {
+    ref: modernConfig.ref,
+    template: Modern,
+    config: modernConfig,
   },
 ];
 

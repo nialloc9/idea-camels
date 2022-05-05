@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Grid, GridRow, GridColumn } from "../Grid";
 import { Button } from "../Styled/Button";
 import { Segment } from "../Styled/Segment";
@@ -61,7 +61,7 @@ class CreateForm extends Component {
     } = this.props;
 
     const template = findTemplate(templateRef);
-
+    
     if (!template) return [];
 
     const {
@@ -81,12 +81,6 @@ class CreateForm extends Component {
 
   renderSuggestDomains = () => {
     const { suggestedDomains = [] } = this.props;
-    console.log(
-      "suggestedDomains",
-      suggestedDomains,
-      suggestedDomains.length,
-      suggestedDomains.length === 0
-    );
 
     if (suggestedDomains.length === 0) return null;
 
@@ -161,7 +155,6 @@ class CreateForm extends Component {
                     display="block"
                     action="select-template-click"
                     tabletDisplay="inline-block"
-                    defaultValue={templateRef}
                     options={this.templateOptions}
                     placeholder="Please select a template"
                     loading={isFetchTemplatesLoading}

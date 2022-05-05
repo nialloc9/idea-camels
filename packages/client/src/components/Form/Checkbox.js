@@ -39,6 +39,7 @@ export class Checkbox extends PureComponent {
       error,
       warn,
       value,
+      touched = false,
       ...rest
     } = this.props;
 
@@ -56,6 +57,7 @@ export class Checkbox extends PureComponent {
         {!inlineLabel && Label}
         <StyledCheckbox
           {...rest}
+          touched={touched.toString()}
           label={inlineLabel ? Label : undefined}
           checked={value ? true : false}
           onChange={this.handleChange}

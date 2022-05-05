@@ -4,6 +4,7 @@ const config = require("./utils/config");
 const { sendResponse, sendError, endpoints } = require("./utils/server");
 const { validateAndParse } = require("./utils/security");
 const { logger } = require("./utils/utils");
+const { sendEmail } = require("./utils/mailer/mailer");
 
 const app = express();
 
@@ -24,6 +25,11 @@ endpoints.forEach(({ uri, required = [], isAuth = false, func }) =>
       return sendResponse(res, response);
     } catch (error) {
       logger.error(error);
+      try {
+        await sendEmail({ subject: 'ERROR', from: 'noreply@ideacamels.com', to: config.company.support.email, text: JSON.stringify({error: JSON.stringify(error), uri, caller: req.body.caller} ) })
+      } catch(sendEmailError) {
+        logger.error(sendEmailError);
+      }
       return sendError(res, { error, uri, caller: req.body.caller });
     }
   })

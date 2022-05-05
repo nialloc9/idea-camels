@@ -145,7 +145,6 @@ export default withTheme(({ theme: { block1 } }) => (
           color="black"
           size={block1.buttonSize}
           basic
-          action="sign-up"
         >
           Buy Now
         </Button>

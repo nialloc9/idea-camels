@@ -19,7 +19,7 @@ const getConnection = async (caller) =>
   new Promise((resolve, reject) => {
     DatabasePool.getConnection((error, connection) => {
       if (error) {
-        logger.error(error);
+        logger.error(error, "DATABASE CONNECTION ERROR");
         return reject(
           errors["4000"]({
             caller,
@@ -44,6 +44,7 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
         connection.release();
 
         if (error) {
+          logger.error(error, "DATABASE QUERY ERROR");
           return reject(
             errors["4001"]({
               dataLayer,

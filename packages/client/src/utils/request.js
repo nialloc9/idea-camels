@@ -12,15 +12,17 @@ export const configureErrorResponse = ({
   config = defaultConfig,
 }) => {
   try {
+
     if (config.env === "development") {
+      
       const {
         response: {
-          data: { message, data, code },
-        },
+          data: { message, data, code } = {},
+        } = {},
       } = err;
-
+      
       return {
-        message: message || "An error has occured. Please try again.",
+        message: message || err.message || "An error has occured. Please try again.",
         data,
         code,
       };
@@ -28,12 +30,12 @@ export const configureErrorResponse = ({
 
     const {
       response: {
-        data: { error, data, code },
-      },
+        data: { error, data, code } = {},
+      } = {},
     } = err;
 
     return {
-      message: error || "An error has occured. Please try again.",
+      message: error || err.message || "An error has occured. Please try again.",
       data,
       code,
     };

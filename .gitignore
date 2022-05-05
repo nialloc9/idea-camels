@@ -5,8 +5,8 @@ tmp/
 artifacts/
 tmp/
 .terraform/
-scripts/setEnvVariables.sh
-*.env
+.staging.env
+.prod.env
 *.pem
 
 packages/backend/dist

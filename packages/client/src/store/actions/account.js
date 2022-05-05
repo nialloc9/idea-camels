@@ -74,7 +74,7 @@ export const onFetchAccount = ({
 
   const { token, account, card } = data;
 
-  onSetState({ fetchErrorMessage: "", token, account, card });
+  onSetState({ isFetchLoading: false, fetchErrorMessage: "", token, account, card });
 };
 
 /**

@@ -2,8 +2,6 @@ const {
   SERVER_PORT = 80,
   ENV,
   AWS_REGION,
-  AWS_ACCESS_KEY,
-  AWS_SECRET_KEY,
   STRIPE_SECRET_KEY,
   DB_HOST,
   DB_USER,
@@ -26,7 +24,7 @@ const {
   BUILDER_SUBNET_ID_PRIVATE_1,
 } = process.env;
 
-const localhost = {
+const development = {
   port: SERVER_PORT,
   webAddress: "https://ideacamels.com",
   env: ENV,
@@ -59,8 +57,6 @@ const localhost = {
     tagLine: "Carrying your ideas to reality",
   },
   aws: {
-    accessKeyId: AWS_ACCESS_KEY,
-    secretAccessKey: AWS_SECRET_KEY,
     region: AWS_REGION,
     buckets: {
       userImageBucket: THEMES_BUCKET,
@@ -109,13 +105,13 @@ const localhost = {
     domainPercentageMarkUp: 20,
     advertPercentageMarkup: 10,
   },
-  noInternet: false,
+  noInternet: true,
   logSuccessResponse: true,
   logErrorResponse: true,
 };
 
 const staging = {
-  ...localhost,
+  ...development,
   noInternet: false,
   logSuccessResponse: true,
   logErrorResponse: true,
@@ -132,4 +128,4 @@ module.exports =
   {
     staging,
     prod,
-  }[ENV] || localhost;
+  }[ENV] || development;

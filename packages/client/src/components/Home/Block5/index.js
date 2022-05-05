@@ -106,19 +106,6 @@ const ButtonContainer = styled.div`
   justify-content: center;
 `;
 
-const StyledButton = styled(Button)`
-  background-color: ${({
-    theme: {
-      block5: { button },
-    },
-  }) => button.backgroundColor} !important;
-  color: ${({
-    theme: {
-      block5: { button },
-    },
-  }) => button.color} !important;
-`;
-
 export default withTheme(({ theme: { block5 } }) => (
   <Fragment>
     <Carausel />

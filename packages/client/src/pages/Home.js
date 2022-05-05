@@ -38,7 +38,7 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
   const experiment = experiments.find(
     (o) => o.experiment_ref === parseInt(experimentRef)
   );
-
+    
   if (!experiment) {
     return (
       <Block

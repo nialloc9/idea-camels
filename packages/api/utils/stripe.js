@@ -1,5 +1,6 @@
 const stripe = require("stripe");
 const config = require("./config");
+const { customer: customerMock, charge: chargeMock, card: cardMock } = require("./mocks/stripe");
 
 const stripeProvider = stripe(config.stripe.secretKey);
 
@@ -8,7 +9,7 @@ const stripeProvider = stripe(config.stripe.secretKey);
  * @param {*} param0
  * @returns
  */
-const getCustomer = ({ customerId }) =>
+const getCustomer = ({ customerId }) => config.noInternet ? customerMock :
   stripeProvider.customers.retrieve(customerId);
 
 /**
@@ -16,7 +17,7 @@ const getCustomer = ({ customerId }) =>
  * @param {*} param0
  * @returns
  */
-const createCustomer = async ({ name, email, phone, caller, description }) =>
+const createCustomer = async ({ name, email, phone, caller, description }) => config.noInternet ? customerMock :
   stripeProvider.customers.create({
     name,
     email,
@@ -39,7 +40,7 @@ const chargeCustomer = ({
   accountRef,
   caller,
   description,
-}) =>
+}) => config.noInternet ? chargeMock :
   stripeProvider.charges.create({
     customer: customerId,
     amount,
@@ -66,7 +67,7 @@ const updateCustomer = ({
   description,
   source,
 }) =>
-  stripeProvider.customers.update(customerId, {
+config.noInternet ? customerMock :stripeProvider.customers.update(customerId, {
     name,
     email,
     phone,
@@ -85,6 +86,8 @@ const updateCustomer = ({
  */
 const getCard = async ({ customerId, cardId }) => {
   try {
+    if(config.noInternet) return { card: cardMock };
+
     const card = await stripeProvider.customers.retrieveSource(
       customerId,
       cardId

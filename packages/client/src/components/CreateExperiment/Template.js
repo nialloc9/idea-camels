@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import Default from "../../templates/IdeaCamelsDefault";
+import Basic from "../../templates/Basic";
 import { Segment } from "../Styled/Segment";
 import { Button } from "../Styled/Button";
 import { Message } from "../Styled/Message";
@@ -28,6 +29,7 @@ const Template = ({
 
   const Component = {
     1: Default,
+    2: Basic
   }[templateRef];
 
   return (

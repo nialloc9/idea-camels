@@ -46,9 +46,10 @@ const Edit = styled.span`
 `;
 
 export class EditableText extends React.Component {
-  constructor({ initialText }) {
+  constructor(props) {
+    super(props)
     this.state = {
-      text: initialText,
+      text: props.initialText,
       isOpen: false,
     };
   }
@@ -58,7 +59,7 @@ export class EditableText extends React.Component {
   handleChange = (e, { value }) => this.setState({ text: value });
 
   render() {
-    const { isOpen, text } = this.state;
+    const { text } = this.state;
 
     return <Edit>{text}</Edit>;
   }

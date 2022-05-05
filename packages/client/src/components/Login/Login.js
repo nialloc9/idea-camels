@@ -13,7 +13,6 @@ import { onSetIsLogin } from "../../store/actions/app";
 class Login extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    isForgottenPasswordSuccess: PropTypes.bool.isRequired,
     resetPassword: PropTypes.func.isRequired,
     size: PropTypes.string,
   };

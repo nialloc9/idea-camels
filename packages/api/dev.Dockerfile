@@ -8,3 +8,4 @@ RUN apt-get update
 
 RUN npm install
 
+RUN npm start
