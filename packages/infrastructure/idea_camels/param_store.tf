@@ -8,7 +8,8 @@ locals {
     "/${var.environment}/google/ads/client_secret",
     "/${var.environment}/google/ads/refresh_token",
     "/${var.environment}/google/ads/developer_token",
-    "/${var.environment}/google/ads/customer_id"
+    "/${var.environment}/google/ads/customer_id",
+    "/${var.environment}/slack/token",
   ]
 }
 
@@ -91,6 +92,14 @@ data "aws_ssm_parameter" "google_ads_developer_token" {
 
 data "aws_ssm_parameter" "google_ads_customer_id" {
   name = "/${var.environment}/google/ads/customer_id"
+
+  depends_on = [
+    aws_ssm_parameter.secret
+  ]
+}
+
+data "aws_ssm_parameter" "slack_token" {
+  name = "/${var.environment}/slack/token"
 
   depends_on = [
     aws_ssm_parameter.secret

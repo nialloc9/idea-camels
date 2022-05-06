@@ -30,6 +30,7 @@ const {
   GOOGLE_ADS_DEVELOPER_TOKEN = "3xrjsEJU_9SaChCM_NUg3Q",
   GOOGLE_ADS_CUSTOMER_ID = "521-347-2317",
   SHOULD_LOG_STATUS_IN_DB = 'y',
+  SLACK_TOKEN,
   API_BASE_URL
 } = process.env;
 
@@ -106,6 +107,9 @@ const localhost = {
     serviceCharge: 20,
     domainPercentageMarkUp: 20,
     advertPercentageMarkup: 10,
+  },
+  slack: {
+    token: SLACK_TOKEN
   },
   noInternet: false,
 };

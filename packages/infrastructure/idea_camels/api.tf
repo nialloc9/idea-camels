@@ -21,7 +21,8 @@ locals {
       GOOGLE_ADS_CLIENT_ID        = "${data.aws_ssm_parameter.google_ads_client_id.value}",
       GOOGLE_ADS_CLIENT_SECRET    = "${data.aws_ssm_parameter.google_ads_client_secret.value}",
       GOOGLE_ADS_REFRESH_TOKEN    = "${data.aws_ssm_parameter.google_ads_refresh_token.value}",
-      GOOGLE_ADS_DEVELOPER_TOKEN  = "${data.aws_ssm_parameter.google_ads_developer_token.value}"
+      GOOGLE_ADS_DEVELOPER_TOKEN  = "${data.aws_ssm_parameter.google_ads_developer_token.value}",
+      SLACK_TOKEN  = "${data.aws_ssm_parameter.slack_token.value}",
     }
   }
 }

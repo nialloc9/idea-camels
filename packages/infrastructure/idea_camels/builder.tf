@@ -106,6 +106,10 @@ resource "aws_ecs_task_definition" "builder" {
             {
               "name": "API_BASE_URL",
               "value": "${aws_api_gateway_deployment.apideploy.invoke_url}"
+            },
+            {
+              "name": "SLACK_TOKEN",
+              "value": "${data.aws_ssm_parameter.slack_token.value}"
             }
     ],
     "entryPoint": [

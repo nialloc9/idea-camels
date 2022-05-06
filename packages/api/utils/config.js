@@ -22,6 +22,7 @@ const {
   BUILDER_SUBNET_ID_PUBLIC,
   BUILDER_SUBNET_ID_PRIVATE_0,
   BUILDER_SUBNET_ID_PRIVATE_1,
+  SLACK_TOKEN
 } = process.env;
 
 const development = {
@@ -105,6 +106,10 @@ const development = {
     domainPercentageMarkUp: 20,
     advertPercentageMarkup: 10,
   },
+  slack: {
+    token: SLACK_TOKEN,
+    alertChannel: 'api-dev-alerts'
+  },
   noInternet: true,
   logSuccessResponse: true,
   logErrorResponse: true,
@@ -115,12 +120,20 @@ const staging = {
   noInternet: false,
   logSuccessResponse: true,
   logErrorResponse: true,
+  slack: {
+    token: SLACK_TOKEN,
+    alertChannel: 'api-staging-alerts'
+  },
 };
 
 const prod = {
   ...staging,
   aws: {
     ...staging.aws,
+  },
+  slack: {
+    ...staging.slack,
+    alertChannel: 'api-prod-alerts'
   },
 };
 

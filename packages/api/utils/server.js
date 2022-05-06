@@ -22,6 +22,7 @@ const {
   onDBHealthCheck,
   onGoogleAdsCheck,
   onEmailCheck,
+  onAlertCheck
 } = require("../service/healthCheck");
 const { getSignedUrl } = require("../service/upload");
 const { onAddCard, onChargeCustomer } = require("../service/payment");
@@ -193,6 +194,11 @@ const endpoints = [
     uri: "/health-check-4",
     required: [],
     func: onEmailCheck,
+  },
+  {
+    uri: "/health-check-5",
+    required: [],
+    func: onAlertCheck,
   },
 ];
 
