@@ -8,7 +8,6 @@ import { Message } from "../Styled/Message";
 import Billing from "../Billing";
 import withModal from "../../hoc/withModal";
 import { remCalc } from "../../utils/style";
-import { remCalc } from "../../utils/style";
 import {
   onCreate,
   onSetFormIndex,

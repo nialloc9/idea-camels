@@ -18,6 +18,8 @@ const sendAlert = async ({ channel=config.slack.alertChannel, text }, {client = 
   }
 };
 
+
+
 module.exports = {
     sendAlert
 }
