@@ -1,6 +1,7 @@
 const { writeBackendVars, writeTfVars, writeConfig } = require("./utils/file");
 const config = require("./utils/config");
 const { logger } = require("./utils/utils");
+const { sendAlert } = require("./utils/alert");
 
 const main = async () => {
   try {
@@ -29,5 +30,6 @@ try {
   main().then(process.exit);
 } catch (error) {
   logger.error(error);
+  sendAlert({ text: JSON.stringify(error) }).then(() => process.exit(1))
   process.exit(1);
 }

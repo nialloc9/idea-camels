@@ -109,7 +109,8 @@ const localhost = {
     advertPercentageMarkup: 10,
   },
   slack: {
-    token: SLACK_TOKEN
+    token: SLACK_TOKEN,
+    alertChannel: 'builder-dev-alerts'
   },
   noInternet: false,
 };
@@ -123,6 +124,10 @@ const prod = {
   ...staging,
   aws: {
     ...staging.aws,
+  },
+  slack: {
+    ...staging.slack,
+    alertChannel: 'builder-prod-alerts'
   },
 };
 

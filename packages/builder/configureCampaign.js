@@ -1,5 +1,6 @@
 const config = require("./utils/config");
 const { logger } = require("./utils/utils");
+const { sendAlert } = require("./utils/alert");
 const {
   mapCriterionsToDb,
   mapKeywordsToCriterionToCreate,
@@ -128,5 +129,5 @@ try {
   main().then(process.exit);
 } catch (error) {
   logger.error(error);
-  process.exit(1);
+  sendAlert({ text: JSON.stringify(error) }).then(() => process.exit(1))
 }
