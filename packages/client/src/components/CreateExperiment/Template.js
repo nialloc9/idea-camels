@@ -1,11 +1,13 @@
 import React, { Fragment } from "react";
 import Default from "../../templates/IdeaCamelsDefault";
 import Basic from "../../templates/Basic";
+import Modern from "../../templates/Modern";
 import { Segment } from "../Styled/Segment";
 import { Button } from "../Styled/Button";
 import { Message } from "../Styled/Message";
 import Billing from "../Billing";
 import withModal from "../../hoc/withModal";
+import { remCalc } from "../../utils/style";
 import { remCalc } from "../../utils/style";
 import {
   onCreate,
@@ -29,7 +31,8 @@ const Template = ({
 
   const Component = {
     1: Default,
-    2: Basic
+    2: Basic,
+    3: Modern,
   }[templateRef];
 
   return (

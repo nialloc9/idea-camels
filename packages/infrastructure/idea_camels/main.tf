@@ -103,3 +103,4 @@ resource "aws_ses_email_identity" "support_email" {
 
   depends_on = [aws_route53_record.ideacamels_route53_additional_records]
 }
+

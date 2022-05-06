@@ -11,7 +11,7 @@ const sendAlert = async ({ channel=config.slack.alertChannel, text }, {client = 
       text,
       channel,
     })
-    console.log('data', data)
+    
     return { data }
   } catch (error) {
     return { error }
