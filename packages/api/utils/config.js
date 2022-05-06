@@ -108,7 +108,8 @@ const development = {
   },
   slack: {
     token: SLACK_TOKEN,
-    alertChannel: 'api-dev-alerts'
+    alertChannel: 'api-dev-alerts',
+    clientErrorChannel: 'client-dev-alerts'
   },
   noInternet: true,
   logSuccessResponse: true,
@@ -133,7 +134,8 @@ const prod = {
   },
   slack: {
     ...staging.slack,
-    alertChannel: 'api-prod-alerts'
+    alertChannel: 'api-prod-alerts',
+    clientErrorChannel: 'client-prod-alerts'
   },
 };
 

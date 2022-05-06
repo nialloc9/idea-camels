@@ -46,21 +46,23 @@ export default class EmailSignUp extends Component {
     this.setState({
       isLoading: true,
       isSuccess: false,
-      isError: false
+      isError: false,
     });
 
     const { email } = this.state;
 
-      const { error } = await postApi("lead/create", { email, experimentRef: getQueryParameterByName('experimentRef') });
+    const { error } = await postApi({
+      uri: "lead/create",
+      body: { email, experimentRef: getQueryParameterByName("experimentRef") },
+    });
 
-      this.setState({
-        isLoading: false,
-        isSuccess: !error,
-        isError: !!error
-      })
-      
-      if(!error) handleEvent("lead-create");
+    this.setState({
+      isLoading: false,
+      isSuccess: !error,
+      isError: !!error,
+    });
 
+    if (!error) handleEvent("lead-create");
   };
 
   renderMessage = () => {
@@ -86,7 +88,7 @@ export default class EmailSignUp extends Component {
           onKeyUp={withEnterKey(this.state.email, this.handleClick)}
           action={this.actionProps}
         />
-        (powered by <a href='ideacamels.com'>ideacamels.com</a>)
+        (powered by <a href="ideacamels.com">ideacamels.com</a>)
         {this.renderMessage()}
       </Fragment>
     );

@@ -59,7 +59,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test  --transformIgnorePatterns 'node_modules/(?!my-library-dir)/'",
     "eject": "react-scripts eject",
-    "serve": "serve dist -p 3000",
+    "serve": "serve build -p 3000",
     "p": "prettier --tab-width 4 --write ./src",
     "precommit": "lint-staged"
   },

@@ -28,6 +28,7 @@ const Container = styled.section`
   }) => fontFamily};
   display: flex;
   justify-content: center;
+  vertical-align: middle;
 `;
 
 const InnerContainer = styled.div`
@@ -88,12 +89,13 @@ const SignUpContainer = styled.div`
   }
 `;
 
-export default withPageAnalytics(() => (
+export default withPageAnalytics(({ datata: { afata } }) => (
   <Container>
     <InnerContainer>
       <Heading>Coming Soon</Heading>
       <SubHeading>
-        Sign up now to the upcoming release of {getQueryParameterByName('name')}.
+        Sign up now to the upcoming release of {getQueryParameterByName("name")}
+        .
       </SubHeading>
       <SignUpContainer>
         <EmailSignUp />

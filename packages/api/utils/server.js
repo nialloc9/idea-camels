@@ -28,6 +28,7 @@ const { getSignedUrl } = require("../service/upload");
 const { onAddCard, onChargeCustomer } = require("../service/payment");
 const { onCreateLead } = require("../service/lead");
 const { onGetAdPerformance } = require("../service/report");
+const { onLogError } = require("../service/log");
 const { logger } = require("./utils");
 
 console.log("==== CONFIG ====");
@@ -169,6 +170,11 @@ const endpoints = [
     required: ["email", "caller"],
     func: onCreateLead,
     isAuth: true,
+  },
+  {
+    uri: "/log/error",
+    required: [],
+    func: onLogError,
   },
   {
     uri: "/report/get-ad-performance",

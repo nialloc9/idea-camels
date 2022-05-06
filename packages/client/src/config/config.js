@@ -43,7 +43,7 @@ const production = {
   ...staging,
   api: {
     ...staging.api,
-    base: "https://ho0gwvmqfa.execute-api.eu-west-1.amazonaws.com/prod",
+    // base: "https://ho0gwvmqfa.execute-api.eu-west-1.amazonaws.com/prod",
   },
   ga: {
     ...staging.ga,

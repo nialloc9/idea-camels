@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeProvider } from "./utils/style";
 
 import Footer from "./components/Footer";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { theme } from "./config";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
@@ -57,7 +58,7 @@ const routes = [
   {
     path: "/coming-soon",
     component: ComingSoon,
-    shouldShowNavigation: false
+    shouldShowNavigation: false,
   },
   {
     path: "/404",
@@ -70,20 +71,33 @@ const routes = [
 ];
 
 export default () => (
-  <Provider store={store}>
-    <Router history={history}>
-      <ThemeProvider theme={theme}>
-        <Switch>
-          {routes.map(({ path, component, isAuth, shouldShowNavigation = true }) =>
-            isAuth ? (
-              <PrivateRoute shouldShowNavigation={shouldShowNavigation} key={path} path={path} component={component} />
-            ) : (
-              <OpenRoute shouldShowNavigation={shouldShowNavigation} key={path} path={path} component={component} />
-            )
-          )}
-        </Switch>
-        <Footer />
-      </ThemeProvider>
-    </Router>
-  </Provider>
+  <ErrorBoundary>
+    <Provider store={store}>
+      <Router history={history}>
+        <ThemeProvider theme={theme}>
+          <Switch>
+            {routes.map(
+              ({ path, component, isAuth, shouldShowNavigation = true }) =>
+                isAuth ? (
+                  <PrivateRoute
+                    shouldShowNavigation={shouldShowNavigation}
+                    key={path}
+                    path={path}
+                    component={component}
+                  />
+                ) : (
+                  <OpenRoute
+                    shouldShowNavigation={shouldShowNavigation}
+                    key={path}
+                    path={path}
+                    component={component}
+                  />
+                )
+            )}
+          </Switch>
+          <Footer />
+        </ThemeProvider>
+      </Router>
+    </Provider>
+  </ErrorBoundary>
 );

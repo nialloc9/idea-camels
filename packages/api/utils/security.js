@@ -5,7 +5,6 @@ const errors = require("./errors");
 const {
   generateRandomId,
   createTimestamp,
-  replaceValuesInObj,
   logger,
 } = require("./utils");
 
