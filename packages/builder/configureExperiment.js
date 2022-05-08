@@ -33,3 +33,4 @@ try {
   sendAlert({ text: JSON.stringify(error) }).then(() => process.exit(1))
   process.exit(1);
 }
+

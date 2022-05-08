@@ -25,6 +25,7 @@ const {
   SLACK_TOKEN
 } = process.env;
 
+
 const development = {
   port: SERVER_PORT,
   webAddress: "https://ideacamels.com",
@@ -136,6 +137,10 @@ const prod = {
     ...staging.slack,
     alertChannel: 'api-prod-alerts',
     clientErrorChannel: 'client-prod-alerts'
+  },
+  security: {
+    ...staging.security,
+    whitelist: ["https://ideacamels.com", "https://www.ideacamels.com"],
   },
 };
 
