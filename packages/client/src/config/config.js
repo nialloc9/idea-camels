@@ -7,6 +7,7 @@ const {
 } = window;
 
 const development = {
+  domainUrl: "localhost:3000",
   buildNumber: REACT_APP_BUILD_VERSION,
   env: NODE_ENV,
   isProd: NODE_ENV === "production",
@@ -41,6 +42,7 @@ const staging = { ...development };
 
 const production = {
   ...staging,
+  domainUrl: "https://ideacamels.com",
   api: {
     ...staging.api,
     base: "https://ho0gwvmqfa.execute-api.eu-west-1.amazonaws.com/prod",
