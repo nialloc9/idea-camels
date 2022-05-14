@@ -8,6 +8,7 @@ import {
 import withAnalytics from "../../../hoc/withAnalytics";
 import { Button } from "../../Button";
 import Carausel from "./Carousel";
+import { config } from "../../../config";
 
 const Container = styled.section`
   min-height: ${({
@@ -128,25 +129,32 @@ const StyledButton = styled(Button)`
 
 const AnalyticsButton = withAnalytics(StyledButton);
 
-export default withTheme(({ theme: { block5: { button } }, content }) => (
-  <Fragment>
-    <Carausel content={content} />
-    <Container>
-      <InnerContainer>
-        <QuoteContainer>
-          <Quote>{content.block5.quote.text}</Quote>
-          <Author>- {content.block5.author.text}</Author>
-        </QuoteContainer>
-        <ButtonContainer>
-          <AnalyticsButton
-            href="/coming-soon"
-            size={button.size}
-            action="block5-button"
-          >
-            {content.block5.button.text}
-          </AnalyticsButton>
-        </ButtonContainer>
-      </InnerContainer>
-    </Container>
-  </Fragment>
-));
+export default withTheme(
+  ({
+    theme: {
+      block5: { button },
+    },
+    content,
+  }) => (
+    <Fragment>
+      <Carausel content={content} />
+      <Container>
+        <InnerContainer>
+          <QuoteContainer>
+            <Quote>{content.block5.quote.text}</Quote>
+            <Author>- {content.block5.author.text}</Author>
+          </QuoteContainer>
+          <ButtonContainer>
+            <AnalyticsButton
+              href={config.experiment.comingSoonUrl}
+              size={button.size}
+              action="block5-button"
+            >
+              {content.block5.button.text}
+            </AnalyticsButton>
+          </ButtonContainer>
+        </InnerContainer>
+      </Container>
+    </Fragment>
+  )
+);

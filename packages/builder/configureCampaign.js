@@ -19,21 +19,23 @@ const {
 const { onCreate: onCreateCampaign } = require("./data/campaign");
 
 const main = async () => {
+
+  const {
+    experiment: {
+      budget,
+      headline,
+      headline2,
+      description,
+      keywords,
+      experimentRef,
+      accountRef,
+      domain,
+      endDate,
+    },
+    caller='test',
+  } = config;
+
   try {
-    const {
-      experiment: {
-        budget,
-        headline,
-        headline2,
-        description,
-        keywords,
-        experimentRef,
-        accountRef,
-        domain,
-        endDate,
-      },
-      caller='test',
-    } = config;
     logger.info(
       {
         budget,
@@ -121,7 +123,12 @@ const main = async () => {
     );
   } catch (error) {
     logger.error(error);
-    process.exit(1);
+    await sendAlert({ text: JSON.stringify({
+      error,
+      caller,
+      experimentRef,
+      domain
+    }) }).then(() => process.exit(1))
   }
 };
 

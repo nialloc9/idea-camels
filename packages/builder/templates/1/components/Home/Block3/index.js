@@ -10,6 +10,7 @@ import withAnalytics from "../../../hoc/withAnalytics";
 import { Button } from "../../Button";
 import { Grid, GridColumn } from "../../Grid";
 import { Card } from "../../Card";
+import { config } from "../../../config";
 
 const Container = styled.section`
   text-align: center;
@@ -177,7 +178,7 @@ export default withTheme(({ theme, content }) => (
         <MainText>{content.block3.mainText.text}</MainText>
         <ButtonContainer>
           <AnalyticsButton
-            href="/coming-soon"
+            href={config.experiment.comingSoonUrl}
             color="black"
             size={theme.block3.overlay.button.size}
             basic

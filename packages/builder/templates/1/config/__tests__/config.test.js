@@ -18,8 +18,9 @@ describe("template 1 configs", () => {
   });
 
   it("template config.js are correct", () => {
-    console.log(config);
     expect(config.env).toBe("prod");
     expect(config.isProd).toBe(true);
+    expect(config.experiment.headline.length <= 30).toBe(true);
+    expect(config.experiment.headline2.length <= 30).toBe(true);
   });
 });

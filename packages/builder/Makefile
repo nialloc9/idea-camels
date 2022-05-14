@@ -66,6 +66,7 @@ configure-client:
 	npm run test; \
 	rm -rf ./build; \
 	npm run build; \
+	npm run export; \
 
 	@if [ ${ENV}="prod" ]; then \
 		cd ./experiments/${EXPERIMENT_REF}/client; \

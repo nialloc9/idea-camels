@@ -27,10 +27,14 @@ const Slide = withTheme(({ image, header, theme: { block5 }, content }) => (
   </div>
 ));
 
-export default ({ content }) => (
+const Carousel = ({ content }) => (
   <Slider {...settings}>
     {content.block5.carousel.map((o) => (
       <Slide key={o.image.src} {...o} content={content} />
     ))}
   </Slider>
 );
+
+Carousel.displayName = "Carousel";
+
+export default Carousel;

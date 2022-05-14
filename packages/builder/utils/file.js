@@ -58,6 +58,7 @@ const writeConfig = async ({
       themeKey,
       contentKey,
       experimentRef,
+      domain,
       headline,
       description,
       keywords
@@ -95,7 +96,8 @@ export default {
     token: "${createJwToken({ experimentRef })}"
   },
   experiment: {
-    ref: "${experimentRef}",
+    experimentRref: "${experimentRef}",
+    domain: "${domain}",
     themeKey: "${themeKey}",
     contentKey: "${contentKey}",
     description: "${description}",

@@ -5,6 +5,7 @@ import { Grid, GridColumn } from "../Grid";
 import { Image } from "../Image";
 import { List, ListItem } from "../List";
 import { Icon } from "../Icon";
+import { config } from "../../config";
 
 const Container = styled.section`
   min-height: ${({
@@ -80,7 +81,7 @@ const StyledListItem = styled(ListItem)`
 const AnalyticsIcon = withAnalytics(StyledIcon);
 const AnalyticsListItem = withAnalytics(StyledListItem);
 
-export default withTheme(
+const Footer = withTheme(
   ({
     theme: {
       footer: { column1, column3 },
@@ -93,6 +94,7 @@ export default withTheme(
           <Image
             src={content.footer.column1.image.src}
             size={column1.imageSize}
+            alt="company logo"
             avatar
           />
           <span>{content.footer.column1.text.text}</span>
@@ -107,8 +109,8 @@ export default withTheme(
           </List>
         </GridColumn>
         <GridColumn>
-          {content.footer.column3.map(({ href, action, name }) => (
-            <a href={href}>
+          {content.footer.column3.map(({ action, name }) => (
+            <a key={name} href={config.experiment.comingSoonUrl}>
               <AnalyticsIcon
                 bordered
                 size={column3.iconSize}
@@ -122,3 +124,7 @@ export default withTheme(
     </Container>
   )
 );
+
+Footer.displayName = "Footer";
+
+export default Footer;

@@ -22,7 +22,12 @@ const main = async () => {
     );
   } catch (error) {
     logger.error(error);
-    process.exit(1);
+    await sendAlert({ text: JSON.stringify({
+      error,
+      caller: config.caller,
+      experimentRef: config.experiment.experimentRef,
+      domain: config.experiment.domain
+    }) }).then(() => process.exit(1))
   }
 };
 

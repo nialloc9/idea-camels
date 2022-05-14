@@ -5,6 +5,7 @@ tmp/
 artifacts/
 tmp/
 .terraform/
+.dev.env
 .staging.env
 .prod.env
 *.pem

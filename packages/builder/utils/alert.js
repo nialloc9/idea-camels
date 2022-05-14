@@ -11,9 +11,10 @@ const sendAlert = async ({ channel=config.slack.alertChannel, text }, {client = 
       text,
       channel,
     })
-    
+
     return { data }
   } catch (error) {
+   
     return { error }
   }
 };

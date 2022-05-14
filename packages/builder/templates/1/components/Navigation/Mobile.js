@@ -3,6 +3,7 @@ import { Menu, Item } from "../Styled/Menu";
 import { Block } from "../Styled/Block";
 import { Button } from "../Styled/Button";
 import { withTheme } from "../../utils/style";
+import { config } from "../../config";
 import withAnalytics from "../../hoc/withAnalytics";
 
 const AnalyticsMenuItem = withAnalytics(Item);
@@ -38,13 +39,13 @@ export default withTheme(({ theme, content }) => {
         />
       </Item>
       {isOpen &&
-        content.navigation.items.map(({ text, href }) => (
+        content.navigation.items.map(({ text }) => (
           <AnalyticsMenuItem
             key={text}
             name={text}
             active={activeItem === text}
             action={`${text.replace(" ", "-")}-click`.toLowerCase()}
-            href={href}
+            href={config.experiment.comingSoonUrl}
           >
             <Block textAlign="center" width="100%">
               {text}

@@ -11,6 +11,7 @@ import { Segment } from "../../Styled/Segment";
 import { Divider } from "../../Divider";
 import { Image } from "../../Image";
 import { Button } from "../../Button";
+import { config } from "../../../config";
 
 const AnalyticsButton = withAnalytics(Button);
 
@@ -180,7 +181,7 @@ export default withTheme(
                   <SubHeading></SubHeading>
                   <ButtonContainer>
                     <AnalyticsButton
-                      href="/coming-soon"
+                      href={config.experiment.comingSoonUrl}
                       color="black"
                       size={button.size}
                       basic

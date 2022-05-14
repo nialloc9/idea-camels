@@ -19,6 +19,7 @@ export const Menu = styled(
     ...rest
   }) => <SemanticMenu {...rest} />
 )`
+  opacity: 1 !important;
   ${({ fontSize = false }) => fontSize && `font-size: ${fontSize};`}
   ${({ backgroundColor = false }) =>
     backgroundColor && `background-color: ${backgroundColor} !important;`}

@@ -3,6 +3,7 @@ import { remCalc, styled, withTheme } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
 import { Image } from "../../Image";
 import { Button } from "../../Button";
+import { config } from "../../../config";
 
 const Container = styled.section`
   min-height: ${({
@@ -121,31 +122,38 @@ const AnalyticsImage = withAnalytics(Image);
 
 const AnalyticsButton = withAnalytics(Button);
 
-export default withTheme(({ theme: { block1: { buttonSize } }, content }) => (
-  <Container>
-    <InnerContainer>
-      <ImageContainer>
-        <AnalyticsImage
-          alt={content.block1.logo.alt}
-          size="small"
-          src={content.block1.logo.src}
-          action="block1-logo"
-        />
-      </ImageContainer>
-      <Heading>{content.block1.heading.text}</Heading>
-      <SubHeading>{content.block1.subHeading.text}</SubHeading>
+export default withTheme(
+  ({
+    theme: {
+      block1: { buttonSize },
+    },
+    content,
+  }) => (
+    <Container>
+      <InnerContainer>
+        <ImageContainer>
+          <AnalyticsImage
+            alt={content.block1.logo.alt}
+            size="small"
+            src={content.block1.logo.src}
+            action="block1-logo"
+          />
+        </ImageContainer>
+        <Heading>{content.block1.heading.text}</Heading>
+        <SubHeading>{content.block1.subHeading.text}</SubHeading>
 
-      <ButtonContainer>
-        <AnalyticsButton
-          href="/coming-soon"
-          action="block1-button"
-          color="black"
-          size={buttonSize}
-          basic
-        >
-          {content.block1.button.text}
-        </AnalyticsButton>
-      </ButtonContainer>
-    </InnerContainer>
-  </Container>
-));
+        <ButtonContainer>
+          <AnalyticsButton
+            href={config.experiment.comingSoonUrl}
+            action="block1-button"
+            color="black"
+            size={buttonSize}
+            basic
+          >
+            {content.block1.button.text}
+          </AnalyticsButton>
+        </ButtonContainer>
+      </InnerContainer>
+    </Container>
+  )
+);

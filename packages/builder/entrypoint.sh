@@ -15,10 +15,10 @@
 #
 set -e
 
-make init-experiment
+# make init-experiment
 # make configure-infrastructure
-make configure-client
-# make configure-campaign
+# make configure-client
+make configure-campaign
 # make post-build
 
 # echo "Starting ${ENV} build..."

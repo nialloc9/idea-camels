@@ -6,16 +6,13 @@
     },
     "items": [
       {
-        "text": "About Us",
-        "href": "coming-soon"
+        "text": "About Us"
       },
       {
-        "text": "Products",
-        "href": "coming-soon"
+        "text": "Products"
       },
       {
-        "text": "Sign Up",
-        "href": "coming-soon"
+        "text": "Sign Up"
       }
     ]
   },
@@ -174,17 +171,14 @@
     ],
     "column3": [
       {
-        "href": "/coming-soon",
         "action": "footer-facebook",
         "name": "facebook"
       },
       {
-        "href": "/coming-soon",
         "action": "footer-twitter",
         "name": "twitter"
       },
       {
-        "href": "/coming-soon",
         "action": "footer-linkedin",
         "name": "linkedin"
       }

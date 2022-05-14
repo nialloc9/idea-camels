@@ -3,6 +3,7 @@ import withAnalytics from "../../hoc/withAnalytics";
 import { Menu, Item, MenuMenu } from "../Styled/Menu";
 import { Image } from "../Styled/Image";
 import { remCalc, withTheme } from "../../utils/style";
+import { config } from "../../config";
 
 const AnalyticsMenuItem = withAnalytics(Item);
 
@@ -31,11 +32,11 @@ const Navigation = withTheme(({ theme, content }) => {
           />
         </AnalyticsMenuItem>
         <MenuMenu position="right">
-          {content.navigation.items.map(({ text, href }) => (
+          {content.navigation.items.map(({ text }) => (
             <AnalyticsMenuItem
               key={text}
               name={text}
-              href={href}
+              href={config.experiment.comingSoonUrl}
               action={`${text.replace(" ", "-")}-click`.toLowerCase()}
             />
           ))}
