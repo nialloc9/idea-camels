@@ -38,7 +38,7 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
   const experiment = experiments.find(
     (o) => o.experiment_ref === parseInt(experimentRef)
   );
-    
+
   if (!experiment) {
     return (
       <Block
@@ -62,7 +62,7 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
       average_cpm,
       cost_micros,
       engagements,
-    },
+    } = {},
     leads,
     keyword_0,
     keyword_1,
@@ -79,11 +79,14 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
   const progress =
     {
       PENDING: 0,
-      INIT_INFRA: 10,
-      BUILDING_INFRA: 30,
-      DEPLOYING_INFRA: 50,
-      BUILDING_CLIENT: 70,
-      DEPLOYING_CLIENT: 90,
+      INITIALISING_EXPERIMENT: 10,
+      EXPERIMENT_INITIALISED: 20,
+      CONFIGURING_INFRA: 30,
+      CONFIGURED_INFRA: 40,
+      CONFIGURING_CLIENT: 50,
+      CLIENT_CONFIGURED: 60,
+      CONFIGURING_CAMPAIGN: 70,
+      CAMPAIGN_CONFIGURED: 80,
       COMPLETE: 100,
     }[status] || 0;
 

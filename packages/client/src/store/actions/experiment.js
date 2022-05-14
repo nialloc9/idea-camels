@@ -2,7 +2,7 @@ import { EXPERIMENT_SET } from "../constants/experiment";
 import { postApi } from "../../utils/request";
 import { deepMerge, convertDateToUnix } from "../../utils/utils";
 import { findThemeAndContent } from "../../templates";
-
+import { redirect } from "../../components/Router";
 /**
  * sets the state
  * @param payload
@@ -137,6 +137,8 @@ export const onCreate = () => async (dispatch, getState) => {
     createErrorMessage: "",
     data: [experiment, ...data],
   });
+
+  redirect(`/home?experiment_ref=${experiment.experiment_ref}`);
 };
 
 /**

@@ -14,7 +14,10 @@ export class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.log("error", { error, errorInfo });
-    postApi({ uri: "log/error", body: { error, errorInfo } });
+    postApi({
+      uri: "log/error",
+      body: { error: JSON.stringify(error), errorInfo },
+    });
   }
 
   render() {

@@ -42,7 +42,7 @@ init-experiment:
 # Description: Deploys experiment infra from template
 # EXPERIMENT_REF -> experiment ref for experiment. e.g 1
 configure-infrastructure:
-	STATUS="INFRA_CONFIGURED" node ./updateStatus.js
+	STATUS="CONFIGURING_INFRA" node ./updateStatus.js
 	
 	cd ./experiments/${EXPERIMENT_REF}/infrastructure &&  rm -rf .terraform 
 	cd ./experiments/${EXPERIMENT_REF}/infrastructure && terraform init -backend-config=environment/backend.tfvars -var-file=environment/variables.tfvars
