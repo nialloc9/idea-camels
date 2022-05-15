@@ -35,7 +35,7 @@ resource "aws_instance" "bastion" {
   count                  = var.enable_bastion ? 1 : 0
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.micro"
-  key_name               = "ideacamels_prod_bastion.pem"
+  key_name               = "ideacamels_prod_bastion"
   vpc_security_group_ids = [module.bastion_security_group.id]
   subnet_id              = aws_subnet.ideacamels_main_public.id
 }
