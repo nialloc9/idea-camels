@@ -126,6 +126,14 @@ jobs:
         run: cd packages/client && CI=false npm run build
       - name: Deploy Client
         run: cd packages/client && make deploy-via-cicd
+      - name: Report Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1
+        with:
+          status: ${{ job.status }}
+          notify_when: 'failure'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_PROD_ALERTS_WEBHOOK_URL }}
 
   Deploy-Builder:
     runs-on: ubuntu-latest
@@ -143,6 +151,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy Builder
         run: cd packages/builder && make deploy-via-cicd
+      - name: Report Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1
+        with:
+          status: ${{ job.status }}
+          notify_when: 'failure'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_PROD_ALERTS_WEBHOOK_URL }}
 
   Deploy-API:
     runs-on: ubuntu-latest
@@ -160,6 +176,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy API
         run: cd packages/api && make deploy-via-cicd
+      - name: Report Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1
+        with:
+          status: ${{ job.status }}
+          notify_when: 'failure'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_PROD_ALERTS_WEBHOOK_URL }}
 
   Deploy-Infra:
     runs-on: ubuntu-latest
@@ -183,3 +207,11 @@ jobs:
           name: bastion-pem-file
           path: packages/infrastructure/idea_camels/prod_ideacamels.pem
           retention-days: 5
+      - name: Report Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1
+        with:
+          status: ${{ job.status }}
+          notify_when: 'failure'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_PROD_ALERTS_WEBHOOK_URL }}
