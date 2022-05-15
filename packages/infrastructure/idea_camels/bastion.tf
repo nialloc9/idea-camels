@@ -2,19 +2,19 @@ variable "enable_bastion" {
   default = true
 }
 
-resource "tls_private_key" "ideacamels" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
+# resource "tls_private_key" "ideacamels" {
+#   algorithm = "RSA"
+#   rsa_bits  = 4096
+# }
 
-resource "aws_key_pair" "generated_key" {
-  key_name   = "${var.environment}_ideacamels"
-  public_key = tls_private_key.ideacamels.public_key_openssh
+# resource "aws_key_pair" "generated_key" {
+#   key_name   = "ideacamels_${var.environment}_bastion"
+#   public_key = tls_private_key.ideacamels.public_key_openssh
 
-  provisioner "local-exec" { # Create a "myKey.pem" to your computer!!
-    command = "echo '${tls_private_key.ideacamels.private_key_pem}' > ./${var.environment}_ideacamels.pem"
-  }
-}
+#   provisioner "local-exec" { # Create a "myKey.pem" to your computer!!
+#     command = "echo '${tls_private_key.ideacamels.private_key_pem}' > ./ideacamels_${var.environment}_bastion.pem"
+#   }
+# }
 
 data "aws_ami" "ubuntu" {
   most_recent = true
@@ -35,7 +35,7 @@ resource "aws_instance" "bastion" {
   count                  = var.enable_bastion ? 1 : 0
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.micro"
-  key_name               = aws_key_pair.generated_key.key_name
+  key_name               = "ideacamels_prod_bastion.pem"
   vpc_security_group_ids = [module.bastion_security_group.id]
   subnet_id              = aws_subnet.ideacamels_main_public.id
 }
@@ -45,5 +45,5 @@ output "bastion_ip" {
 }
 
 output "pem_path" {
-  value = "./${var.environment}_ideacamels.pem"
+  value = "./ideacamels_${var.environment}_bastion.pem"
 }

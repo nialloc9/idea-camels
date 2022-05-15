@@ -3,7 +3,7 @@ NON_PROD=idea-camels-dev
 AWS_REGION=eu-west-1
 
 PROD_LOCAL_DB_PORT=3307
-PROD_PATH_TO_SSH=./prod_ideacamels.pem
+PROD_PATH_TO_SSH=./ideacamels_prod_bastion.pem
 PROD_REMOTE_DB_HOSTNAME=terraform-20210930174456492900000001.cjqxidwezq2m.eu-west-1.rds.amazonaws.com
 PROD_BASTION_PUBLIC_IP=3.249.245.30
 
