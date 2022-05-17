@@ -31,6 +31,7 @@ import {
   validateDomain,
   validateMaxLength,
   validateMinValue,
+  validateSpecialChars,
 } from "../../utils/form";
 import { onPrepareExperiment } from "../../store/actions/experiment";
 import { connect } from "../../store";
@@ -61,7 +62,7 @@ class CreateForm extends Component {
     } = this.props;
 
     const template = findTemplate(templateRef);
-    
+
     if (!template) return [];
 
     const {
@@ -251,7 +252,11 @@ class CreateForm extends Component {
                     tabletDisplay="inline-block"
                     placeholder="Keywords to check for in search engine"
                     info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                    validate={[validateRequired, validateMaxLength(80)]}
+                    validate={[
+                      validateRequired,
+                      validateMaxLength(80),
+                      validateSpecialChars,
+                    ]}
                   />
                 </GridColumn>
                 <GridColumn>
@@ -264,7 +269,11 @@ class CreateForm extends Component {
                     tabletDisplay="inline-block"
                     placeholder="Keywords to check for in search engine"
                     info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                    validate={[validateRequired, validateMaxLength(80)]}
+                    validate={[
+                      validateRequired,
+                      validateMaxLength(80),
+                      validateSpecialChars,
+                    ]}
                   />
                 </GridColumn>
               </GridRow>
@@ -280,7 +289,7 @@ class CreateForm extends Component {
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
                       info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                      validate={[validateMaxLength(80)]}
+                      validate={[validateMaxLength(80), validateSpecialChars]}
                     />
                   </GridColumn>
                   <GridColumn>
@@ -293,7 +302,7 @@ class CreateForm extends Component {
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
                       info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                      validate={[validateMaxLength(80)]}
+                      validate={[validateMaxLength(80), validateSpecialChars]}
                     />
                   </GridColumn>
                 </GridRow>
@@ -310,7 +319,7 @@ class CreateForm extends Component {
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
                       info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                      validate={[validateMaxLength(80)]}
+                      validate={[validateMaxLength(80), validateSpecialChars]}
                     />
                   </GridColumn>
                   <GridColumn>
@@ -323,7 +332,7 @@ class CreateForm extends Component {
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
                       info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
-                      validate={[validateMaxLength(80)]}
+                      validate={[validateMaxLength(80), validateSpecialChars]}
                     />
                   </GridColumn>
                 </GridRow>

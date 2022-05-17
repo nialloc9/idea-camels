@@ -1,5 +1,5 @@
 PROD_LOCAL_DB_PORT=3307
-PROD_PATH_TO_SSH=../infrastructure/idea_camels/ideacamels_prod_bastion.pem
+PROD_PATH_TO_SSH=./ideacamels_prod_bastion.pem
 PROD_REMOTE_DB_HOSTNAME=terraform-20220405160925859200000001.cjqxidwezq2m.eu-west-1.rds.amazonaws.com
 PROD_BASTION_PUBLIC_IP=54.75.139.91
 
