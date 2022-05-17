@@ -62,6 +62,7 @@ const onGetWithThemeAndCampaignByAccountRef = ({
         "e.domain_ref",
         "e.end_date",
         "e.budget",
+        "e.status",
         "e.created_at",
         "e.last_updated_at",
         "e.deleted_flag",
@@ -72,7 +73,7 @@ const onGetWithThemeAndCampaignByAccountRef = ({
 
       const getQuery = `SELECT ${addSelectQueryColumns(
         values
-      )} FROM experiments as e INNER JOIN themes as t ON e.theme_ref = t.theme_ref INNER JOIN domains as d ON e.domain_ref = d.domain_ref INNER JOIN campaigns as c on e.experiment_ref = c.experiment_ref WHERE e.account_ref=${accountRef} AND e.deleted_flag != 1`;
+      )} FROM experiments as e LEFT JOIN themes as t ON e.theme_ref = t.theme_ref LEFT JOIN domains as d ON e.domain_ref = d.domain_ref LEFT JOIN campaigns as c on e.experiment_ref = c.experiment_ref WHERE e.account_ref=${accountRef} AND e.deleted_flag != 1`;
 
       const results = await query(
         getQuery,
