@@ -78,16 +78,16 @@ const localhost = {
     themeKey: THEME_KEY,
     contentKey: CONTENT_KEY,
     budget: BUDGET,
-    headline: 'Test your idea today.',
-    headline2: 'Sign up now.',
-    description: 'Testing an idea should not be so hard. Sign up today.',
-    keyword0: "Test my idea",
-    keyword1: "Is my idea any good?",
+    headline: HEADLINE,
+    headline2: HEADLINE_2,
+    description: DESCRIPTION,
+    keyword0: KEYWORD_0,
+    keyword1: KEYWORD_1,
     keyword2: KEYWORD_2,
     keyword3: KEYWORD_3,
     keyword4: KEYWORD_4,
     keyword5: KEYWORD_5,
-    keywords: ["Test my idea", "Is my idea any good?", KEYWORD_2, KEYWORD_3, KEYWORD_4, KEYWORD_5]
+    keywords: [KEYWORD_0, KEYWORD_1, KEYWORD_2, KEYWORD_3, KEYWORD_4, KEYWORD_5]
   },
   googleAds: {
     clientId: GOOGLE_ADS_CLIENT_ID,
@@ -110,7 +110,8 @@ const localhost = {
   },
   slack: {
     token: 'xoxp-3478965398438-3498235777361-3481827231254-9b59a2951d4233490111d2f3df508f56',
-    alertChannel: 'builder-dev-alerts'
+    alertChannel: 'builder-dev-alerts',
+    experimentDeployChannel: 'deploy-experiment-dev-alerts'
   },
   noInternet: false,
 };
@@ -127,7 +128,8 @@ const prod = {
   },
   slack: {
     ...staging.slack,
-    alertChannel: 'builder-prod-alerts'
+    alertChannel: 'builder-prod-alerts',
+    experimentDeployChannel: 'deploy-experiment-prod-alerts'
   },
 };
 

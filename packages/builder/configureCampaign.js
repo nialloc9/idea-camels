@@ -121,6 +121,13 @@ const main = async () => {
       { experimentRef, domain },
       "=========  CAMPAIGN CONFIGURED  ========="
     );
+
+    await sendAlert({ channel: config.slack.experimentDeployChannel, text: JSON.stringify({
+      message: "Experiment Deployed",
+      caller,
+      experimentRef,
+      domain
+    }) })
   } catch (error) {
     logger.error(error);
     await sendAlert({ text: JSON.stringify({
