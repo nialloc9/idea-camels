@@ -2,29 +2,11 @@ import IdeaCamelsDefault, {
   config as ideaCamelsDefaultConfig,
 } from "./IdeaCamelsDefault";
 
-import Basic, {
-  config as basicConfig,
-} from "./Basic";
-
-import Modern, {
-  config as modernConfig,
-} from "./Modern";
-
 const templates = [
   {
     ref: ideaCamelsDefaultConfig.ref,
     template: IdeaCamelsDefault,
     config: ideaCamelsDefaultConfig,
-  },
-  {
-    ref: basicConfig.ref,
-    template: Basic,
-    config: basicConfig,
-  },
-  {
-    ref: modernConfig.ref,
-    template: Modern,
-    config: modernConfig,
   },
 ];
 
