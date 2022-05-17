@@ -308,6 +308,8 @@ const onCreateExperiment = ({
           name,
           content: contentKey,
           theme: themeKey,
+          campaign: {},
+          metrics: {}
           // campaign: campaignData,
         })
       );
