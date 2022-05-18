@@ -111,6 +111,6 @@ test-experiment:
 
 # Description: Completely removes experiments
 clean-up-experiments:
-	for experiment_ref in 1 ; do \
+	for experiment_ref in 59 60 ; do \
 		EXPERIMENT_REF=$$experiment_ref ENV="prod" DOMAIN="ideacamels.link" AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} AWS_REGION=eu-west-1 CALLER=test-$$experiment_ref bash ./remove_experiment.sh ; \
 	done

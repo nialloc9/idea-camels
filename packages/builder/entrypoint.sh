@@ -16,7 +16,7 @@
 set -e
 
 make init-experiment
-# make configure-infrastructure
-# make configure-client
+make configure-infrastructure
+make configure-client
 make configure-campaign
 make post-build
