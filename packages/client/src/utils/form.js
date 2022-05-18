@@ -31,7 +31,7 @@ import { FORM_ERROR } from "final-form";
  * @description validates whether string has special characters
  */
 const validateSpecialChars = (value) =>
-  value && /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value)
+  value && /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(value)
     ? "Special characters not allowed"
     : undefined;
 
