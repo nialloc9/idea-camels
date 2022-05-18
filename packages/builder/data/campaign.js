@@ -13,7 +13,7 @@ const onGet = ({ data: { accountRef }, caller }) =>
         ? `SELECT * FROM campaigns WHERE account_ref='${accountRef}`
         : "SELECT * FROM campaigns";
 
-      const results = await query(getQuery, undefined, caller, "GET_CAMPAIGN");
+      const results = await query(getQuery, undefined, caller);
 
       resolve(
         handleSuccess(`DATA - GET_CAMPAING - FROM ${caller}`, {
@@ -38,8 +38,7 @@ const onCreate = ({ data, caller }) =>
       const results = await query(
         createQuery,
         mappedData,
-        caller,
-        "CREATE_CAMPAIGN"
+        caller
       );
       const timestamp = now();
 
