@@ -108,6 +108,26 @@ resource "aws_ecs_task_definition" "builder" {
               "value": "${aws_api_gateway_deployment.apideploy.invoke_url}"
             },
             {
+              "name": "GOOGLE_ADS_CUSTOMER_ID",
+              "value": "${data.aws_ssm_parameter.google_ads_customer_id.value}"
+            },
+            {
+              "name": "GOOGLE_ADS_CLIENT_ID",
+              "value": "${data.aws_ssm_parameter.google_ads_client_id.value}"
+            },
+            {
+              "name": "GOOGLE_ADS_CLIENT_SECRET",
+              "value": "${data.aws_ssm_parameter.google_ads_client_secret.value}"
+            },
+            {
+              "name": "GOOGLE_ADS_DEVELOPER_TOKEN",
+              "value": "${data.aws_ssm_parameter.google_ads_developer_token.value}"
+            },
+            {
+              "name": "GOOGLE_ADS_REFRESH_TOKEN",
+              "value": "${data.aws_ssm_parameter.google_ads_refresh_token.value}"
+            },
+            {
               "name": "SLACK_TOKEN",
               "value": "${data.aws_ssm_parameter.slack_token.value}"
             }
