@@ -8,6 +8,7 @@ ECR_HOSTNAME=$(ACCOUNT_NUMBER).dkr.ecr.eu-west-1.amazonaws.com
 PATCH_DEFAULT_VERSION?=1
 MAJOR_VERSION?=1
 MINOR_VERSION?=0
+EXPERIMENT_REF?=1
 
 # Description: Deploys docker image via cicd manually tagging changes
 deploy:

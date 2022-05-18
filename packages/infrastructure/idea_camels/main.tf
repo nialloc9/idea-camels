@@ -51,6 +51,11 @@ locals {
       value = "v=DMARC1;p=quarantine;pct=100;fo=1"
     }
   ]
+
+  tags = {
+    domain = var.domain
+    env = var.environment
+  }
 }
 
 terraform {
@@ -78,6 +83,8 @@ module "domain" {
   fqdn   = var.fqdn
 
   single_page_application = true
+
+  tags = local.tags
 }
 
 # VERIFY DOMAIN FOR EMAILS AND CREATE EMAIL ACCOUNT

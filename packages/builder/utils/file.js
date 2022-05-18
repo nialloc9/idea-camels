@@ -47,6 +47,7 @@ const writeTfVars = ({ config: { experiment: { experimentRef, domain } } }) => {
   const str = `
 fqdn="${domain}"
 domain="${domain}"
+experiment_ref="${experimentRef}"
     `;
   writeToFile(path, str);
   logger.info({ experimentRef }, "Finished writing TF vars");

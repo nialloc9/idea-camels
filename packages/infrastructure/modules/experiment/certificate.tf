@@ -3,6 +3,7 @@ resource "aws_acm_certificate" "cert" {
   domain_name               = var.fqdn
   validation_method         = var.cert_validation_method
   subject_alternative_names = ["www.${var.fqdn}"]
+  tags = var.tags
 }
 
 resource "aws_acm_certificate_validation" "cert" {

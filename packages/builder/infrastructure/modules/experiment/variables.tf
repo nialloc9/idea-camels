@@ -80,3 +80,9 @@ variable single_page_application {
   default     = false
   description = "is the experiment a SPA"
 }
+
+variable "tags" {
+  description = "Tags to add to resources"
+  type        = map(string)
+  default = {}
+}

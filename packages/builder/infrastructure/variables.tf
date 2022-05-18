@@ -30,6 +30,11 @@ variable domain {
   type        = string
 }
 
+variable experiment_ref {
+  description = "Experiment ref for builder"
+  type        = string
+}
+
 variable tags {
   description = "tags to add to resources"
   default     = {}
