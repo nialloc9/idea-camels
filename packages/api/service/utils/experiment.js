@@ -42,7 +42,11 @@ const mapKeywordsToCriterionToCreate = ({ keywords, adGroupName }) =>
  * @returns
  */
 const mapExperimentsToAdGroupNames = (experiments) =>
-  experiments.map(({ ad_group_name }) => ad_group_name);
+  experiments.reduce((total = [], { ad_group_name })=> {
+    if(ad_group_name) total.push(ad_group_name)
+
+    return total
+  }, []);
 
 /**
  * @description maps experiment to config required for building on ECS
