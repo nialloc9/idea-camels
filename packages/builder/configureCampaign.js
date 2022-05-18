@@ -59,6 +59,8 @@ const main = async () => {
         name: `${domain}_${caller}`,
       })
     );
+
+    logger.info({ budgetName }, "========= BUDGET CREATED  =========");
   
     const { resource_name: campaignName } = await createCampaign(
       mapExperimentToCampaign({
@@ -69,6 +71,8 @@ const main = async () => {
         name: `${domain}_${caller}`,
       })
     );
+
+    logger.info({ campaignName }, "========= CAMPAIGN CREATED  =========");
   
     const { resource_name: adGroupName } = await createAdGroup(
       mapExperimentToAdGroup({
@@ -79,6 +83,8 @@ const main = async () => {
         name: `${domain}_${caller}`,
       })
     );
+
+    logger.info({ adGroupName }, "========= AD GROUP CREATED  =========");
   
     const { resource_name: adGroupAdName } = await createAdGroupAd(
       mapExperimentToAdGroupAd({
@@ -89,7 +95,9 @@ const main = async () => {
         headline2,
       })
     );
-  
+      
+    logger.info({ adGroupAdName }, "========= AD GROUP AD CREATED  =========");
+
     const keywordCriterians = mapKeywordsToCriterionToCreate({
       keywords,
       adGroupName,
@@ -97,6 +105,8 @@ const main = async () => {
   
     const criterions = await createAdGroupCriterion(keywordCriterians);
    
+    logger.info({ criterions }, "========= CRITERIONS CREATED  =========");
+
     const mappedCriterionToDb = mapCriterionsToDb({
       criterions,
       keywords,
