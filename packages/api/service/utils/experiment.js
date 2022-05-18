@@ -202,7 +202,7 @@ const mapMetricsToExperiment = ({ metrics, experiments }) => {
 
   return experiments.map((o) => ({
     ...o,
-    metrics: mappedMetricsToAdGroupName[o.ad_group_name],
+    metrics: mappedMetricsToAdGroupName[o.ad_group_name] || {},
   }));
 };
 

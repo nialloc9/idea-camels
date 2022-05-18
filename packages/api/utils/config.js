@@ -36,7 +36,7 @@ const development = {
     password_secret: PASSWORD_SECRET,
     default_token_expiration: "1d",
     extended_token_expiration: "30d",
-    whitelist: ["http://localhost:3000"],
+    whitelist: ["http://localhost:3000", "http://127.0.0.1:3000"],
   },
   company: {
     addressLine1: "87C",
@@ -140,7 +140,7 @@ const prod = {
   },
   security: {
     ...staging.security,
-    whitelist: ["https://ideacamels.com", "https://www.ideacamels.com"],
+    whitelist: ["http://ideacamels.com", "https://ideacamels.com", /\.ideacamels\.com$/],
   },
 };
 

@@ -261,6 +261,8 @@ const getMetrics = async ({
     return {};
   }
 
+  if(adGroupResourceName.length === 0) return []
+
   const mappedMetrics = metrics.map((o) => metricMap[o]);
 
   const body = {

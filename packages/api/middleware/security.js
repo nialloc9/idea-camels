@@ -5,13 +5,7 @@ const cors = require("cors");
 const config = require("../utils/config");
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (config.security.whitelist.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: config.security.whitelist
 };
 
 module.exports = [
