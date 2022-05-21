@@ -23,6 +23,7 @@ const Template = ({
   onSubmit,
   onSetFormIndex,
   onSetNewExperiment,
+  history,
 }) => {
   if ([templateRef, content, theme].some((o) => !o)) return null;
 
@@ -45,7 +46,13 @@ const Template = ({
             disabled={isCreateLoading}
             loading={isCreateLoading}
             action="create-experiment-form-2-submit-click"
-            onClick={onSubmit}
+            onClick={(experiment) =>
+              onSubmit(experiment, () =>
+                history.push(
+                  `/home?experiment_ref=${experiment.experiment_ref}`
+                )
+              )
+            }
           >
             Create Experiment
           </Button>

@@ -2,7 +2,7 @@ import { EXPERIMENT_SET } from "../constants/experiment";
 import { postApi } from "../../utils/request";
 import { deepMerge, convertDateToUnix } from "../../utils/utils";
 import { findThemeAndContent } from "../../templates";
-import { redirect } from "../../components/Router";
+
 /**
  * sets the state
  * @param payload
@@ -55,7 +55,7 @@ export const onFetch = () => async (dispatch, getState) => {
  * @description creates a new experiment for the account
  * @returns
  */
-export const onCreate = () => async (dispatch, getState) => {
+export const onCreate = ({} = {}, callback) => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
 
   onSetState({ isCreateLoading: true, createErrorMessage: "" });
@@ -138,7 +138,9 @@ export const onCreate = () => async (dispatch, getState) => {
     data: [experiment, ...data],
   });
 
-  redirect(`/home?experiment_ref=${experiment.experiment_ref}`);
+  if (callback) {
+    callback(experiment);
+  }
 };
 
 /**
