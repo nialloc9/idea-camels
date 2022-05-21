@@ -98,13 +98,13 @@ export const onCreate = ({} = {}, callback) => async (dispatch, getState) => {
     dispatch({
       type: DOMAIN_SET,
       payload: {
-        suggested: domainPurchaseError.data.suggested,
+        suggested: domainPurchaseError.data?.data?.suggested,
       },
     });
     return onSetState({
       isCreateLoading: false,
       createErrorMessage:
-        domainPurchaseError.code === 1005
+        domainPurchaseError.message === "domain not available"
           ? `${domain} is not available. Please click back and choose a new domain.`
           : domainPurchaseError.message,
     });
