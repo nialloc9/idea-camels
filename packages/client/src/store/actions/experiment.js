@@ -83,30 +83,30 @@ export const onCreate = () => async (dispatch, getState) => {
     },
   } = getState();
 
-  // const {
-  //   data: domainPurchaseData,
-  //   error: domainPurchaseError,
-  // } = await postApi({
-  //   uri: `domain/purchase`,
-  //   token,
-  //   body: { domain },
-  // });
+  const {
+    data: domainPurchaseData,
+    error: domainPurchaseError,
+  } = await postApi({
+    uri: `domain/purchase`,
+    token,
+    body: { domain },
+  });
 
-  // if (domainPurchaseError) {
-  //   dispatch({
-  //     type: DOMAIN_SET,
-  //     payload: {
-  //       suggested: domainPurchaseError.data.suggested,
-  //     },
-  //   });
-  //   return onSetState({
-  //     isCreateLoading: false,
-  //     createErrorMessage:
-  //       domainPurchaseError.code === 1005
-  //         ? `${domain} is not available. Please click back and choose a new domain.`
-  //         : domainPurchaseError.message,
-  //   });
-  // }
+  if (domainPurchaseError) {
+    dispatch({
+      type: DOMAIN_SET,
+      payload: {
+        suggested: domainPurchaseError.data.suggested,
+      },
+    });
+    return onSetState({
+      isCreateLoading: false,
+      createErrorMessage:
+        domainPurchaseError.code === 1005
+          ? `${domain} is not available. Please click back and choose a new domain.`
+          : domainPurchaseError.message,
+    });
+  }
 
   const { data: experiment, error } = await postApi({
     uri: `experiment/create`,

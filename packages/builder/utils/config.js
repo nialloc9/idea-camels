@@ -38,22 +38,23 @@ const localhost = {
   shouldLogStatusInDB: SHOULD_LOG_STATUS_IN_DB == "y",
   webAddress: "https://ideacamels.com",
   env: ENV,
-  isProd: true,
+  isProd: false,
+  noInternet: false,
   name: "idea-camels-server",
   caller: CALLER,
   company: {
-    addressLine1: "87C",
-    addressLine2: "melrose avenue",
+    addressLine1: "99",
+    addressLine2: "ashwell house",
     city: "london",
     countryCode: "GB",
     phone: "+44.7532722266",
     email: "ideacamels@gmail.com",
     name: "Idea Camels",
     state: "london",
-    postCode: "NW2 4LR",
+    postCode: "UB24LR",
     contact: {
       firstName: "Niall",
-      lastName: "O' Connor",
+      lastName: "O'Connor",
     },
   },
   aws: {
@@ -72,8 +73,7 @@ const localhost = {
   experiment: {
     experimentRef: EXPERIMENT_REF,
     templateRef: TEMPLATE_REF,
-    // accountRef: ACCOUNT_REF,
-    accountRef: 1,
+    accountRef: ACCOUNT_REF,
     domain: DOMAIN,
     themeKey: THEME_KEY,
     contentKey: CONTENT_KEY,
@@ -112,8 +112,7 @@ const localhost = {
     token: SLACK_TOKEN,
     alertChannel: 'builder-dev-alerts',
     experimentDeployChannel: 'deploy-experiment-dev-alerts'
-  },
-  noInternet: false,
+  }
 };
 
 const staging = {

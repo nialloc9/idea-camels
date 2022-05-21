@@ -24,35 +24,9 @@ export default class EditableButton extends Component {
 
   handleChange = (e, { value }) => this.setState({ text: value });
 
-  validate = (text) => {
-    const { initialText, minOffset = 0, min, max } = this.props;
-
-    const minMinusOffset = initialText.length - minOffset; // minOffset is number of characters from end of inital text
-
-    if (min && text.length < min) {
-      return `Min ${min}`;
-    }
-
-    if (min && text.length > max) {
-      return `Max ${min}`;
-    }
-
-    if (text.length < minMinusOffset) {
-      return `Min ${minMinusOffset}`;
-    }
-
-    return text.length > initialText.length ? `Max ${initialText.length}` : "";
-  };
-
   hanndleKeyChange = (e) => {
     const { text } = this.state;
     const { onSubmit } = this.props;
-
-    const errorMessage = this.validate(text);
-
-    if (errorMessage !== "") {
-      return this.setState({ errorMessage });
-    }
 
     if (e.key === "Enter") {
       e.preventDefault();
