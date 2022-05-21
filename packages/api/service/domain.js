@@ -120,14 +120,7 @@ const onPurchaseDomain = ({
           caller,
         });
 
-        return reject(
-          errors["1005"]({
-            service: "onPurchaseDomain",
-            caller,
-            reason: "domain unavailable",
-            data: { suggested },
-          })
-        );
+        return resolve(handleSuccess("domain unavailable", { suggested }))
       }
 
       const { error: registerError } = await registerDomain({

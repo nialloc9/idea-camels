@@ -30,7 +30,7 @@ export const configureErrorResponse = ({
     return {
       message:
         error || err.message || "An error has occured. Please try again.",
-      data: data && JSON.parse(JSON.parse(data).data?.error)?.data,
+      data: data ? JSON.parse(data) : {},
       code: statusCode,
     };
   } catch (e) {

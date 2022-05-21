@@ -93,22 +93,27 @@ export const onCreate = ({} = {}, callback) => async (dispatch, getState) => {
     token,
     body: { domain },
   });
-
+  console.log({
+    data: domainPurchaseData,
+    error: domainPurchaseError,
+  });
   if (domainPurchaseError) {
-    console.log(domainPurchaseError.data);
-    console.log(domainPurchaseError.data?.suggested);
+    return onSetState({
+      isCreateLoading: false,
+      createErrorMessage: domainPurchaseError.message,
+    });
+  }
+
+  if (domainPurchaseData.message === "domain unavailable") {
     dispatch({
       type: DOMAIN_SET,
       payload: {
-        suggested: domainPurchaseError.data?.suggested,
+        suggested: domainPurchaseData.data?.suggested,
       },
     });
     return onSetState({
       isCreateLoading: false,
-      createErrorMessage:
-        domainPurchaseError.message === "domain not available"
-          ? `${domain} is not available. Please click back and choose a new domain.`
-          : domainPurchaseError.message,
+      createErrorMessage: `${domain} is not available. Please click back and choose a new domain.`,
     });
   }
 
