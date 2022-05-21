@@ -117,7 +117,7 @@ export const onCreate = ({} = {}, callback) => async (dispatch, getState) => {
       budget,
       endDate: convertDateToUnix(endDate),
       templateRef,
-      domainRef: 1,
+      domainRef: domainPurchaseData.domain_ref,
       keywords: [keyword1, keyword2, keyword3, keyword4, keyword5, keyword6],
       headline,
       headline2,
