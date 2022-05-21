@@ -97,6 +97,8 @@ export const onCreate = ({} = {}, callback) => async (dispatch, getState) => {
   if (domainPurchaseError) {
     console.log(domainPurchaseError.data);
     console.log(domainPurchaseError.data?.error);
+    console.log(typeof domainPurchaseError.data?.error);
+    console.log(JSON.parse(domainPurchaseError.data?.error).data);
     console.log(domainPurchaseError.data?.error?.data);
     console.log(domainPurchaseError.data?.error?.data?.suggested);
     dispatch({
