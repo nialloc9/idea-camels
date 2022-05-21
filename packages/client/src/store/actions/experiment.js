@@ -1,4 +1,5 @@
 import { EXPERIMENT_SET } from "../constants/experiment";
+import { DOMAIN_SET } from "../constants/domain";
 import { postApi } from "../../utils/request";
 import { deepMerge, convertDateToUnix } from "../../utils/utils";
 import { findThemeAndContent } from "../../templates";
@@ -65,6 +66,7 @@ export const onCreate = ({} = {}, callback) => async (dispatch, getState) => {
     experiment: {
       data,
       newExperiment: {
+        domain,
         content,
         theme,
         budget,
