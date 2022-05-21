@@ -104,11 +104,11 @@ export const onCreate = ({} = {}, callback) => async (dispatch, getState) => {
     });
   }
 
-  if (domainPurchaseData.message === "domain unavailable") {
+  if (domainPurchaseData.suggested) {
     dispatch({
       type: DOMAIN_SET,
       payload: {
-        suggested: domainPurchaseData.data?.suggested,
+        suggested: domainPurchaseData.suggested,
       },
     });
     return onSetState({
