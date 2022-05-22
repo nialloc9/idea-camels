@@ -17,6 +17,7 @@ locals {
       THEMES_BUCKET               = "${aws_s3_bucket.themes.id}",
       STRIPE_SECRET_KEY           = "${data.aws_ssm_parameter.stripe_secret_key.value}",
       JWT_SECRET                  = "${data.aws_ssm_parameter.api_jwt_secret.value}",
+      JWT_ADMIN_SECRET                  = "${data.aws_ssm_parameter.api_jwt_admin_secret.value}",
       PASSWORD_SECRET             = "${data.aws_ssm_parameter.api_password_secret.value}",
       GOOGLE_ADS_CLIENT_ID        = "${data.aws_ssm_parameter.google_ads_client_id.value}",
       GOOGLE_ADS_CLIENT_SECRET    = "${data.aws_ssm_parameter.google_ads_client_secret.value}",

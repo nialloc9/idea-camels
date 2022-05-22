@@ -197,7 +197,7 @@ const endpoints = [
       "caller",
       "budget"
     ],
-    // isAuth: true,
+    // isAdmin: true,
     func: onManuallyRunExperiment,
   },
   {

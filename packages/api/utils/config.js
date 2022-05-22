@@ -9,6 +9,7 @@ const {
   DB_NAME,
   DB_PORT,
   JWT_SECRET,
+  JWT_ADMIN_SECRET,
   PASSWORD_SECRET,
   GOOGLE_ADS_CLIENT_ID,
   GOOGLE_ADS_CLIENT_SECRET,
@@ -88,6 +89,7 @@ const development = {
   },
   jwt: {
     secret: JWT_SECRET,
+    adminSecret: JWT_ADMIN_SECRET,
   },
   googleAds: {
     clientId: GOOGLE_ADS_CLIENT_ID,

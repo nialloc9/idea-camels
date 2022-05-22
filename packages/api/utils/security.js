@@ -17,7 +17,7 @@ const {
  * @param {string} jwToken
  * @returns {*}
  */
-const jwtVerify = (jwToken) => {
+const jwtVerify = (jwToken, secret=config.jwToken.secret) => {
   try {
     return [null, jwt.verify(jwToken, secret)];
   } catch (err) {
@@ -79,6 +79,7 @@ const requiredParams = ({
   body,
   headers,
   isAuth = false,
+  isAdmin = false,
   required,
 }) =>
   new Promise((resolve, reject) => {
@@ -88,7 +89,7 @@ const requiredParams = ({
 
     const bearer = Authorization || authorization;
 
-    if (isAuth && !bearer) {
+    if ((isAuth || isAdmin) && !bearer) {
       reject(
         errors["2003"]({
           endpoint,
@@ -182,23 +183,24 @@ const validateAndParse = async ({
   req: { headers, body },
   required,
   isAuth = true,
+  isAdmin = false,
 }) =>
   new Promise(async (resolve, reject) => {
     try {
       logIncoming({ endpoint, headers, body });
 
-      await requiredParams({ endpoint, body, headers, required, isAuth });
+      await requiredParams({ endpoint, body, headers, required, isAuth, isAdmin });
 
       const response = { ...body };
 
-      if (isAuth) {
+      if (isAuth || isAdmin) {
         const { Authorization, authorization } = headers;
 
         const bearer = Authorization || authorization;
 
         const [, token] = bearer.split(" ");
 
-        const [error, decodedToken] = jwtVerify(token);
+        const [error, decodedToken] = jwtVerify(token, isAdmin ? config.jwt.adminSecret : undefined);
 
         if (error) return reject(error);
 

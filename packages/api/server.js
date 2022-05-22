@@ -13,10 +13,10 @@ app.use(...middleware);
 // Don't expose any software information to potential hackers.
 app.disable("x-powered-by");
 
-endpoints.forEach(({ uri, required = [], isAuth = false, func }) =>
+endpoints.forEach(({ uri, required = [], isAuth = false, isAdmin=false, func }) =>
   app.post(uri, async (req, res) => {
     try {
-      const data = await validateAndParse({ uri, req, required, isAuth });
+      const data = await validateAndParse({ uri, req, required, isAuth, isAdmin });
 
       const payload = await func({ data, uri, caller: data.caller });
 

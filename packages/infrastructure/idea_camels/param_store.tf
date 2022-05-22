@@ -1,6 +1,7 @@
 locals {
   param_store = [
     "/${var.environment}/api/jwt_secret",
+    "/${var.environment}/api/jwt_admin_secret",
     "/${var.environment}/api/password_secret",
     "/${var.environment}/database/password",
     "/${var.environment}/stripe/secret_key",
@@ -31,6 +32,14 @@ data "aws_ssm_parameter" "api_jwt_secret" {
 
   depends_on = [
     aws_ssm_parameter.secret
+  ]
+}
+
+data "aws_ssm_parameter" "api_jwt_admin_secret" {
+  name = "/${var.environment}/api/jwt_admin_secret"
+
+  depends_on = [
+    aws_ssm_parameter.jwt_admin_secret
   ]
 }
 

@@ -20,7 +20,6 @@
         headline,
         headline2,
         keywords,
-        caller,
         budget,
         shouldConfigureInfra="y",
         shouldConfigureClient="y",
@@ -51,10 +50,10 @@
               ...defaulTaskConfig,
               environmentVariables: [
                 ...defaulTaskConfig.environmentVariables, 
-                { name: "SHOULD_CONFIGURE_INFRASTRUCTURE", value: shouldConfigureInfra },
-                { name: "SHOULD_CONFIGURE_CLIENT", value: shouldConfigureClient },
-                { name: "SHOULD_CONFIGURE_CAMPAIGN", value: shouldConfigureCampaign },
-                { name: "SHOULD_RUN_POST_BUILD", value: shouldRunPostBuild },
+                { "name": "SHOULD_CONFIGURE_INFRASTRUCTURE", value: shouldConfigureInfra },
+                { "name": "SHOULD_CONFIGURE_CLIENT", value: shouldConfigureClient },
+                { "name": "SHOULD_CONFIGURE_CAMPAIGN", value: shouldConfigureCampaign },
+                { "name": "SHOULD_RUN_POST_BUILD", value: shouldRunPostBuild },
             ]
           }
         );

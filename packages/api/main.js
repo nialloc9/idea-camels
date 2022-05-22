@@ -48,7 +48,7 @@ exports.handler = async (event) => {
         data: { event },
       });
 
-    const { uri, required = [], isAuth = false, func } = endpoint;
+    const { uri, required = [], isAuth = false, isAdmin=false, func } = endpoint;
     logger.info(endpoint, `${uri} found`);
 
     const data = await validateAndParse({
@@ -56,6 +56,7 @@ exports.handler = async (event) => {
       req: { headers, body: JSON.parse(body) },
       required,
       isAuth,
+      isAdmin
     });
 
     const payload = await func({ data, uri, caller: data.caller });
