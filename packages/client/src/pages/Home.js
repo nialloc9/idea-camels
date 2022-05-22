@@ -15,14 +15,13 @@ import {
 } from "../components/Styled/Table";
 import { Block } from "../components/Styled/Block";
 import { Message } from "../components/Message";
-
 import { PieChart } from "../components/PieChart";
 import { Header } from "../components/Header";
 import withPageAnalytics from "../hoc/withPageAnalytics";
 import { withLoader } from "../hoc/withLoader";
 import theme from "../config/theme";
 import { remCalc } from "../utils/style";
-import { formatToUtc } from "../utils/utils";
+import { formatToUtc, formatGoogleAdsMicros } from "../utils/utils";
 import { connect } from "../store";
 import { getExperimentNotSelectedMessage } from "./utils/home";
 
@@ -142,14 +141,14 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                       value: impressions,
                       color: "orange",
                       tooltip:
-                        "Searched for and looked at your ad. Can be good indicator of interest.",
+                        "Searched for and looked at your ad. A good indicator of interest.",
                     },
                     {
-                      title: "Engagement",
+                      title: "Expanded Ad",
                       value: engagements,
                       color: "green",
                       tooltip:
-                        "Number of people who expanded your ad. A good indicator of interest.",
+                        "Number of people who expanded your ad. A decent indicator of interest.",
                     },
                   ]}
                   title="Metrics"
@@ -227,9 +226,15 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                   </TableHeader>
                   <TableBody>
                     <TableRow>
-                      <TableCell>{cost_micros}</TableCell>
-                      <TableCell>{average_cpc || 0}</TableCell>
-                      <TableCell>{average_cpm || 0}</TableCell>
+                      <TableCell>
+                        {formatGoogleAdsMicros(cost_micros)}
+                      </TableCell>
+                      <TableCell>
+                        {formatGoogleAdsMicros(average_cpc)}
+                      </TableCell>
+                      <TableCell>
+                        {formatGoogleAdsMicros(average_cpm)}
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>

@@ -128,3 +128,19 @@ export const getQueryParameterByName = (name) => {
   const match = RegExp("[?&]" + name + "=([^&]*)").exec(window.location.search);
   return match && decodeURIComponent(match[1].replace(/\+/g, " "));
 };
+
+/**
+ * @description formats google micros to 2 decimal places
+ * @param {int} micros
+ */
+export const formatGoogleAdsMicros = (micros) => {
+  if (!micros) return 0;
+
+  const macro = micros / 1000000;
+
+  if (macro < 1) return 1.0;
+
+  if (typeof micros === "string") return parseFloat(macro).toFixed(2);
+
+  return macro.toFixed(2);
+};
