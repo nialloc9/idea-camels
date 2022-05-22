@@ -3,18 +3,11 @@ import { Grid, GridRow, GridColumn } from "../Grid";
 import { Button } from "../Styled/Button";
 import { Segment } from "../Styled/Segment";
 import { Header } from "../Styled/Header";
-import {
-  Table,
-  TableHeader,
-  TableHeaderCell,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "../Styled/Table";
 import { Form } from "../Form/Form";
 import { FormInput } from "../Form/Input";
 import { FormDropdown } from "../Form/Dropdown";
 import { Message } from "../Message";
+import Price from "../Price";
 import { ListHeader, List, ListItem } from "../List";
 import { withForm } from "../../hoc/withForm";
 import {
@@ -140,7 +133,17 @@ class CreateForm extends Component {
                     display="block"
                     tabletDisplay="inline-block"
                     placeholder="Please add a domain to purchase for your experiment"
-                    validate={[validateRequired, validateDomain]}
+                    validate={[
+                      validateRequired,
+                      validateDomain,
+                      (value) =>
+                        calculateDomainPrice({
+                          domain: value,
+                          domainPrices,
+                        }) === 0
+                          ? "Domain Unavailable"
+                          : undefined,
+                    ]}
                   />
                   {this.renderSuggestDomains()}
                 </GridColumn>
@@ -388,60 +391,27 @@ class CreateForm extends Component {
             </Grid>
           </Segment>
 
-          <Segment padded>
-            <Header textAlign="left">Cost</Header>
-            <Grid container centered stackable>
-              <GridRow centered columns={1}>
-                <GridColumn>
-                  <Table
-                    celled
-                    padded
-                    textAlign="center"
-                    verticalAlign="middle"
-                  >
-                    <TableHeader>
-                      <TableHeaderCell>Service Fee ($)</TableHeaderCell>
-                      <TableHeaderCell>Domain Fee ($)</TableHeaderCell>
-                      <TableHeaderCell>Ad budget ($)</TableHeaderCell>
-                      <TableHeaderCell>Total ($)</TableHeaderCell>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>20</TableCell>
-                        <TableCell>
-                          {calculateDomainPrice({
-                            domain,
-                            domainPrices,
-                          })}
-                        </TableCell>
-                        <TableCell>{budget}</TableCell>
-                        <TableCell>
-                          {calculateTotalExperimentPrice({
-                            domain,
-                            domainPrices,
-                            budget,
-                          })}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </GridColumn>
-              </GridRow>
-              <GridRow>
-                <GridColumn>
-                  <Button
-                    positive
-                    disabled={submitting || pristine}
-                    isLoading={submitting}
-                    action="create-experiment-form-1-submit-click"
-                    onClick={() => this.setState({ isConfirmOpen: true })}
-                  >
-                    Next
-                  </Button>
-                </GridColumn>
-              </GridRow>
-            </Grid>
-          </Segment>
+          <Price
+            shouldShowButton
+            domainFee={calculateDomainPrice({
+              domain,
+              domainPrices,
+            })}
+            adBudget={budget}
+            total={calculateTotalExperimentPrice({
+              domain,
+              domainPrices,
+              budget,
+            })}
+            action="create-experiment-form-1-submit-click"
+            disabled={
+              submitting ||
+              pristine ||
+              calculateDomainPrice({ domain, domainPrices }) === 0
+            }
+            isLoading={submitting}
+            onClick={() => this.setState({ isConfirmOpen: true })}
+          />
         </Form>
       </Segment>
     );

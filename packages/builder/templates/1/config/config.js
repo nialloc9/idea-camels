@@ -7,7 +7,7 @@ export default {
   },
   experiment: {
     experimentRef: process.env.EXPERIMENT_REF,
-    comingSoonUrl: `https://${process.env.DOMAIN}/coming-soon?experimentRef=${process.env.EXPERIMENT_REF}&domain=${process.env.DOMAIN}`,
+    comingSoonUrl: `https://ideacamels.com/coming-soon?experimentRef=${process.env.EXPERIMENT_REF}&domain=${process.env.DOMAIN}`,
     domain: process.env.DOMAIN,
     themeKey: process.env.THEME_KEY,
     contentKey: process.env.CONTENT_KEY,

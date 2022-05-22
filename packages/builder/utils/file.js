@@ -55,6 +55,7 @@ experiment_ref="${experimentRef}"
 
 const writeConfig = async ({ 
   config: { 
+    webAddress,
     experiment: {
       themeKey,
       contentKey,
@@ -98,6 +99,7 @@ export default {
   },
   experiment: {
     experimentRref: "${experimentRef}",
+    comingSoonUrl: "${webAddress}/coming-soon?experimentRef=${experimentRef}&domain=${domain}",
     domain: "${domain}",
     themeKey: "${themeKey}",
     contentKey: "${contentKey}",
@@ -111,6 +113,7 @@ export default {
   writeToFile(path, str);
   logger.info({ experimentRef }, "Finished writing config");
 };
+
 module.exports = {
   downloadFileFromStorage,
   writeBackendVars,

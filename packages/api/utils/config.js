@@ -112,7 +112,7 @@ const development = {
     alertChannel: 'api-dev-alerts',
     clientErrorChannel: 'client-dev-alerts'
   },
-  noInternet: true,
+  noInternet: false,
   logSuccessResponse: true,
   logErrorResponse: true,
 };
