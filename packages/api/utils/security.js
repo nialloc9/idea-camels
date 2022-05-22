@@ -17,7 +17,7 @@ const {
  * @param {string} jwToken
  * @returns {*}
  */
-const jwtVerify = (jwToken, secret=config.jwToken.secret) => {
+const jwtVerify = (jwToken, secret=config.jwt.secret) => {
   try {
     return [null, jwt.verify(jwToken, secret)];
   } catch (err) {
