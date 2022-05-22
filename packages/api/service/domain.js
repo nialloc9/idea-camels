@@ -129,9 +129,12 @@ const onPurchaseDomain = ({
         autoRenew,
       });
 
-      const {
-        data: { payment_customer_id },
-      } = await onGetAccount({ data: { accountRef }, caller });
+      const { data: accountData } = await onGetAccount({
+        data: { accountRef },
+        caller,
+      });
+      console.log('accountData', accountData)
+      const { payment_customer_id } = accountData[0];
 
       const {
         data: { prices: domainPrices },

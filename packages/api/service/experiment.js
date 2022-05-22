@@ -62,12 +62,12 @@ const onGetAccountExperiments = ({
           orderBy: "clicks",
           adGroupResourceName: mapExperimentsToAdGroupNames(experiments), // e.g ["customers/9074082905/adGroups/108117690178"]
         });
-        console.log(2, metrics)
+       
         const experimentsWithMetrics = mapMetricsToExperiment({
           experiments,
           metrics,
         });
-        console.log(3, experimentsWithMetrics)
+     
         const { data: leads } = await onGetMultipleLeads({
           data: {
             experimentRef: experimentsWithMetrics.map(
@@ -76,7 +76,7 @@ const onGetAccountExperiments = ({
           },
           caller,
         });
-        console.log(4, leads)
+        
         response.experiments = mapExperimentsToLeads({
           experiments: experimentsWithMetrics,
           leads,
