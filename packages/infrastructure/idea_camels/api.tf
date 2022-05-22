@@ -236,3 +236,4 @@ resource "aws_iam_role_policy_attachment" "api_permissions" {
   role       = module.lambda_api.iam_role_name
   policy_arn = aws_iam_policy.api_permissions.arn
 }
+
