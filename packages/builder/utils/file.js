@@ -62,6 +62,7 @@ const writeConfig = async ({
       experimentRef,
       domain,
       headline,
+      headline2,
       description,
       keywords
     }, 
@@ -105,6 +106,7 @@ export default {
     contentKey: "${contentKey}",
     description: "${description}",
     headline: "${headline}",
+    headline2: "${headline2}",
     keywords: [${concatArrayToString({ arr: keywords })}]
   }
 };   

@@ -15,8 +15,30 @@
 #
 set -e
 
+SHOULD_CONFIGURE_INFRASTRUCTURE="${SHOULD_CONFIGURE_INFRASTRUCTURE:-'y'}"
+SHOULD_CONFIGURE_CLIENT="${SHOULD_CONFIGURE_CLIENT:-'y'}"
+SHOULD_CONFIGURE_CAMPAIGN="${SHOULD_CONFIGURE_CAMPAIGN:-'y'}"
+SHOULD_RUN_POST_BUILD="${SHOULD_RUN_POST_BUILD:-'y'}"
+
 make init-experiment
+
+if [ $SHOULD_CONFIGURE_INFRASTRUCTURE == "y" ]
+then
 make configure-infrastructure
+fi
+
+
+if [ $SHOULD_CONFIGURE_CLIENT == "y" ]
+then
 make configure-client
+fi
+
+if [ $SHOULD_CONFIGURE_CAMPAIGN == "y" ]
+then
 make configure-campaign
+fi
+
+if [ $SHOULD_RUN_POST_BUILD == "y" ]
+then
 make post-build
+fi
