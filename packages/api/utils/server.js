@@ -183,7 +183,7 @@ const endpoints = [
     func: onGetAdPerformance,
   },
   {
-    uri: "/admin/run-experiment",
+    uri: "/backend/run-experiment",
     required: [
       "domain",
       "experimentRef",
