@@ -205,6 +205,7 @@ resource "aws_iam_policy" "api_permissions" {
   "Statement": [
     {
       "Action": [
+        "route53:*",
         "route53domains:*",
         "ecs:runTask",
         "iam:PassRole"
