@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import { remCalc } from "../../utils/utils";
 import { FormInput } from "../Form/Input";
 import Form from "../Form/Form";

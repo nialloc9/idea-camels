@@ -1,7 +1,7 @@
 import React from "react";
 import NextHead from "next/head";
 import { config, content } from "config";
-import { concatArrayToString } from "utils/utils";
+import { concatArrayToString } from "../../utils/utils";
 
 export default function Head({}) {
   const metaData = [
