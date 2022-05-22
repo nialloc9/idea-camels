@@ -39,7 +39,7 @@ data "aws_ssm_parameter" "api_jwt_admin_secret" {
   name = "/${var.environment}/api/jwt_admin_secret"
 
   depends_on = [
-    aws_ssm_parameter.jwt_admin_secret
+    aws_ssm_parameter.secret
   ]
 }
 
