@@ -2,7 +2,7 @@ const {
   onGet: onGetDomain,
   onCreate: onCreateDomain,
 } = require("../data/domain");
-const { onGet: onGetAccount } = require("../data/domain");
+const { onGet: onGetAccount } = require("../data/account");
 const {
   validateDomain,
   registerDomain,

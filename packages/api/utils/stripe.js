@@ -40,7 +40,19 @@ const chargeCustomer = ({
   accountRef,
   caller,
   description,
-}) => config.noInternet ? chargeMock :
+}) => {
+  console.log({
+    noInternet: config.noInternet,
+    customer: customerId,
+    amount,
+    currency,
+    description,
+    metadata: {
+      last_charged_by_caller: caller,
+      account_ref: accountRef,
+    },
+  })
+  return config.noInternet ? chargeMock :
   stripeProvider.charges.create({
     customer: customerId,
     amount,
@@ -51,6 +63,7 @@ const chargeCustomer = ({
       account_ref: accountRef,
     },
   });
+}
 
 /**
  * @description https://stripe.com/docs/api/customers/update?lang=node
