@@ -1,5 +1,5 @@
 import React from "react";
-import Head from "next/head";
+import NextHead from "next/head";
 import { config, content } from "config";
 import { concatArrayToString } from "utils/utils";
 
@@ -36,7 +36,7 @@ export default function Head({}) {
   ];
 
   return (
-    <Head>
+    <NextHead>
       <title>{config.experiment.domain}</title>
       <link rel="icon" href={content.navigation.logo.src} />
       <meta
@@ -46,6 +46,6 @@ export default function Head({}) {
       {metaData.map(({ name, content }, i) => (
         <meta key={i} name={name} content={content} />
       ))}
-    </Head>
+    </NextHead>
   );
 }

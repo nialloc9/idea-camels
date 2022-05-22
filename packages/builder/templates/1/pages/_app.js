@@ -1,6 +1,5 @@
 import "semantic-ui-css/semantic.min.css";
 import React, { Fragment } from "react";
-import Head from "next/head";
 import { ThemeProvider } from "../utils/style";
 import Navigation from "../components/Navigation";
 import Head from "../components/Head";
