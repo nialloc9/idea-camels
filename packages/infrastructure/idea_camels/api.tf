@@ -134,6 +134,7 @@ resource "aws_api_gateway_deployment" "apideploy" {
   depends_on = [
     aws_api_gateway_integration.lambda_root,
     aws_api_gateway_method.proxy_root,
+    aws_api_gateway_method_settings.lambda_api,
   ]
 
   rest_api_id = aws_api_gateway_rest_api.lambda_api.id
@@ -236,4 +237,3 @@ resource "aws_iam_role_policy_attachment" "api_permissions" {
   role       = module.lambda_api.iam_role_name
   policy_arn = aws_iam_policy.api_permissions.arn
 }
-
