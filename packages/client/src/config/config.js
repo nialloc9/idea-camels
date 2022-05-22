@@ -58,8 +58,8 @@ const production = {
   },
   payments: {
     ...staging.payments,
-    // publishableKey:
-    //   "pk_live_51KXMllIWny9rFbsQGZrfmEUhExwDecjeMhvE72qJun6uCNXdt4UBpSlHtjCNMdNQMOGzlwcykXBwUa2si2ZZKOIs00HKvOY6zM",
+    publishableKey:
+      "pk_live_51KXMllIWny9rFbsQGZrfmEUhExwDecjeMhvE72qJun6uCNXdt4UBpSlHtjCNMdNQMOGzlwcykXBwUa2si2ZZKOIs00HKvOY6zM",
   },
 };
 
