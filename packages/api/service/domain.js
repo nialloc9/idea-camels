@@ -170,7 +170,7 @@ const onPurchaseDomain = ({
       }
 
       const response = await onCreateDomain({
-        data: { accountRef, domain },
+        data: { accountRef, name: domain },
         caller,
       });
 
