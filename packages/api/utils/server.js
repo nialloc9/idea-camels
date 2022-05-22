@@ -29,6 +29,7 @@ const { onAddCard, onChargeCustomer } = require("../service/payment");
 const { onCreateLead } = require("../service/lead");
 const { onGetAdPerformance } = require("../service/report");
 const { onLogError } = require("../service/log");
+const { onManuallyRunExperiment } = require("../service/admin");
 const { logger } = require("./utils");
 
 console.log("==== CONFIG ====");
@@ -180,6 +181,24 @@ const endpoints = [
     uri: "/report/get-ad-performance",
     required: [],
     func: onGetAdPerformance,
+  },
+  {
+    uri: "/admin/run-experiment",
+    required: [
+      "domain",
+      "experimentRef",
+      "themeKey",
+      "contentKey",
+      "templateRef",
+      "description",
+      "headline",
+      "headline2",
+      "keywords",
+      "caller",
+      "budget"
+    ],
+    // isAuth: true,
+    func: onManuallyRunExperiment,
   },
   {
     uri: "/health-check",
