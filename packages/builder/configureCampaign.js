@@ -54,9 +54,8 @@ const main = async () => {
     const { resource_name: budgetName } = await createBudget(
       mapExperimentToCampaignBudget({
         budget,
-        accountRef,
         experimentRef,
-        name: `${domain}_${caller}`,
+        name: `${domain}-${caller}`,
       })
     );
 
@@ -64,11 +63,10 @@ const main = async () => {
   
     const { resource_name: campaignName } = await createCampaign(
       mapExperimentToCampaign({
-        accountRef,
         experimentRef,
         budgetName,
         endDate,
-        name: `${domain}_${caller}`,
+        name: `${domain}-${caller}`,
       })
     );
 
@@ -79,8 +77,7 @@ const main = async () => {
         campaignName,
         budget,
         experimentRef,
-        accountRef,
-        name: `${domain}_${caller}`,
+        name: `${domain}-${caller}`,
       })
     );
 
