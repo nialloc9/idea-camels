@@ -122,6 +122,8 @@ const staging = {
 
 const prod = {
   ...staging,
+  isProd: true,
+  noInternet: false,
   aws: {
     ...staging.aws,
   },
