@@ -38,7 +38,7 @@ const localhost = {
   shouldLogStatusInDB: SHOULD_LOG_STATUS_IN_DB == "y",
   webAddress: "https://ideacamels.com",
   env: ENV,
-  isProd: false,
+  isProd: ENV === "prod",
   noInternet: false,
   name: "idea-camels-server",
   caller: CALLER,
