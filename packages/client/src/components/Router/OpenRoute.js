@@ -11,12 +11,14 @@ export class OpenRoute extends Component {
     token: PropTypes.string,
     pathname: PropTypes.string,
     exact: PropTypes.bool,
+    ignoreToken: PropTypes.bool,
     location: PropTypes.object,
   };
 
   static defaultProps = {
     token: "",
     exact: false,
+    ignoreToken: false,
     pathname: "/home",
     location: {},
   };
@@ -35,14 +37,22 @@ export class OpenRoute extends Component {
   }
 
   render() {
-    const { shouldShowNavigation, component: Component, exact, path, token, location } = this.props;
+    const {
+      shouldShowNavigation,
+      ignoreToken,
+      component: Component,
+      exact,
+      path,
+      token,
+      location,
+    } = this.props;
 
     return (
       <Route
         exact={exact}
         path={path}
         render={(props) =>
-          token === "" ? (
+          ignoreToken || token === "" ? (
             <Fragment>
               {shouldShowNavigation && <Navigation {...props} />}
               <Component {...props} />

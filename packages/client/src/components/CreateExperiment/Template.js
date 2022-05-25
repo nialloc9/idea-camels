@@ -12,6 +12,7 @@ import {
   onSetNewExperiment,
 } from "../../store/actions/experiment";
 import { connect } from "../../store";
+import { history } from "../../store/middleware/history";
 
 const BillingModal = withModal(Billing);
 
@@ -23,7 +24,6 @@ const Template = ({
   onSubmit,
   onSetFormIndex,
   onSetNewExperiment,
-  history,
 }) => {
   if ([templateRef, content, theme].some((o) => !o)) return null;
 

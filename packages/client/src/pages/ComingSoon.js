@@ -89,7 +89,7 @@ const SignUpContainer = styled.div`
   }
 `;
 
-export default withPageAnalytics(({ datata: { afata } }) => (
+export default withPageAnalytics(() => (
   <Container>
     <InnerContainer>
       <Heading>Coming Soon</Heading>

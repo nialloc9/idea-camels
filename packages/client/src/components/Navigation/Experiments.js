@@ -1,7 +1,8 @@
 import React from "react";
 import withAnalytics from "../../hoc/withAnalytics";
 import { Item } from "../Styled/Menu";
-import { Dropdown, DropdownMenu, DropdownItem } from "../Dropdown";
+import { DropdownMenu, DropdownItem } from "../Dropdown";
+import { Dropdown } from "../Styled/Dropdown";
 import { Loader } from "../Loader";
 import { SoftLink } from "../Link";
 
@@ -29,7 +30,7 @@ export const Experiments = ({ experiments, match = {}, isLoading }) => {
 
   return (
     <AnalyticsMenuItem action="navigation-experiments" label="click">
-      <Dropdown text={experimentText}>
+      <Dropdown text={experimentText} margin="auto">
         <DropdownMenu size="mini">
           {experiments.map(({ experiment_ref, name }) => (
             <SoftLink to={`/home?experiment_ref=${experiment_ref}`}>

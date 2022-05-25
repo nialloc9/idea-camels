@@ -205,6 +205,7 @@ const onCreateExperiment = ({
         mapBuildExperimentToECSConfig({
           domain: name,
           experimentRef: newExperiment.experiment_ref,
+          accountRef,
           themeKey,
           contentKey,
           templateRef,

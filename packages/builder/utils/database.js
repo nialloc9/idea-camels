@@ -41,6 +41,7 @@ const getConnection = async () =>
 
 const query = async (query, data, dataLayer, newConnection) =>
   new Promise(async (resolve, reject) => {
+    console.log('newConnection', newConnection)
     const connection = newConnection || (await getConnection());
 
     connection.query(query, data, (error, results) => {

@@ -15,7 +15,7 @@ const {
   GOOGLE_ADS_CLIENT_SECRET,
   GOOGLE_ADS_REFRESH_TOKEN,
   GOOGLE_ADS_DEVELOPER_TOKEN,
-  GOOGLE_ADS_CUSTOMER_ID,
+  GOOGLE_ADS_CUSTOMER_ID="123-123-123",
   BUILDER_CLUSTER_NAME,
   BUILDER_TASK_NAME,
   THEMES_BUCKET,
@@ -114,7 +114,7 @@ const development = {
     alertChannel: 'api-dev-alerts',
     clientErrorChannel: 'client-dev-alerts'
   },
-  noInternet: false,
+  noInternet: true,
   logSuccessResponse: true,
   logErrorResponse: true,
 };

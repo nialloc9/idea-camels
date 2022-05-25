@@ -13,6 +13,7 @@
     data: {
         domain,
         experimentRef,
+        accountRef,
         themeKey,
         contentKey,
         templateRef,
@@ -34,6 +35,7 @@
         const defaulTaskConfig = mapBuildExperimentToECSConfig({
             domain,
             experimentRef,
+            accountRef,
             themeKey,
             contentKey,
             templateRef,

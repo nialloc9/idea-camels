@@ -6,6 +6,7 @@ describe("experiment utils test suite", () => {
 
     const domain = "test"
     const experimentRef = 1
+    const accountRef = 1
     const themeKey = "test/theme.json"
     const contentKey = "test/content.json"
     const templateRef = 2
@@ -19,6 +20,7 @@ describe("experiment utils test suite", () => {
       mapBuildExperimentToECSConfig({
         domain,
         experimentRef,
+        accountRef,
         themeKey,
         contentKey,
         templateRef,
@@ -38,6 +40,7 @@ describe("experiment utils test suite", () => {
           value: `${experimentRef}`,
         },
         { name: "TEMPLATE_REF", value: `${templateRef}` },
+        { name: "ACCOUNT_REF", value: `${accountRef}` },
         { name: "CALLER", value: caller },
         { name: "DOMAIN", value: domain },
         { name: "THEME_KEY", value: themeKey },
@@ -46,9 +49,10 @@ describe("experiment utils test suite", () => {
       { name: "DESCRIPTION", value: description },
       { name: "HEADLINE", value: headline },
       { name: "HEADLINE_2", value: headline2 },
+      { name: 'BUDGET', value: `${budget}` },
       { name: 'KEYWORD_0', value: keywords[0] },
       { name: 'KEYWORD_1', value: keywords[1] },
-      { name: 'BUDGET', value: `${budget}` },
+      
       ],
     });
   });

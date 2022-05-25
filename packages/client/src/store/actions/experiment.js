@@ -56,7 +56,10 @@ export const onFetch = () => async (dispatch, getState) => {
  * @description creates a new experiment for the account
  * @returns
  */
-export const onCreate = ({} = {}, callback) => async (dispatch, getState) => {
+export const onCreate = (experimentToCreate, callback) => async (
+  dispatch,
+  getState
+) => {
   const onSetState = setState(dispatch);
 
   onSetState({ isCreateLoading: true, createErrorMessage: "" });

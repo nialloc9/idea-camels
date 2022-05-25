@@ -58,7 +58,7 @@ const {logger} = require('./utils')
  * @description returns a token that can be placed on a sites HTML, file, or DNS records
  * HTML -> <meta name="google-site-verification" content="-dhsoFQadgDKJR7BsB6bc1j5yfqjUpg_b-1pFjr7o3x" />
  */
-const getSiteVerificationToken = ({ domain, verificationMethod='META' }, config = defaultConfig, { siteVerificationV1 = siteVerification_v1 } = {}) => {
+const getSiteVerificationToken = async ({ domain, verificationMethod='META' }, config = defaultConfig, { siteVerificationV1 = siteVerification_v1 } = {}) => {
     try {
 
         const auth = new google.auth.GoogleAuth({

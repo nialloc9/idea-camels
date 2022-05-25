@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --max-old-space-size=4096 --max_old_space_size=4096 configureExperiment.js | bunyan"
+    "start": "node --max-old-space-size=4096 --max_old_space_size=4096 configureExperiment.js | bunyan",
+    "test": "jest"
+  },
+  "jest": {
+    "testPathIgnorePatterns": ["templates", "experiments"]
   },
   "dependencies": {
     "@slack/web-api": "^6.7.1",
@@ -32,6 +36,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/preset-env": "^7.17.10",
+    "jest": "^28.1.0",
     "react-snap": "^1.23.0"
   }
 }

@@ -59,6 +59,7 @@ const routes = [
     path: "/coming-soon",
     component: ComingSoon,
     shouldShowNavigation: false,
+    ignoreToken: true,
   },
   {
     path: "/404",
@@ -77,7 +78,13 @@ export default () => (
         <ThemeProvider theme={theme}>
           <Switch>
             {routes.map(
-              ({ path, component, isAuth, shouldShowNavigation = true }) =>
+              ({
+                path,
+                component,
+                isAuth,
+                shouldShowNavigation = true,
+                ignoreToken,
+              }) =>
                 isAuth ? (
                   <PrivateRoute
                     shouldShowNavigation={shouldShowNavigation}
@@ -91,6 +98,7 @@ export default () => (
                     key={path}
                     path={path}
                     component={component}
+                    ignoreToken={ignoreToken}
                   />
                 )
             )}

@@ -187,6 +187,7 @@ const endpoints = [
     required: [
       "domain",
       "experimentRef",
+      "accountRef",
       "themeKey",
       "contentKey",
       "templateRef",
