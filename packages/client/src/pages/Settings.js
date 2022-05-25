@@ -48,7 +48,7 @@ export default connect(
   ({
     account: {
       updateSuccessMesssage,
-      data: { firstName, lastName, phone, email },
+      data: { first_name: firstName, last_name: lastName, phone, email },
     },
   }) => ({ updateSuccessMesssage, firstName, lastName, phone, email }),
   { onUpdateAccount }

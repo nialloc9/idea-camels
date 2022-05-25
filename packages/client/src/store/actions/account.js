@@ -74,7 +74,13 @@ export const onFetchAccount = ({
 
   const { token, account, card } = data;
 
-  onSetState({ isFetchLoading: false, fetchErrorMessage: "", token, account, card });
+  onSetState({
+    isFetchLoading: false,
+    fetchErrorMessage: "",
+    token,
+    data: account,
+    card,
+  });
 };
 
 /**
@@ -100,7 +106,7 @@ export const onReAuthAccount = (originalToken) => async (dispatch) => {
 
   onSetState({
     token,
-    account,
+    data: account,
   });
 };
 

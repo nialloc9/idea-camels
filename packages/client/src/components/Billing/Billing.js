@@ -9,7 +9,7 @@ class Billing extends Component {
   constructor(props) {
     super(props);
 
-    const { card } = props;
+    const { card = {} } = props;
 
     this.state = { index: !card.id ? 0 : 1 };
   }
@@ -19,7 +19,7 @@ class Billing extends Component {
     const {
       isAddCardLoading,
       addCardErrorMessage,
-      card,
+      card = {},
       onAddCard,
     } = this.props;
 
