@@ -13,9 +13,9 @@ const development = {
   isProd: NODE_ENV === "production",
   pathname,
   social: {
-    facebook: "https://facebook.com",
-    twitter: "https://twitter.com",
-    linkedin: "https://linkedin.com",
+    facebook: "https://www.facebook.com/IdeaCamels-106851625376001",
+    twitter: "https://twitter.com/IdeaCamels",
+    linkedin: "https://www.linkedin.com/company/ideacamels",
   },
   ga: {
     uaId: "UA-1234567-1",

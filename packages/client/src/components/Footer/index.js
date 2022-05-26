@@ -6,6 +6,7 @@ import { Grid, GridColumn } from "../Grid";
 import { Image } from "../Image";
 import { List, ListItem } from "../List";
 import { Icon } from "../Icon";
+import config from "../../../../api/utils/config";
 
 const Container = styled.section`
   min-height: ${({
@@ -107,32 +108,24 @@ export default withTheme(
             <List>
               <AnalyticsListItem
                 as="a"
-                href="/coming-soon"
+                href={config.social.facebook}
                 action="footer-contact"
               >
                 Contact Us
               </AnalyticsListItem>
-              <AnalyticsListItem as="a" href="/coming-soon" action="footer-taq">
+              <AnalyticsListItem as="a" href="/taq" action="footer-taq">
                 Terms And Conditions
               </AnalyticsListItem>
-              <AnalyticsListItem
-                as="a"
-                href="/coming-soon"
-                action="footer-privacy"
-              >
+              <AnalyticsListItem as="a" href="/taq" action="footer-privacy">
                 Privacy Policy
               </AnalyticsListItem>
-              <AnalyticsListItem
-                as="a"
-                href="/coming-soon"
-                action="footer-cookies"
-              >
+              <AnalyticsListItem as="a" href="/taq" action="footer-cookies">
                 Cookies Policy
               </AnalyticsListItem>
             </List>
           </GridColumn>
           <GridColumn>
-            <a href="/coming-soon">
+            <a href={config.social.facebook}>
               <AnalyticsIcon
                 action="footer-facebook"
                 bordered
@@ -140,7 +133,7 @@ export default withTheme(
                 name="facebook"
               />
             </a>
-            <a href="/coming-soon">
+            <a href={config.social.twitter}>
               <AnalyticsIcon
                 action="footer-facebook"
                 bordered
@@ -148,7 +141,7 @@ export default withTheme(
                 name="twitter"
               />
             </a>
-            <a href="/coming-soon">
+            <a href={config.social.linkedin}>
               <AnalyticsIcon
                 action="footer-facebook"
                 bordered

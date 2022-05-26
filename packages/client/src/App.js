@@ -14,6 +14,7 @@ import Pricing from "./pages/Pricing";
 import AboutUs from "./pages/AboutUs";
 import Settings from "./pages/Settings";
 import PasswordReset from "./pages/PasswordReset";
+import Taq from "./pages/Taq";
 import store, { Provider } from "./store";
 import { history } from "./store/middleware/history";
 import { Router, Switch, OpenRoute, PrivateRoute } from "./components/Router";
@@ -60,6 +61,10 @@ const routes = [
     component: ComingSoon,
     shouldShowNavigation: false,
     ignoreToken: true,
+  },
+  {
+    path: "/taq",
+    component: Taq,
   },
   {
     path: "/404",
