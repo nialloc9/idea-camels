@@ -40,7 +40,6 @@ export const handleEvent = async (action, label) => {
   };
 
   if (config.isProd) {
-    console.log("prod", action, options);
     return await analytics.track(action, options, (a) => console.log(a));
   }
 
