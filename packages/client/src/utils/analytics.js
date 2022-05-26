@@ -8,10 +8,12 @@ const analytics = Analytics({
   app: "idea-camels",
   plugins: [
     googleAnalytics({
-      trackingId: config.ga.uaId,
+      trackingId: "UA-173719058-1",
     }),
   ],
 });
+
+analytics.plugins.enable("google");
 
 if (config.isProd) {
   hotjar.initialize(config.hotjar.id, config.hotjar.version);
@@ -24,7 +26,7 @@ if (config.isProd) {
  * @param {string} action
  * @param {string} label
  */
-export const handleEvent = (action, label) => {
+export const handleEvent = async (action, label) => {
   const {
     location: { pathname },
   } = document;
@@ -33,12 +35,13 @@ export const handleEvent = (action, label) => {
 
   const options = {
     category: ec === "" ? "landing" : ec,
-    value: action,
+    // value: action,
     label: label,
   };
 
   if (config.isProd) {
-    return analytics.track(action, options);
+    console.log("prod", action, options);
+    return await analytics.track(action, options, (a) => console.log(a));
   }
 
   logger.info("SIMULATED GA EVENT", options);

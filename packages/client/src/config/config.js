@@ -10,7 +10,7 @@ const development = {
   domainUrl: "localhost:3000",
   buildNumber: REACT_APP_BUILD_VERSION,
   env: NODE_ENV,
-  isProd: NODE_ENV === "production",
+  isProd: true,
   pathname,
   social: {
     facebook: "https://www.facebook.com/IdeaCamels-106851625376001",

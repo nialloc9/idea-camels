@@ -197,7 +197,7 @@ export default withTheme(({ theme: { block3 } }) => (
         </MainText>
         <ButtonContainer>
           <Button
-            href="/products"
+            href="/sign-up"
             color="black"
             size={block3.overlay.button.size}
             basic
