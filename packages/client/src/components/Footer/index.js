@@ -6,7 +6,7 @@ import { Grid, GridColumn } from "../Grid";
 import { Image } from "../Image";
 import { List, ListItem } from "../List";
 import { Icon } from "../Icon";
-import config from "../../../../api/utils/config";
+import { config } from "../../config";
 
 const Container = styled.section`
   min-height: ${({
