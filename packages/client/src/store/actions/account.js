@@ -3,6 +3,7 @@ import { onResetStore } from "./store";
 import { postApi } from "../../utils/request";
 import { FORM_ERROR } from "../../utils/form";
 import { getQueryParameterByName } from "../../utils/utils";
+import { handleIdentify } from "../../utils/analytics";
 
 /**
  * sets the loading state
@@ -81,6 +82,8 @@ export const onFetchAccount = ({
     data: account,
     card,
   });
+
+  handleIdentify(account.account_ref);
 };
 
 /**
@@ -149,6 +152,8 @@ export const onCreateAccount = ({
     token,
     data: { firstName, lastName, phone, email, password },
   });
+
+  handleIdentify(account.account_ref);
 };
 
 /**
