@@ -145,7 +145,7 @@ export const onCreateAccount = ({
     return { [FORM_ERROR]: error.message };
   }
 
-  const { token } = data;
+  const { token, account } = data;
 
   onSetState({
     isCreateLoading: false,
