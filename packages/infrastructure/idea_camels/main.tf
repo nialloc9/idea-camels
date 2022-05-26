@@ -39,6 +39,18 @@ locals {
       value = "ga224gzycbh3vxcjbddosl7c6wjkdrmu.dkim.amazonses.com."
     },
     {
+      name  = "k2._domainkey.ideacamels.com"
+      ttl   = 300
+      type  = "CNAME"
+      value = "dkim2.mcsv.net"
+    },
+    {
+      name  = "k3._domainkey.ideacamels.com"
+      ttl   = 300
+      type  = "CNAME"
+      value = "dkim3.mcsv.net"
+    },
+    {
       name  = "ideacamels.com."
       ttl   = 300
       type  = "TXT"
