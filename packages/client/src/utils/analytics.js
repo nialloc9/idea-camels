@@ -57,7 +57,10 @@ export const handlePageView = () => {
  * @description handles a page view
  */
 export const handleIdentify = (id) => {
-  if (config.isProd) return analytics.identify(id);
+  if (config.isProd) {
+    logger.info("CUSTOMER FOUND", { id });
+    return analytics.identify(`${id}`);
+  }
 
   logger.info("SIMULATED GA IDENTIFY");
 };
