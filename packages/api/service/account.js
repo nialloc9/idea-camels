@@ -166,7 +166,7 @@ const onCreate = ({ data, caller }) =>
       try {
         await addCustomerToList({ email: data.email, firstName: data.firstName, lastName: data.lastName })
       } catch (marketingEmailError) {
-        logger.error({ account_ref: data.account_ref }, "ERROR ADDING CUSTOMER TO MARKETING LIST")
+        logger.error({ account_ref: data.account_ref, marketingEmailError }, "ERROR ADDING CUSTOMER TO MARKETING LIST")
       }
       
       resolve(handleSuccess("account created", responeData));
