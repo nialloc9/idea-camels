@@ -24,6 +24,7 @@ locals {
       GOOGLE_ADS_REFRESH_TOKEN    = "${data.aws_ssm_parameter.google_ads_refresh_token.value}",
       GOOGLE_ADS_DEVELOPER_TOKEN  = "${data.aws_ssm_parameter.google_ads_developer_token.value}",
       SLACK_TOKEN  = "${data.aws_ssm_parameter.slack_token.value}",
+      MAILCHIMP_API_KEY  = "${data.aws_ssm_parameter.mailchimp_api_key.value}",
     }
   }
 }

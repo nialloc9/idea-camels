@@ -10,7 +10,7 @@ const {
   scrubAccount,
   createJwToken,
 } = require("../utils/security");
-const { handleSuccess } = require("../utils/utils");
+const { logger, handleSuccess } = require("../utils/utils");
 const { now } = require("../utils/date");
 const errors = require("../utils/errors");
 const config = require("../utils/config");
@@ -21,6 +21,7 @@ const {
   updateCustomer,
 } = require("../utils/stripe");
 const { sendEmail } = require("../utils/mailer/mailer");
+const { addCustomerToList } = require("../utils/marketingEmail");
 const { resetPassword } = require("../utils/mailer/templates/resetPassword");
 
 const onLogin = ({ data: { email, password, rememberMe = false }, caller }) =>
@@ -161,7 +162,13 @@ const onCreate = ({ data, caller }) =>
         account: scrubAccount(account, ["password"]),
         token: createJwToken({ accountRef: account.account_ref }),
       };
-
+      
+      try {
+        await addCustomerToList({ email: data.email, firstName: data.firstName, lastName: data.lastName })
+      } catch (marketingEmailError) {
+        logger.error({ account_ref: data.account_ref }, "ERROR ADDING CUSTOMER TO MARKETING LIST")
+      }
+      
       resolve(handleSuccess("account created", responeData));
     } catch (error) {
       reject(error);

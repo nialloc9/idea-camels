@@ -23,7 +23,8 @@ const {
   BUILDER_SUBNET_ID_PUBLIC,
   BUILDER_SUBNET_ID_PRIVATE_0,
   BUILDER_SUBNET_ID_PRIVATE_1,
-  SLACK_TOKEN
+  SLACK_TOKEN,
+  MAILCHIMP_API_KEY = '8669452d1bbe11582489970e1404ea5c-us17'
 } = process.env;
 
 
@@ -113,6 +114,12 @@ const development = {
     token: SLACK_TOKEN,
     alertChannel: 'api-dev-alerts',
     clientErrorChannel: 'client-dev-alerts'
+  },
+  mailChimp: {
+    apiKey: MAILCHIMP_API_KEY,
+    list: {
+      default: 'ce57f13efc'
+    }
   },
   noInternet: true,
   logSuccessResponse: true,

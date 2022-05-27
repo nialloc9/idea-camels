@@ -11,6 +11,7 @@ locals {
     "/${var.environment}/google/ads/developer_token",
     "/${var.environment}/google/ads/customer_id",
     "/${var.environment}/slack/token",
+    "/${var.environment}/mailchimp/api_key"
   ]
 }
 
@@ -109,6 +110,14 @@ data "aws_ssm_parameter" "google_ads_customer_id" {
 
 data "aws_ssm_parameter" "slack_token" {
   name = "/${var.environment}/slack/token"
+
+  depends_on = [
+    aws_ssm_parameter.secret
+  ]
+}
+
+data "aws_ssm_parameter" "mailchimp_api_key" {
+  name = "/${var.environment}/mailchimp/api_key"
 
   depends_on = [
     aws_ssm_parameter.secret

@@ -109,13 +109,7 @@ export const formatToUtc = (date = createDate()) => {
     "/" +
     ("00" + date.getDate()).slice(-2) +
     "/" +
-    date.getFullYear() +
-    " " +
-    ("00" + date.getHours()).slice(-2) +
-    ":" +
-    ("00" + date.getMinutes()).slice(-2) +
-    ":" +
-    ("00" + date.getSeconds()).slice(-2)
+    date.getFullYear()
   );
 };
 
@@ -137,8 +131,6 @@ export const formatGoogleAdsMicros = (micros) => {
   if (!micros) return 0;
 
   const macro = micros / 1000000;
-
-  if (macro < 1) return 1.0;
 
   if (typeof micros === "string") return parseFloat(macro).toFixed(2);
 
