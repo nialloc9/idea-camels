@@ -1,7 +1,7 @@
 {
   "colors": {
-    "main000": "lightgrey",
-    "main001": "red",
+    "main000": "#50808E",
+    "main001": "#81C14B",
     "text000": "#2a2a2a",
     "white000": "white",
     "gray000": "#f4f4f2",

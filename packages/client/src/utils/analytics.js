@@ -61,7 +61,8 @@ export const handlePageView = () => {
 export const handleIdentify = (id) => {
   if (config.isProd) {
     logger.info("CUSTOMER FOUND", { id });
-    return analytics.identify(`${id}`);
+    analytics.identify(`${id}`);
+    return hotjar.identify(`${id}`, {});
   }
 
   logger.info("SIMULATED GA IDENTIFY");
