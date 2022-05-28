@@ -156,8 +156,6 @@ const onCreate = ({ data, caller }) =>
         caller,
       });
 
-      // TODO: send onboarding email
-
       const responeData = {
         account: scrubAccount(account, ["password"]),
         token: createJwToken({ accountRef: account.account_ref }),

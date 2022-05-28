@@ -18,25 +18,11 @@ import { Message } from "../components/Message";
 import { PieChart } from "../components/PieChart";
 import { Header } from "../components/Header";
 import withPageAnalytics from "../hoc/withPageAnalytics";
-import { withLoader } from "../hoc/withLoader";
 import theme from "../config/theme";
 import { remCalc } from "../utils/style";
-import { formatToUtc, formatGoogleAdsMicros, createDate } from "../utils/utils";
+import { formatToUtc, formatGoogleAdsMicros } from "../utils/utils";
 import { connect } from "../store";
 import { getExperimentNotSelectedMessage } from "./utils/home";
-
-const LoaderMessage = withLoader(Message);
-
-const l = [
-  { email: "zeitlin@icloud.com", created_at: "03/18/2022" },
-  { email: "seemant@sbcglobal.net", created_at: "03/15/2022" },
-  { email: "sherzodr@yahoo.ca", created_at: "03/15/2022" },
-  { email: "lauronen@msn.com", created_at: "03/16/2022" },
-  { email: "hwestiii@gmail.net", created_at: "03/17/2022" },
-  { email: "glenz@icloud.com", created_at: "03/18/2022" },
-  { email: "jeteve@aol.com", created_at: "03/15/2022" },
-  { email: "miami@gmail.net", created_at: "03/16/2022" },
-];
 
 const renderInputListItem = ({ domain, keywords }) =>
   keywords.map((o) => <ListItem key={`keywords-${o}`}>{o}</ListItem>);
@@ -49,72 +35,72 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
     (o) => o.experiment_ref === parseInt(experimentRef)
   );
 
-  // if (!experiment) {
-  //   return (
-  //     <Block
-  //       padding={remCalc(50)}
-  //       textAlign="center"
-  //       margin="auto"
-  //       minHeight={remCalc(600)}
-  //     >
-  //       <LoaderMessage isLoading={isFetchLoading} compact textAlign="center">
-  //         {getExperimentNotSelectedMessage({ experiments })}
-  //       </LoaderMessage>
-  //     </Block>
-  //   );
-  // }
+  if (!experiment) {
+    return (
+      <Block
+        padding={remCalc(50)}
+        textAlign="center"
+        margin="auto"
+        minHeight={remCalc(600)}
+      >
+        <Message isLoading={isFetchLoading} compact textAlign="center">
+          {getExperimentNotSelectedMessage({ experiments })}
+        </Message>
+      </Block>
+    );
+  }
 
-  // const {
-  //   metrics: {
-  //     clicks,
-  //     impressions,
-  //     average_cpc,
-  //     average_cpm,
-  //     cost_micros,
-  //     engagements,
-  //   } = {},
-  //   leads,
-  //   keyword_0,
-  //   keyword_1,
-  //   keyword_2,
-  //   keyword_3,
-  //   keyword_4,
-  //   keyword_5,
-  //   headline,
-  //   headline2,
-  //   name,
-  //   status,
-  // } = experiment;
+  const {
+    metrics: {
+      clicks,
+      impressions,
+      average_cpc,
+      average_cpm,
+      cost_micros,
+      engagements,
+    } = {},
+    leads,
+    keyword_0,
+    keyword_1,
+    keyword_2,
+    keyword_3,
+    keyword_4,
+    keyword_5,
+    headline,
+    headline2,
+    name,
+    status,
+  } = experiment;
 
-  // const progress =
-  //   {
-  //     PENDING: 0,
-  //     INITIALISING_EXPERIMENT: 10,
-  //     EXPERIMENT_INITIALISED: 20,
-  //     CONFIGURING_INFRA: 30,
-  //     CONFIGURED_INFRA: 40,
-  //     CONFIGURING_CLIENT: 50,
-  //     CLIENT_CONFIGURED: 60,
-  //     CONFIGURING_CAMPAIGN: 70,
-  //     CAMPAIGN_CONFIGURED: 80,
-  //     COMPLETE: 100,
-  //   }[status] || 0;
+  const progress =
+    {
+      PENDING: 0,
+      INITIALISING_EXPERIMENT: 10,
+      EXPERIMENT_INITIALISED: 20,
+      CONFIGURING_INFRA: 30,
+      CONFIGURED_INFRA: 40,
+      CONFIGURING_CLIENT: 50,
+      CLIENT_CONFIGURED: 60,
+      CONFIGURING_CAMPAIGN: 70,
+      CAMPAIGN_CONFIGURED: 80,
+      COMPLETE: 100,
+    }[status] || 0;
 
-  // if (progress !== 100) {
-  //   return (
-  //     <Block
-  //       padding={remCalc(50)}
-  //       textAlign="center"
-  //       margin="auto"
-  //       minHeight={remCalc(600)}
-  //     >
-  //       <Progress percent={progress} indicating progress />
-  //       <Message compact textAlign="center">
-  //         Experiment is building, please check again soon.
-  //       </Message>
-  //     </Block>
-  //   );
-  // }
+  if (progress !== 100) {
+    return (
+      <Block
+        padding={remCalc(50)}
+        textAlign="center"
+        margin="auto"
+        minHeight={remCalc(600)}
+      >
+        <Progress percent={progress} indicating progress />
+        <Message compact textAlign="center">
+          Experiment is building, please check again soon.
+        </Message>
+      </Block>
+    );
+  }
 
   return (
     <Fragment>
@@ -124,7 +110,7 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
             <Button
               primary
               floated="left"
-              href={`https://rentabike.com`}
+              href={`https://${name}`}
               target="_blank"
               action="view-experiment-click"
             >
@@ -142,21 +128,21 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                   data={[
                     {
                       title: "Clicks",
-                      value: 79,
+                      value: clicks,
                       color: theme.colors.main000,
                       tooltip:
                         "Searched for and clicked on your add. A great indicator of interest.",
                     },
                     {
                       title: "Impressions",
-                      value: 376,
+                      value: impressions,
                       color: "orange",
                       tooltip:
                         "Searched for and looked at your ad. A good indicator of interest.",
                     },
                     {
                       title: "Expanded Ad",
-                      value: 27,
+                      value: engagements,
                       color: "green",
                       tooltip:
                         "Number of people who expanded your ad. A decent indicator of interest.",
@@ -179,17 +165,14 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {l.map(
-                      ({ email, created_at }) =>
-                        console.log(created_at) || (
-                          <TableRow>
-                            <TableCell>{email}</TableCell>
-                            <TableCell>
-                              {formatToUtc(new Date(created_at))}
-                            </TableCell>
-                          </TableRow>
-                        )
-                    )}
+                    {leads.map(({ email, created_at }) => (
+                      <TableRow>
+                        <TableCell>{email}</TableCell>
+                        <TableCell>
+                          {formatToUtc(new Date(created_at))}
+                        </TableCell>
+                      </TableRow>
+                    ))}
                   </TableBody>
                 </Table>
               </Segment>
@@ -202,8 +185,8 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
               <Segment padded>
                 <Header>Headlines</Header>
                 <List>
-                  <ListItem>Rent your bike today</ListItem>
-                  <ListItem>Own a bike, rent it out</ListItem>
+                  <ListItem>{headline}</ListItem>
+                  <ListItem>{headline2}</ListItem>
                 </List>
               </Segment>
               <Segment padded>
@@ -211,10 +194,12 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                 <List>
                   {renderInputListItem({
                     keywords: [
-                      "rent bike",
-                      "rent a bike",
-                      "where can i rent a bike",
-                      "sell my bike",
+                      keyword_0,
+                      keyword_1,
+                      keyword_2,
+                      keyword_3,
+                      keyword_4,
+                      keyword_5,
                     ],
                   })}
                 </List>
@@ -238,9 +223,15 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                   </TableHeader>
                   <TableBody>
                     <TableRow>
-                      <TableCell>70.31</TableCell>
-                      <TableCell>0.89</TableCell>
-                      <TableCell>0.21</TableCell>
+                      <TableCell>
+                        {formatGoogleAdsMicros(cost_micros)}
+                      </TableCell>
+                      <TableCell>
+                        {formatGoogleAdsMicros(average_cpc)}
+                      </TableCell>
+                      <TableCell>
+                        {formatGoogleAdsMicros(average_cpm)}
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
