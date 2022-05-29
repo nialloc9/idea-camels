@@ -53,6 +53,7 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
           <AnalyticsAnchor
             action="home-anchor-click"
             label="redirect-to-create-experiment"
+            href="/create-experiment"
           >
             create an experiment
           </AnalyticsAnchor>{" "}
