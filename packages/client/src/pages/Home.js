@@ -14,15 +14,20 @@ import {
   TableBody,
 } from "../components/Styled/Table";
 import { Block } from "../components/Styled/Block";
+import { Image } from "../components/Styled/Image";
 import { Message } from "../components/Message";
 import { PieChart } from "../components/PieChart";
 import { Header } from "../components/Header";
 import withPageAnalytics from "../hoc/withPageAnalytics";
+import withAnalytics from "../hoc/withAnalytics";
 import theme from "../config/theme";
 import { remCalc } from "../utils/style";
 import { formatToUtc, formatGoogleAdsMicros } from "../utils/utils";
 import { connect } from "../store";
-import { getExperimentNotSelectedMessage } from "./utils/home";
+import fullReportImage from "../static/fullReportNoHeader.png";
+
+const AnalyticsImage = withAnalytics(Image);
+const AnalyticsAnchor = withAnalytics("a");
 
 const renderInputListItem = ({ domain, keywords }) =>
   keywords.map((o) => <ListItem key={`keywords-${o}`}>{o}</ListItem>);
@@ -44,8 +49,26 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
         minHeight={remCalc(600)}
       >
         <Message isLoading={isFetchLoading} compact textAlign="center">
-          {getExperimentNotSelectedMessage({ experiments })}
+          Please {experiments.length > 0 && "select or "}
+          <AnalyticsAnchor
+            action="home-anchor-click"
+            label="redirect-to-create-experiment"
+          >
+            create an experiment
+          </AnalyticsAnchor>{" "}
+          to get started.
         </Message>
+        <AnalyticsImage
+          href="/create-experiment"
+          cursor="pointer"
+          opacity={0.6}
+          hoverOpacity={0.5}
+          hoverTransition="opacity 0.5s"
+          hoverTrans
+          src={fullReportImage}
+          action="home-example-report-image-click"
+          label="redirect-to-create-experiment"
+        />
       </Block>
     );
   }

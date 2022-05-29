@@ -123,6 +123,7 @@ export default withTheme(({ theme: { block5 } }) => (
             href="/sign-up"
             size={block5.button.size}
             action="join-us-click"
+            label="block5"
           >
             JOIN US
           </Button>

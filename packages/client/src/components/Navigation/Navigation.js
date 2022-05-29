@@ -106,7 +106,8 @@ class LoggedIn extends Component {
           name="logo"
           active={activeItem === "logo"}
           onClick={this.handleItemClick}
-          action="navigation-logo-click"
+          action="navigation-click"
+          label="logo"
           href="/home"
         >
           <Image
@@ -124,8 +125,8 @@ class LoggedIn extends Component {
           name="create-experiment"
           active={activeItem === "create-experiment"}
           onClick={this.handleItemClick}
-          action="navigation-create-experiment"
-          label="click"
+          action="navigation-click"
+          label="create-experiment"
           href="/create-experiment"
         >
           Create Experiment
@@ -134,8 +135,8 @@ class LoggedIn extends Component {
           <AnalyticsMenuItem
             name="Settings"
             onClick={this.handleItemClick}
-            action="navigation-settings"
-            label="click"
+            action="navigation-click"
+            label="settings"
             href="/settings"
           />
           <AnalyticsMenuItem
@@ -144,8 +145,8 @@ class LoggedIn extends Component {
               this.handleItemClick({}, { item: "logout" });
               logout();
             }}
-            action="navigation-logout"
-            label="click"
+            action="navigation-click"
+            label="logout"
           />
         </MenuMenu>
       </Menu>

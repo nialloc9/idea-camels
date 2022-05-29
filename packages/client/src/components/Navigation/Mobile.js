@@ -41,8 +41,8 @@ const NotLoggedIn = ({ theme }) => {
           icon="align justify"
           backgroundColor={theme.colors.main001}
           color={theme.colors.white000}
-          action="navigation-mobile-button-click"
-          label="click"
+          action="navigation-mobile-click"
+          label="mobile-button"
         />
       </Item>
       {isOpen &&
@@ -125,8 +125,8 @@ class LoggedIn extends Component {
             icon="align justify"
             backgroundColor={theme.colors.main001}
             color={theme.colors.white000}
-            action="navigation-mobile-button-click"
-            label="click"
+            action="navigation-mobile-click"
+            label="mobile-button"
           />
         </Item>
         {isOpen && [
@@ -139,8 +139,8 @@ class LoggedIn extends Component {
             name="create-experiment"
             active={activeItem === "create-experiment"}
             onClick={this.handleItemClick}
-            action="navigation-create-experiment"
-            label="click"
+            action="navigation-mobile-click"
+            label="create-experiment"
             href="/create-experiment"
           >
             <Block textAlign="center" width="100%">
@@ -150,8 +150,8 @@ class LoggedIn extends Component {
           <AnalyticsMenuItem
             name="Settings"
             onClick={this.handleItemClick}
-            action="navigation-settings"
-            label="click"
+            action="navigation-mobile-click"
+            label="settings"
             href="/settings"
           >
             <Block textAlign="center" width="100%">
@@ -164,8 +164,8 @@ class LoggedIn extends Component {
               this.handleItemClick({}, { item: "logout" });
               logout();
             }}
-            action="navigation-logout"
-            label="click"
+            action="navigation-mobile-click"
+            label="logout"
           >
             <Block textAlign="center" width="100%">
               Log Out

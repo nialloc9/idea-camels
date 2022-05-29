@@ -202,6 +202,7 @@ export default withTheme(({ theme: { block3 } }) => (
             size={block3.overlay.button.size}
             basic
             action="learn-more-click"
+            label="block3"
           >
             Learn More
           </Button>

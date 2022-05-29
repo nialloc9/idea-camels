@@ -15,6 +15,7 @@ export const Image = styled(
   }) => <SemanticImage {...rest} />
 )`
   ${({ cursor = false }) => cursor && `cursor: ${cursor};`}
+  ${({ opacity = false }) => opacity && `opacity: ${opacity};`}
   ${({ display = false }) => display && `display: ${display};`}
     ${({ height = false }) => height && `height: ${height};`}
     ${({ width = false }) => width && `width: ${width};`}
@@ -36,6 +37,7 @@ export const Image = styled(
     &:hover {
     ${({ hoverTransition = false }) =>
       hoverTransition && `transition: ${hoverTransition};`}
+    ${({ hoverOpacity = false }) => hoverOpacity && `opacity: ${hoverOpacity};`}
     ${({ hoverTransition = false }) =>
       hoverTransition && `-webkit-transition: ${hoverTransition};`}
         ${({ hoverTransform = false }) =>

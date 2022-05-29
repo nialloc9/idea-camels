@@ -4,6 +4,13 @@ import { hotjar } from "react-hotjar";
 import { config } from "../config";
 import { logger } from "../utils/utils";
 
+/**
+ * RULES
+ * action for element + action e.g home-page-image-click
+ * additional information such as url, button text, form field name, or buttion text e.g firstname
+ * https://mixedanalytics.com/blog/event-tracking-naming-strategy-for-google-analytics/#:~:text=EVENT%20LABEL%20NAMING,text%2C%20scroll%20percent%2C%20etc.
+ */
+
 const analytics = Analytics({
   app: "idea-camels",
   plugins: [
@@ -35,12 +42,11 @@ export const handleEvent = async (action, label) => {
 
   const options = {
     category: ec === "" ? "landing" : ec,
-    // value: action,
     label: label,
   };
 
   if (config.isProd) {
-    return await analytics.track(action, options, (a) => console.log(a));
+    return await analytics.track(action, options);
   }
 
   logger.info("SIMULATED GA EVENT", options);

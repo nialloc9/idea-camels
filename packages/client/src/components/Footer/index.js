@@ -109,17 +109,33 @@ export default withTheme(
               <AnalyticsListItem
                 as="a"
                 href={config.social.facebook}
-                action="footer-contact"
+                action="footer-click"
+                label="contact-us"
               >
                 Contact Us
               </AnalyticsListItem>
-              <AnalyticsListItem as="a" href="/taq" action="footer-taq">
+              <AnalyticsListItem
+                as="a"
+                href="/taq"
+                action="footer-click"
+                label="taq"
+              >
                 Terms And Conditions
               </AnalyticsListItem>
-              <AnalyticsListItem as="a" href="/taq" action="footer-privacy">
+              <AnalyticsListItem
+                as="a"
+                href="/taq"
+                action="footer-click"
+                label="privacy"
+              >
                 Privacy Policy
               </AnalyticsListItem>
-              <AnalyticsListItem as="a" href="/taq" action="footer-cookies">
+              <AnalyticsListItem
+                as="a"
+                href="/taq"
+                action="footer-click"
+                label="cookies"
+              >
                 Cookies Policy
               </AnalyticsListItem>
             </List>
@@ -127,7 +143,8 @@ export default withTheme(
           <GridColumn>
             <a href={config.social.facebook}>
               <AnalyticsIcon
-                action="footer-facebook"
+                action="footer-click"
+                label="facebook"
                 bordered
                 size={iconSize}
                 name="facebook"
@@ -135,7 +152,8 @@ export default withTheme(
             </a>
             <a href={config.social.twitter}>
               <AnalyticsIcon
-                action="footer-facebook"
+                action="footer-click"
+                label="twitter"
                 bordered
                 size={iconSize}
                 name="twitter"
@@ -143,7 +161,8 @@ export default withTheme(
             </a>
             <a href={config.social.linkedin}>
               <AnalyticsIcon
-                action="footer-facebook"
+                action="footer-click"
+                label="linkedin"
                 bordered
                 size={iconSize}
                 name="linkedin"

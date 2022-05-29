@@ -180,6 +180,7 @@ export default withTheme(({ theme: { block4 } }) => (
                     size={block4.button.size}
                     basic
                     action="get-started-click"
+                    label="block4"
                   >
                     Get Started
                   </Button>

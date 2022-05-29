@@ -29,7 +29,7 @@ export const Experiments = ({ experiments, match = {}, isLoading }) => {
       : "Experiments";
 
   return (
-    <AnalyticsMenuItem action="navigation-experiments" label="click">
+    <AnalyticsMenuItem action="navigation-click" label="experiments">
       <Dropdown text={experimentText} margin="auto">
         <DropdownMenu size="mini">
           {experiments.map(({ experiment_ref, name }) => (

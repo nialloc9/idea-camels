@@ -127,7 +127,9 @@ export default withTheme(({ theme: { block1 } }) => (
           alt="idea camels logo"
           size="small"
           src={block1.logo}
-          action="block1-logo"
+          action="logo-click"
+          label="block1"
+          href="/create-experiment"
         />
       </ImageContainer>
       <Heading>
@@ -141,7 +143,8 @@ export default withTheme(({ theme: { block1 } }) => (
       <ButtonContainer>
         <Button
           href="/sign-up"
-          action="block1-button"
+          action="buy-now-click"
+          label="block-1"
           color="black"
           size={block1.buttonSize}
           basic
