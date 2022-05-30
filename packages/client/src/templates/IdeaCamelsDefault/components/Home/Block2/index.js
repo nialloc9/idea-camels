@@ -19,6 +19,8 @@ export default withTheme(
       height={height}
       backgroundRepeat={backgroundRepeat}
       editMinHeight={remCalc(400)}
+      action="template-edit-background-image-click"
+      label="block-2"
       onSubmit={(url) =>
         onSetExperiment({
           content: { block2: { image: { src: url } } },

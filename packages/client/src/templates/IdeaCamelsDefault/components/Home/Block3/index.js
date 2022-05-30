@@ -181,6 +181,8 @@ export default withTheme(({ theme, content, onSetExperiment }) => (
           <EditableText
             maxWidth={remCalc(600)}
             initialText={content.block3.heading.text}
+            action="template-edit-text-click"
+            label="block-3-heading"
             onSubmit={(text) =>
               onSetExperiment({ content: { block3: { heading: { text } } } })
             }
@@ -191,6 +193,8 @@ export default withTheme(({ theme, content, onSetExperiment }) => (
             maxWidth={remCalc(600)}
             rows={5}
             initialText={content.block3.mainText.text}
+            action="template-edit-text-click"
+            label="block-3-main-text"
             onSubmit={(text) =>
               onSetExperiment({ content: { block3: { mainText: { text } } } })
             }
@@ -199,6 +203,8 @@ export default withTheme(({ theme, content, onSetExperiment }) => (
         <ButtonContainer>
           <EditableButton
             color="black"
+            action="template-edit-button-click"
+            label="block-3"
             size={theme.block3.overlay.button.size}
             basic
             initialText={content.block3.button.text}
@@ -213,6 +219,8 @@ export default withTheme(({ theme, content, onSetExperiment }) => (
         <FeatureHeader>
           <EditableText
             initialText={content.block3.featureHeader.text}
+            action="template-edit-text-click"
+            label="block-3-feature-header"
             onSubmit={(text) =>
               onSetExperiment({
                 content: { block3: { featureHeader: { text } } },
@@ -228,6 +236,8 @@ export default withTheme(({ theme, content, onSetExperiment }) => (
                   <CardHeader>
                     <EditableText
                       initialText={o.header.text}
+                      action="template-edit-text-click"
+                      label={`block-3-features-header-${i}`}
                       onSubmit={(text) =>
                         onSetExperiment({
                           content: {
@@ -248,6 +258,8 @@ export default withTheme(({ theme, content, onSetExperiment }) => (
                     <EditableText
                       rows={7}
                       initialText={o.description.text}
+                      action="template-edit-text-click"
+                      label={`block-3-description-${i}`}
                       onSubmit={(text) =>
                         onSetExperiment({
                           content: {

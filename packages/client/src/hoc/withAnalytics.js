@@ -13,7 +13,6 @@ export default (WrappedComponent) =>
     static propTypes = {
       action: PropTypes.string.isRequired,
       label: PropTypes.string,
-      verb: PropTypes.string,
     };
 
     handleClick = (...e) => {
@@ -23,7 +22,11 @@ export default (WrappedComponent) =>
         onClick,
       } = this.props;
 
-      handleEvent(action, label);
+      try {
+        handleEvent(action, label);
+      } catch (error) {
+        console.log(error);
+      }
 
       if (onClick) {
         onClick(...e);

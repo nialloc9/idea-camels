@@ -61,7 +61,11 @@ class CheckoutForm extends React.Component {
           </GridColumn>
           <GridColumn>
             {showCancelButton && (
-              <Button action="add-card-cancel-click" onClick={onCancel}>
+              <Button
+                action="add-card-form-click"
+                label="cancel"
+                onClick={onCancel}
+              >
                 Cancel
               </Button>
             )}
@@ -69,7 +73,8 @@ class CheckoutForm extends React.Component {
               primary
               disabled={loading}
               loading={loading}
-              action="add-card-submit-click"
+              action="add-card-form-click"
+              label="add-card"
               onClick={this.handleSubmit}
             >
               Add Card

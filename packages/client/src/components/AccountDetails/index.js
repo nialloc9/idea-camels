@@ -32,6 +32,7 @@ export default withForm(
     shouldShowEmail = true,
     shouldShowPhone = true,
     buttonText = "Sign Up",
+    formName = "sign-up",
   }) => (
     <Form
       isCompactError={isCompactError}
@@ -45,20 +46,24 @@ export default withForm(
           {shouldShowFirstName && (
             <GridColumn>
               <FormInput
-                label="First Name"
+                labelText="First Name"
                 name="firstName"
                 defaultValue=""
                 validate={[validateRequiredName]}
+                action={`${formName}-account-details-form-click`}
+                label="first-name"
               />
             </GridColumn>
           )}
           {shouldShowLastName && (
             <GridColumn>
               <FormInput
-                label="Last Name"
+                labelText="Last Name"
                 name="lastName"
                 defaultValue=""
                 validate={[validateRequiredLastName, validateMaxLength(20)]}
+                action={`${formName}-account-details-form-click`}
+                label="last-name"
               />
             </GridColumn>
           )}
@@ -67,7 +72,7 @@ export default withForm(
           {shouldShowEmail && (
             <GridColumn>
               <FormInput
-                label="Email"
+                labelText="Email"
                 type="email"
                 name="email"
                 defaultValue=""
@@ -76,17 +81,21 @@ export default withForm(
                   validateEmail,
                   validateMaxLength(100),
                 ]}
+                action={`${formName}-account-details-form-click`}
+                label="email"
               />
             </GridColumn>
           )}
           {shouldShowPhone && (
             <GridColumn>
               <FormInput
-                label="Phone"
+                labelText="Phone"
                 name="phone"
                 type="phone"
                 defaultValue=""
                 validate={[validateRequired, validatePhoneNumber]}
+                action={`${formName}-account-details-form-click`}
+                label="phone"
               />
             </GridColumn>
           )}
@@ -94,7 +103,7 @@ export default withForm(
         <GridRow centered columns={2}>
           <GridColumn>
             <FormInput
-              label="Password"
+              labelText="Password"
               name="password"
               type="password"
               defaultValue=""
@@ -103,11 +112,13 @@ export default withForm(
                   ? [validateRequiredPassword, validateMinLength(8)]
                   : [validateMinLength(8)]
               }
+              action={`${formName}-account-details-form-click`}
+              label="password"
             />
           </GridColumn>
           <GridColumn>
             <FormInput
-              label="Confirm Password"
+              labelText="Confirm Password"
               name="confirmPassword"
               type="password"
               defaultValue=""
@@ -116,6 +127,8 @@ export default withForm(
                   ? [validateRequiredPasswordConfirmation, validateMinLength(8)]
                   : [validateMinLength(8)]
               }
+              action={`${formName}-account-details-form-click`}
+              label="confirm-password"
             />
           </GridColumn>
         </GridRow>
@@ -125,7 +138,8 @@ export default withForm(
               primary
               disabled={submitting || pristine}
               loading={submitting}
-              action="sign-up-click"
+              action={`${formName}-account-details-form-click`}
+              label="submit"
             >
               {buttonText}
             </Button>

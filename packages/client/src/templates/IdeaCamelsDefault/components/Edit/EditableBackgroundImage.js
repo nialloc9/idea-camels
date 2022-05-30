@@ -5,6 +5,7 @@ import { FileUpload } from "../Form/FileUpload";
 import { styled } from "../../../../utils/style";
 import { upload } from "../../../../utils/request";
 import { handleResizeFile } from "../../../../utils/utils";
+import withAnalytics from "../../../../hoc/withAnalytics";
 import { connect } from "../../../../store";
 
 const Edit = styled.span`
@@ -136,4 +137,7 @@ const mapStateToProps = ({ account: { token } }) => ({
   token,
 });
 
-export default connect(mapStateToProps, {})(EditableBackgroundImage);
+export default connect(
+  mapStateToProps,
+  {}
+)(withAnalytics(EditableBackgroundImage));

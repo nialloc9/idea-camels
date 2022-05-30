@@ -57,6 +57,8 @@ class ForgottenPasswordForm extends Component {
                   placeholder="Email*"
                   maxLength={40}
                   validate={[validateRequiredEmail, validateEmail]}
+                  action="forgotton-password-form-click"
+                  label="email"
                 />
               </GridColumn>
               <GridColumn>
@@ -66,11 +68,14 @@ class ForgottenPasswordForm extends Component {
                   type="submit"
                   margin={`0 ${remCalc(10)} 0 0`}
                   disabled={pristine || submitting}
+                  action="forgotton-password-form-click"
+                  label="submit"
                 >
                   Submit
                 </Button>
                 <Button
-                  action="forgotton-password-back-click"
+                  action="forgotton-password-form-click"
+                  label="back"
                   onClick={onModalBack}
                 >
                   Back

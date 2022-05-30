@@ -5,12 +5,14 @@ import { Dropdown as StyledDropdown } from "../Styled/Dropdown";
 import { Error } from "./Error";
 import { Warning } from "./Warning";
 import withToolTip from "../../hoc/withToolTip";
+import withAnalytics from "../../hoc/withAnalytics";
 import { withField } from "../../hoc/withForm";
 
 const ToolTipIcon = withToolTip(Icon);
-export class Dropdown extends Component {
+
+class CustomDropdown extends Component {
   static propTypes = {
-    label: PropTypes.any,
+    labelText: PropTypes.any,
     info: PropTypes.string,
   };
 
@@ -26,7 +28,7 @@ export class Dropdown extends Component {
 
   render() {
     const {
-      label,
+      labelText,
       info,
       error,
       customError,
@@ -41,7 +43,7 @@ export class Dropdown extends Component {
     return (
       <Form.Field>
         <label style={{ fontWeight: 800 }}>
-          {label}
+          {labelText}
           {info !== "" && (
             <ToolTipIcon name="info circle" tooltip={info} color="orange" />
           )}
@@ -58,4 +60,8 @@ export class Dropdown extends Component {
   }
 }
 
-export const FormDropdown = withField(Dropdown);
+export const BaseDropdown = withAnalytics(StyledDropdown);
+
+export const Dropdown = withAnalytics(CustomDropdown);
+
+export const FormDropdown = withField(withAnalytics(Dropdown));

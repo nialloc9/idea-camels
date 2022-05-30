@@ -30,7 +30,7 @@ const Page = ({
               buttonText="Update"
               onSubmit={onUpdateAccount}
               initialValues={{ firstName, lastName, phone, email }}
-              analyticsLabel="settings-page"
+              formName="settings"
             />
           </Segment>
         </GridColumn>

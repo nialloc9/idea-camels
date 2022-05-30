@@ -3,6 +3,7 @@ import { Form } from "semantic-ui-react";
 import { TextArea } from "../Styled/TextArea";
 import { Message } from "../Styled/Message";
 import { styled } from "../../../../utils/style";
+import withAnalytics from "../../../../hoc/withAnalytics";
 
 const Edit = styled.span`
   cursor: pointer;
@@ -11,6 +12,8 @@ const Edit = styled.span`
     opacity: 0.5;
   }
 `;
+
+const AnalyticsEdit = withAnalytics(Edit);
 
 export default class EditableText extends Component {
   constructor(props) {
@@ -41,13 +44,18 @@ export default class EditableText extends Component {
 
   render() {
     const { isOpen, text, errorMessage } = this.state;
-    const { rows = 1, width, maxWidth, color } = this.props;
+    const { rows = 1, width, maxWidth, color, action, label } = this.props;
 
     if (!isOpen) {
       return (
-        <Edit color={color} onClick={this.handleOpen}>
+        <AnalyticsEdit
+          action={action}
+          label={label}
+          color={color}
+          onClick={this.handleOpen}
+        >
           {text}
-        </Edit>
+        </AnalyticsEdit>
       );
     }
 

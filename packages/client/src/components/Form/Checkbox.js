@@ -7,6 +7,7 @@ import { Error } from "./Error";
 import { Warning } from "./Warning";
 import { remCalc } from "../../utils/style";
 import withToolTip from "../../hoc/withToolTip";
+import withAnalytics from "../../hoc/withAnalytics";
 import { withField } from "../../hoc/withForm";
 
 const ToolTipIcon = withToolTip(Icon);
@@ -14,7 +15,7 @@ const ToolTipIcon = withToolTip(Icon);
 export class Checkbox extends PureComponent {
   static propTypes = {
     inlineLabel: PropTypes.bool,
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    labelText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     error: PropTypes.string,
     warn: PropTypes.string,
     info: PropTypes.string,
@@ -33,7 +34,7 @@ export class Checkbox extends PureComponent {
 
   render = () => {
     const {
-      label,
+      labelText,
       inlineLabel,
       info,
       error,
@@ -48,7 +49,7 @@ export class Checkbox extends PureComponent {
         {info !== "" && (
           <ToolTipIcon name="info circle" tooltip={info} color="orange" />
         )}
-        {label}
+        {labelText}
       </label>
     );
 
@@ -70,4 +71,4 @@ export class Checkbox extends PureComponent {
   };
 }
 
-export const FormCheckbox = withField(Checkbox);
+export const FormCheckbox = withField(withAnalytics(Checkbox));

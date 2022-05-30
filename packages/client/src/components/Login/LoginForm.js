@@ -14,6 +14,9 @@ import { Block } from "../Styled/Block";
 import { Button } from "../Styled/Button";
 import { Header } from "../Styled/Header";
 import { withForm } from "../../hoc/withForm";
+import withAnalytics from "../../hoc/withAnalytics";
+
+const AnalyticsBlock = withAnalytics(Block);
 
 class LoginForm extends Component {
   static propTypes = {
@@ -55,6 +58,8 @@ class LoginForm extends Component {
                   placeholder="Email*"
                   maxLength={40}
                   validate={[validateRequiredEmail, validateEmail]}
+                  action="login-form-click"
+                  label="email"
                 />
               </GridColumn>
               <GridColumn>
@@ -65,6 +70,8 @@ class LoginForm extends Component {
                   placeholder="Password*"
                   maxLength={40}
                   validate={[validateRequiredPassword]}
+                  action="login-form-click"
+                  label="password"
                 />
               </GridColumn>
             </Grid>
@@ -81,6 +88,8 @@ class LoginForm extends Component {
                   name="rememberMe"
                   size="small"
                   placeholder="Keep me loggedin"
+                  action="login-form-click"
+                  label="remember-me"
                 />
               </Block>
               <Block
@@ -91,16 +100,18 @@ class LoginForm extends Component {
               >
                 Remember Me -
               </Block>
-              <Block
+              <AnalyticsBlock
                 onClick={onResetPasswordClick}
                 cursor="pointer"
                 color="blue"
                 display="flex"
                 justifyContent="center"
                 flexDirection="column"
+                action="login-form-click"
+                label="forgotton-password"
               >
                 Forgotton password?
-              </Block>
+              </AnalyticsBlock>
             </Block>
           </GridColumn>
 
@@ -110,14 +121,16 @@ class LoginForm extends Component {
               loading={submitting}
               primary
               type="submit"
-              action="login-submit-click"
+              action="login-form-click"
+              label="submit"
               margin={`0 ${remCalc(10)} 0 0`}
             >
               Submit
             </Button>
             <Button
               type="button"
-              action="login-cancel-click"
+              action="login-form-click"
+              label="cancel"
               onClick={onModalCancel}
             >
               Cancel

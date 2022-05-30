@@ -6,11 +6,12 @@ import { Error } from "./Error";
 import { Warning } from "./Warning";
 import withToolTip from "../../hoc/withToolTip";
 import { withField } from "../../hoc/withForm";
+import withAnalytics from "../../hoc/withAnalytics";
 
 const ToolTipIcon = withToolTip(Icon);
 export class Input extends Component {
   static propTypes = {
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    labelText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     info: PropTypes.string,
   };
 
@@ -20,7 +21,7 @@ export class Input extends Component {
 
   render() {
     const {
-      label,
+      labelText,
       info,
       error,
       errorColored = false,
@@ -32,7 +33,7 @@ export class Input extends Component {
     return (
       <Form.Field>
         <label style={{ fontWeight: 800 }}>
-          {label}
+          {labelText}
           {info !== "" && (
             <ToolTipIcon name="info circle" tooltip={info} color="orange" />
           )}
@@ -45,4 +46,4 @@ export class Input extends Component {
   }
 }
 
-export const FormInput = withField(Input);
+export const FormInput = withField(withAnalytics(Input));

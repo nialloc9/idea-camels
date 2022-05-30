@@ -91,6 +91,8 @@ export default withTheme(
             src={content.footer.column1.image.src}
             size={column1.imageSize}
             avatar
+            action="template-edit-footer-click"
+            label="logo"
             onSubmit={(url) =>
               onSetExperiment({
                 content: {
@@ -103,6 +105,8 @@ export default withTheme(
           />
           <EditableText
             initialText={content.footer.column1.text.text}
+            action="template-edit-text-click"
+            label="footer-column-1"
             onSubmit={(text) =>
               onSetExperiment({
                 content: { footer: { column1: { text: { text } } } },

@@ -6,6 +6,7 @@ import { styled } from "../../../../utils/style";
 import { upload } from "../../../../utils/request";
 import { handleResizeFile } from "../../../../utils/utils";
 import { connect } from "../../../../store";
+import withAnalytics from "../../../../hoc/withAnalytics";
 
 const Edit = styled.span`
   cursor: pointer;
@@ -87,7 +88,7 @@ class EditableImage extends Component {
       borderStyle,
       border,
       padding,
-      label = "Upload Image",
+      labelText = "Upload Image",
       editMinHeight,
     } = this.props;
 
@@ -118,7 +119,7 @@ class EditableImage extends Component {
             borderStyle={borderStyle}
             border={border}
             padding={padding}
-            label={label}
+            label={labelText}
             accept="image/jpeg, image/png"
             error={error}
             onSubmit={this.handleSubmit}
@@ -134,4 +135,4 @@ const mapStateToProps = ({ account: { token } }) => ({
   token,
 });
 
-export default connect(mapStateToProps, {})(EditableImage);
+export default connect(mapStateToProps, {})(withAnalytics(EditableImage));

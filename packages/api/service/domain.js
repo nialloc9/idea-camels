@@ -26,7 +26,7 @@ const onGetAccountDomains = ({
   new Promise(async (resolve, reject) => {
     try {
       const response = await onGetDomain({ data: { accountRef }, caller });
-
+      
       // TODO: run cron to update database to expired for domains going to expire tomorrow
       // TODO: run cron to send email for domains going to expire in 1 month and in 1 week
       resolve(response);
@@ -75,7 +75,7 @@ const onListDomainPrices = ({ caller }) =>
   new Promise(async (resolve, reject) => {
     try {
       const { data } = await listDomainPrices({ caller });
-
+      console.log('datahere', data)
       // adds markup and formats list by removing invalid data
       const filterdList = data.reduce((total, { Name, RegistrationPrice }) => {
         if (!RegistrationPrice) return total;

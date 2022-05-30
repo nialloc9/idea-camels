@@ -128,7 +128,9 @@ class CreateForm extends Component {
                   <FormInput
                     fluid
                     type="text"
-                    label="Domain"
+                    labelText="Domain"
+                    action="create-experiment-form-click"
+                    label="domain"
                     name="domain"
                     display="block"
                     tabletDisplay="inline-block"
@@ -149,7 +151,7 @@ class CreateForm extends Component {
                 </GridColumn>
                 <GridColumn>
                   <FormDropdown
-                    label="Template"
+                    labelText="Template"
                     name="templateRef"
                     lazyLoad
                     labeled
@@ -157,7 +159,8 @@ class CreateForm extends Component {
                     selection
                     search
                     display="block"
-                    action="select-template-click"
+                    action="create-experiment-form-click"
+                    label="template"
                     tabletDisplay="inline-block"
                     options={this.templateOptions}
                     placeholder="Please select a template"
@@ -169,13 +172,14 @@ class CreateForm extends Component {
               <GridRow centered columns={2}>
                 <GridColumn>
                   <FormDropdown
-                    label="Theme"
+                    labelText="Theme"
                     name="themeRef"
                     defaultValue={themeRef}
                     lazyLoad
                     selection
                     display="block"
-                    action="select-theme-click"
+                    action="create-experiment-form-click"
+                    label="theme"
                     tabletDisplay="inline-block"
                     options={this.themeOptions}
                     disabled={this.themeOptions.length === 0}
@@ -198,26 +202,30 @@ class CreateForm extends Component {
                   <FormInput
                     fluid
                     type="text"
-                    label="Headline"
+                    labelText="Headline"
                     name="headline"
                     display="block"
                     tabletDisplay="inline-block"
                     placeholder="Please type a headline for your experiment"
                     info="This will be used as the headline for your ads run in this experiment so make it snappy."
                     validate={[validateRequired, validateMaxLength(25)]}
+                    action="create-experiment-form-click"
+                    label="headline"
                   />
                 </GridColumn>
                 <GridColumn>
                   <FormInput
                     fluid
                     type="text"
-                    label="Headline 2"
+                    labelText="Headline 2"
                     name="headline2"
                     display="block"
                     tabletDisplay="inline-block"
                     placeholder="Please type a second headline for your experiment"
                     info="This will appear below your main headline for your ads run in this experiment."
                     validate={[validateRequired, validateMaxLength(25)]}
+                    action="create-experiment-form-click"
+                    label="headline-2"
                   />
                 </GridColumn>
               </GridRow>
@@ -227,13 +235,15 @@ class CreateForm extends Component {
                   <FormInput
                     fluid
                     type="text"
-                    label="Description"
+                    labelText="Description"
                     name="description"
                     display="block"
                     tabletDisplay="inline-block"
                     placeholder="Please type a description for your experiment"
                     info="This will be used as the description for your ads run in this experiment. It will appear underneath your headline."
                     validate={[validateRequired, validateMaxLength(35)]}
+                    action="create-experiment-form-click"
+                    label="description"
                   />
                 </GridColumn>
                 <GridColumn />
@@ -249,7 +259,7 @@ class CreateForm extends Component {
                   <FormInput
                     fluid
                     type="text"
-                    label={`Keyword 1`}
+                    labelText={`Keyword 1`}
                     name={`keyword1`}
                     display="block"
                     tabletDisplay="inline-block"
@@ -260,13 +270,15 @@ class CreateForm extends Component {
                       validateMaxLength(80),
                       validateSpecialChars,
                     ]}
+                    action="create-experiment-form-click"
+                    label="keyword-1"
                   />
                 </GridColumn>
                 <GridColumn>
                   <FormInput
                     fluid
                     type="text"
-                    label={`Keyword 2`}
+                    labelText={`Keyword 2`}
                     name={`keyword2`}
                     display="block"
                     tabletDisplay="inline-block"
@@ -277,6 +289,8 @@ class CreateForm extends Component {
                       validateMaxLength(80),
                       validateSpecialChars,
                     ]}
+                    action="create-experiment-form-click"
+                    label="keyword-2"
                   />
                 </GridColumn>
               </GridRow>
@@ -286,26 +300,30 @@ class CreateForm extends Component {
                     <FormInput
                       fluid
                       type="text"
-                      label={`Keyword 3`}
+                      labelText={`Keyword 3`}
                       name={`keyword3`}
                       display="block"
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
                       info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
                       validate={[validateMaxLength(80), validateSpecialChars]}
+                      action="create-experiment-form-click"
+                      label="keyword-3"
                     />
                   </GridColumn>
                   <GridColumn>
                     <FormInput
                       fluid
                       type="text"
-                      label={`Keyword 4`}
+                      labelText={`Keyword 4`}
                       name={`keyword4`}
                       display="block"
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
                       info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
                       validate={[validateMaxLength(80), validateSpecialChars]}
+                      action="create-experiment-form-click"
+                      label="keyword-4"
                     />
                   </GridColumn>
                 </GridRow>
@@ -316,26 +334,30 @@ class CreateForm extends Component {
                     <FormInput
                       fluid
                       type="text"
-                      label={`Keyword 5`}
+                      labelText={`Keyword 5`}
                       name={`keyword5`}
                       display="block"
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
                       info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
                       validate={[validateMaxLength(80), validateSpecialChars]}
+                      action="create-experiment-form-click"
+                      label="keyword-5"
                     />
                   </GridColumn>
                   <GridColumn>
                     <FormInput
                       fluid
                       type="text"
-                      label={`Keyword 6`}
+                      labelText={`Keyword 6`}
                       name={`keyword6`}
                       display="block"
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
                       info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
                       validate={[validateMaxLength(80), validateSpecialChars]}
+                      action="create-experiment-form-click"
+                      label="keyword-6"
                     />
                   </GridColumn>
                 </GridRow>
@@ -347,7 +369,8 @@ class CreateForm extends Component {
                     <Button
                       display="left"
                       icon="plus"
-                      action="add-keywords-click"
+                      action="create-experiment-form-click"
+                      label="add-keywords"
                       onClick={this.handleAddKeywords}
                     />
                   </GridColumn>
@@ -364,7 +387,7 @@ class CreateForm extends Component {
                   <FormInput
                     fluid
                     type="date"
-                    label="End Date"
+                    labelText="End Date"
                     name="endDate"
                     display="block"
                     tabletDisplay="inline-block"
@@ -372,19 +395,23 @@ class CreateForm extends Component {
                     validate={[validateRequired]}
                     min={getWeeksFromNow(2).toISOString().split("T")[0]}
                     max={getDateMonthsFromNow(6).toISOString().split("T")[0]}
+                    action="create-experiment-form-click"
+                    label="end-date"
                   />
                 </GridColumn>
                 <GridColumn>
                   <FormInput
                     fluid
                     type="number"
-                    label="Budget ($)"
+                    labelText="Budget ($)"
                     name="budget"
                     display="block"
                     tabletDisplay="inline-block"
                     placeholder="How much do you wish to spend?"
                     info="This is the budget that will be spent on driving traffic to your experiment. We recommend using at least $100 to ensure you buy enough ads to get meaningful click throughs."
                     validate={[validateRequired, validateMinValue(20)]}
+                    action="create-experiment-form-click"
+                    label="budget"
                   />
                 </GridColumn>
               </GridRow>

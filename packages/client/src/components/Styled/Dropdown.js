@@ -1,8 +1,7 @@
 import { Dropdown as DD } from "semantic-ui-react";
 import { styled, createMediaQuery } from "../../utils/style";
-import withAnalytics from "../../hoc/withAnalytics";
 
-export const Dropdown = withAnalytics(styled(DD)`
+export const Dropdown = styled(DD)`
   ${({ margin }) => margin && `margin: ${margin};`}
   ${({ display }) => display && `display: ${display} !important;`}
 
@@ -12,4 +11,4 @@ export const Dropdown = withAnalytics(styled(DD)`
     ${({ tabletDisplay }) =>
       tabletDisplay && `display: ${tabletDisplay} !important;`}
   }
-`);
+`;

@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Form, Input } from "semantic-ui-react";
 import { Button } from "../Styled/Button";
 import { Message } from "../Styled/Message";
+import withAnalytics from "../../../../hoc/withAnalytics";
+
+const AnalyticsButton = withAnalytics(Button);
 
 export default class EditableButton extends Component {
   constructor(props) {
@@ -40,7 +43,7 @@ export default class EditableButton extends Component {
 
     if (!isOpen) {
       return (
-        <Button
+        <AnalyticsButton
           {...this.buttonProps}
           hoverFilter={false}
           hoverOpacity="0.5"
@@ -48,7 +51,7 @@ export default class EditableButton extends Component {
           onClick={this.handleOpen}
         >
           {text}
-        </Button>
+        </AnalyticsButton>
       );
     }
 

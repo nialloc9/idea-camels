@@ -36,7 +36,7 @@ export default withTheme(({ theme, content, onSetExperiment }) => {
           onClick={handleMenuClick}
           icon="align justify"
           backgroundColor={theme.colors.main001}
-          action="navigation-menu-button-click"
+          action="navigation-mobile-menu-button-click"
           color={theme.colors.white000}
         />
       </Item>
@@ -44,7 +44,12 @@ export default withTheme(({ theme, content, onSetExperiment }) => {
         content.navigation.items.map(({ text }, i) => (
           <Item key={text} name={text} active={activeItem === text}>
             <Block textAlign="center" width="100%">
-              <EditableText initialText={text} onSubmit={handleTextSubmit(i)} />
+              <EditableText
+                action="template-mobile-edit-navigation-click"
+                label={text.toLowerCase().split(" ").join("-")}
+                initialText={text}
+                onSubmit={handleTextSubmit(i)}
+              />
             </Block>
           </Item>
         ))}

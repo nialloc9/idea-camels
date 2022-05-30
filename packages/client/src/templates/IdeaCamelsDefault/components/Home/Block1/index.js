@@ -130,6 +130,8 @@ export default withTheme(
             alt={content.block1.logo.alt}
             size="small"
             src={content.block1.logo.src}
+            action="template-edit-image-click"
+            label="block-1"
             onSubmit={(url) =>
               onSetExperiment({
                 content: {
@@ -144,6 +146,8 @@ export default withTheme(
             maxWidth={remCalc(600)}
             rows={5}
             initialText={content.block1.heading.text}
+            action="template-edit-text-click"
+            label="block-1-heading"
             onSubmit={(text) =>
               onSetExperiment({ content: { block1: { heading: { text } } } })
             }
@@ -153,6 +157,8 @@ export default withTheme(
           <EditableText
             width={remCalc(600)}
             rows={5}
+            action="template-edit-text-click"
+            label="block-1-subheading"
             initialText={content.block1.subHeading.text}
             onSubmit={(text) =>
               onSetExperiment({ content: { block1: { subHeading: { text } } } })
@@ -163,6 +169,8 @@ export default withTheme(
         <ButtonContainer>
           <EditableButton
             color="black"
+            action="template-edit-button-click"
+            label="block-1"
             size={buttonSize}
             basic
             initialText={content.block1.button.text}

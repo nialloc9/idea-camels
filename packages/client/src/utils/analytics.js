@@ -49,7 +49,10 @@ export const handleEvent = async (action, label) => {
     return await analytics.track(action, options);
   }
 
-  logger.info("SIMULATED GA EVENT", options);
+  logger.info("SIMULATED GA EVENT", {
+    event: action,
+    ...options,
+  });
 };
 
 /**

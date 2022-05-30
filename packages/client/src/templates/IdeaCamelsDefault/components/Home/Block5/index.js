@@ -129,6 +129,8 @@ export default withTheme(
               <EditableText
                 rows={4}
                 initialText={content.block5.quote.text}
+                action="template-edit-text-click"
+                label="block-5-quote"
                 onSubmit={(text) =>
                   onSetExperiment({ content: { block5: { quote: { text } } } })
                 }
@@ -138,6 +140,8 @@ export default withTheme(
               -{" "}
               <EditableText
                 initialText={content.block5.author.text}
+                action="template-edit-text-click"
+                label="block-5-author"
                 onSubmit={(text) =>
                   onSetExperiment({ content: { block5: { author: { text } } } })
                 }
@@ -148,6 +152,8 @@ export default withTheme(
             <EditableButton
               color={button.color}
               size={button.size}
+              action="template-edit-button-click"
+              label="block-5"
               basic
               backgroundColor={button.backgroundColor}
               initialText={content.block5.button.text}

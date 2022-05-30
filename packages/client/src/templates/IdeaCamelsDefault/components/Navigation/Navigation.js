@@ -27,7 +27,9 @@ const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
             maxWidth={remCalc(23)}
             alt={content.navigation.logo.alt}
             src={content.navigation.logo.src}
-            label=""
+            action="template-navigation-edit-click"
+            label="logo"
+            labelText=""
             border="none"
             padding={0}
             onSubmit={(url) =>
@@ -43,6 +45,8 @@ const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
           {content.navigation.items.map(({ text }, i) => (
             <Item key={text} name={text}>
               <EditableText
+                action="template-edit-navigation-click"
+                label={text.toLowerCase().split(" ").join("-")}
                 color={theme.colors.white000}
                 anchorColor={theme.colors.white000}
                 initialText={text}

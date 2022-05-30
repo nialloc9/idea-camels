@@ -4,6 +4,9 @@ import { Message } from "../Message";
 import { withEnterKey, getQueryParameterByName } from "../../utils/utils";
 import { handleEvent } from "../../utils/analytics";
 import { postApi } from "../../utils/request";
+import withAnalytics from "../../hoc/withAnalytics";
+
+const AnalyticsInput = withAnalytics(Input);
 
 export default class EmailSignUp extends Component {
   state = {
@@ -28,18 +31,6 @@ export default class EmailSignUp extends Component {
     };
   }
 
-  get actionProps() {
-    const { isLoading, isSuccess } = this.state;
-
-    return {
-      loading: isLoading,
-      disabled: isSuccess,
-      type: "button",
-      content: "Sign up",
-      onClick: this.handleClick,
-    };
-  }
-
   handleChange = (e, { value }) => this.setState({ email: value });
 
   handleClick = async () => {
@@ -51,9 +42,11 @@ export default class EmailSignUp extends Component {
 
     const { email } = this.state;
 
+    const experimentRef = getQueryParameterByName("experimentRef");
+
     const { error } = await postApi({
       uri: "lead/create",
-      body: { email, experimentRef: getQueryParameterByName("experimentRef") },
+      body: { email, experimentRef },
     });
 
     this.setState({
@@ -62,7 +55,7 @@ export default class EmailSignUp extends Component {
       isError: !!error,
     });
 
-    if (!error) handleEvent("lead-create");
+    if (!error) handleEvent("lead-created");
   };
 
   renderMessage = () => {
@@ -78,15 +71,20 @@ export default class EmailSignUp extends Component {
   };
 
   render() {
+    const { isLoading } = this.state;
+
     return (
       <Fragment>
-        <Input
+        <AnalyticsInput
           fluid
           placeholder="Enter your email"
           type="email"
           onChange={this.handleChange}
           onKeyUp={withEnterKey(this.state.email, this.handleClick)}
-          action={this.actionProps}
+          disabled={isLoading}
+          loading={isLoading}
+          action="coming-soon-form-click"
+          label="email"
         />
         (powered by <a href="ideacamels.com">ideacamels.com</a>)
         {this.renderMessage()}

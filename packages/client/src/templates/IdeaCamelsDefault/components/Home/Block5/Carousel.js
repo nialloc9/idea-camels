@@ -50,6 +50,7 @@ const onSetNewCarouselText = ({ carousel, onSetExperiment }) => ({
 
 const Slide = withTheme(
   ({
+    index,
     image,
     header,
     theme: { block5 },
@@ -62,6 +63,8 @@ const Slide = withTheme(
         size={block5.carousel.size}
         src={image.src}
         alt={image.alt}
+        action="template-edit-carousel-click"
+        label={`image-${index}`}
         editMinHeight={remCalc(400)}
         onSubmit={onSetCarouselImage}
       />
@@ -69,6 +72,8 @@ const Slide = withTheme(
         <EditableText
           maxWidth={remCalc(600)}
           initialText={header.text}
+          action="template-edit-carousel-click"
+          label={`header-${index}`}
           onSubmit={onSetCarouselText}
         />
       </Header>
@@ -78,9 +83,10 @@ const Slide = withTheme(
 
 export default ({ content, onSetExperiment }) => (
   <Slider {...settings}>
-    {content.block5.carousel.map((o) => (
+    {content.block5.carousel.map((o, i) => (
       <Slide
         key={o.image.src}
+        index={i}
         {...o}
         onSetCarouselImage={onSetNewCarouselImage({
           carousel: content.block5.carousel,
