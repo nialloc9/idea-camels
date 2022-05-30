@@ -9,7 +9,7 @@ describe("request utils test suite", () => {
             data: {
               message: "test",
               data: "test",
-              code: "test",
+              statusCode: "test",
             },
           },
         },
@@ -27,7 +27,7 @@ describe("request utils test suite", () => {
           response: {
             data: {
               data: "test",
-              code: "test",
+              statusCode: "test",
             },
           },
         },
@@ -48,7 +48,7 @@ describe("request utils test suite", () => {
             data: {
               error: "test",
               data: "test",
-              code: "test",
+              statusCode: "test",
             },
           },
         },
@@ -66,7 +66,7 @@ describe("request utils test suite", () => {
           response: {
             data: {
               data: "test",
-              code: "test",
+              statusCode: "test",
             },
           },
         },

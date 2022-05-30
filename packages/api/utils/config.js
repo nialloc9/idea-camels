@@ -15,7 +15,7 @@ const {
   GOOGLE_ADS_CLIENT_SECRET,
   GOOGLE_ADS_REFRESH_TOKEN,
   GOOGLE_ADS_DEVELOPER_TOKEN,
-  GOOGLE_ADS_CUSTOMER_ID="123-123-123",
+  GOOGLE_ADS_CUSTOMER_ID = "123-123-123",
   BUILDER_CLUSTER_NAME,
   BUILDER_TASK_NAME,
   THEMES_BUCKET,
@@ -24,18 +24,14 @@ const {
   BUILDER_SUBNET_ID_PRIVATE_0,
   BUILDER_SUBNET_ID_PRIVATE_1,
   SLACK_TOKEN,
-  MAILCHIMP_API_KEY
+  MAILCHIMP_API_KEY,
 } = process.env;
-
 
 const development = {
   port: SERVER_PORT,
   webAddress: "https://ideacamels.com",
   env: ENV,
   isProd: ENV === "prod",
-  noInternet: true,
-  logSuccessResponse: true,
-  logErrorResponse: true,
   name: "idea-camels-server",
   security: {
     password_secret: PASSWORD_SECRET,
@@ -115,15 +111,18 @@ const development = {
   },
   slack: {
     token: SLACK_TOKEN,
-    alertChannel: 'api-dev-alerts',
-    clientErrorChannel: 'client-dev-alerts'
+    alertChannel: "api-dev-alerts",
+    clientErrorChannel: "client-dev-alerts",
   },
   mailChimp: {
     apiKey: MAILCHIMP_API_KEY,
     list: {
-      default: 'ce57f13efc'
-    }
-  }
+      default: "ce57f13efc",
+    },
+  },
+  noInternet: true,
+  logSuccessResponse: true,
+  logErrorResponse: true,
 };
 
 const staging = {
@@ -133,25 +132,27 @@ const staging = {
   logErrorResponse: true,
   slack: {
     token: SLACK_TOKEN,
-    alertChannel: 'api-staging-alerts'
+    alertChannel: "api-staging-alerts",
   },
 };
 
 const prod = {
   ...staging,
-  isProd: true,
-  noInternet: false,
   aws: {
     ...staging.aws,
   },
   slack: {
     ...staging.slack,
-    alertChannel: 'api-prod-alerts',
-    clientErrorChannel: 'client-prod-alerts'
+    alertChannel: "api-prod-alerts",
+    clientErrorChannel: "client-prod-alerts",
   },
   security: {
     ...staging.security,
-    whitelist: ["http://ideacamels.com", "https://ideacamels.com", /\.ideacamels\.com$/],
+    whitelist: [
+      "http://ideacamels.com",
+      "https://ideacamels.com",
+      /\.ideacamels\.com$/,
+    ],
   },
 };
 
