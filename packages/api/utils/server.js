@@ -22,7 +22,7 @@ const {
   onDBHealthCheck,
   onGoogleAdsCheck,
   onEmailCheck,
-  onAlertCheck
+  onAlertCheck,
 } = require("../service/healthCheck");
 const { getSignedUrl } = require("../service/upload");
 const { onAddCard, onChargeCustomer } = require("../service/payment");
@@ -31,6 +31,7 @@ const { onGetAdPerformance } = require("../service/report");
 const { onLogError } = require("../service/log");
 const { onManuallyRunExperiment } = require("../service/admin");
 const { logger } = require("./utils");
+const { sendAlert } = require("./alert");
 
 console.log("==== CONFIG ====");
 console.log(config);
@@ -57,9 +58,17 @@ const sendResponse = (res, { payload, code = 200, uri, message }) => {
  * @param {*} error
  * @return {func}
  */
-const sendError = (res, { error = {}, uri, status = 500, caller }) => {
+const sendError = async (res, { error = {}, uri, status = 500, caller }) => {
   if (config.logErrorResponse) {
     logger.error({ err: error, uri, status, caller }, "ERROR OUTGOING RPC");
+    const { error: alertError } = await sendAlert({
+      channel: "api-prod-alerts",
+      text: JSON.stringify(error),
+    });
+
+    if (alertError) {
+      logger.error(alertError, "ALERT ERROR");
+    }
   }
 
   if (config.isProd && error.reason) delete error.reason;
@@ -196,7 +205,7 @@ const endpoints = [
       "headline2",
       "keywords",
       "caller",
-      "budget"
+      "budget",
     ],
     // isAdmin: true,
     func: onManuallyRunExperiment,

@@ -12,6 +12,7 @@ const addCustomerToList = async ({
   email,
   firstName,
   lastName,
+  phone,
   listId = config.mailChimp.list.default,
   tags,
 } = {}) => {
@@ -26,63 +27,10 @@ const addCustomerToList = async ({
     merge_fields: {
       FNAME: firstName,
       LNAME: lastName,
+      PHONE: phone,
     },
     tags,
   });
-};
-
-/**
- * @description selects an experiment at random to run for a campaign
- * @param {*} experimentId
- * @returns
- */
-const selectRandomExperiment = (experimentId) => {
-  const experiment = config.mailChimp.experiment[experimentId];
-
-  return experiment[Math.floor(Math.random() * experiment.length)];
-};
-
-/**
- * @description sends marketing email
- * @param {*} param0
- * @returns
- */
-const sendMarketingEmail = async ({
-  segmentId,
-  previewText,
-  listId,
-  subjectLine,
-  campaignTitle,
-  templateId,
-  fromName = "Amy",
-  replyTo = "support@ideacamels.com",
-}) => {
-  mailchimp.setConfig({
-    apiKey: config.mailChimp.apiKey,
-    server: "us17",
-  });
-  const campaign = await mailchimp.campaigns.create({
-    type: "regular",
-    recipients: {
-      segment_opts: {
-        saved_segment_id: segmentId,
-      },
-      list_id: listId,
-    },
-    settings: {
-      subject_line: subjectLine,
-      preview_text: previewText,
-      title: campaignTitle,
-      template_id: templateId,
-      from_name: fromName,
-      reply_to: replyTo,
-      to_name: "*|FNAME|*",
-    },
-  });
-
-  await mailchimp.campaigns.send(campaign.id);
-
-  return campaign;
 };
 
 /**
@@ -110,8 +58,6 @@ const updateCustomerTags = async ({
 };
 
 module.exports = {
-  selectRandomExperiment,
   addCustomerToList,
-  sendMarketingEmail,
   updateCustomerTags,
 };

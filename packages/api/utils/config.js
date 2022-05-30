@@ -119,34 +119,6 @@ const development = {
     list: {
       default: "ce57f13efc",
     },
-    template: {
-      onboarding1: 11580076,
-    },
-    segment: {
-      newCustomer: 6357836,
-    },
-    experiment: {
-      newCustomer: [
-        {
-          name: "onboarding-experiment-1",
-          templateId: 11580076,
-          subject: "You are one step closer to realising your dream!",
-          preview: "See how IdeaCamels can help you.",
-        },
-        {
-          name: "onboarding-experiment-2",
-          templateId: 11580076,
-          subject: "Don't miss out!",
-          preview: "Someone else is thinking of your brilliant idea right now.",
-        },
-        {
-          name: "onboarding-experiment-3",
-          templateId: 11580076,
-          subject: "Welcome to IdeaCamels!",
-          preview: "Let us carry the load.",
-        },
-      ],
-    },
   },
   noInternet: true,
   logSuccessResponse: true,

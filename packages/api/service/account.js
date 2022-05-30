@@ -21,13 +21,9 @@ const {
   updateCustomer,
 } = require("../utils/stripe");
 const { sendEmail } = require("../utils/mailer/mailer");
-const {
-  addCustomerToList,
-  sendMarketingEmail,
-  selectRandomExperiment,
-  updateCustomerTags,
-} = require("../utils/marketingEmail");
+const { addCustomerToList } = require("../utils/marketingEmail");
 const { resetPassword } = require("../utils/mailer/templates/resetPassword");
+const { sendAlert } = require("../utils/alert");
 
 const onLogin = ({ data: { email, password, rememberMe = false }, caller }) =>
   new Promise(async (resolve, reject) => {
@@ -167,38 +163,32 @@ const onCreate = ({ data, caller }) =>
       };
 
       try {
-        const { id: customerMarketingEmailId } = await addCustomerToList({
+        const marketingCustomer = await addCustomerToList({
           email: data.email,
           firstName: data.firstName,
           lastName: data.lastName,
+          phone: data.phone,
           tags: ["new_customer", "customer"],
         });
 
-        const { name, templateId, subject, preview } =
-          selectRandomExperiment("newCustomer");
-
-        await sendMarketingEmail({
-          templateId: templateId,
-          listId: config.mailChimp.list.default,
-          segmentId: config.mailChimp.segment.newCustomer,
-          subjectLine: subject,
-          previewText: preview,
-          campaignTitle: name,
-        });
-
-        await updateCustomerTags({
-          listId: config.mailChimp.list.default,
-          customerMarketingEmailId,
-          tags: [
-            { name: "new_customer", status: "inactive" },
-            { name: "onboarding_1_sent", status: "active" },
-          ],
-        });
+        logger.info(
+          { id: marketingCustomer.id, email },
+          "CUSTOMER ADDED TO MARKETING LIST"
+        );
       } catch (marketingEmailError) {
         logger.error(
           marketingEmailError,
           "ERROR ADDING CUSTOMER TO MARKETING LIST"
         );
+
+        const { error: alertError } = await sendAlert({
+          channel: "api-prod-alerts",
+          text: JSON.stringify(marketingEmailError),
+        });
+
+        if (alertError) {
+          logger.error(alertError, "ALERT ERROR");
+        }
       }
 
       resolve(handleSuccess("account created", responeData));
