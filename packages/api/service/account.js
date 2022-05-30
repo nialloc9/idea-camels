@@ -21,7 +21,12 @@ const {
   updateCustomer,
 } = require("../utils/stripe");
 const { sendEmail } = require("../utils/mailer/mailer");
-const { addCustomerToList } = require("../utils/marketingEmail");
+const {
+  addCustomerToList,
+  sendMarketingEmail,
+  selectRandomExperiment,
+  updateCustomerTags,
+} = require("../utils/marketingEmail");
 const { resetPassword } = require("../utils/mailer/templates/resetPassword");
 
 const onLogin = ({ data: { email, password, rememberMe = false }, caller }) =>
@@ -160,13 +165,42 @@ const onCreate = ({ data, caller }) =>
         account: scrubAccount(account, ["password"]),
         token: createJwToken({ accountRef: account.account_ref }),
       };
-      
+
       try {
-        await addCustomerToList({ email: data.email, firstName: data.firstName, lastName: data.lastName })
+        const { id: customerMarketingEmailId } = await addCustomerToList({
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          tags: ["new_customer", "customer"],
+        });
+
+        const { name, templateId, subject, preview } =
+          selectRandomExperiment("newCustomer");
+
+        await sendMarketingEmail({
+          templateId: templateId,
+          listId: config.mailChimp.list.default,
+          segmentId: config.mailChimp.segment.newCustomer,
+          subjectLine: subject,
+          previewText: preview,
+          campaignTitle: name,
+        });
+
+        await updateCustomerTags({
+          listId: config.mailChimp.list.default,
+          customerMarketingEmailId,
+          tags: [
+            { name: "new_customer", status: "inactive" },
+            { name: "onboarding_1_sent", status: "active" },
+          ],
+        });
       } catch (marketingEmailError) {
-        logger.error({ account_ref: data.account_ref, marketingEmailError }, "ERROR ADDING CUSTOMER TO MARKETING LIST")
+        logger.error(
+          marketingEmailError,
+          "ERROR ADDING CUSTOMER TO MARKETING LIST"
+        );
       }
-      
+
       resolve(handleSuccess("account created", responeData));
     } catch (error) {
       reject(error);
