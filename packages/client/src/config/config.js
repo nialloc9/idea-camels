@@ -42,6 +42,8 @@ const staging = { ...development };
 
 const production = {
   ...staging,
+  isProd: true,
+  env: "production",
   domainUrl: "https://ideacamels.com",
   api: {
     ...staging.api,
