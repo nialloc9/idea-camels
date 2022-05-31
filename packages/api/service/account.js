@@ -172,7 +172,7 @@ const onCreate = ({ data, caller }) =>
         });
 
         logger.info(
-          { id: marketingCustomer.id, email },
+          { id: marketingCustomer.id, account_ref: account.account_ref },
           "CUSTOMER ADDED TO MARKETING LIST"
         );
       } catch (marketingEmailError) {
