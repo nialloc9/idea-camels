@@ -55,7 +55,7 @@
 .slick-track:after,
 .slick-track:before {
   display: table;
-  content: '';
+  content: "";
 }
 
 .slick-track:after {
@@ -69,7 +69,7 @@
   min-height: 1px;
 }
 
-[dir='rtl'] .slick-slide {
+[dir="rtl"] .slick-slide {
   float: right;
 }
 

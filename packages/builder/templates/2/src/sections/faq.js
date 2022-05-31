@@ -1,11 +1,11 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, Box, Container, Button } from 'theme-ui';
-import Masonry from 'react-masonry-component';
-import SectionHeading from 'components/section-heading';
-import FaqItem from 'components/cards/faq-item';
-import {Link} from 'components/link';
-import {content, config} from 'config';
+import { jsx, Box, Container, Button } from "theme-ui";
+import Masonry from "react-masonry-component";
+import SectionHeading from "components/section-heading";
+import FaqItem from "components/cards/faq-item";
+import { Link } from "components/link";
+import { content, config } from "config";
 
 const masonryOptions = { originTop: true };
 
@@ -24,7 +24,10 @@ const Faq = () => {
           })}
         </Masonry>
         <Box sx={styles.loadMore}>
-          <Link path={config.experiment.comingSoonUrl} style={{ color: 'inherit', textDecoration: 'inherit' }}>
+          <Link
+            path={config.experiment.comingSoonUrl}
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
             <Button variant="text">{content.faq.button.text}</Button>
           </Link>
         </Box>
@@ -41,20 +44,13 @@ const styles = {
     pb: [10, null, null, 7, null, 14, 17],
   },
   grid: {
-    mx: [null, null, null, -6, -8, 'unset'],
+    mx: [null, null, null, -6, -8, "unset"],
   },
   loadMore: {
     paddingTop: [null, null, null, 3],
-    textAlign: 'center',
+    textAlign: "center",
     button: {
-      backgroundColor: '#ECF2F7',
-      color: '#738295',
-      minHeight: 50,
-      px: '22px',
-      ':hover': {
-        backgroundColor: 'primary',
-        color: 'white',
-      },
+      variant: "faq.button",
     },
   },
 };
