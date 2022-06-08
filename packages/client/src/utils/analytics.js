@@ -76,3 +76,19 @@ export const handleIdentify = (id) => {
 
   logger.info("SIMULATED GA IDENTIFY");
 };
+
+/**
+ *
+ * @description sets a conversion
+ */
+export const handleConversion = ({ amount = 25 }) => {
+  try {
+    if (config.isProd) {
+      return window.gtag_report_conversion(amount);
+    }
+
+    logger.info("SIMULATED CONVERSION", { amount });
+  } catch (error) {
+    logger.error("Conversion not logged", error);
+  }
+};

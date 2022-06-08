@@ -47,6 +47,19 @@
         transaction_id: "",
       });
     </script>
+    <!-- Event snippet for Purchase conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+    <script>
+      function gtag_report_conversion(amount) {
+        gtag("event", "conversion", {
+          send_to: "AW-10858772280/jdt6CPiauMQDELju7rko",
+          value: amount,
+          currency: "GBP",
+          transaction_id: "",
+        });
+        return false;
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

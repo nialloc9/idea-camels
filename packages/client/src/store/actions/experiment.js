@@ -3,6 +3,7 @@ import { DOMAIN_SET } from "../constants/domain";
 import { postApi } from "../../utils/request";
 import { deepMerge, convertDateToUnix } from "../../utils/utils";
 import { findThemeAndContent } from "../../templates";
+import { handleConversion } from "../../utils/analytics";
 
 /**
  * sets the state
@@ -96,10 +97,7 @@ export const onCreate = (experimentToCreate, callback) => async (
     token,
     body: { domain },
   });
-  console.log({
-    data: domainPurchaseData,
-    error: domainPurchaseError,
-  });
+
   if (domainPurchaseError) {
     return onSetState({
       isCreateLoading: false,
@@ -143,6 +141,8 @@ export const onCreate = (experimentToCreate, callback) => async (
       createErrorMessage: error.message,
     });
   }
+
+  handleConversion({ amount: budget + 10 }); // 10 is an average for domain price
 
   onSetState({
     isCreateLoading: false,
