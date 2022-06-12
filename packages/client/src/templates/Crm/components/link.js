@@ -21,12 +21,8 @@ export function NavLink({ path, label, children, ...rest }) {
   );
 }
 
-export function Link({ path, label, children, ...rest }) {
-  return (
-    <A href={path} {...rest}>
-      {children ? children : label}
-    </A>
-  );
+export function Link({ label, children, ...rest }) {
+  return <A {...rest}>{children ? children : label}</A>;
 }
 
 export function LearnMore({ path, label, children, ...rest }) {

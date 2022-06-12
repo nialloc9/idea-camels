@@ -2,19 +2,37 @@
 /** @jsx jsx */
 import { jsx, Box, Image, Heading, Text, Link as A } from "theme-ui";
 import Play from "../icons/play";
+import withEditableText from "../../../common/withEditableText";
+import EditableImage from "../../../common/EditableImageContainer";
 
-const Feature = ({ data, ...props }) => {
+const EditableHeading = withEditableText(Heading);
+const EditableText = withEditableText(Text);
+
+const Feature = ({ data, onEdit, ...props }) => {
   return (
     <Box sx={styles.feature} {...props}>
       <Box as="figure">
-        <Image src={data?.icon} alt={data?.title} />
+        <EditableImage
+          component={Image}
+          src={data?.icon}
+          alt={data?.title}
+          onSubmit={(icon) => ({ ...data, icon })}
+        />
       </Box>
       <Box>
-        <Heading as="h4">{data?.title}</Heading>
-        <Text as="p">{data?.description}</Text>
-        <A sx={styles.learnMore}>
+        <EditableHeading
+          as="p"
+          initialText={data?.title}
+          onSubmit={(title) => onEdit({ ...data, title })}
+        />
+        <EditableText
+          as="p"
+          initialText={data?.description}
+          onSubmit={(description) => onEdit({ ...data, description })}
+        />
+        <div sx={styles.learnMore}>
           <span>Learn More</span> <Play width={14} height={14} />
-        </A>
+        </div>
       </Box>
     </Box>
   );

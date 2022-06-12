@@ -3,16 +3,19 @@
 import { jsx, Box, Flex, Container } from "theme-ui";
 import SectionHeading from "../components/section-heading";
 import Image from "../components/image";
+import EditableImage from "../../common/EditableImageContainer";
 
-const Security = ({ content }) => {
+const Security = ({ content, onSetContent }) => {
   return (
     <section sx={styles.section} id="features">
       <Container>
         <Box sx={styles.grid}>
           <Flex sx={styles.illustration}>
-            <Image
+            <EditableImage
               src={content.security.image.src}
               alt={content.security.image.alt}
+              component={Image}
+              onSubmit={(src) => ({ security: { image: { src } } })}
             />
           </Flex>
           <SectionHeading
@@ -20,6 +23,11 @@ const Security = ({ content }) => {
             title={content.security.title}
             description={content.security.description}
             learnMore={content.security.learnMore}
+            onEdit={(security) =>
+              onSetContent({
+                security: { ...content.security, ...security },
+              })
+            }
           />
         </Box>
       </Container>

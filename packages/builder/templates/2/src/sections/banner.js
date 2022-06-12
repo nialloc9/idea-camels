@@ -21,7 +21,7 @@ const Banner = () => {
               style={{ color: "inherit", textDecoration: "inherit" }}
             >
               <Button variant="primary" sx={styles.btnPrimary}>
-                Try free trial
+                {content.banner.button1}
               </Button>
             </Link>
             <Link
@@ -29,7 +29,7 @@ const Banner = () => {
               style={{ color: "inherit", textDecoration: "inherit" }}
             >
               <Button variant="outlined" sx={styles.btnOutlined}>
-                Discover video <Play fill="white" />
+                {content.banner.button2} <Play fill="white" />
               </Button>
             </Link>
           </Flex>

@@ -3,16 +3,21 @@
 import { jsx, Box, Flex, Container, Image as Img } from "theme-ui";
 import SectionHeading from "../components/section-heading";
 import Image from "../components/image";
+import EditableImageContainer from "../../common/EditableImageContainer";
 
-const MobileApp = ({ content }) => {
+const MobileApp = ({ content, onSetContent }) => {
   return (
     <section sx={styles.section}>
       <Container>
         <Box sx={styles.grid}>
           <Flex sx={styles.illustration}>
-            <Image
+            <EditableImageContainer
               src={content.mobileApp.image.src}
               alt={content.mobileApp.image.alt}
+              component={Image}
+              onSubmit={(src) =>
+                onSetContent({ mobileApp: { image: { src } } })
+              }
             />
           </Flex>
           <Box>
@@ -20,16 +25,29 @@ const MobileApp = ({ content }) => {
               sx={styles.heading}
               title={content.mobileApp.title}
               description={content.mobileApp.description}
+              onEdit={(mobileApp) =>
+                onSetContent({
+                  mobileApp: { ...content.mobileApp, ...mobileApp },
+                })
+              }
             />
             <Flex sx={styles.buttonGroup}>
-              <Img
+              <EditableImageContainer
                 src={content.mobileApp.appleStoreImage.src}
                 alt={content.mobileApp.appleStoreImage.alt}
+                component={Image}
+                onSubmit={(src) =>
+                  onSetContent({ mobileApp: { appleStoreImage: { src } } })
+                }
               />
-              <Img
+              <EditableImageContainer
                 src={content.mobileApp.appleStoreImage.src}
                 sx={{ ml: 3 }}
                 alt={content.mobileApp.appleStoreImage.alt}
+                component={Image}
+                onSubmit={(src) =>
+                  onSetContent({ mobileApp: { appleStoreImage: { src } } })
+                }
               />
             </Flex>
           </Box>

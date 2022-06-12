@@ -3,6 +3,7 @@
 import { jsx, Container } from "theme-ui";
 import Slider from "react-slick";
 import Testimonial from "../components/cards/testimonial";
+import { addValueToArray } from "../../common/utils";
 
 const settings = {
   arrows: false,
@@ -21,7 +22,7 @@ const settings = {
   ],
 };
 
-const Testimonials = ({ content }) => {
+const Testimonials = ({ content, onSetContent }) => {
   return (
     <section id="testimonials" sx={styles.section}>
       <Container>
@@ -30,6 +31,18 @@ const Testimonials = ({ content }) => {
             <Testimonial
               key={`${index}-${testimonial.authorName}`}
               data={testimonial}
+              index={index}
+              onEdit={(value) =>
+                onSetContent({
+                  testimonials: {
+                    authors: addValueToArray(
+                      content.testimonials.authors,
+                      value,
+                      index
+                    ),
+                  },
+                })
+              }
             />
           ))}
         </Slider>

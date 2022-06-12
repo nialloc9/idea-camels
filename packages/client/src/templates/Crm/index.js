@@ -14,20 +14,28 @@ import Dashboard from "./sections/dashboard";
 import UltimateFeatures from "./sections/ultimate-features";
 import config from "./config";
 
-const CRM = ({ theme, content, onSetExperiment }) => (
-  <ThemeProvider theme={theme}>
-    <Layout content={content} onSetExperiment={onSetExperiment}>
-      <Banner content={content} onSetExperiment={onSetExperiment} />
-      <Testimonials content={content} onSetExperiment={onSetExperiment} />
-      <Security content={content} onSetExperiment={onSetExperiment} />
-      <Addons content={content} onSetExperiment={onSetExperiment} />
-      <Dashboard content={content} onSetExperiment={onSetExperiment} />
-      <UltimateFeatures content={content} onSetExperiment={onSetExperiment} />
-      <MobileApp content={content} theme={theme} />
-      <Faq content={content} theme={theme} onSetExperiment={onSetExperiment} />
-    </Layout>
-  </ThemeProvider>
-);
+const CRM = ({ theme, content, onSetExperiment }) => {
+  const onSetContent = (newContent) => onSetExperiment({ content: newContent });
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Layout content={content} onSetContent={onSetContent}>
+        <Banner content={content} onSetContent={onSetContent} />
+        <Testimonials content={content} onSetContent={onSetContent} />
+        <Security content={content} onSetContent={onSetContent} />
+        <Addons content={content} onSetContent={onSetContent} />
+        <Dashboard content={content} onSetContent={onSetContent} />
+        <UltimateFeatures content={content} onSetContent={onSetContent} />
+        <MobileApp
+          content={content}
+          theme={theme}
+          onSetContent={onSetContent}
+        />
+        <Faq content={content} theme={theme} onSetContent={onSetContent} />
+      </Layout>
+    </ThemeProvider>
+  );
+};
 
 const template = [
   {

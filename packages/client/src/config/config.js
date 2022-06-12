@@ -11,6 +11,7 @@ const development = {
   buildNumber: REACT_APP_BUILD_VERSION,
   env: NODE_ENV,
   isProd: false,
+  featureFlagEmails: ["nialloc9+5@gmail.com"],
   pathname,
   social: {
     facebook: "https://www.facebook.com/IdeaCamels-106851625376001",

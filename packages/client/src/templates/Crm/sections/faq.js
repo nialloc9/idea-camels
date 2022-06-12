@@ -5,10 +5,11 @@ import Masonry from "react-masonry-component";
 import SectionHeading from "../components/section-heading";
 import FaqItem from "../components/cards/faq-item";
 import { Link } from "../components/link";
+import { addValueToArray } from "../../common/utils";
 
 const masonryOptions = { originTop: true };
 
-const Faq = ({ content, config }) => {
+const Faq = ({ content, onSetContent }) => {
   return (
     <section id="faq" sx={styles.section}>
       <Container>
@@ -16,10 +17,32 @@ const Faq = ({ content, config }) => {
           sx={{ mb: [8, null, null, 15] }}
           description={content.faq.description}
           title={content.faq.title}
+          onEdit={(mobileApp) =>
+            onSetContent({
+              fag: { ...content.mobileApp, ...mobileApp },
+            })
+          }
         />
         <Masonry options={masonryOptions} sx={styles.grid}>
           {content.faq.questions.map((item, i) => {
-            return <FaqItem key={i} faq={item} className="faq-item" />;
+            return (
+              <FaqItem
+                key={i}
+                faq={item}
+                className="faq-item"
+                onEdit={(question) =>
+                  onSetContent({
+                    faq: {
+                      questions: addValueToArray(
+                        content.faq.questions,
+                        question,
+                        i
+                      ),
+                    },
+                  })
+                }
+              />
+            );
           })}
         </Masonry>
         <Box sx={styles.loadMore}>

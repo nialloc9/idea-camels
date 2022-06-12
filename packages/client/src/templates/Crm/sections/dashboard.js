@@ -5,8 +5,10 @@ import Tabs, { TabPane } from "rc-tabs";
 import SectionHeading from "../components/section-heading";
 import Image from "../components/image";
 import TabButton from "../components/tabs/tab-button";
+import { addValueToArray } from "../../common/utils";
+import EditableImageContainer from "../../common/EditableImageContainer";
 
-const Dashboard = ({ content }) => {
+const Dashboard = ({ content, onSetContent }) => {
   return (
     <section sx={styles.section}>
       <Container>
@@ -14,11 +16,49 @@ const Dashboard = ({ content }) => {
           sx={styles.heading}
           title={content.dashboard.title}
           description={content.dashboard.description}
+          onEdit={(dashboard) =>
+            onSetContent({
+              dashboard: { ...content.dashboard, ...dashboard },
+            })
+          }
         />
         <Tabs sx={styles.dashboardTabs} animated={{ tabPane: true }}>
-          {content.dashboard.items.map((tab) => (
-            <TabPane key={tab.id} tab={<TabButton tab={tab} />}>
-              <Image src={tab.image} alt={tab.title} />
+          {content.dashboard.items.map((tab, i) => (
+            <TabPane
+              key={tab.id}
+              tab={
+                <TabButton
+                  tab={tab}
+                  onEdit={(title) =>
+                    onSetContent({
+                      dashboard: {
+                        items: addValueToArray(
+                          content.dashboard.items,
+                          { ...tab, title },
+                          i
+                        ),
+                      },
+                    })
+                  }
+                />
+              }
+            >
+              <EditableImageContainer
+                src={tab.image}
+                alt={tab.title}
+                component={Image}
+                onSubmit={(src) =>
+                  onSetContent({
+                    dashboard: {
+                      items: addValueToArray(
+                        content.dashboard.items,
+                        { ...tab, image: src },
+                        i
+                      ),
+                    },
+                  })
+                }
+              />
             </TabPane>
           ))}
         </Tabs>

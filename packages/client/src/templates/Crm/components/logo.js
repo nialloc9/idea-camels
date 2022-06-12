@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, Image } from "theme-ui";
-import { Link } from "./link";
+import EditableImageContainer from "../../common/EditableImageContainer";
 
 export default function Logo({
   content,
@@ -9,17 +9,15 @@ export default function Logo({
   isSticky,
   light,
   dark,
+  onSetContent,
   ...props
 }) {
-  return <Image src={content.logo.image.src} alt={content.logo.image.alt} />;
+  return (
+    <EditableImageContainer
+      component={Image}
+      src={content.logo.image.src}
+      alt={content.logo.image.alt}
+      onSubmit={(src) => ({ logo: { image: { src } } })}
+    />
+  );
 }
-const styles = {
-  logo: {
-    alignItems: "center",
-    cursor: "pointer",
-    display: "inline-flex",
-    img: {
-      maxWidth: [128, null, "100%"],
-    },
-  },
-};

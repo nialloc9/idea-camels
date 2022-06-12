@@ -3,8 +3,9 @@
 import { jsx, Box, Container } from "theme-ui";
 import SectionHeading from "../components/section-heading";
 import Feature from "../components/cards/feature";
+import { addValueToArray } from "../../common/utils";
 
-const UltimateFeatures = ({ config, content }) => {
+const UltimateFeatures = ({ content, onSetContent }) => {
   return (
     <section sx={styles.section} id="services">
       <Container>
@@ -12,13 +13,29 @@ const UltimateFeatures = ({ config, content }) => {
           sx={styles.heading}
           title={content.ultimateFeatures.title}
           description={content.ultimateFeatures.description}
+          onEdit={(ultimateFeatures) =>
+            onSetContent({
+              dashboard: { ...content.ultimateFeatures, ...ultimateFeatures },
+            })
+          }
         />
         <Box sx={styles.features}>
-          {content.ultimateFeatures.features?.map((item) => (
+          {content.ultimateFeatures.features?.map((item, i) => (
             <Feature
               key={item.id}
               className="feature-item"
               data={content.ultimateFeatures.features}
+              onEdit={(newFeature) =>
+                onSetContent({
+                  ultimateFeatures: {
+                    features: addValueToArray(
+                      content.ultimateFeatures.features,
+                      { ...item, ...newFeature },
+                      i
+                    ),
+                  },
+                })
+              }
             />
           ))}
         </Box>

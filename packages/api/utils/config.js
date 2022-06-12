@@ -32,6 +32,9 @@ const development = {
   webAddress: "https://ideacamels.com",
   env: ENV,
   isProd: true,
+  noInternet: false,
+  logSuccessResponse: true,
+  logErrorResponse: true,
   name: "idea-camels-server",
   security: {
     password_secret: PASSWORD_SECRET,
@@ -120,9 +123,6 @@ const development = {
       default: "ce57f13efc",
     },
   },
-  noInternet: true,
-  logSuccessResponse: true,
-  logErrorResponse: true,
 };
 
 const staging = {

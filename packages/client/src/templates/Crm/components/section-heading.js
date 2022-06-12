@@ -1,38 +1,44 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, Box, Heading, Text, Image } from "theme-ui";
+import { jsx, Box, Heading, Text, Image, Link as A } from "theme-ui";
 import { LearnMore } from "../components/link";
+import withEditableText from "../../common/withEditableText";
+import Play from "./icons/play";
+
+const EditableHeading = withEditableText(Heading);
+const EditableText = withEditableText(Text);
+const EditableLearnMore = withEditableText(A);
 
 const SectionHeading = ({
   title,
-  emoji,
-  slogan,
   description,
   learnMore,
   moreLink,
+  onEdit,
   ...props
 }) => {
   return (
     <Box sx={styles.heading} {...props}>
-      {slogan && (
-        <Text as="p" sx={styles.slogan}>
-          {slogan}
-        </Text>
-      )}
-      <Heading as="h3" sx={styles.title}>
-        {emoji ? <span>{title}</span> : title}
-        {emoji && <Image src={emoji} alt="emoji" />}
-      </Heading>
+      <EditableHeading
+        as="h3"
+        sx={styles.title}
+        initialText={title}
+        onSubmit={(newTitle) => onEdit({ title: newTitle })}
+      />
       {description && (
-        <Text as="p" sx={styles.description}>
-          {description}
-        </Text>
+        <EditableText
+          as="p"
+          sx={styles.description}
+          initialText={description}
+          onSubmit={(newDescription) => onEdit({ description: newDescription })}
+        />
       )}
       {learnMore && (
-        <LearnMore
-          path={moreLink ?? "#"}
+        <EditableLearnMore
           sx={styles.learnMore}
-          label={learnMore ?? "Learn More"}
+          initialText={learnMore ?? "Learn More"}
+          appearAfterText={<Play />}
+          onSubmit={(newLearnMore) => onEdit({ learnMore: newLearnMore })}
         />
       )}
     </Box>
@@ -76,9 +82,17 @@ const styles = {
   },
   learnMore: {
     mt: [3, null, null, 5],
-    fontSize: ["12px", null, null, "14px", "15px"],
+    color: "primary",
+    cursor: "pointer",
+    fontSize: [1, null, null, null, "15px"],
+    fontWeight: 700,
+    display: "inline-flex",
+    alignItems: "center",
+    textDecoration: "none",
+    textTransform: "uppercase",
     svg: {
       width: [14, null, null, 17],
+      ml: 2,
     },
   },
 };

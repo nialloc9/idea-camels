@@ -2,15 +2,45 @@
 /** @jsx jsx */
 import { jsx, Box, Heading } from "theme-ui";
 import { Link } from "../link";
+import withEditableText from "../../../common/withEditableText";
+import { addValueToArray } from "../../../common/utils";
 
-const Widget = ({ title, items }) => {
+const EditableHeading = withEditableText(Heading);
+const EditableLink = withEditableText(Link);
+
+const Widget = ({ title, items, index, onSetContent }) => {
   return (
     <Box sx={styles.footerWidget}>
-      <Heading as="h4">{title}</Heading>
+      <EditableHeading
+        as="h4"
+        initialtText={title}
+        onSubmit={(value) =>
+          onSetContent({
+            footer: {
+              items: addValueToArray(items, { items, title: value }, index),
+            },
+          })
+        }
+      />
       <ul>
         {items.map((item, i) => (
           <li key={i}>
-            <Link href="#" key={i} label={item} variant="footer" />
+            <EditableLink
+              key={i}
+              initialText={item}
+              variant="footer"
+              onSubmit={(value, i) =>
+                onSetContent({
+                  footer: {
+                    items: addValueToArray(
+                      items,
+                      { items: addValueToArray(items, value, i), title },
+                      index
+                    ),
+                  },
+                })
+              }
+            />
           </li>
         ))}
       </ul>
@@ -35,7 +65,7 @@ const styles = {
       margin: "28px 0 0",
       padding: 0,
       li: {
-        display: "flex",
+        // display: "flex",
         alignItems: "center",
         img: {
           mr: "15px",
@@ -45,6 +75,7 @@ const styles = {
         fontSize: "15px",
         color: "white",
         textDecoration: "none",
+        backgroundColor: "#1D2146",
         lineHeight: 2.5,
       },
     },

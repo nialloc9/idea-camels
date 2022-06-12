@@ -2,9 +2,10 @@
 /** @jsx jsx */
 import { jsx, Box, Flex, Container } from "theme-ui";
 import SectionHeading from "../components/section-heading";
+import EditableImage from "../../common/EditableImageContainer";
 import Image from "../components/image";
 
-const Addons = ({ content }) => {
+const Addons = ({ content, onSetContent }) => {
   return (
     <section sx={styles.section}>
       <Container>
@@ -14,11 +15,18 @@ const Addons = ({ content }) => {
             title={content.addons.title}
             description={content.addons.description}
             learnMore={content.addons.learnMore}
+            onEdit={({ addons }) =>
+              onSetContent({ ...content.addons, ...addons })
+            }
           />
           <Flex sx={styles.illustration}>
-            <Image
+            <EditableImage
               src={content.addons.image.src}
               alt={content.addons.image.alt}
+              component={Image}
+              onSubmit={({ src }) =>
+                onSetContent({ addons: { image: { src } } })
+              }
             />
           </Flex>
         </Box>

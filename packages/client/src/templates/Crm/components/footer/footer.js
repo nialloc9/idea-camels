@@ -4,21 +4,36 @@ import { jsx, Box, Text, Container } from "theme-ui";
 import Logo from "../logo";
 import { Link } from "../link";
 import FooterWidget from "./widget";
+import withEditableText from "../../../common/withEditableText";
+import { addValueToArray } from "../../../common/utils";
 
-export default function Footer({ content, domain }) {
+const EditableLink = withEditableText(Link);
+
+export default function Footer({ content, domain, onSetContent }) {
   return (
     <footer sx={styles.footer}>
       <Container>
         <Box sx={styles.footerTopInner}>
-          {content.footer.items.map(({ id, title, items }) => (
-            <FooterWidget key={id} title={title} items={items} />
+          {content.footer.items.map(({ id, title, items }, i) => (
+            <FooterWidget
+              index={i}
+              key={id}
+              title={title}
+              items={items}
+              onSetContent={onSetContent}
+            />
           ))}
         </Box>
       </Container>
       <Container>
         <Box sx={styles.footerInner}>
           <Box sx={styles.copyright}>
-            <Logo content={content} sx={styles.logo} light />
+            <Logo
+              content={content}
+              sx={styles.logo}
+              light
+              onSetContent={onSetContent}
+            />
             <Text as="span">
               Copyright by {new Date().getFullYear()} {domain}
             </Text>
@@ -27,7 +42,18 @@ export default function Footer({ content, domain }) {
           <Box as="ul" sx={styles.footerNav}>
             {content.header.items.map((item, i) => (
               <li key={i}>
-                <Link href="#" key={i} label={item} variant="footer" />
+                <EditableLink
+                  key={i}
+                  initialText={item}
+                  variant="footer"
+                  onSubmit={(value) =>
+                    onSetContent({
+                      header: {
+                        items: addValueToArray(content.header.items, value, i),
+                      },
+                    })
+                  }
+                />
               </li>
             ))}
           </Box>
@@ -92,6 +118,7 @@ const styles = {
       color: "white",
       fontSize: [1, null, null, 2],
       textDecoration: "none",
+      backgroundColor: "#1D2146",
     },
   },
 };

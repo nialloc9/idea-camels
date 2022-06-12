@@ -2,39 +2,60 @@
 /** @jsx jsx */
 import { jsx, Flex, Container, Heading, Text, Button } from "theme-ui";
 import Image from "../components/image";
-import { Link } from "../components/link";
 import Play from "../components/icons/play";
+import withEditableText from "../../common/withEditableText";
+import EditableImage from "../../common/EditableImageContainer";
 
-const Banner = ({ content }) => {
+const EditableHeading = withEditableText(Heading);
+const EditableText = withEditableText(Text);
+const EditableButton = withEditableText(Button);
+
+const Banner = ({ content, onSetContent }) => {
   return (
     <section id="home" sx={styles.section}>
       <Container sx={styles.container}>
         <div sx={styles.content}>
-          <Heading as="h1">{content.banner.heading}</Heading>
-          <Text as="p">{content.banner.subHeading}</Text>
+          <EditableHeading
+            as="h1"
+            initialText={content.banner.heading}
+            onSubmit={(heading) =>
+              onSetContent({
+                banner: { heading },
+              })
+            }
+          />
+          <EditableText
+            as="p"
+            initialText={content.banner.subHeading}
+            onSubmit={(subHeading) =>
+              onSetContent({
+                banner: { subHeading },
+              })
+            }
+          />
+
           <Flex sx={styles.buttonGroup}>
-            <Link
-              href="#"
-              style={{ color: "inherit", textDecoration: "inherit" }}
-            >
-              <Button variant="primary" sx={styles.btnPrimary}>
-                Try free trial
-              </Button>
-            </Link>
-            <Link
-              href="#"
-              style={{ color: "inherit", textDecoration: "inherit" }}
-            >
-              <Button variant="outlined" sx={styles.btnOutlined}>
-                Discover video <Play fill="white" />
-              </Button>
-            </Link>
+            <EditableButton
+              variant="primary"
+              sx={styles.btnPrimary}
+              initialText={content.banner.button1}
+              onSubmit={(button1) => ({ banner: { button1 } })}
+            />
+            <EditableButton
+              variant="outlined"
+              sx={styles.btnOutlined}
+              initialText={content.banner.button2}
+              onSubmit={(button2) => ({ banner: { button2 } })}
+              appearAfterText={<Play fill="white" />}
+            />
           </Flex>
         </div>
         <Flex as="figure" sx={styles.illustration}>
-          <Image
+          <EditableImage
             src={content.banner.image.src}
             alt={content.banner.image.alt}
+            component={Image}
+            onSubmit={(src) => onSetContent({ banner: { image: { src } } })}
           />
         </Flex>
       </Container>
