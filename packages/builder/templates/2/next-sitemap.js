@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: `https://${PROCESS.ENV.DOMAIN}`,
+  siteUrl: `https://${process.env.DOMAIN}`,
   generateRobotsTxt: true,
 };
