@@ -1,8 +1,14 @@
 import IdeaCamelsDefault, {
   config as ideaCamelsDefaultConfig,
 } from "./IdeaCamelsDefault";
+import Crm, { config as crmConfig } from "./Crm";
 
 const templates = [
+  {
+    ref: crmConfig.ref,
+    template: Crm,
+    config: crmConfig,
+  },
   {
     ref: ideaCamelsDefaultConfig.ref,
     template: IdeaCamelsDefault,

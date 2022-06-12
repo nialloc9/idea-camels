@@ -11,7 +11,7 @@ class Billing extends Component {
 
     const { card = {} } = props;
 
-    this.state = { index: !card.id ? 0 : 1 };
+    this.state = { index: !card?.id ? 0 : 1 };
   }
 
   render() {

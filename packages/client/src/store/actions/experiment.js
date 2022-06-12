@@ -160,55 +160,55 @@ export const onCreate = (experimentToCreate, callback) => async (
  * @param {*} params
  * @returns
  */
-export const onPrepareExperiment = ({
-  domain,
-  themeRef,
-  templateRef,
-  budget,
-  endDate,
-  keyword1,
-  keyword2,
-  keyword3,
-  keyword4,
-  keyword5,
-  keyword6,
-  headline,
-  headline2,
-  description,
-}) => async (dispatch, getState) => {
+export const onPrepareExperiment = (newData) => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
 
   const {
     experiment: { newExperiment },
   } = getState();
-
-  const {
-    theme: { theme },
-    content,
-  } = findThemeAndContent({ templateRef, themeRef });
+  console.log("here", newExperiment, newData);
 
   const experimentPayload = {
-    themeRef,
-    templateRef,
-    domain,
-    theme,
-    content,
-    endDate,
-    budget: parseInt(budget),
-    keyword1,
-    keyword2,
-    keyword3,
-    keyword4,
-    keyword5,
-    keyword6,
-    headline,
-    headline2,
-    description,
+    ...newExperiment,
+    ...newData,
   };
+
+  // if no templateRef has been selected before
+  if (!experimentPayload.templateRef) {
+    experimentPayload.templateRef = 2;
+    experimentPayload.themeRef = 1;
+  }
+
+  if (experimentPayload.templateRef !== newExperiment.templateRef) {
+    const {
+      theme: { theme },
+      content,
+    } = findThemeAndContent({
+      templateRef: newData.templateRef || 2,
+      themeRef: newData.themeRef || 1,
+    });
+
+    experimentPayload.content = content;
+    experimentPayload.theme = theme;
+  }
+
+  if (
+    newData.templateRef &&
+    newData.templateRef === newExperiment.templateRef
+  ) {
+    const {
+      theme: { theme },
+    } = findThemeAndContent({
+      templateRef: newData.templateRef,
+      themeRef: newData.themeRef,
+    });
+
+    experimentPayload.theme = theme;
+  }
 
   onSetState({
     formIndex: 1,
-    newExperiment: deepMerge(newExperiment, experimentPayload),
+    newExperiment: experimentPayload,
   }); // formIndex 1 means go to next form
 };
 

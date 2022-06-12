@@ -115,7 +115,10 @@ const listDomainPrices = ({}, newProvider) =>
   new Promise((resolve, reject) => {
     if (config.noInternet) {
       logger.warn({}, "No Internet set in config");
-      return resolve({ error: undefined, data: [] });
+      return resolve({
+        error: undefined,
+        data: [{ Name: "com", RegistrationPrice: "20" }],
+      });
     }
     const provider = newProvider || defaultRoute53Provider;
 

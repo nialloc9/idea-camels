@@ -5,16 +5,11 @@ import { Segment } from "../Styled/Segment";
 import { Header } from "../Styled/Header";
 import { Form } from "../Form/Form";
 import { FormInput } from "../Form/Input";
-import { FormDropdown } from "../Form/Dropdown";
 import { Message } from "../Message";
 import Price from "../Price";
 import { ListHeader, List, ListItem } from "../List";
 import { withForm } from "../../hoc/withForm";
-import {
-  toTitleCase,
-  getWeeksFromNow,
-  getDateMonthsFromNow,
-} from "../../utils/utils";
+import { getWeeksFromNow, getDateMonthsFromNow } from "../../utils/utils";
 import {
   calculateDomainPrice,
   calculateTotalExperimentPrice,
@@ -28,7 +23,6 @@ import {
 } from "../../utils/form";
 import { onPrepareExperiment } from "../../store/actions/experiment";
 import { connect } from "../../store";
-import templates, { findTemplate } from "../../templates";
 
 class CreateForm extends Component {
   state = {
@@ -40,34 +34,6 @@ class CreateForm extends Component {
     domainPrices: [],
     suggestedDomains: [],
   };
-
-  get templateOptions() {
-    return templates.map(({ config: { name, ref } }) => ({
-      key: ref,
-      text: toTitleCase(`${name} Template`),
-      value: ref,
-    }));
-  }
-
-  get themeOptions() {
-    const {
-      values: { templateRef },
-    } = this.props;
-
-    const template = findTemplate(templateRef);
-
-    if (!template) return [];
-
-    const {
-      config: { themes },
-    } = template;
-
-    return themes.map(({ name, ref }) => ({
-      key: ref,
-      value: ref,
-      text: toTitleCase(`${name} Theme`),
-    }));
-  }
 
   createDomainValue = (o) => ({ key: o, text: o, value: o });
 
@@ -101,15 +67,12 @@ class CreateForm extends Component {
     const {
       submitting,
       pristine,
-      isFetchTemplatesLoading,
       submitError,
       values: { budget, domain },
       newExperiment,
       domainPrices,
       onSubmit,
     } = this.props;
-
-    const { templateRef, themeRef } = newExperiment;
 
     const { keywordsIndex } = this.state;
 
@@ -149,46 +112,6 @@ class CreateForm extends Component {
                   />
                   {this.renderSuggestDomains()}
                 </GridColumn>
-                <GridColumn>
-                  <FormDropdown
-                    labelText="Template"
-                    name="templateRef"
-                    lazyLoad
-                    labeled
-                    defaultValue={templateRef}
-                    selection
-                    search
-                    display="block"
-                    action="create-experiment-form-click"
-                    label="template"
-                    tabletDisplay="inline-block"
-                    options={this.templateOptions}
-                    placeholder="Please select a template"
-                    loading={isFetchTemplatesLoading}
-                    validate={[validateRequired]}
-                  />
-                </GridColumn>
-              </GridRow>
-              <GridRow centered columns={2}>
-                <GridColumn>
-                  <FormDropdown
-                    labelText="Theme"
-                    name="themeRef"
-                    defaultValue={themeRef}
-                    lazyLoad
-                    selection
-                    display="block"
-                    action="create-experiment-form-click"
-                    label="theme"
-                    tabletDisplay="inline-block"
-                    options={this.themeOptions}
-                    disabled={this.themeOptions.length === 0}
-                    placeholder="Please select a theme"
-                    loading={isFetchTemplatesLoading}
-                    validate={[validateRequired]}
-                  />
-                </GridColumn>
-
                 <GridColumn />
               </GridRow>
             </Grid>

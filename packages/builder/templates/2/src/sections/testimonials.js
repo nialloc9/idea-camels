@@ -1,10 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, Container } from 'theme-ui';
-import Slider from 'react-slick';
-import Testimonial from 'components/cards/testimonial';
-import { rgba } from 'polished';
-import { content } from 'config';
+import { jsx, Container } from "theme-ui";
+import Slider from "react-slick";
+import Testimonial from "components/cards/testimonial";
+import { rgba } from "polished";
+import { content } from "config";
 
 const settings = {
   arrows: false,
@@ -29,7 +29,10 @@ const Testimonials = () => {
       <Container>
         <Slider sx={styles.slider} {...settings}>
           {content.testimonials.authors.map((testimonial, index) => (
-            <Testimonial key={`${index}-${testimonial.authorName}`} data={testimonial} />
+            <Testimonial
+              key={`${index}-${testimonial.authorName}`}
+              data={testimonial}
+            />
           ))}
         </Slider>
       </Container>
@@ -45,39 +48,39 @@ const styles = {
     pb: [8, null, null, null, 10, 14],
   },
   slider: {
-    '.slick-list': {
+    ".slick-list": {
       // mx: [null, null, null, null, -2, 0],
     },
-    '.slick-slide': {
+    ".slick-slide": {
       // mr: [null, null, null, null, 4, 0],
     },
-    '.slick-dots': {
-      display: 'flex !important',
+    ".slick-dots": {
+      display: "flex !important",
       margin: 0,
       padding: 0,
-      listStyle: 'none',
-      alignItems: 'center',
-      justifyContent: 'center',
+      listStyle: "none",
+      alignItems: "center",
+      justifyContent: "center",
       marginTop: [3, null, null, 13],
       li: {
         mx: 1,
-        display: 'flex',
+        display: "flex",
       },
       button: {
-        backgroundColor: rgba('#2D3D50', 0.15),
+        variant: "testimonials.button",
         borderRadius: 50,
         border: 0,
-        cursor: 'pointer',
+        cursor: "pointer",
         padding: 0,
-        overflow: 'hidden',
-        textIndent: '-9999em',
+        overflow: "hidden",
+        textIndent: "-9999em",
         width: 10,
         height: 6,
         outline: 0,
-        transition: 'all 0.3s ease-in-out 0s',
+        transition: "all 0.3s ease-in-out 0s",
       },
-      '.slick-active button': {
-        backgroundColor: rgba('#2D3D50', 0.4),
+      ".slick-active button": {
+        variant: "testimonials.activeButton",
         width: 20,
       },
     },
