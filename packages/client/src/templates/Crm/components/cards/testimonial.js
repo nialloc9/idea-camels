@@ -3,7 +3,6 @@
 import { jsx, Box, Image, Heading, Text } from "theme-ui";
 import EditableImageContainer from "../../../common/EditableImageContainer";
 import withEditableText from "../../../common/withEditableText";
-import { addValueToArray } from "../../../common/utils";
 
 const EditableText = withEditableText(Text);
 const EditableHeading = withEditableText(Heading);
@@ -85,7 +84,7 @@ const styles = {
     },
   },
   avatar: {
-    minWidth: 60,
+    width: 60,
     margin: ["0 0 15px 0", null, null, "55px 30px 0 0"],
     img: {
       borderRadius: "50%",
