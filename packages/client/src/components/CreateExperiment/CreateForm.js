@@ -331,8 +331,8 @@ class CreateForm extends Component {
                     display="block"
                     tabletDisplay="inline-block"
                     placeholder="How much do you wish to spend?"
-                    info="This is the budget that will be spent on driving traffic to your experiment. We recommend using at least $100 to ensure you buy enough ads to get meaningful click throughs."
-                    validate={[validateRequired, validateMinValue(20)]}
+                    info="This is the budget that will be spent on driving traffic to your experiment. We recommend using at least $100 to ensure you buy enough ads to get meaningful click throughs. We recommend 20 or higher."
+                    validate={[validateRequired]}
                     action="create-experiment-form-click"
                     label="budget"
                   />
