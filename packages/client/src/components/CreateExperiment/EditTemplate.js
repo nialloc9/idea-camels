@@ -12,7 +12,7 @@ class EditForm extends Component {
   get templateOptions() {
     return templates.map(({ config: { name, ref } }) => ({
       key: ref,
-      text: toTitleCase(`${name} Template`),
+      text: toTitleCase(name),
       value: ref,
     }));
   }
@@ -33,7 +33,7 @@ class EditForm extends Component {
     return themes.map(({ name, ref }) => ({
       key: ref,
       value: ref,
-      text: toTitleCase(`${name} Theme`),
+      text: toTitleCase(name),
     }));
   }
 

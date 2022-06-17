@@ -12,7 +12,7 @@ export default {
     {
       ref: 1,
       templateRef: 1,
-      name: "Idea Camels Default",
+      name: "Default",
       theme: theme1,
     },
     {

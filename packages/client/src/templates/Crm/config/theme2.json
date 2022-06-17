@@ -1,6 +1,6 @@
 {
   "banner": {
-    "backgroundColor": "#02162d"
+    "backgroundColor": "#1446A0"
   },
   "dashboard": {
     "backgroundColor": "#7141f808",
@@ -21,10 +21,10 @@
   },
   "testimonials": {
     "button": {
-      "backgroundColor": "#2d3d5026"
+      "backgroundColor": "#1446A0"
     },
     "activeButton": {
-      "backgroundColor": "#2d3d5066"
+      "backgroundColor": "#1446A0"
     }
   },
   "colors": {
@@ -249,9 +249,12 @@
     }
   },
   "footer": {
-    "backgroundColor": "#1D2146"
+    "backgroundColor": "#1446A0"
   },
-  "play": {
-    "fill": "#1D2146"
+  "icons": {
+    "play": {
+      "fill": "#1446A0",
+      "backgroundColor": "#1446A0"
+    }
   }
 }

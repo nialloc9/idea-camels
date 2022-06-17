@@ -1,6 +1,6 @@
 {
   "banner": {
-    "backgroundColor": "#02162d"
+    "backgroundColor": "#eabe7c"
   },
   "dashboard": {
     "backgroundColor": "#7141f808",
@@ -21,10 +21,10 @@
   },
   "testimonials": {
     "button": {
-      "backgroundColor": "#2d3d5026"
+      "backgroundColor": "#d9dd92"
     },
     "activeButton": {
-      "backgroundColor": "#2d3d5066"
+      "backgroundColor": "#ece4b7"
     }
   },
   "colors": {
@@ -35,12 +35,12 @@
     "background": "#FFFFFF",
     "backgroundSecondary": "#F9FAFC",
     "borderColor": "#E9EDF5",
-    "primary": "#5567FF",
+    "primary": "#d9dd92",
     "secondary": "#10132D",
     "muted": "#7B8188",
     "accent": "#609",
     "dark": "#10132D",
-    "link": "#3183FF"
+    "link": "#ece4b7"
   },
   "fonts": {
     "body": "DM Sans, sans-serif",
@@ -249,9 +249,13 @@
     }
   },
   "footer": {
-    "backgroundColor": "#1D2146"
+    "backgroundColor": "#eabe7c"
   },
-  "play": {
-    "fill": "#1D2146"
+  "icons": {
+    "play": {
+      "fill": "#eabe7c",
+      "color": "#eabe7c",
+      "backgroundColor": "#eabe7c"
+    }
   }
 }

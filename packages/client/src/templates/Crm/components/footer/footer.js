@@ -65,7 +65,7 @@ export default function Footer({ content, domain, onSetContent }) {
 
 const styles = {
   footer: {
-    backgroundColor: "#1D2146",
+    variant: "footer",
     pt: 9,
   },
   footerTopInner: {
@@ -118,7 +118,7 @@ const styles = {
       color: "white",
       fontSize: [1, null, null, 2],
       textDecoration: "none",
-      backgroundColor: "#1D2146",
+      variant: "footer",
     },
   },
 };
