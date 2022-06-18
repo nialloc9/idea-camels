@@ -298,7 +298,7 @@ const Taq = () => {
             >
               NDA
             </a>{" "}
-            barring them from sharing information on any ideas aquired while
+            barring them from sharing information on any ideas acquired while
             working for https://ideacamels.com
           </p>
 
