@@ -287,6 +287,22 @@ const Taq = () => {
           </p>
 
           <h3>
+            <strong>NDA</strong>
+          </h3>
+
+          <p>
+            All IdeaCamels staff sign an{" "}
+            <a
+              target="_blank"
+              href="https://www.investopedia.com/terms/n/nda.asp#:~:text=A%20non%2Ddisclosure%20agreement%20is,to%20as%20a%20confidentiality%20agreement."
+            >
+              NDA
+            </a>{" "}
+            barring them from sharing information on any ideas aquired while
+            working for https://ideacamels.com
+          </p>
+
+          <h3>
             <strong>Disclaimer</strong>
           </h3>
 
