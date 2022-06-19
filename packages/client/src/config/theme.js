@@ -163,9 +163,9 @@ export default {
   block5: {
     ...defaultFont,
     fontFamily: FONT_001,
-    height: 700,
+    height: 500,
     backgroundColor: WHITE_000,
-    paddings: [20, 20, 0, 20],
+    paddings: [80, 20, 0, 20],
     quoteContainerPaddings: [0, 0, 0, 0],
     card: {
       width: 1000,
@@ -199,6 +199,13 @@ export default {
       margins: [40, 0, 0, 0],
       backgroundColor: MAIN_000,
     },
+  },
+  block6: {
+    ...defaultFont,
+    height: 650,
+    backgroundColor: WHITE_000,
+    fontFamily: FONT_001,
+    paddings: [0, 0, 100, 0],
   },
   footer: {
     ...defaultFont,

@@ -11,6 +11,7 @@ import { Grid, GridColumn } from "../../Grid";
 import { Card } from "../../Card";
 
 const Container = styled.section`
+  padding: 0 0 ${remCalc(40)} 0;
   min-height: ${({
     theme: {
       block3: { height },
@@ -34,11 +35,7 @@ const Container = styled.section`
 const Overlay = styled.div`
   position: relative;
   box-sizing: border-box;
-  top: ${({
-    theme: {
-      block3: { overlay },
-    },
-  }) => `${overlay.top}px`};
+
   min-height: ${({
     theme: {
       block3: { overlay },
@@ -57,6 +54,11 @@ const Overlay = styled.div`
 
   ${({ theme: { breakpoints } }) => createMediaQuery(breakpoints.tablet)} {
     position: absolute;
+    top: ${({
+      theme: {
+        block3: { overlay },
+      },
+    }) => `${overlay.top}px`};
   }
 `;
 

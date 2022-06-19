@@ -8,17 +8,16 @@ import {
 import { Button } from "../../Styled/Button";
 import Carausel from "./Carousel";
 
+const Section = styled.section`
+  margin: ${remCalc(40)} 0 0 0;
+`;
 const Container = styled.section`
   min-height: ${({
     theme: {
       block5: { height },
     },
   }) => remCalc(height)};
-  padding: ${({
-    theme: {
-      block5: { paddings },
-    },
-  }) => getMarginsOrPaddings(paddings)};
+  padding: ${remCalc(40)} 0;
   background-color: ${({
     theme: {
       block5: { backgroundColor },
@@ -107,7 +106,7 @@ const ButtonContainer = styled.div`
 `;
 
 export default withTheme(({ theme: { block5 } }) => (
-  <Fragment>
+  <Section>
     <Carausel />
     <Container>
       <InnerContainer>
@@ -130,5 +129,5 @@ export default withTheme(({ theme: { block5 } }) => (
         </ButtonContainer>
       </InnerContainer>
     </Container>
-  </Fragment>
+  </Section>
 ));

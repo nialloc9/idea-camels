@@ -12,16 +12,7 @@ import { Image } from "../../Image";
 import { Button } from "../../Styled/Button";
 
 const Container = styled.section`
-  min-height: ${({
-    theme: {
-      block4: { height },
-    },
-  }) => remCalc(height)};
-  padding: ${({
-    theme: {
-      block4: { paddings },
-    },
-  }) => getMarginsOrPaddings(paddings)};
+  padding: ${remCalc(40)} 0;
   background-color: ${({
     theme: {
       block4: { backgroundColor },
