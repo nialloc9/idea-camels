@@ -33,14 +33,22 @@ const Container = styled.section`
 const data = [
   {
     title: "How do you prevent my ideas from being taken by your staff?",
-    content:
-      "All IdeaCamels staff sign an NDA barring them from sharing information on any ideas acquired while working for IdeaCamels.",
+    content: (
+      <span>
+        All IdeaCamels staff sign an{" "}
+        <a href="https://www.investopedia.com/terms/n/nda.asp" target="_blank">
+          NDA
+        </a>{" "}
+        barring them from sharing information on any ideas acquired while
+        working for IdeaCamels.
+      </span>
+    ),
     analyticsLabel: "stolen-ideas",
   },
   {
     title: "What if I don't use all my advertising budget?",
     content:
-      "We will refund unused advertising budget within 30 days of experiment ending.",
+      "We will refund unused advertising budget within 30 days of an experiment ending.",
     analyticsLabel: "unused-advertising-budget",
   },
   {
@@ -51,13 +59,26 @@ const data = [
   },
   {
     title: "Who owns the domain I purchase through IdeaCamels?",
-    content: `You do for up to 1 year. We will manage it for you while your experiments are running but if you want to transfer ownership of this to your domain provider please contact us at support@ideacamels.com and we will be happy to help.`,
+    content: (
+      <span>
+        You own it and it is registered for an initial 12 month period. We will
+        manage it for you while your experiments are running but if you want to
+        transfer ownership of this to your domain provider, please contact us at{" "}
+        <a href="mailto: support@ideacamels.com">support@ideacamels.com</a> and
+        we will be happy to help.
+      </span>
+    ),
     analyticsLabel: "domain-ownership",
   },
   {
     title: "What if I want to cancel my experiments early?",
-    content:
-      "Not a problem, contact us at support@ideacamels.com and we will be happy to help.",
+    content: (
+      <span>
+        Not a problem, contact us at{" "}
+        <a href="mailto: support@ideacamels.com">support@ideacamels.com</a> and
+        we will be happy to help.
+      </span>
+    ),
     analyticsLabel: "cancel-early",
   },
 ];
