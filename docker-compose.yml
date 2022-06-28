@@ -47,3 +47,11 @@ services:
     env_file:
       - ./packages/infrastructure/.dev.env
     command: tail -f /dev/null
+  idea-camels-keyword-optimiser:
+    build: ./packages/keyword-optimiser
+    volumes:
+      - ./packages/keyword-optimiser:/usr/src/app:cached
+      - $HOME/.aws/credentials:/root/.aws/credentials:ro
+    env_file:
+      - ./packages/keyword-optimiser/.dev.env
+    command: tail -f /dev/null

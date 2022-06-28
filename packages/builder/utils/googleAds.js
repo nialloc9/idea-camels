@@ -56,7 +56,10 @@ const createCampaign = async (campaign) => {
     return {};
   }
 
-  logger.info([{ ...campaign, target_spend: {}, validate_only: !config.isProd }], "CREATING CAMPAIGN");
+  logger.info(
+    [{ ...campaign, target_spend: {}, validate_only: !config.isProd }],
+    "CREATING CAMPAIGN"
+  );
 
   const { results } = await customer.campaigns.create(
     [{ ...campaign, target_spend: {} }],
@@ -101,7 +104,7 @@ const getCampaign = async (resourceName) => {
 const deleteCampaign = async (name) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO DELETE CAMPAIGN");
-    return []
+    return [];
   }
 
   return await customer.campaigns.delete(name, {
