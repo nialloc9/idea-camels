@@ -1,14 +1,5 @@
-resource "aws_ecs_cluster" "ideacamels" {
-  name = "ideacamels-${var.environment}"
-
-  setting {
-    name  = "containerInsights"
-    value = "enabled"
-  }
-}
-
-resource "aws_iam_role" "builder" {
-  name = "builder-${var.environment}"
+resource "aws_iam_role" "keyword_optimiser" {
+  name = "keyword-optimiser-${var.environment}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -33,9 +24,9 @@ resource "aws_iam_role" "builder" {
   })
 }
 
-resource "aws_iam_role_policy" "builder" {
-  name = "builder-${var.environment}"
-  role = aws_iam_role.builder.id
+resource "aws_iam_role_policy" "keyword_optimiser" {
+  name = "keyword-optimiser-${var.environment}"
+  role = aws_iam_role.keyword_optimiser.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -51,10 +42,10 @@ resource "aws_iam_role_policy" "builder" {
   })
 }
 
-resource "aws_ecs_task_definition" "builder" {
-  family                   = "builder-${var.environment}"
-  execution_role_arn       = aws_iam_role.builder.arn
-  task_role_arn            = aws_iam_role.builder.arn
+resource "aws_ecs_task_definition" "keyword_optimiser" {
+  family                   = "keyword-optimiser-${var.environment}"
+  execution_role_arn       = aws_iam_role.keyword_optimiser.arn
+  task_role_arn            = aws_iam_role.keyword_optimiser.arn
   requires_compatibilities = ["FARGATE"]
   cpu                      = 512
   memory                   = 1024
@@ -63,13 +54,13 @@ resource "aws_ecs_task_definition" "builder" {
   container_definitions = <<DEFINITION
 [
   {
-    "name": "builder-${var.environment}",
-    "image": "${module.builder_ecr.repository_url}",
+    "name": "keyword-optimiser-${var.environment}",
+    "image": "${module.keyword_optimiser_ecr.repository_url}",
     "requires_compatibilities": ["FARGATE"], 
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "${var.environment}_ideacamels_builder",
+        "awslogs-group": "${var.environment}_keyword_optimiser",
         "awslogs-region": "${var.region}",
         "awslogs-stream-prefix": "ecs"
       }
@@ -142,8 +133,20 @@ resource "aws_ecs_task_definition" "builder" {
 DEFINITION
 }
 
-resource "aws_cloudwatch_log_group" "ideacamels_builder" {
-  name = "${var.environment}_ideacamels_builder"
+resource "aws_cloudwatch_log_group" "keyword_optimiser" {
+  name = "${var.environment}_keyword_optimiser"
 
   retention_in_days = 90
+}
+
+module "keyword_optimiser_task" {
+  source                                      = "../../"
+  name_prefix                                 = "ideacamels-keyword-optimiser_task-task"
+  event_rule_name                             = "ideacamels-keyword-optimiser-task-rule"
+  event_rule_schedule_expression              = "cron(10 0 1 * *)"
+  ecs_cluster_arn                             = module.ideacamels.aws_ecs_cluster_cluster_arn
+  event_target_ecs_target_subnets             = [aws_subnet.ideacamels_main_private, module.db_security_group.id, aws_db_subnet_group.ideacamels_main]
+  event_target_ecs_target_task_definition_arn = aws_ecs_task_definition.keyword_optimiser.arn
+  ecs_execution_task_role_arn                 = aws_iam_role.keyword_optimiser.arn
+  ecs_task_role_arn                           = aws_iam_role.keyword_optimiser.arn
 }

@@ -15,3 +15,9 @@ module "api_ecr" {
   name        = local.ecr.api_ecr_name
   environment = var.environment
 }
+
+module "keyword_optimiser_ecr" {
+  source      = "./modules/ecr"
+  name        = "keyword_optimiser"
+  environment = var.environment
+}
