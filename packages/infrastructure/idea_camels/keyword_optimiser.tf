@@ -55,7 +55,7 @@ resource "aws_ecs_task_definition" "keyword_optimiser" {
 [
   {
     "name": "keyword-optimiser-${var.environment}",
-    "image": "${module.keyword_optimiser_ecr.repository_url}",
+    "image": "${module.ideacamels_keyword_optimiser_ecr.repository_url}",
     "requires_compatibilities": ["FARGATE"], 
     "logConfiguration": {
       "logDriver": "awslogs",
@@ -134,18 +134,30 @@ DEFINITION
 }
 
 resource "aws_cloudwatch_log_group" "keyword_optimiser" {
-  name = "${var.environment}_keyword_optimiser"
+  name = "${var.environment}_ideacamels_keyword_optimiser"
 
   retention_in_days = 90
 }
 
-module "keyword_optimiser_task" {
-  source                                      = "cn-terraform/ecs-fargate-scheduled-task/aws"
-  name_prefix                                 = "ideacamels-keyword-optimiser_task-task"
-  event_rule_name                             = "ideacamels-keyword-optimiser-task-rule"
-  event_rule_schedule_expression              = "cron(10 0 1 * *)"
-  ecs_cluster_arn                             = module.ideacamels.aws_ecs_cluster_cluster_arn
-  event_target_ecs_target_subnets             = [aws_subnet.ideacamels_main_private, module.db_security_group.id, aws_db_subnet_group.ideacamels_main]
-  event_target_ecs_target_task_definition_arn = aws_ecs_task_definition.keyword_optimiser.arn
-  ecs_execution_task_role_arn                 = aws_iam_role.keyword_optimiser.arn
+resource "aws_cloudwatch_event_rule" "keyword_optimiser_event_rule" {
+  name                = "${var.environment}_ideacamels_keyword_optimiser"
+  schedule_expression = "cron(10 0 1 * *)"
+}
+
+resource "aws_cloudwatch_event_target" "keyword_optimiser_scheduled_task" {
+  rule      = aws_cloudwatch_event_rule.keyword_optimiser_event_rule.name
+  target_id = "${var.environment}_ideacamels_keyword_optimiser"
+  arn       = module.ideacamels.aws_ecs_cluster_cluster_arn
+  role_arn  = aws_iam_role.keyword_optimiser.arn
+
+  ecs_target {
+    launch_type         = "FARGATE"
+    platform_version    = "LATEST"
+    task_count          = 1
+    task_definition_arn =  aws_ecs_task_definition.keyword_optimiser.arn
+
+    network_configuration {
+      subnets = [aws_subnet.ideacamels_main_private, module.db_security_group.id, aws_db_subnet_group.ideacamels_main]
+    }
+  }
 }
