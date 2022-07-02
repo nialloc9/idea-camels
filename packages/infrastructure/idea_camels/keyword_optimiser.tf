@@ -141,7 +141,7 @@ resource "aws_cloudwatch_log_group" "keyword_optimiser" {
 
 resource "aws_cloudwatch_event_rule" "keyword_optimiser_event_rule" {
   name                = "${var.environment}_ideacamels_keyword_optimiser"
-  schedule_expression = "cron(10 0 1 * *)"
+  schedule_expression = "cron(10 0 1 * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "keyword_optimiser_scheduled_task" {

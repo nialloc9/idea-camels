@@ -181,7 +181,7 @@ const features = [
   {
     header: "Fast",
     description:
-      "Whether you are a developer, marketing exec, or any other are of the business who wants to wait months to know if people even want your product? Idea Camels can provide your with the validation you need to move your idea into development.",
+      "Whether you are a developer, marketing exec, or any other area of the business who wants to wait months to know if people even want your product? Idea Camels can provide your with the validation you need to move your idea into development.",
   },
 ];
 
@@ -194,7 +194,7 @@ export default withTheme(({ theme: { block3 } }) => (
           Combining a super modern UI with paid search to create a landing page
           and drive traffic to it based on other internet users search keywords.
           Don't spend time creating a fully fleged site when all you want to
-          know is it worth the development time. Instead you can know in a
+          know is: is it worth the development time. Instead you can know in a
           matter of days if your new idea is worth persuing.
         </MainText>
         <ButtonContainer>
