@@ -147,7 +147,7 @@ resource "aws_cloudwatch_event_rule" "keyword_optimiser_event_rule" {
 resource "aws_cloudwatch_event_target" "keyword_optimiser_scheduled_task" {
   rule      = aws_cloudwatch_event_rule.keyword_optimiser_event_rule.name
   target_id = "${var.environment}_ideacamels_keyword_optimiser"
-  arn       = module.ideacamels.aws_ecs_cluster_cluster_arn
+  arn       = aws_ecs_cluster.ideacamels.arn
   role_arn  = aws_iam_role.keyword_optimiser.arn
 
   ecs_target {
