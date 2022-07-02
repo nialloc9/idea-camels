@@ -18,6 +18,6 @@ module "api_ecr" {
 
 module "ideacamels_keyword_optimiser_ecr" {
   source      = "./modules/ecr"
-  name        = "ideacamels_keyword_optimiser_ecr"
+  name        = "keyword-optimiser"
   environment = var.environment
 }

@@ -157,7 +157,7 @@ resource "aws_cloudwatch_event_target" "keyword_optimiser_scheduled_task" {
     task_definition_arn =  aws_ecs_task_definition.keyword_optimiser.arn
 
     network_configuration {
-      subnets = [aws_subnet.ideacamels_main_private, module.db_security_group.id, aws_db_subnet_group.ideacamels_main]
+      subnets = [aws_subnet.ideacamels_main_private.id]
     }
   }
 }
