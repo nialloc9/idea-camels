@@ -140,7 +140,8 @@ resource "aws_cloudwatch_log_group" "keyword_optimiser" {
 }
 
 module "keyword_optimiser_task" {
-  source                                      = "../../"
+  source                                      = "cn-terraform/ecs-fargate-scheduled-task/aws"
+  version = "1.0.22"
   name_prefix                                 = "ideacamels-keyword-optimiser_task-task"
   event_rule_name                             = "ideacamels-keyword-optimiser-task-rule"
   event_rule_schedule_expression              = "cron(10 0 1 * *)"
