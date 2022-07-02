@@ -149,5 +149,4 @@ module "keyword_optimiser_task" {
   event_target_ecs_target_subnets             = [aws_subnet.ideacamels_main_private, module.db_security_group.id, aws_db_subnet_group.ideacamels_main]
   event_target_ecs_target_task_definition_arn = aws_ecs_task_definition.keyword_optimiser.arn
   ecs_execution_task_role_arn                 = aws_iam_role.keyword_optimiser.arn
-  ecs_task_role_arn                           = aws_iam_role.keyword_optimiser.arn
 }
