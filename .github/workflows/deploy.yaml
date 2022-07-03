@@ -65,7 +65,7 @@ jobs:
           done < files.txt
 
       - name: check modified keyword-optimiser files
-        id: run_keyword_optimiser_job
+        id: packages/keyword-optimiser
         run: |
           echo "=============== list modified files ==============="
           git diff --name-only HEAD^ HEAD
@@ -76,11 +76,11 @@ jobs:
           do
             echo $file
             if [[ $file = packages/builder/* ]]; then
-              echo "This modified file is under the 'packages/keyword_optimiser' folder."
+              echo "This modified file is under the 'packages/keyword-optimiser' folder."
               echo "::set-output name=should_run::true"
               break
             else
-              echo "No changes found in the 'packages/keyword_optimiser' folder."
+              echo "No changes found in the 'packages/keyword-optimiser' folder."
               echo "::set-output name=should_run::false"
             fi
           done < files.txt
@@ -195,7 +195,7 @@ jobs:
 
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Deploy Builder
+      - name: Deploy Keyword Optimiser
         run: cd packages/run_keyword_optimiser_job && make deploy-via-cicd
       - name: Report Status
         if: always()

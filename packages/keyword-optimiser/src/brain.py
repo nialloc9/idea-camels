@@ -21,3 +21,5 @@ def calculate_confidence(df):
         ctr_multipler = 3
 
     return   (mapped_competion * (df["avg_monthly_searches"] * 1000000 * ctr_multipler)) / average_cost
+
+    
