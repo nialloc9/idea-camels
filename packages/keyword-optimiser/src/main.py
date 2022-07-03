@@ -15,10 +15,8 @@
 """This example generates keyword ideas from a list of seed keywords."""
 """script from: https://developers.google.com/google-ads/api/docs/samples/generate-keyword-ideas"""
 """Query Builder: https://developers.google.com/google-ads/api/fields/v11/campaign_criterion_query_builder"""
-import sys, os, json, pandas, traceback
-from unittest import result
+import sys, pandas, traceback
 from google.ads.googleads.client import GoogleAdsClient
-from google.ads.googleads.errors import GoogleAdsException
 from google_ads import fetch_keyword_ideas, remove_keyword, add_keyword, get_keyword_stats
 from brain import calculate_confidence
 from config import config
@@ -119,7 +117,7 @@ if __name__ == "__main__":
 
                 query_data.append(first_column["campaign_resource_name"])
 
-                query("UPDATE campaigns SET criterion_0_name=%s, keyword_0=%s, criterion_1_name=%s, keyword_1=%s, criterion_2_name=%s, keyword_2=%s, criterion_3_name=%s, keyword_3=%s, criterion_4_name=%s, keyword_4=%s, criterion_5_name=%s, keyword_5=%s WHERE campaign_name=%s", tuple(query_data))
+                query("UPDATE campaigns SET criterion_0_name=%s, keyword_0=%s, criterion_1_name=%s, keyword_1=%s, criterion_2_name=%s, keyword_2=%s, criterion_3_name=%s, keyword_3=%s, criterion_4_name=%s, keyword_4=%s, criterion_5_name=%s, keyword_5=%s, criterion_6_name=%s, keyword_6=%s, criterion_7_name=%s, keyword_7=%s, criterion_8_name=%s, keyword_8=%s, criterion_9_name=%s, keyword_9=%s, criterion_10_name=%s, keyword_10=%s, criterion_11_name=%s, keyword_11=%s, criterion_12_name=%s, keyword_12=%s, criterion_13_name=%s, keyword_13=%s, criterion_14_name=%s, keyword_14=%s, criterion_15_name=%s, keyword_15=%s, criterion_16_name=%s, keyword_16=%s, criterion_17_name=%s, keyword_17=%s, criterion_18_name=%s, keyword_18=%s, criterion_19_name=%s, keyword_19=%s, WHERE campaign_name=%s", tuple(query_data))
 
         
     except Exception as ex:   

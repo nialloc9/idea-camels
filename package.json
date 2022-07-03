@@ -22,7 +22,7 @@
     "prettier": "^2.1.1"
   },
   "lint-staged": {
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,css,md,py}": "prettier --write"
   },
   "husky": {
     "hooks": {
