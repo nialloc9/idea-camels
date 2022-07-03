@@ -91,14 +91,6 @@ resource "aws_ecs_task_definition" "keyword_optimiser" {
               "value": "${data.aws_ssm_parameter.database_password.value}"
             },
             {
-              "name": "JWT_SECRET",
-              "value": "${data.aws_ssm_parameter.api_jwt_secret.value}"
-            },
-            {
-              "name": "API_BASE_URL",
-              "value": "${aws_api_gateway_deployment.apideploy.invoke_url}"
-            },
-            {
               "name": "GOOGLE_ADS_CUSTOMER_ID",
               "value": "${data.aws_ssm_parameter.google_ads_customer_id.value}"
             },
@@ -121,6 +113,10 @@ resource "aws_ecs_task_definition" "keyword_optimiser" {
             {
               "name": "SLACK_TOKEN",
               "value": "${data.aws_ssm_parameter.slack_token.value}"
+            },
+            {
+              "name": "SLACK_ALERT_CHANNEL",
+              "value": "keyword-optimiser-prod-alerts"
             }
     ],
     "entryPoint": [

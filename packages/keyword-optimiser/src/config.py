@@ -38,11 +38,8 @@ config = {
     "ads": {
         "create_count": 20
     },
-    "security": {
-        "jwt_secret": os.environ['JWT_SECRET'] 
-    },
     "slack": {
         "token": os.environ['SLACK_TOKEN'],
         "alert_channel": os.environ['SLACK_ALERT_CHANNEL']
     }
-}
+}g
