@@ -5,6 +5,13 @@ module "builder_security_group" {
   vpc_id      = aws_vpc.ideacamels_main.id
 }
 
+module "keyword_optimiser_security_group" {
+  source      = "./modules/security_group"
+  name        = "keyword_optimiser"
+  environment = var.environment
+  vpc_id      = aws_vpc.ideacamels_main.id
+}
+
 module "api_security_group" {
   source      = "./modules/security_group"
   name        = "api"
@@ -72,6 +79,24 @@ module "db_security_group" {
       "protocol"          = "all",
       "cidr_blocks"       = null,
       "security_group_id" = module.builder_security_group.id
+    },
+    {
+      "name"              = "ingress",
+      "type"              = "ingress",
+      "from_port"         = 0,
+      "to_port"           = 0,
+      "protocol"          = "all",
+      "cidr_blocks"       = null,
+      "security_group_id" = module.keyword_optimiser_security_group.id
+    },
+    {
+      "name"              = "egress",
+      "type"              = "egress",
+      "from_port"         = 0,
+      "to_port"           = 0,
+      "protocol"          = "all",
+      "cidr_blocks"       = null,
+      "security_group_id" = module.keyword_optimiser_security_group.id
     }
   ]
 }
