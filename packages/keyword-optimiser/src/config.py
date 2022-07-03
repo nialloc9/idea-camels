@@ -25,7 +25,7 @@ config = {
         "refresh_token": os.environ['GOOGLE_ADS_REFRESH_TOKEN'],
         "client_id": os.environ['GOOGLE_ADS_CLIENT_ID'],
         "client_secret": os.environ['GOOGLE_ADS_CLIENT_SECRET'],
-        "login_customer_id": os.environ['GOOGLE_ADS_LOGIN_CUSTOMER_ID'],
+        "login_customer_id": os.environ['GOOGLE_ADS_CUSTOMER_ID'].replace('-', ''),
         "use_proto_plus": True
     },
     "db": {
