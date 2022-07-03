@@ -68,7 +68,7 @@ resource "aws_ecs_task_definition" "keyword_optimiser" {
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "${var.environment}_keyword_optimiser",
+        "awslogs-group": "${var.environment}_ideacamels_keyword_optimiser",
         "awslogs-region": "${var.region}",
         "awslogs-stream-prefix": "ecs"
       }
