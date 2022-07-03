@@ -137,6 +137,7 @@ resource "aws_ecs_task_definition" "keyword_optimiser" {
 DEFINITION
 }
 
+
 resource "aws_cloudwatch_log_group" "keyword_optimiser" {
   name = "${var.environment}_ideacamels_keyword_optimiser"
 
