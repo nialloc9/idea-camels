@@ -42,4 +42,4 @@ config = {
         "token": os.environ['SLACK_TOKEN'],
         "alert_channel": os.environ['SLACK_ALERT_CHANNEL']
     }
-}g
+}
