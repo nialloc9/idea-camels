@@ -95,7 +95,7 @@ if __name__ == "__main__":
                 # TODO fetch domains associated with campaings from database to be added as page url
                 suggestions = fetch_keyword_suggestions(
                     googleads_client,
-                    os.environ['GOOGLE_ADS_LOGIN_CUSTOMER_ID'],
+                    config["credentials"]["login_customer_id"],
                     config["location_ids"],
                     config["language_id"],
                     keyword_df.head(20),
