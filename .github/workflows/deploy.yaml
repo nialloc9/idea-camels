@@ -196,7 +196,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Deploy Keyword Optimiser
-        run: cd packages/run_keyword_optimiser_job && make deploy-via-cicd
+        run: cd packages/keyword-optimiser && make deploy-via-cicd
       - name: Report Status
         if: always()
         uses: ravsamhq/notify-slack-action@v1
