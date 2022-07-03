@@ -9,6 +9,14 @@ resource "aws_iam_role" "keyword_optimiser" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
+          Service = "events.amazonaws.com",
+        }
+      },
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
           Service = "ecs-tasks.amazonaws.com",
         }
       },
