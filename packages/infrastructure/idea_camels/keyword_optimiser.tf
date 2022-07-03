@@ -58,7 +58,7 @@ resource "aws_ecs_task_definition" "keyword_optimiser" {
   cpu                      = 512
   memory                   = 1024
   network_mode             = "awsvpc"
-
+  
   container_definitions = <<DEFINITION
 [
   {
@@ -162,6 +162,7 @@ resource "aws_cloudwatch_event_target" "keyword_optimiser_scheduled_task" {
 
     network_configuration {
       subnets = [aws_subnet.ideacamels_main_private.id]
+      security_groups = [module.keyword_optimiser_security_group.id]
     }
   }
 }
