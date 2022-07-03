@@ -88,7 +88,7 @@ if __name__ == "__main__":
     try:
         googleads_client = GoogleAdsClient.load_from_dict(config["credentials"])
 
-        keyword_dfs = get_keyword_stats(googleads_client, os.environ['GOOGLE_ADS_LOGIN_CUSTOMER_ID'])
+        keyword_dfs = get_keyword_stats(googleads_client, config["credentials"]["login_customer_id"])
 
         if keyword_dfs:
             for campaign_id, keyword_df in keyword_dfs:
