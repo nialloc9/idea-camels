@@ -19,22 +19,6 @@ from brain import calculate_confidence
 from config import config
 import pandas
 
-_DEFAULT_SEED_KEYWORDS = [
-    "test my idea",
-    "idea testing",
-    "is my idea good",
-    "product concept testing",
-    "test your business idea",
-    "test my start up id",
-    "how do I know if my idea is good",
-    "is my product idea good",
-    "create business",
-    "business idea",
-    "start up idea",
-    "new business",
-    "how to market a start up"
-]
-
 def add_keyword(client, customer_id, ad_group_id, keyword_text):
     ad_group_service = client.get_service("AdGroupService")
     ad_group_criterion_service = client.get_service("AdGroupCriterionService")
@@ -69,12 +53,12 @@ def add_keyword(client, customer_id, ad_group_id, keyword_text):
     )
 
     print(
-        "Created keyword "
-        f"{ad_group_criterion_response.results[0].resource_name}."
+        "Created keyword {} with resource name {}".format(keyword_text, ad_group_criterion_response.results[0].resource_name)
     )
+    
+    return ad_group_criterion_response.results[0].resource_name, keyword_text
 
 def remove_keyword(client, customer_id, ad_group_id, criterion_id):
-
     agc_service = client.get_service("AdGroupCriterionService")
     agc_operation = client.get_type("AdGroupCriterionOperation")
 
@@ -87,41 +71,10 @@ def remove_keyword(client, customer_id, ad_group_id, criterion_id):
     agc_response = agc_service.mutate_ad_group_criteria(
         customer_id=customer_id, operations=[agc_operation]
     )
-
+    
     print(f"Removed keyword {agc_response.results[0].resource_name}.")
 
     return True
-
-def fetch_keywords_and_criterion_ids_and_ad_group_id(client, customer_id, campaign_resource_names):
-    ga_service = client.get_service("GoogleAdsService")
-
-    comma_delimited = ",".join(campaign_resource_names)
-
-    campaign_resource_names_with_quotes = ','.join(f"'{e}'" for e in comma_delimited.split(','))
-
-    query = f"""
-        SELECT ad_group.id, campaign.resource_name, ad_group_criterion.status, ad_group_criterion.criterion_id, ad_group_criterion.negative, ad_group_criterion.keyword.text, ad_group_criterion.resource_name FROM ad_group_criterion WHERE ad_group_criterion.status=ENABLED AND ad_group_criterion.negative=false AND campaign.resource_name in ({campaign_resource_names_with_quotes})"""
-
-    search_request = client.get_type("SearchGoogleAdsStreamRequest")
-    search_request.customer_id = customer_id
-    search_request.query = query
-
-    stream = ga_service.search_stream(request=search_request)
-
-    keywords = []
-
-    critations = []
-
-    ad_group_id = None
-
-    for batch in stream:
-        for row in batch.results:
-            if(row.ad_group_criterion.keyword.text != ""):
-                critations.append({ "criterion_id": row.ad_group_criterion.criterion_id, "keyword_text": row.ad_group_criterion.keyword.text, "ad_group_id": row.ad_group.id })
-                keywords.append(row.ad_group_criterion.keyword.text)
-                ad_group_id=row.ad_group.id
-    
-    return keywords, critations, ad_group_id
 
 
 def fetch_keyword_ideas(
@@ -210,13 +163,14 @@ def map_locations_ids_to_resource_names(client, location_ids):
     ).geo_target_constant_path
     return [build_resource_name(location_id) for location_id in location_ids]
 
-def get_keyword_stats(client, customer_id, campaign_id, limit=10):
+def get_keyword_stats(client, customer_id):
     ga_service = client.get_service("GoogleAdsService")
 
     query = """
         SELECT
           campaign.id,
           campaign.name,
+          campaign.resource_name,
           ad_group.id,
           ad_group.name,
           ad_group_criterion.criterion_id,
@@ -225,11 +179,13 @@ def get_keyword_stats(client, customer_id, campaign_id, limit=10):
           metrics.impressions,
           metrics.clicks,
           metrics.average_cpc,
+          metrics.ctr,
           metrics.cost_micros
-        FROM keyword_view WHERE campaign.id = {}
-        AND ad_group.status = 'ENABLED'
-        ORDER BY metrics.clicks DESC 
-        LIMIT {}""".format(campaign_id, limit)
+        FROM keyword_view 
+        WHERE ad_group.status = 'ENABLED'
+        AND campaign.status = 'ENABLED'
+        AND ad_group_criterion.status IN ('ENABLED')
+        ORDER BY metrics.ctr DESC """
 
     # Issues a search request using streaming.
     search_request = client.get_type("SearchGoogleAdsStreamRequest")
@@ -247,10 +203,10 @@ def get_keyword_stats(client, customer_id, campaign_id, limit=10):
             criterion = row.ad_group_criterion
             metrics = row.metrics
 
-            data.append({ "text": criterion.keyword.text, "criterion_id": criterion.criterion_id, "ad_group_id": ad_group.id, "campaign_id": campaign.id, "clicks": metrics.clicks, "average_cpc": metrics.average_cpc })
+            data.append({ "text": criterion.keyword.text, "criterion_id": criterion.criterion_id, "ad_group_id": ad_group.id, "campaign_id": campaign.id, "campaign_resource_name": campaign.resource_name, "clicks": metrics.clicks, "average_cpc": metrics.average_cpc, "ctr": row.metrics.ctr })
             
 
-    cols = ["text", "criterion_id", "ad_group_id", "campaign_id", "clicks", "average_cpc"] 
-    df= pandas.DataFrame(data=data, columns=cols)
+    cols = ["text", "criterion_id", "ad_group_id", "campaign_id", "campaign_resource_name", "clicks", "average_cpc", "ctr"] 
+    df= pandas.DataFrame(data=data, columns=cols).groupby("campaign_id")
     
     return df
