@@ -105,7 +105,7 @@ if __name__ == "__main__":
                 first_column = keyword_df.iloc[0]
                 
                 top_suggestions = suggestions.head(config["ads"]["create_count"])
-                [remove_keyword(client=googleads_client, criterion_id=k["criterion_id"], customer_id=os.environ['GOOGLE_ADS_LOGIN_CUSTOMER_ID'], ad_group_id=k["ad_group_id"]) for i, k in keyword_df.iterrows()]
+                [remove_keyword(client=googleads_client, criterion_id=k["criterion_id"], customer_id=config["credentials"]["login_customer_id"], ad_group_id=k["ad_group_id"]) for i, k in keyword_df.iterrows()]
                 print("======== Suggestions ========")
                 print(top_suggestions.head(config["ads"]["create_count"]))
                 print("======== Suggestions ========")
@@ -113,7 +113,7 @@ if __name__ == "__main__":
                 query_data = []
 
                 for i,s in top_suggestions.iterrows():
-                    resource_name, keyword_text = add_keyword(client=googleads_client, keyword_text=s["text"], customer_id=os.environ['GOOGLE_ADS_LOGIN_CUSTOMER_ID'], ad_group_id=first_column["ad_group_id"])
+                    resource_name, keyword_text = add_keyword(client=googleads_client, keyword_text=s["text"], customer_id=config["credentials"]["login_customer_id"], ad_group_id=first_column["ad_group_id"])
                     query_data.append(resource_name)
                     query_data.append(keyword_text)
 

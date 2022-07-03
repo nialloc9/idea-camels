@@ -15,8 +15,6 @@
 """This example generates keyword ideas from a list of seed keywords."""
 """script from: https://developers.google.com/google-ads/api/docs/samples/generate-keyword-ideas"""
 """Query Builder: https://developers.google.com/google-ads/api/fields/v11/campaign_criterion_query_builder"""
-from brain import calculate_confidence
-from config import config
 import pandas
 
 def add_keyword(client, customer_id, ad_group_id, keyword_text):
