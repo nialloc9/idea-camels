@@ -65,7 +65,7 @@ jobs:
           done < files.txt
 
       - name: check modified keyword-optimiser files
-        id: packages/keyword-optimiser
+        id: run_keyword_optimiser_job
         run: |
           echo "=============== list modified files ==============="
           git diff --name-only HEAD^ HEAD
@@ -75,7 +75,7 @@ jobs:
           while IFS= read -r file
           do
             echo $file
-            if [[ $file = packages/builder/* ]]; then
+            if [[ $file = packages/keyword-optimiser/* ]]; then
               echo "This modified file is under the 'packages/keyword-optimiser' folder."
               echo "::set-output name=should_run::true"
               break

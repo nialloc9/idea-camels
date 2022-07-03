@@ -46,3 +46,5 @@ config = {
         "alert_channel": os.environ['SLACK_ALERT_CHANNEL']
     }
 }
+
+
