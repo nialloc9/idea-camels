@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     try:
 
-        [add_keyword(client=googleads_client, keyword_text=suggestion, customer_id=os.environ['GOOGLE_ADS_LOGIN_CUSTOMER_ID'], ad_group_id="138082460352") for suggestion in _DEFAULT_SEED_KEYWORDS]
+        [add_keyword(client=googleads_client, keyword_text=suggestion, customer_id=config["credentials"]["login_customer_id"], ad_group_id="138082460352") for suggestion in _DEFAULT_SEED_KEYWORDS]
 
         
     except GoogleAdsException as ex:
