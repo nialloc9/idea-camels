@@ -8,10 +8,14 @@ const {
   },
 } = config;
 
-const resetPassword = (token) => {
-  const link = `${webAddress}/password-reset?token=${encodeURIComponent(
-    token
-  )}`;
+const resetPassword = ({
+  token,
+  webAdd = webAddress,
+  t = tagLine,
+  e = email,
+  n = name,
+}) => {
+  const link = `${webAdd}/password-reset?token=${encodeURIComponent(token)}`;
 
   return `
         <div>
@@ -23,14 +27,14 @@ const resetPassword = (token) => {
             </p>
                                         
             <p>
-                If you did not request this email please email <a href='mailto:${email}'>${email}</a>.
+                If you did not request this email please email <a href='mailto:${e}'>${e}</a>.
             </p>
                                         
             <p>
-                ${tagLine}
+                ${t}
             </p>
             <p>
-                ${name}
+                ${n}
             </p>
         </div>
         `;

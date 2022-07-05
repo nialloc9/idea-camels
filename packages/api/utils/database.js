@@ -7,7 +7,7 @@ const {
   db: { host, user, password, database, port },
 } = config;
 
-const DatabasePool = mysql.createPool({
+const IdeaCamelsDatabasePool = mysql.createPool({
   host,
   user,
   password,
@@ -15,9 +15,22 @@ const DatabasePool = mysql.createPool({
   port,
 });
 
-const getConnection = async (caller) =>
+const KWODatabasePool = mysql.createPool({
+  host,
+  user,
+  password,
+  database: "kwo",
+  port,
+});
+
+const getConnection = async ({ caller, database = "ideacamels" }) =>
   new Promise((resolve, reject) => {
-    DatabasePool.getConnection((error, connection) => {
+    const databasePool =
+      {
+        kwo: KWODatabasePool,
+      }[database] || IdeaCamelsDatabasePool;
+
+    databasePool.getConnection((error, connection) => {
       if (error) {
         logger.error(error, "DATABASE CONNECTION ERROR");
         return reject(
@@ -38,8 +51,7 @@ const getConnection = async (caller) =>
 const query = async (query, data, caller, dataLayer, newConnection) =>
   new Promise(async (resolve, reject) => {
     try {
-      const connection =
-        newConnection || (await getConnection(caller, dataLayer));
+      const connection = newConnection || (await getConnection({ caller }));
       connection.query(query, data, (error, results) => {
         connection.release();
 
@@ -78,7 +90,8 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
 
 const ping = async (newConnection) =>
   new Promise(async (resolve, reject) => {
-    const connection = newConnection || (await getConnection("ping"));
+    const connection =
+      newConnection || (await getConnection({ caller: "ping" }));
 
     connection.ping((error) => {
       if (error) {

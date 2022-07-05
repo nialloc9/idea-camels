@@ -2,33 +2,39 @@ const {
   onGet,
   onCreate: onCreateAccount,
   onUpdate: onUpdateAccount,
-} = require("../data/account");
-const { onCreate: onCreateToken } = require("../data/token");
+} = require("../../data/account");
+const { onCreate: onCreateToken } = require("../../data/token");
 const {
   createPasswordHash,
   validatePassword,
   scrubAccount,
   createJwToken,
-} = require("../utils/security");
-const { logger, handleSuccess } = require("../utils/utils");
-const { now } = require("../utils/date");
-const errors = require("../utils/errors");
-const config = require("../utils/config");
+} = require("../../utils/security");
+const { logger, handleSuccess } = require("../../utils/utils");
+const { now } = require("../../utils/date");
+const errors = require("../../utils/errors");
+const config = require("../../utils/config");
+const { getConnection } = require("../../utils/database");
 const {
   getCustomer,
   createCustomer,
   getCard,
   updateCustomer,
-} = require("../utils/stripe");
-const { sendEmail } = require("../utils/mailer/mailer");
-const { addCustomerToList } = require("../utils/marketingEmail");
-const { resetPassword } = require("../utils/mailer/templates/resetPassword");
-const { sendAlert } = require("../utils/alert");
+} = require("../../utils/stripe");
+const { sendEmail } = require("../../utils/mailer/mailer");
+const { addCustomerToList } = require("../../utils/marketingEmail");
+const { resetPassword } = require("../../utils/mailer/templates/resetPassword");
+const { sendAlert } = require("../../utils/alert");
 
 const onLogin = ({ data: { email, password, rememberMe = false }, caller }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const response = await onGet({ data: { email }, caller });
+      const connection = await getConnection({
+        caller,
+        database: "kwo",
+      });
+
+      const response = await onGet({ data: { email }, caller, connection });
 
       const account = response.data[0];
 
@@ -105,7 +111,16 @@ const onReauthorise = ({
 }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const { data } = await onGet({ data: { accountRef }, caller });
+      const connection = await getConnection({
+        caller,
+        database: "kwo",
+      });
+
+      const { data } = await onGet({
+        data: { accountRef },
+        caller,
+        connection,
+      });
 
       const account = data[0];
 
@@ -123,9 +138,14 @@ const onReauthorise = ({
 const onCreate = ({ data, caller }) =>
   new Promise(async (resolve, reject) => {
     try {
+      const connection = await getConnection({
+        caller,
+        database: "kwo",
+      });
       const { data: existing } = await onGet({
         data: { email: data.email },
         caller,
+        connection,
       });
 
       if (existing[0]) {
@@ -145,6 +165,7 @@ const onCreate = ({ data, caller }) =>
         phone: data.phone,
         metadata: {
           created_by_caller: caller,
+          business_unit: "kw_optimiser",
         },
       });
 
@@ -155,6 +176,7 @@ const onCreate = ({ data, caller }) =>
           password: createPasswordHash({ password: data.password }),
         },
         caller,
+        connection,
       });
 
       const responeData = {
@@ -168,7 +190,7 @@ const onCreate = ({ data, caller }) =>
           firstName: data.firstName,
           lastName: data.lastName,
           phone: data.phone,
-          tags: ["new_customer", "customer", "ideacamels"],
+          tags: ["new_customer", "customer", "kw_optimiser"],
         });
 
         logger.info(
@@ -216,9 +238,15 @@ const onUpdate = ({
         });
       }
 
+      const connection = await getConnection({
+        caller,
+        database: "kwo",
+      });
+
       const response = await onUpdateAccount({
         data: { accountRef, lastUpdatedBy: accountRef, data: dataToUpdate },
         caller,
+        connection,
       });
 
       const { data } = await onGet({ data: { accountRef }, caller });
@@ -243,9 +271,14 @@ const onUpdate = ({
 const onForgottonPassword = ({ data: { email }, caller }) =>
   new Promise(async (resolve, reject) => {
     try {
+      const connection = await getConnection({
+        caller,
+        database: "kwo",
+      });
       const { data: userData } = await onGet({
         data: { email },
         caller,
+        connection,
       });
 
       if (!userData[0]) {
@@ -267,13 +300,14 @@ const onForgottonPassword = ({ data: { email }, caller }) =>
           email,
         },
         caller,
+        connection,
       });
 
       await sendEmail({
         to: email,
         from: config.company.support.email,
-        subject: "IdeaCamels Reset Password",
-        html: resetPassword({ token }),
+        subject: "Keyword Optimiser Reset Password",
+        html: resetPassword(token),
       });
 
       resolve(
@@ -297,12 +331,20 @@ const onDelete = ({
 }) =>
   new Promise(async (resolve, reject) => {
     try {
+      const connection = await getConnection({
+        caller,
+        database: "kwo",
+      });
       const updatedData = {
         accountRef,
         deletedFlag: 1,
         lastUpdatedBy: lastUpdatedBy || accountRef,
       };
-      const response = await onUpdateAccount({ data: updatedData, caller });
+      const response = await onUpdateAccount({
+        data: updatedData,
+        caller,
+        connection,
+      });
 
       resolve(response);
     } catch (error) {

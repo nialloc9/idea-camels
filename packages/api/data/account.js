@@ -7,7 +7,7 @@ const { now } = require("../utils/date");
 /**
  * gets a account
  */
-const onGet = ({ data: { email, accountRef }, caller }) =>
+const onGet = ({ data: { email, accountRef }, caller, connection }) =>
   new Promise(async (resolve, reject) => {
     try {
       const whereClause = email
@@ -15,7 +15,13 @@ const onGet = ({ data: { email, accountRef }, caller }) =>
         : `account_ref='${accountRef}';`;
       const getQuery = `SELECT * FROM accounts WHERE ${whereClause}`;
 
-      const results = await query(getQuery, undefined, caller, "GET_ACCOUNT");
+      const results = await query(
+        getQuery,
+        undefined,
+        caller,
+        "GET_ACCOUNT",
+        connection
+      );
 
       resolve(
         handleSuccess(
@@ -33,7 +39,7 @@ const onGet = ({ data: { email, accountRef }, caller }) =>
 /**
  * creates a new account
  */
-const onCreate = ({ data, caller }) =>
+const onCreate = ({ data, caller, connection }) =>
   new Promise(async (resolve, reject) => {
     try {
       const createQuery = "INSERT INTO accounts SET ?";
@@ -44,7 +50,8 @@ const onCreate = ({ data, caller }) =>
         createQuery,
         mappedData,
         caller,
-        "CREATE_ACCOUNT"
+        "CREATE_ACCOUNT",
+        connection
       );
       const timestamp = now();
 
@@ -67,6 +74,7 @@ const onCreate = ({ data, caller }) =>
 const onUpdate = ({
   data: { accountRef, lastUpdatedBy, data: updateData },
   caller,
+  connection,
 }) =>
   new Promise(async (resolve, reject) => {
     try {
@@ -78,7 +86,7 @@ const onUpdate = ({
         ...mapper(updateData),
       };
 
-      await query(updateQuery, data, caller, "UPDATE_ACCOUNT");
+      await query(updateQuery, data, caller, "UPDATE_ACCOUNT", connection);
 
       resolve(
         handleSuccess(`DATA - UPDATE_ACCOUNT - FROM ${caller}`, {

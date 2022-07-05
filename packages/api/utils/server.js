@@ -7,6 +7,7 @@ const {
   onForgottonPassword,
   onReauthorise,
 } = require("../service/account");
+
 const {
   onGetAccountDomains,
   onPurchaseDomain,
@@ -32,6 +33,18 @@ const { onLogError } = require("../service/log");
 const { onManuallyRunExperiment } = require("../service/admin");
 const { logger } = require("./utils");
 const { sendAlert } = require("./alert");
+
+// KWO
+const {
+  onCreate: onCreateKwoAccount,
+  onLogin: onKwoLogin,
+  onDelete: onKwoDelete,
+  onUpdate: onKwoUpdate,
+  onForgottonPassword: onKwoForgottonPassword,
+  onReauthorise: onKwoReauthorise,
+} = require("../service/kwo/account");
+const { onAddCard: onKwoAddCard, onKwoChargeCustomer } = require("../service/kwo/payment");
+// KWOW
 
 console.log("==== CONFIG ====");
 console.log(config);
@@ -234,6 +247,46 @@ const endpoints = [
     uri: "/health-check-5",
     required: [],
     func: onAlertCheck,
+  },
+
+
+
+
+
+
+  /// KEYWORD OPTIMISER
+  {
+    uri: "/kwo-account/create",
+    func: onCreateKwoAccount,
+    required: ["email", "firstName", "password", "phone", "caller"],
+  },
+  {
+    uri: "/kwo-account/login",
+    func: onKwoLogin,
+    required: ["email", "password", "caller"],
+  },
+  {
+    uri: "/kwo-account/update",
+    func: onKwoUpdate,
+    required: ["updateData", "caller"],
+    isAuth: true,
+  },
+  {
+    uri: "/kwo-account/delete",
+    required: ["caller"],
+    func: onKwoDelete,
+    isAuth: true,
+  },
+  {
+    uri: "/kwo-account/forgotton-password",
+    required: ["caller", "email"],
+    func: onKwoForgottonPassword,
+  },
+  {
+    uri: "/kwo-account/reauthorise",
+    required: ["caller"],
+    func: onKwoReauthorise,
+    isAuth: true,
   },
 ];
 

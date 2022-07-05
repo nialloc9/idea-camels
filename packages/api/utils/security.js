@@ -2,11 +2,7 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const config = require("./config");
 const errors = require("./errors");
-const {
-  generateRandomId,
-  createTimestamp,
-  logger,
-} = require("./utils");
+const { generateRandomId, createTimestamp, logger } = require("./utils");
 
 const {
   jwt: { secret },
@@ -17,7 +13,7 @@ const {
  * @param {string} jwToken
  * @returns {*}
  */
-const jwtVerify = (jwToken, secret=config.jwt.secret) => {
+const jwtVerify = (jwToken, secret = config.jwt.secret) => {
   try {
     return [null, jwt.verify(jwToken, secret)];
   } catch (err) {
@@ -141,7 +137,7 @@ const validatePassword = ({
 }) =>
   new Promise((resolve, reject) => {
     const inputHash = createPasswordHash({ password });
-    
+
     if (inputHash !== hashedPassword) {
       reject(
         errors["1003"]({
@@ -189,7 +185,14 @@ const validateAndParse = async ({
     try {
       logIncoming({ endpoint, headers, body });
 
-      await requiredParams({ endpoint, body, headers, required, isAuth, isAdmin });
+      await requiredParams({
+        endpoint,
+        body,
+        headers,
+        required,
+        isAuth,
+        isAdmin,
+      });
 
       const response = { ...body };
 
@@ -200,7 +203,10 @@ const validateAndParse = async ({
 
         const [, token] = bearer.split(" ");
 
-        const [error, decodedToken] = jwtVerify(token, isAdmin ? config.jwt.adminSecret : undefined);
+        const [error, decodedToken] = jwtVerify(
+          token,
+          isAdmin ? config.jwt.adminSecret : undefined
+        );
 
         if (error) return reject(error);
 

@@ -25,7 +25,7 @@ const onGet = ({ data: { email, accountRef }, caller }) =>
 /**
  * creates a new token
  */
-const onCreate = ({ data, caller }) =>
+const onCreate = ({ data, caller, connection }) =>
   new Promise(async (resolve, reject) => {
     try {
       const createQuery = "INSERT INTO tokens SET ?";
@@ -36,7 +36,8 @@ const onCreate = ({ data, caller }) =>
         createQuery,
         mappedData,
         caller,
-        "CREATE_TOKEN"
+        "CREATE_TOKEN",
+        connection
       );
       const timestamp = now();
 
