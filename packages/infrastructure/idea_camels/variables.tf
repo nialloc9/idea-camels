@@ -95,4 +95,3 @@ locals {
     project     = "ideacamels"
   }
 }
-

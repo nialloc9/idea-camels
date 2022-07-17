@@ -118,12 +118,12 @@ jobs:
           while IFS= read -r file
           do
             echo $file
-            if [[ $file = packages/infrastructure/idea_camels/* ]]; then
-              echo "This modified file is under the 'packages/infrastructure/idea_camels' folder."
+            if [[ $file = packages/infrastructure/* ]]; then
+              echo "This modified file is under the 'packages/infrastructure' folder."
               echo "::set-output name=should_run::true"
               break
             else
-              echo "No changes found in the 'packages/infrastructure/idea_camels' folder."
+              echo "No changes found in the 'packages/infrastructure' folder."
               echo "::set-output name=should_run::false"
             fi
           done < files.txt
