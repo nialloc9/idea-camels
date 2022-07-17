@@ -303,6 +303,12 @@ const Taq = () => {
           </p>
 
           <h3>
+            <strong>Service Charge</strong>
+          </h3>
+
+          <p>A service charge of $20 will apply to all experiments.</p>
+
+          <h3>
             <strong>Disclaimer</strong>
           </h3>
 

@@ -180,9 +180,33 @@ const onPurchaseDomain = ({
     }
   });
 
+const onCreateSubDomain = ({
+  data: {
+    subDomain,
+    decodedToken: {
+      data: { accountRef },
+    },
+  },
+  caller,
+}) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const domain = `${subDomain}.site.ideacamels.com`;
+      const response = await onCreateDomain({
+        data: { accountRef, name: domain },
+        caller,
+      });
+
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+
 module.exports = {
   onGetAccountDomains,
   onCheckIsDomainAvailable,
   onListDomainPrices,
   onPurchaseDomain,
+  onCreateSubDomain,
 };

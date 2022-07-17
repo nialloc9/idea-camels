@@ -70,6 +70,7 @@ export const onCreate = (experimentToCreate, callback) => async (
     experiment: {
       data,
       newExperiment: {
+        subDomain,
         domain,
         content,
         theme,
@@ -89,33 +90,54 @@ export const onCreate = (experimentToCreate, callback) => async (
     },
   } = getState();
 
-  const {
-    data: domainPurchaseData,
-    error: domainPurchaseError,
-  } = await postApi({
-    uri: `domain/purchase`,
-    token,
-    body: { domain },
-  });
+  let domainRef = null;
 
-  if (domainPurchaseError) {
-    return onSetState({
-      isCreateLoading: false,
-      createErrorMessage: domainPurchaseError.message,
+  if (!subDomain && domain) {
+    const {
+      data: domainPurchaseData,
+      error: domainPurchaseError,
+    } = await postApi({
+      uri: `domain/purchase`,
+      token,
+      body: { domain },
     });
-  }
 
-  if (domainPurchaseData.suggested) {
-    dispatch({
-      type: DOMAIN_SET,
-      payload: {
-        suggested: domainPurchaseData.suggested,
-      },
+    if (domainPurchaseError) {
+      return onSetState({
+        isCreateLoading: false,
+        createErrorMessage: domainPurchaseError.message,
+      });
+    }
+
+    if (domainPurchaseData.suggested) {
+      dispatch({
+        type: DOMAIN_SET,
+        payload: {
+          suggested: domainPurchaseData.suggested,
+        },
+      });
+      return onSetState({
+        isCreateLoading: false,
+        createErrorMessage: `${domain} is not available. Please click back and choose a new domain.`,
+      });
+    }
+
+    domainRef = domainPurchaseData.domain_ref;
+  } else {
+    const { data: subDomainData, error: subDomainError } = await postApi({
+      uri: `domain/create-sub-domain`,
+      token,
+      body: { subDomain },
     });
-    return onSetState({
-      isCreateLoading: false,
-      createErrorMessage: `${domain} is not available. Please click back and choose a new domain.`,
-    });
+
+    if (subDomainError) {
+      return onSetState({
+        isCreateLoading: false,
+        createErrorMessage: subDomainError.message,
+      });
+    }
+
+    domainRef = subDomainData.domain_ref;
   }
 
   const { data: experiment, error } = await postApi({
@@ -127,7 +149,7 @@ export const onCreate = (experimentToCreate, callback) => async (
       budget,
       endDate: convertDateToUnix(endDate),
       templateRef,
-      domainRef: domainPurchaseData.domain_ref,
+      domainRef,
       keywords: [keyword1, keyword2, keyword3, keyword4, keyword5, keyword6],
       headline,
       headline2,
@@ -166,7 +188,6 @@ export const onPrepareExperiment = (newData) => async (dispatch, getState) => {
   const {
     experiment: { newExperiment },
   } = getState();
-  console.log("here", newExperiment, newData);
 
   const experimentPayload = {
     ...newExperiment,

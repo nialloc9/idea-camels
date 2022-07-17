@@ -26,10 +26,9 @@ export default withPageAnalytics(() => (
             </Card.Content>
           </Card>
           <Price
-            serviceFee={20}
             domainFee={5}
             adBudget={50}
-            total={75}
+            total={55}
             heading="Example Experiment"
           />
         </Segment>

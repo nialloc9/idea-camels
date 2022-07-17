@@ -23,6 +23,7 @@ const initialState = {
     templateRef: undefined,
     themeRef: undefined,
     domain: undefined,
+    subDomain: undefined,
     keyword1: undefined,
     keyword2: undefined,
     keyword3: undefined,

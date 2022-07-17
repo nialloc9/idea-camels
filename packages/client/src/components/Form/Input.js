@@ -27,6 +27,7 @@ export class Input extends Component {
       errorColored = false,
       warn,
       touched,
+      semanticProps = {},
       ...rest
     } = this.props;
 
@@ -38,7 +39,7 @@ export class Input extends Component {
             <ToolTipIcon name="info circle" tooltip={info} color="orange" />
           )}
         </label>
-        <StyledInput error={errorColored} {...rest} />
+        <StyledInput error={errorColored} {...semanticProps} {...rest} />
         <Error error={error && touched ? error : ""} />
         <Warning warn={warn && touched ? warn : ""} />
       </Form.Field>

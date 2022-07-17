@@ -31,7 +31,7 @@ output "route53_fqdn" {
 }
 
 output "acm_certificate_arn" {
-  value = var.certificate_arn != "" ? var.certificate_arn : aws_acm_certificate_validation[0].cert.certificate_arn
+  value = var.certificate_arn != "" ? var.certificate_arn : aws_acm_certificate_validation.cert[0].certificate_arn
 }
 
 output "route53_zone_id" {

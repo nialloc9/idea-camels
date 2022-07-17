@@ -35,7 +35,6 @@ const development = {
   payments: {
     publishableKey:
       "pk_test_51KXMllIWny9rFbsQ3XsAORBTBeGFQTXlKIcPKYTCiYS7rPPVb4QJlmQOm1uXxlLJOYqMykAGBpG4snwa0F6lI5UF00GBeiIBlD",
-    serviceCharge: 20,
   },
 };
 

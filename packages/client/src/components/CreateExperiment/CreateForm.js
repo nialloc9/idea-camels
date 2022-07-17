@@ -18,17 +18,25 @@ import {
   validateRequired,
   validateDomain,
   validateMaxLength,
-  validateMinValue,
   validateSpecialChars,
+  validateMinValue,
 } from "../../utils/form";
 import { onPrepareExperiment } from "../../store/actions/experiment";
 import { connect } from "../../store";
 
 class CreateForm extends Component {
-  state = {
-    domainPrice: undefined,
-    keywordsIndex: 1,
-  };
+  constructor(props) {
+    super(props);
+    const {
+      values: { domain },
+    } = props;
+
+    this.state = {
+      domainPrice: undefined,
+      keywordsIndex: 1,
+      domainIndex: domain ? 0 : 1,
+    };
+  }
 
   static defaultProps = {
     domainPrices: [],
@@ -56,6 +64,80 @@ class CreateForm extends Component {
     );
   };
 
+  renderDomainSelection = () => {
+    const { domainIndex } = this.state;
+    const { domainPrices } = this.props;
+
+    if (domainIndex === 0) {
+      return (
+        <GridColumn>
+          <FormInput
+            fluid
+            type="text"
+            labelText="Domain"
+            action="create-experiment-form-click"
+            label="domain"
+            name="domain"
+            display="block"
+            tabletDisplay="inline-block"
+            info="This will purchase a new domain for you."
+            placeholder="Please add a domain to purchase for your experiment"
+            validate={[
+              validateRequired,
+              validateDomain,
+              (value) =>
+                calculateDomainPrice({
+                  domain: value,
+                  domainPrices,
+                }) === 0
+                  ? "Domain Unavailable"
+                  : undefined,
+            ]}
+          />
+          <Button
+            icon="recycle"
+            primary
+            content="Use free domain"
+            onClick={() => this.setState({ domainIndex: 1 })}
+            type="button"
+          />
+          {this.renderSuggestDomains()}
+        </GridColumn>
+      );
+    }
+
+    return (
+      <GridColumn>
+        <FormInput
+          fluid
+          type="text"
+          labelText="Domain"
+          action="create-experiment-form-click"
+          semanticProps={{
+            label: {
+              basic: true,
+              content: ".site.ideacamels.com",
+            },
+            labelPosition: "right",
+          }}
+          name="subDomain"
+          display="block"
+          tabletDisplay="inline-block"
+          placeholder="Please add a domain name for your experiment"
+          info="This is a free domain. If you wish to have your own custom domain please click button below."
+          validate={[validateRequired, validateSpecialChars]}
+        />
+        <Button
+          icon="add to cart"
+          primary
+          content="Purchase custom domain"
+          onClick={() => this.setState({ domainIndex: 0 })}
+          type="button"
+        />
+      </GridColumn>
+    );
+  };
+
   hasMaxKeywords = () => this.state.keywordsIndex.length >= 3;
 
   handleAddKeywords = () =>
@@ -74,7 +156,7 @@ class CreateForm extends Component {
       onSubmit,
     } = this.props;
 
-    const { keywordsIndex } = this.state;
+    const { keywordsIndex, domainIndex } = this.state;
 
     return (
       <Segment padded>
@@ -87,31 +169,7 @@ class CreateForm extends Component {
             <Header textAlign="left">Experiment</Header>
             <Grid container centered stackable>
               <GridRow centered columns={2}>
-                <GridColumn>
-                  <FormInput
-                    fluid
-                    type="text"
-                    labelText="Domain"
-                    action="create-experiment-form-click"
-                    label="domain"
-                    name="domain"
-                    display="block"
-                    tabletDisplay="inline-block"
-                    placeholder="Please add a domain to purchase for your experiment"
-                    validate={[
-                      validateRequired,
-                      validateDomain,
-                      (value) =>
-                        calculateDomainPrice({
-                          domain: value,
-                          domainPrices,
-                        }) === 0
-                          ? "Domain Unavailable"
-                          : undefined,
-                    ]}
-                  />
-                  {this.renderSuggestDomains()}
-                </GridColumn>
+                {this.renderDomainSelection()}
                 <GridColumn />
               </GridRow>
             </Grid>
@@ -187,7 +245,7 @@ class CreateForm extends Component {
                     display="block"
                     tabletDisplay="inline-block"
                     placeholder="Keywords to check for in search engine"
-                    info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                    info="This is the inital keyword or combination of keywords a customer may search for in a search engine that your experiment should display for. Don't worry though, IdeaCamels will automatically change and optimise these for you using AI to predict the best keywords to bid on."
                     validate={[
                       validateRequired,
                       validateMaxLength(80),
@@ -206,7 +264,7 @@ class CreateForm extends Component {
                     display="block"
                     tabletDisplay="inline-block"
                     placeholder="Keywords to check for in search engine"
-                    info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                    info="This is the inital keyword or combination of keywords a customer may search for in a search engine that your experiment should display for. Don't worry though, IdeaCamels will automatically change and optimise these for you using AI to predict the best keywords to bid on."
                     validate={[
                       validateRequired,
                       validateMaxLength(80),
@@ -228,7 +286,7 @@ class CreateForm extends Component {
                       display="block"
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
-                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                      info="This is the inital keyword or combination of keywords a customer may search for in a search engine that your experiment should display for. Don't worry though, IdeaCamels will automatically change and optimise these for you using AI to predict the best keywords to bid on."
                       validate={[validateMaxLength(80), validateSpecialChars]}
                       action="create-experiment-form-click"
                       label="keyword-3"
@@ -243,7 +301,7 @@ class CreateForm extends Component {
                       display="block"
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
-                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                      info="This is the inital keyword or combination of keywords a customer may search for in a search engine that your experiment should display for. Don't worry though, IdeaCamels will automatically change and optimise these for you using AI to predict the best keywords to bid on."
                       validate={[validateMaxLength(80), validateSpecialChars]}
                       action="create-experiment-form-click"
                       label="keyword-4"
@@ -262,7 +320,7 @@ class CreateForm extends Component {
                       display="block"
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
-                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                      info="This is the inital keyword or combination of keywords a customer may search for in a search engine that your experiment should display for. Don't worry though, IdeaCamels will automatically change and optimise these for you using AI to predict the best keywords to bid on."
                       validate={[validateMaxLength(80), validateSpecialChars]}
                       action="create-experiment-form-click"
                       label="keyword-5"
@@ -277,7 +335,7 @@ class CreateForm extends Component {
                       display="block"
                       tabletDisplay="inline-block"
                       placeholder="Keywords to check for in search engine"
-                      info="This is the keyword or combination of keywords a customer may search for in a search engine that your experiment should display for."
+                      info="This is the inital keyword or combination of keywords a customer may search for in a search engine that your experiment should display for. Don't worry though, IdeaCamels will automatically change and optimise these for you using AI to predict the best keywords to bid on."
                       validate={[validateMaxLength(80), validateSpecialChars]}
                       action="create-experiment-form-click"
                       label="keyword-6"
@@ -331,8 +389,8 @@ class CreateForm extends Component {
                     display="block"
                     tabletDisplay="inline-block"
                     placeholder="How much do you wish to spend?"
-                    info="This is the budget that will be spent on driving traffic to your experiment. We recommend using at least $100 to ensure you buy enough ads to get meaningful click throughs. We recommend 20 or higher."
-                    validate={[validateRequired]}
+                    info="This is the budget that will be spent on driving traffic to your experiment. We recommend using at least $100 to ensure you buy enough ads to get meaningful click throughs."
+                    validate={[validateRequired, validateMinValue(50)]}
                     action="create-experiment-form-click"
                     label="budget"
                   />
@@ -347,7 +405,7 @@ class CreateForm extends Component {
               domain,
               domainPrices,
             })}
-            adBudget={budget}
+            adBudget={budget || 0}
             total={calculateTotalExperimentPrice({
               domain,
               domainPrices,

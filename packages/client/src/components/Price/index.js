@@ -15,7 +15,6 @@ import { config } from "../../config";
 
 export default function Price({
   heading = "Cost",
-  serviceFee = config.payments.serviceCharge,
   domainFee,
   adBudget,
   total,
@@ -33,14 +32,12 @@ export default function Price({
           <GridColumn>
             <Table celled padded textAlign="center" verticalAlign="middle">
               <TableHeader>
-                <TableHeaderCell>Service Fee ($)</TableHeaderCell>
                 <TableHeaderCell>Domain Fee ($)</TableHeaderCell>
-                <TableHeaderCell>Ad budget ($)</TableHeaderCell>
+                <TableHeaderCell>Budget ($)</TableHeaderCell>
                 <TableHeaderCell>Total ($)</TableHeaderCell>
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell>{serviceFee}</TableCell>
                   <TableCell>{domainFee}</TableCell>
                   <TableCell>{adBudget}</TableCell>
                   <TableCell>{total}</TableCell>

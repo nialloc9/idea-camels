@@ -89,6 +89,7 @@ export default withForm(
           {shouldShowPhone && (
             <GridColumn>
               <FormInput
+                info="Please use format 07564833375 or +447564833375"
                 labelText="Phone"
                 name="phone"
                 type="phone"

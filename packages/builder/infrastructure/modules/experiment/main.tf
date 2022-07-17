@@ -3,7 +3,7 @@ module "main" {
 
   fqdn                = var.fqdn
   aliases             = concat(["www.${var.fqdn}"], var.sub_domains)
-  ssl_certificate_arn = var.certificate_arn != "" ? var.certificate_arn : aws_acm_certificate_validation[0].cert.certificate_arn
+  ssl_certificate_arn = var.certificate_arn != "" ? var.certificate_arn : aws_acm_certificate_validation.cert[0].certificate_arn
   allowed_ips         = var.allowed_ips
 
   index_document = var.static_website_index_document

@@ -13,6 +13,7 @@ const {
   onPurchaseDomain,
   onListDomainPrices,
   onCheckIsDomainAvailable,
+  onCreateSubDomain
 } = require("../service/domain");
 const {
   onGetAccountExperiments,
@@ -43,7 +44,10 @@ const {
   onForgottonPassword: onKwoForgottonPassword,
   onReauthorise: onKwoReauthorise,
 } = require("../service/kwo/account");
-const { onAddCard: onKwoAddCard, onKwoChargeCustomer } = require("../service/kwo/payment");
+const {
+  onAddCard: onKwoAddCard,
+  onKwoChargeCustomer,
+} = require("../service/kwo/payment");
 // KWOW
 
 console.log("==== CONFIG ====");
@@ -133,6 +137,12 @@ const endpoints = [
     uri: "/domain/purchase",
     func: onPurchaseDomain,
     required: ["domain", "caller"],
+    isAuth: true,
+  },
+  {
+    uri: "/domain/create-sub-domain",
+    func: onCreateSubDomain,
+    required: ["subDomain", "caller"],
     isAuth: true,
   },
   {
@@ -248,11 +258,6 @@ const endpoints = [
     required: [],
     func: onAlertCheck,
   },
-
-
-
-
-
 
   /// KEYWORD OPTIMISER
   {
