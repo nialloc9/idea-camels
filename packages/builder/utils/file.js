@@ -28,7 +28,11 @@ const downloadFileFromStorage = async (bucket, key, pathToDownloadTo) =>
 
 const writeToFile = (path, str) => fs.writeFileSync(path, str);
 
-const writeBackendVars = ({ config: { experiment: { experimentRef, domain } } }) => {
+const writeBackendVars = ({
+  config: {
+    experiment: { experimentRef, domain },
+  },
+}) => {
   logger.info({ experimentRef, domain }, "Writing backend");
   const path = `./experiments/${experimentRef}/infrastructure/environment/backend.tfvars`;
   const str = `
@@ -41,7 +45,11 @@ region         = "eu-west-1"
   writeToFile(path, str);
 };
 
-const writeTfVars = ({ config: { experiment: { experimentRef, domain } } }) => {
+const writeTfVars = ({
+  config: {
+    experiment: { experimentRef, domain },
+  },
+}) => {
   logger.info({ experimentRef }, "Writing TF vars");
   const path = `./experiments/${experimentRef}/infrastructure/environment/variables.tfvars`;
   const str = `
@@ -53,8 +61,8 @@ experiment_ref="${experimentRef}"
   logger.info({ experimentRef }, "Finished writing TF vars");
 };
 
-const writeConfig = async ({ 
-  config: { 
+const writeConfig = async ({
+  config: {
     webAddress,
     experiment: {
       themeKey,
@@ -64,25 +72,20 @@ const writeConfig = async ({
       headline,
       headline2,
       description,
-      keywords
-    }, 
-    aws: {
-      buckets: {
-        themesAndContents: bucket
-      }
+      keywords,
     },
-    api: {
-      baseUrl
-    }
-}
+    aws: {
+      buckets: { themesAndContents: bucket },
+    },
+    api: { baseUrl },
+  },
 }) => {
-
   logger.info(
     { experimentRef, bucket, themeKey, contentKey },
     "Writing config"
   );
 
-  const prefix = `./experiments/${experimentRef}/client/config`;
+  const prefix = `./experiments/${experimentRef}/client/src/config`;
 
   await downloadFileFromStorage(bucket, contentKey, `${prefix}/content.json`);
 

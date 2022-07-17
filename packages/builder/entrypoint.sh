@@ -22,21 +22,21 @@ SHOULD_RUN_POST_BUILD="${SHOULD_RUN_POST_BUILD:-y}"
 
 make init-experiment
 
-if [ $SHOULD_CONFIGURE_INFRASTRUCTURE == "y" ]
-then
-make configure-infrastructure
-fi
+# if [ $SHOULD_CONFIGURE_INFRASTRUCTURE == "y" ]
+# then
+# make configure-infrastructure
+# fi
 
 
-if [ $SHOULD_CONFIGURE_CLIENT == "y" ]
-then
-make configure-client
-fi
+# if [ $SHOULD_CONFIGURE_CLIENT == "y" ]
+# then
+# make configure-client
+# fi
 
-if [ $SHOULD_CONFIGURE_CAMPAIGN == "y" ]
-then
-make configure-campaign
-fi
+# if [ $SHOULD_CONFIGURE_CAMPAIGN == "y" ]
+# then
+# make configure-campaign
+# fi
 
 if [ $SHOULD_RUN_POST_BUILD == "y" ]
 then
