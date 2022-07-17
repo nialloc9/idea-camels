@@ -34,6 +34,7 @@ apply:
 	export AWS_PROFILE=$(AWS_PROFILE) \
 	&& export AWS_REGION=$(AWS_REGION) \
 	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars -target=module.domain.aws_acm_certificate.cert \
+	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars -target=module.domain.aws_acm_certificate_validation.cert \
 	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars -target=module.ecr.api_ecr.aws_ecr_repository \
 	&& terraform apply -auto-approve --var-file=environments/$(ENV)/variables.tfvars \
 	&& terraform output
