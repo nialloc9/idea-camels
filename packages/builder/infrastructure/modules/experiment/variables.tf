@@ -95,6 +95,6 @@ variable "certificate_arn" {
 
 variable "sub_domains" {
   description = "Additional subdomains"
-  type = []
+  type = list(string)
   default = []
 }
