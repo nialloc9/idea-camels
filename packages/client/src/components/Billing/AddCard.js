@@ -22,7 +22,7 @@ class CheckoutForm extends React.Component {
     event.preventDefault();
     this.setState({ isLoading: true });
 
-    const { stripe, elements, onSubmit } = this.props;
+    const { stripe, elements, onSubmit, callback } = this.props;
     if (!stripe || !elements) {
       return;
     }
@@ -34,6 +34,7 @@ class CheckoutForm extends React.Component {
       this.setState({ errorMessage: result.error.message });
     } else {
       onSubmit(result.token);
+      callback();
     }
 
     this.setState({ isLoading: false });

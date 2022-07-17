@@ -7,13 +7,10 @@ const { onGet: onGetDomainByDomainRef } = require("../data/domain");
 const { onGet: onGetAccount } = require("../data/account");
 const { onGetMultiple: onGetMultipleLeads } = require("../data/leads");
 const { generateRandomId, handleSuccess } = require("../utils/utils");
-const {
-  getMetrics,
-} = require("../utils/googleAds");
+const { getMetrics } = require("../utils/googleAds");
 const { runTask, uploadToS3 } = require("../utils/aws");
 const { writeToTmpFile } = require("../utils/file");
 const { chargeCustomer } = require("../utils/stripe");
-const { calculateTotalExperimentCost } = require("../utils/payments");
 const config = require("../utils/config");
 const {
   mapExperimentsToAdGroupNames,
@@ -62,12 +59,12 @@ const onGetAccountExperiments = ({
           orderBy: "clicks",
           adGroupResourceName: mapExperimentsToAdGroupNames(experiments), // e.g ["customers/9074082905/adGroups/108117690178"]
         });
-       
+
         const experimentsWithMetrics = mapMetricsToExperiment({
           experiments,
           metrics,
         });
-     
+
         const { data: leads } = await onGetMultipleLeads({
           data: {
             experimentRef: experimentsWithMetrics.map(
@@ -76,7 +73,7 @@ const onGetAccountExperiments = ({
           },
           caller,
         });
-        
+
         response.experiments = mapExperimentsToLeads({
           experiments: experimentsWithMetrics,
           leads,
@@ -138,18 +135,16 @@ const onCreateExperiment = ({
 
       await chargeCustomer({
         customerId: payment_customer_id,
-        amount: calculateTotalExperimentCost({ budget }),
+        amount: budget,
         caller,
         accountRef,
         description: `Creating experiment for ${name}`,
       });
 
-      const {
-        path: contentPath,
-        cleanup: onContentCleanUp,
-      } = await writeToTmpFile({
-        data: JSON.stringify(content),
-      });
+      const { path: contentPath, cleanup: onContentCleanUp } =
+        await writeToTmpFile({
+          data: JSON.stringify(content),
+        });
       const { path: themePath, cleanup: onThemeCleanUp } = await writeToTmpFile(
         {
           data: JSON.stringify(theme),
@@ -214,7 +209,7 @@ const onCreateExperiment = ({
           headline2,
           keywords,
           caller,
-          budget
+          budget,
         })
       );
 
@@ -229,7 +224,7 @@ const onCreateExperiment = ({
           content: contentKey,
           theme: themeKey,
           campaign: {},
-          metrics: {}
+          metrics: {},
         })
       );
     } catch (error) {

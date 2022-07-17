@@ -37,6 +37,7 @@ class Billing extends Component {
             onSubmit={onAddCard}
             showCancelButton={!!card.id}
             onCancel={() => this.setState({ index: 1 })}
+            callback={() => this.setState({ index: 1 })}
           />
         ) : (
           <Card
