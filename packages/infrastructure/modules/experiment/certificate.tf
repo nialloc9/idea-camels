@@ -3,7 +3,7 @@ resource "aws_acm_certificate" "cert" {
   count = var.certificate_arn == "" ? 1 : 0
   domain_name               = var.fqdn
   validation_method         = var.cert_validation_method
-  subject_alternative_names = ["www.${var.fqdn}"]
+  subject_alternative_names = concat(["www.${var.fqdn}"], var.sub_domains)
   tags = var.tags
 }
 
