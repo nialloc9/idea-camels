@@ -75,6 +75,7 @@ variable "create_cert_validations" {
   default     = true
 }
 
+
 variable single_page_application {
   type        = bool
   default     = false
