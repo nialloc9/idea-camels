@@ -14,7 +14,7 @@ const {
   THEME_KEY,
   CONTENT_KEY,
   JWT_SECRET,
-  BUDGET, 
+  BUDGET,
   HEADLINE,
   HEADLINE_2,
   DESCRIPTION,
@@ -28,10 +28,10 @@ const {
   GOOGLE_ADS_CLIENT_SECRET,
   GOOGLE_ADS_REFRESH_TOKEN,
   GOOGLE_ADS_DEVELOPER_TOKEN,
-  GOOGLE_ADS_CUSTOMER_ID="123-123-123",
-  SHOULD_LOG_STATUS_IN_DB = 'y',
+  GOOGLE_ADS_CUSTOMER_ID = "123-123-123",
+  SHOULD_LOG_STATUS_IN_DB = "y",
   SLACK_TOKEN,
-  API_BASE_URL
+  API_BASE_URL,
 } = process.env;
 
 const localhost = {
@@ -87,7 +87,14 @@ const localhost = {
     keyword3: KEYWORD_3,
     keyword4: KEYWORD_4,
     keyword5: KEYWORD_5,
-    keywords: [KEYWORD_0, KEYWORD_1, KEYWORD_2, KEYWORD_3, KEYWORD_4, KEYWORD_5]
+    keywords: [
+      KEYWORD_0,
+      KEYWORD_1,
+      KEYWORD_2,
+      KEYWORD_3,
+      KEYWORD_4,
+      KEYWORD_5,
+    ],
   },
   googleAds: {
     clientId: GOOGLE_ADS_CLIENT_ID,
@@ -110,9 +117,9 @@ const localhost = {
   },
   slack: {
     token: SLACK_TOKEN,
-    alertChannel: 'builder-dev-alerts',
-    experimentDeployChannel: 'deploy-experiment-dev-alerts'
-  }
+    alertChannel: "builder-dev-alerts",
+    experimentDeployChannel: "deploy-experiment-dev-alerts",
+  },
 };
 
 const staging = {
@@ -129,8 +136,8 @@ const prod = {
   },
   slack: {
     ...staging.slack,
-    alertChannel: 'builder-prod-alerts',
-    experimentDeployChannel: 'deploy-experiment-prod-alerts'
+    alertChannel: "builder-prod-alerts",
+    experimentDeployChannel: "deploy-experiment-prod-alerts",
   },
 };
 

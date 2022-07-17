@@ -93,15 +93,15 @@ if __name__ == "__main__":
 
                 first_column = keyword_df.iloc[0]
 
-                domain_name = query("SELECT domains.name FROM domains JOIN experiments ON domains.domain_ref = experiments.domain_ref JOIN campaigns ON experiments.experiment_ref = campaigns.experiment_ref WHERE campaigns.campaign_name={}".format(ad_group_id=first_column["campaign_resource_name"]))[0]
-
+                # domain_name = query("SELECT domains.name FROM domains JOIN experiments ON domains.domain_ref = experiments.domain_ref JOIN campaigns ON experiments.experiment_ref = campaigns.experiment_ref WHERE campaigns.campaign_name={}".format(ad_group_id=first_column["campaign_resource_name"]))[0]
+                domain_name="ideacamels.com"
                 suggestions = fetch_keyword_suggestions(
                     googleads_client,
                     config["credentials"]["login_customer_id"],
                     config["location_ids"],
                     config["language_id"],
                     keyword_df.head(20),
-                    page_url="https://{domain_name}",
+                    page_url="https://{}".format(domain_name),
                 )
                 
                 top_suggestions = suggestions.head(config["ads"]["create_count"])

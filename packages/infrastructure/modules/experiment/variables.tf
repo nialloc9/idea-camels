@@ -86,3 +86,15 @@ variable "tags" {
   type        = map(string)
   default = {}
 }
+
+variable "certificate_arn" {
+  description = "Arn of certificate to use"
+  type = string
+  default = ""
+}
+
+variable "sub_domains" {
+  description = "Additional subdomains"
+  type = []
+  default = []
+}

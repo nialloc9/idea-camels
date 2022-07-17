@@ -40,3 +40,7 @@ variable tags {
   default     = {}
   type        = map(string)
 }
+
+locals {
+  use_sub_domain = length(split("ideacamels.com", var.domain)) > 1
+}
