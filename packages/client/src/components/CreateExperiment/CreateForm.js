@@ -21,7 +21,10 @@ import {
   validateSpecialChars,
   validateMinValue,
 } from "../../utils/form";
-import { onPrepareExperiment } from "../../store/actions/experiment";
+import {
+  onPrepareExperiment,
+  onResetDomain,
+} from "../../store/actions/experiment";
 import { connect } from "../../store";
 
 class CreateForm extends Component {
@@ -64,6 +67,12 @@ class CreateForm extends Component {
     );
   };
 
+  setDomainIndex = (domainIndex) => {
+    const { onResetDomain } = this.props;
+    onResetDomain();
+    this.setState({ domainIndex });
+  };
+
   renderDomainSelection = () => {
     const { domainIndex } = this.state;
     const { domainPrices } = this.props;
@@ -76,7 +85,7 @@ class CreateForm extends Component {
             type="text"
             labelText="Domain"
             action="create-experiment-form-click"
-            label="domain"
+            label="create-free-domain-button"
             name="domain"
             display="block"
             tabletDisplay="inline-block"
@@ -98,8 +107,10 @@ class CreateForm extends Component {
             icon="recycle"
             primary
             content="Use free domain"
-            onClick={() => this.setState({ domainIndex: 1 })}
+            onClick={() => this.setDomainIndex(1)}
             type="button"
+            action="create-experiment-form-click"
+            label="create-free-domain-button"
           />
           {this.renderSuggestDomains()}
         </GridColumn>
@@ -113,6 +124,7 @@ class CreateForm extends Component {
           type="text"
           labelText="Domain"
           action="create-experiment-form-click"
+          label="custom-domain"
           semanticProps={{
             label: {
               basic: true,
@@ -131,8 +143,10 @@ class CreateForm extends Component {
           icon="add to cart"
           primary
           content="Purchase custom domain"
-          onClick={() => this.setState({ domainIndex: 0 })}
+          onClick={() => this.setDomainIndex(0)}
           type="button"
+          action="create-experiment-form-click"
+          label="purchase-custom-button"
         />
       </GridColumn>
     );
@@ -150,13 +164,13 @@ class CreateForm extends Component {
       submitting,
       pristine,
       submitError,
-      values: { budget, domain },
+      values: { budget, domain, subDomain },
       newExperiment,
       domainPrices,
       onSubmit,
     } = this.props;
 
-    const { keywordsIndex, domainIndex } = this.state;
+    const { keywordsIndex } = this.state;
 
     return (
       <Segment padded>
@@ -353,6 +367,7 @@ class CreateForm extends Component {
                       action="create-experiment-form-click"
                       label="add-keywords"
                       onClick={this.handleAddKeywords}
+                      type="button"
                     />
                   </GridColumn>
                 </GridRow>
@@ -402,6 +417,7 @@ class CreateForm extends Component {
           <Price
             shouldShowButton
             domainFee={calculateDomainPrice({
+              subDomain,
               domain,
               domainPrices,
             })}
@@ -412,13 +428,9 @@ class CreateForm extends Component {
               budget,
             })}
             action="create-experiment-form-1-submit-click"
-            disabled={
-              submitting ||
-              pristine ||
-              calculateDomainPrice({ domain, domainPrices }) === 0
-            }
+            disabled={submitting || pristine}
             isLoading={submitting}
-            onClick={() => this.setState({ isConfirmOpen: true })}
+            onClick={onSubmit}
           />
         </Form>
       </Segment>
@@ -433,5 +445,5 @@ export default connect(
     domainPrices: prices,
     initialValues: newExperiment,
   }),
-  { onSubmit: onPrepareExperiment }
+  { onSubmit: onPrepareExperiment, onResetDomain }
 )(withForm(CreateForm));

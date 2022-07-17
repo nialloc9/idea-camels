@@ -16,7 +16,7 @@ export const configureErrorResponse = ({
       const {
         response: { data: { message, data, statusCode } = {} } = {},
       } = err;
-      console.log(data);
+
       return {
         message:
           message || err.message || "An error has occured. Please try again.",

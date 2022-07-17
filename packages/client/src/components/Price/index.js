@@ -11,7 +11,6 @@ import { Grid, GridRow, GridColumn } from "../Grid";
 import { Button } from "../Styled/Button";
 import { Header } from "../Styled/Header";
 import { Segment } from "../Styled/Segment";
-import { config } from "../../config";
 
 export default function Price({
   heading = "Cost",

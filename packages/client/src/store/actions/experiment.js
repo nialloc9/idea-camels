@@ -258,3 +258,24 @@ export const onSetNewExperiment = (expermentDataToAdd) => (
 
   onSetState({ newExperiment: deepMerge(newExperiment, expermentDataToAdd) });
 };
+
+/**
+ * @description sets formIndex for create experiment
+ * @param {*} formIndex
+ * @returns
+ */
+export const onResetDomain = () => (dispatch, getState) => {
+  const onSetState = setState(dispatch);
+
+  const {
+    experiment: { newExperiment },
+  } = getState();
+
+  onSetState({
+    newExperiment: {
+      ...newExperiment,
+      domain: undefined,
+      subDomain: undefined,
+    },
+  });
+};

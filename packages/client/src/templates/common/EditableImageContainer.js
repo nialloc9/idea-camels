@@ -55,7 +55,7 @@ class EditableImage extends Component {
       } = this.props;
 
       this.setState({ isLoading: true });
-      console.log(1);
+
       const resizedImage = await handleResizeFile({
         file: files[0],
         maxHeight: maxImageHeight,

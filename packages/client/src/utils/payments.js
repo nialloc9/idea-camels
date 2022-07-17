@@ -10,9 +10,8 @@ const getTopDomain = (domain) => {
  * @param {*} param0
  * @returns
  */
-export const calculateDomainPrice = ({ domain, domainPrices }) => {
-  console.log(domain, domainPrices);
-  if (!domain || domainPrices.length === 0) return 0;
+export const calculateDomainPrice = ({ subDomain, domain, domainPrices }) => {
+  if (subDomain || !domain || domainPrices.length === 0) return 0;
 
   const topLevelDomain = getTopDomain(domain);
 
@@ -31,10 +30,11 @@ export const calculateDomainPrice = ({ domain, domainPrices }) => {
  */
 export const calculateTotalExperimentPrice = ({
   domain,
+  subDomain,
   domainPrices,
   budget,
 }) => {
-  const domainPrice = calculateDomainPrice({ domain, domainPrices });
+  const domainPrice = calculateDomainPrice({ subDomain, domain, domainPrices });
 
   return (parseInt(domainPrice) || 0) + (parseInt(budget) || 0);
 };
