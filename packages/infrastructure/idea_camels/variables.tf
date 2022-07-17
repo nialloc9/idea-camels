@@ -81,7 +81,7 @@ variable "www_record_ttl" {
 
 variable "create_cert_validations" {
   description = "Set to false when destroying"
-  default     = true
+  default     = false
 }
 
 variable "enable_api_gateway_logging" {

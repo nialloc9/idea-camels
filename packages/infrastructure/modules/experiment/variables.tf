@@ -72,7 +72,7 @@ variable "www_record_ttl" {
 
 variable "create_cert_validations" {
   description = "Set to false when destroying"
-  default     = false
+  default     = true
 }
 
 variable single_page_application {
