@@ -7,9 +7,30 @@ import {
 } from "../../../utils/style";
 import Accordion from "../../Accordion";
 
+const Heading = styled.h1`
+  margin: ${remCalc(30)} auto 0 auto;
+  text-align: center;
+  display: block;
+  font-size: ${({
+    theme: {
+      block4: { heading },
+    },
+  }) => remCalc(heading.size)};
+  font-weight: ${({
+    theme: {
+      block4: { heading },
+    },
+  }) => heading.weight};
+  line-height: ${({
+    theme: {
+      block4: { heading },
+    },
+  }) => remCalc(heading.lineHeight)};
+`;
+
 const Container = styled.section`
   max-width: 60%;
-  margin: auto;
+  margin: ${remCalc(40)} auto 0 auto;
   background-color: ${({
     theme: {
       block6: { backgroundColor },
@@ -83,8 +104,9 @@ const data = [
   },
 ];
 
-export default withTheme(() => (
+export default withTheme(() => [
+  <Heading>You asked, we answered</Heading>,
   <Container>
     <Accordion fluid action="faq-click" data={data} />
-  </Container>
-));
+  </Container>,
+]);

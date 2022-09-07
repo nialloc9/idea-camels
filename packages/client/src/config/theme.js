@@ -205,7 +205,7 @@ export default {
     height: 650,
     backgroundColor: WHITE_000,
     fontFamily: FONT_001,
-    paddings: [0, 0, 100, 0],
+    paddings: [0, 20, 50, 20],
   },
   footer: {
     ...defaultFont,

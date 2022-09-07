@@ -44,7 +44,7 @@ const createCustomer = async ({ name, email, phone, caller, description }) =>
 const chargeCustomer = ({
   customerId,
   amount,
-  currency = "GBP",
+  currency = "USD",
   accountRef,
   caller,
   description,
@@ -53,7 +53,7 @@ const chargeCustomer = ({
     ? chargeMock
     : stripeProvider.charges.create({
         customer: customerId,
-        amount,
+        amount: amount * 100,
         currency,
         description,
         metadata: {

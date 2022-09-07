@@ -50,8 +50,8 @@ const Template = ({
               disabled={isCreateLoading}
               loading={isCreateLoading}
               action="create-experiment-form-2-submit-click"
-              onClick={(experiment) =>
-                onSubmit(experiment, () =>
+              onClick={() =>
+                onSubmit((experiment) =>
                   history.push(
                     `/home?experiment_ref=${experiment.experiment_ref}`
                   )

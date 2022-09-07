@@ -33,10 +33,10 @@ then
 make configure-client
 fi
 
-# if [ $SHOULD_CONFIGURE_CAMPAIGN == "y" ]
-# then
-# make configure-campaign
-# fi
+if [ $SHOULD_CONFIGURE_CAMPAIGN == "y" ]
+then
+make configure-campaign
+fi
 
 if [ $SHOULD_RUN_POST_BUILD == "y" ]
 then

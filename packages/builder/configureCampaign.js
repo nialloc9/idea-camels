@@ -19,7 +19,6 @@ const {
 const { onCreate: onCreateCampaign } = require("./data/campaign");
 
 const main = async () => {
-
   const {
     experiment: {
       budget,
@@ -32,7 +31,7 @@ const main = async () => {
       domain,
       endDate,
     },
-    caller='test',
+    caller = "test",
   } = config;
 
   try {
@@ -50,7 +49,7 @@ const main = async () => {
       },
       "========= CONFIGURING CAMPAIGN  ========="
     );
-  
+
     const { resource_name: budgetName } = await createBudget(
       mapExperimentToCampaignBudget({
         budget,
@@ -60,7 +59,7 @@ const main = async () => {
     );
 
     logger.info({ budgetName }, "========= BUDGET CREATED  =========");
-  
+
     const { resource_name: campaignName } = await createCampaign(
       mapExperimentToCampaign({
         experimentRef,
@@ -71,7 +70,7 @@ const main = async () => {
     );
 
     logger.info({ campaignName }, "========= CAMPAIGN CREATED  =========");
-  
+
     const { resource_name: adGroupName } = await createAdGroup(
       mapExperimentToAdGroup({
         campaignName,
@@ -82,7 +81,7 @@ const main = async () => {
     );
 
     logger.info({ adGroupName }, "========= AD GROUP CREATED  =========");
-  
+
     const { resource_name: adGroupAdName } = await createAdGroupAd(
       mapExperimentToAdGroupAd({
         name: domain,
@@ -92,57 +91,62 @@ const main = async () => {
         headline2,
       })
     );
-      
+
     logger.info({ adGroupAdName }, "========= AD GROUP AD CREATED  =========");
 
     const keywordCriterians = mapKeywordsToCriterionToCreate({
       keywords,
       adGroupName,
     });
-  
+
     const criterions = await createAdGroupCriterion(keywordCriterians);
-   
+
     logger.info({ criterions }, "========= CRITERIONS CREATED  =========");
 
     const mappedCriterionToDb = mapCriterionsToDb({
       criterions,
       keywords,
     });
-   
-    await onCreateCampaign({
-      data: {
-        accountRef,
-        experimentRef,
-        campaignName,
-        budgetName,
-        adGroupName,
-        adGroupAdName,
-        headline,
-        headline2,
-        ...mappedCriterionToDb,
-      },
-      caller,
-    });
-  
+
+    // await onCreateCampaign({
+    //   data: {
+    //     accountRef,
+    //     experimentRef,
+    //     campaignName,
+    //     budgetName,
+    //     adGroupName,
+    //     adGroupAdName,
+    //     headline,
+    //     headline2,
+    //     ...mappedCriterionToDb,
+    //   },
+    //   caller,
+    // });
+
     logger.info(
       { experimentRef, domain },
       "=========  CAMPAIGN CONFIGURED  ========="
     );
 
-    await sendAlert({ channel: config.slack.experimentDeployChannel, text: JSON.stringify({
-      message: "Experiment Deployed",
-      caller,
-      experimentRef,
-      domain
-    }) })
+    await sendAlert({
+      channel: config.slack.experimentDeployChannel,
+      text: JSON.stringify({
+        message: "Experiment Deployed",
+        caller,
+        experimentRef,
+        domain,
+      }),
+    });
   } catch (error) {
     logger.error(error);
-    await sendAlert({ text: JSON.stringify({
-      error,
-      caller,
-      experimentRef,
-      domain
-    }) }).then(() => process.exit(1))
+    await sendAlert({
+      text: JSON.stringify({
+        error,
+        caller,
+        experimentRef,
+        domain,
+      }),
+    }).then(() => process.exit(1));
   }
 };
 
@@ -150,5 +154,5 @@ try {
   main().then(process.exit);
 } catch (error) {
   logger.error(error);
-  sendAlert({ text: JSON.stringify(error) }).then(() => process.exit(1))
+  sendAlert({ text: JSON.stringify(error) }).then(() => process.exit(1));
 }
