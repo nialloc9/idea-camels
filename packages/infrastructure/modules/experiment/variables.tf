@@ -98,3 +98,4 @@ variable "sub_domains" {
   type = list(string)
   default = []
 }
+
