@@ -82,7 +82,7 @@ const onListDomainPrices = ({ caller }) =>
 
         const { Price, Currency } = RegistrationPrice;
 
-        const pricePlusMarkUp = getDomainPriceWithMarkUp(Price);
+        const pricePlusMarkUp = getDomainPriceWithMarkUp({ price: Price });
 
         total.push({ name: Name, price: pricePlusMarkUp, currency: Currency });
 
@@ -142,7 +142,9 @@ const onPurchaseDomain = ({
 
       const domainPrice = calculateDomainPrice({ domain, domainPrices });
 
-      const domainPricePlusMarkUp = getDomainPriceWithMarkUp(domainPrice);
+      const domainPricePlusMarkUp = getDomainPriceWithMarkUp({
+        price: domainPrice,
+      });
 
       // TODO: charge customer for domain
       await chargeCustomer({

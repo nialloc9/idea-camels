@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, Box, Image, Heading, Text, Link as A } from "theme-ui";
+import { jsx, Box, Image, Heading, Text } from "theme-ui";
 import Play from "../icons/play";
 import withEditableText from "../../../common/withEditableText";
 import EditableImage from "../../../common/EditableImageContainer";

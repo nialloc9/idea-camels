@@ -293,6 +293,7 @@ const Taq = () => {
           <p>
             All IdeaCamels staff sign an{" "}
             <a
+              rel="noopener noreferrer"
               target="_blank"
               href="https://www.investopedia.com/terms/n/nda.asp#:~:text=A%20non%2Ddisclosure%20agreement%20is,to%20as%20a%20confidentiality%20agreement."
             >

@@ -15,21 +15,11 @@ const IdeaCamelsDatabasePool = mysql.createPool({
   port,
 });
 
-const KWODatabasePool = mysql.createPool({
-  host,
-  user,
-  password,
-  database: "kwo",
-  port,
-});
-
-const getConnection = async ({ caller, database = "ideacamels" }) =>
+const getConnection = async (
+  { caller } = {},
+  { databasePool } = { databasePool: IdeaCamelsDatabasePool }
+) =>
   new Promise((resolve, reject) => {
-    const databasePool =
-      {
-        kwo: KWODatabasePool,
-      }[database] || IdeaCamelsDatabasePool;
-
     databasePool.getConnection((error, connection) => {
       if (error) {
         logger.error(error, "DATABASE CONNECTION ERROR");
@@ -48,11 +38,11 @@ const getConnection = async ({ caller, database = "ideacamels" }) =>
     });
   });
 
-const query = async (query, data, caller, dataLayer, newConnection) =>
+const query = async (queryString, data, caller, dataLayer, newConnection) =>
   new Promise(async (resolve, reject) => {
     try {
       const connection = newConnection || (await getConnection({ caller }));
-      connection.query(query, data, (error, results) => {
+      connection.query(queryString, data, (error, results) => {
         connection.release();
 
         if (error) {
@@ -60,7 +50,7 @@ const query = async (query, data, caller, dataLayer, newConnection) =>
           return reject(
             errors["4001"]({
               dataLayer,
-              reason: `FAILED QUERY: ${query}`,
+              reason: `FAILED QUERY: ${queryString}`,
               caller,
               reason: error.message,
             })

@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, Box, Flex, Container, Image as Img } from "theme-ui";
+import { jsx, Box, Flex, Container } from "theme-ui";
 import SectionHeading from "../components/section-heading";
 import Image from "../components/image";
 import EditableImageContainer from "../../common/EditableImageContainer";

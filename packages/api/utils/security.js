@@ -4,18 +4,17 @@ const config = require("./config");
 const errors = require("./errors");
 const { generateRandomId, createTimestamp, logger } = require("./utils");
 
-const {
-  jwt: { secret },
-} = config;
-
 /**
  * verifys a token using secret
  * @param {string} jwToken
  * @returns {*}
  */
-const jwtVerify = (jwToken, secret = config.jwt.secret) => {
+const jwtVerify = (
+  { token, secret = config.jwt.secret } = {},
+  { provider = jwt } = {}
+) => {
   try {
-    return [null, jwt.verify(jwToken, secret)];
+    return [null, provider.verify(token, secret)];
   } catch (err) {
     return [errors["1004"](), null];
   }
@@ -36,8 +35,11 @@ const scrubAccount = (account = {}, scrub = ["password"]) => {
  * @param {string} expiry
  * @returns {*}
  */
-const createJwToken = (data, expiry = "1d") =>
-  jwt.sign(
+const createJwToken = (
+  { data, expiry = "1d", secret = config.jwt.secret } = {},
+  { provider = jwt } = {}
+) =>
+  provider.sign(
     {
       data,
       timestamp: createTimestamp(),
@@ -55,7 +57,7 @@ const createJwToken = (data, expiry = "1d") =>
 const requiredParam = ({ serviceName, paramName, param, caller }) => {
   if (param === undefined || (!param && param !== 0)) {
     return Promise.reject(
-      errors["3002"]({
+      errors["2003"]({
         service: serviceName,
         caller,
         data: { [paramName]: "undefined" },
@@ -115,17 +117,22 @@ const requiredParams = ({
     resolve(body);
   });
 
-const createHash = ({ secret, data, algo = "sha256" }) =>
-  crypto.createHmac(algo, secret).update(data).digest("hex");
+const createHash = (
+  { secret, data, algo = "sha256" } = {},
+  { provider = crypto } = {}
+) => provider.createHmac(algo, secret).update(data).digest("hex");
 
 /**
  * @description creates a hash of the password using standard security practice
  * @param {*} param0
  * @returns
  */
-const createPasswordHash = ({ password }) =>
+const createPasswordHash = ({
+  password,
+  secret = config.security.password_secret,
+} = {}) =>
   createHash({
-    secret: config.security.password_secret,
+    secret,
     data: password,
   });
 
@@ -203,10 +210,10 @@ const validateAndParse = async ({
 
         const [, token] = bearer.split(" ");
 
-        const [error, decodedToken] = jwtVerify(
+        const [error, decodedToken] = jwtVerify({
           token,
-          isAdmin ? config.jwt.adminSecret : undefined
-        );
+          secret: isAdmin ? config.jwt.adminSecret : config.jwt.secret,
+        });
 
         if (error) return reject(error);
 

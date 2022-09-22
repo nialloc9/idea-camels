@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useState } from "react";
-import { jsx, Box, Text } from "theme-ui";
+import { useState } from "react";
+import { jsx, Box } from "theme-ui";
 import { Icon, Modal, Input, Header, Button } from "semantic-ui-react";
 import { styled, remCalc } from "../../../../utils/style";
 
@@ -64,7 +64,8 @@ const styles = {
     fontSize: [1, null, null, null, 2],
     lineHeight: 1,
     svg: {
-      mr: ["7px", , null, null, "12px"],
+      // mr: ["7px", , null, null, "12px"], --> did not know what extra , was for
+      mr: ["7px", null, null, "12px"],
       height: 20,
       width: 20,
     },
