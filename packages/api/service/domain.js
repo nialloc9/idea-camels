@@ -200,11 +200,12 @@ const onCreateSubDomain = ({
       } = await onGetDomain({ data: { name: domain }, caller });
 
       if (existingDomains.length > 0) {
+        console.log("here", existingDomains);
         return reject(
           errors["1008"]({
             service: "onCreateSubDomain",
             caller,
-            data: { domain },
+            data: { domain, existingDomains },
             reason: "Domain already exists",
           })
         );
