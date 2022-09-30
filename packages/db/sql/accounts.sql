@@ -16,6 +16,7 @@ CREATE TABLE accounts
   last_updated_by int(9),
   last_logged_in TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   deleted_flag int(1) DEFAULT 0,
+  remember_me int(1) DEFAULT 0,
   PRIMARY KEY (account_ref)
 );
 
@@ -47,5 +48,6 @@ VALUES
     null,
     null,
     null,
+    0,
     0
 );

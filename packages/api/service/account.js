@@ -55,7 +55,7 @@ const onLogin = ({ data: { email, password, rememberMe = false }, caller }) =>
         data: {
           accountRef: account.account_ref,
           lastUpdatedBy: account.account_ref,
-          data: { lastLoggedin: timestamp },
+          data: { lastLoggedin: timestamp, rememberMe },
         },
         caller,
       });
@@ -64,12 +64,12 @@ const onLogin = ({ data: { email, password, rememberMe = false }, caller }) =>
         account: scrubAccount({ ...account, last_logged_in: timestamp }, [
           "password",
         ]),
-        token: createJwToken(
-          { accountRef: account.account_ref },
-          rememberMe
+        token: createJwToken({
+          data: { accountRef: account.account_ref },
+          expiry: rememberMe
             ? config.security.extended_token_expiration
-            : config.security.default_token_expiration
-        ),
+            : config.security.default_token_expiration,
+        }),
       };
 
       const paymentProfile = await getCustomer({
@@ -111,7 +111,12 @@ const onReauthorise = ({
 
       const responseData = {
         account: scrubAccount(account, ["password"]),
-        token: createJwToken({ accountRef: account.account_ref }),
+        token: createJwToken({
+          data: { accountRef: account.account_ref },
+          expiry: account.remember_me
+            ? config.security.extended_token_expiration
+            : config.security.default_token_expiration,
+        }),
       };
 
       resolve(handleSuccess("account reauthorised", responseData));
@@ -159,7 +164,12 @@ const onCreate = ({ data, caller }) =>
 
       const responeData = {
         account: scrubAccount(account, ["password"]),
-        token: createJwToken({ accountRef: account.account_ref }),
+        token: createJwToken({
+          data: { accountRef: account.account_ref },
+          expiry: account.remember_me
+            ? config.security.extended_token_expiration
+            : config.security.default_token_expiration,
+        }),
       };
 
       try {
@@ -258,7 +268,7 @@ const onForgottonPassword = ({ data: { email }, caller }) =>
 
       const { account_ref: accountRef } = userData[0];
 
-      const token = createJwToken({ accountRef });
+      const token = createJwToken({ data: { accountRef } });
 
       await onCreateToken({
         data: {

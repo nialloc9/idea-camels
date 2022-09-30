@@ -14,6 +14,7 @@ const dbNames = convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase([
   `last_updated_at`,
   `last_logged_in`,
   `deleted_flag`,
+  `remember_me`,
 ]);
 
 const mapper = (account) =>
