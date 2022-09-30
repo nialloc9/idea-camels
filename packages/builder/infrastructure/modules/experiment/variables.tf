@@ -17,13 +17,13 @@ variable cloudfront_region {
 
 variable "fqdn" {
   description = "The fully-qualified domain name of the resulting S3 website."
-  default     = "ideacamels.com"
+  default     = "test.ideacamels.com"
   type        = string
 }
 
 variable "domain" {
   description = "The domain name."
-  default     = "ideacamels.com"
+  default     = "test.ideacamels.com"
   type        = string
 }
 

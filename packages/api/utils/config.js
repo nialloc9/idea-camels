@@ -31,7 +31,7 @@ const development = {
   port: SERVER_PORT,
   webAddress: "https://ideacamels.com",
   env: ENV,
-  isProd: true,
+  isProd: ENV === "prod",
   noInternet: true,
   logSuccessResponse: true,
   logErrorResponse: true,
@@ -138,6 +138,8 @@ const staging = {
 
 const prod = {
   ...staging,
+  noInternet: false,
+  isProd: true,
   aws: {
     ...staging.aws,
   },

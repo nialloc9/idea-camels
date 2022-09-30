@@ -139,7 +139,7 @@ const onCreate = ({ data, caller }) =>
         );
       }
 
-      const { id: stripeCustomerId } = await createCustomer({
+      const { id: stripeCustomerId } = createCustomer({
         email: data.email,
         name: `${data.firstName} ${data.lastName}`,
         phone: data.phone,

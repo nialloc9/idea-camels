@@ -57,7 +57,11 @@ const data = [
     content: (
       <span>
         All IdeaCamels staff sign an{" "}
-        <a href="https://www.investopedia.com/terms/n/nda.asp" target="_blank">
+        <a
+          href="https://www.investopedia.com/terms/n/nda.asp"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           NDA
         </a>{" "}
         barring them from sharing information on any ideas acquired while

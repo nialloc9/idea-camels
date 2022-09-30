@@ -5,19 +5,20 @@ const config = require("./config");
  * @param {*} param0
  * @returns
  */
-const calculateAdBudgetMinusMarkup = ({ budget }) =>
-  (parseInt(budget) / 100) * (100 - config.payments.advertPercentageMarkup);
+const calculateAdBudgetMinusMarkup = ({
+  budget,
+  advertPercentageMarkup = config.payments.advertPercentageMarkup,
+} = {}) => (parseInt(budget) / 100) * (100 - advertPercentageMarkup);
 
 /**
  * gets domain prices plus markup
  * @param {*} price
  * @returns
  */
-const getDomainPriceWithMarkUp = (price) => {
-  const {
-    payments: { domainPercentageMarkUp },
-  } = config;
-
+const getDomainPriceWithMarkUp = ({
+  price,
+  domainPercentageMarkUp = config.payments.domainPercentageMarkUp,
+}) => {
   const markup = (price / 100) * domainPercentageMarkUp;
 
   return Math.ceil(price + markup);

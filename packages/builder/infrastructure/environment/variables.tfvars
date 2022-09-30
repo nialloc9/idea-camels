@@ -1,4 +1,4 @@
 
-fqdn   = "ideacamels.com"
+fqdn   = "test.ideacamels.com"
 domain = "ideacamels.com"
     

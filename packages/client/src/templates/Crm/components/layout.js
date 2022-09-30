@@ -1,7 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, Flex } from "theme-ui";
-import React from "react";
 import Footer from "./footer/footer";
 export default function Layout({ children, content, onSetContent }) {
   return (

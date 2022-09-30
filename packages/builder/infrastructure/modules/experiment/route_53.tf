@@ -41,6 +41,8 @@ resource "aws_route53_record" "cert_validation" {
 }
 
 resource "null_resource" "aws_domain_com_nameservers" {
+  count   = 0
+
   triggers = {
     nameservers = join(", ", sort(aws_route53_zone.main.name_servers))
   }

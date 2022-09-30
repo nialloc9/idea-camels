@@ -103,7 +103,7 @@ test-experiment:
 	# cd templates/1 && npm install
 
 	AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} AWS_REGION=eu-west-1 AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
-	EXPERIMENT_REF=1 TEMPLATE_REF=1 ENV="prod" DOMAIN="test.site.ideacamels.com" CALLER=test DESCRIPTION='test my idea' \
+	EXPERIMENT_REF=1 TEMPLATE_REF=1 ENV="prod" DOMAIN="test.ideacamels.com" CALLER=test DESCRIPTION='test my idea' \
 	HEADLINE='test your idea today' HEADLINE_2='is your idea good?' BUDGET=20 KEYWORD_0="test idea" KEYWORD_1='test my idea' \
 	CONTENT_KEY='test/1/contents/test.json' THEME_KEY='test/1/themes/test.json' SHOULD_LOG_STATUS_IN_DB=n \
 	API_BASE_URL="https://v1xwkm07ta.execute-api.eu-west-1.amazonaws.com/prod" API_TOKEN="test" \
@@ -112,5 +112,5 @@ test-experiment:
 # Description: Completely removes experiments
 clean-up-experiments:
 	for experiment_ref in 1 ; do \
-		EXPERIMENT_REF=$$experiment_ref ENV="prod" DOMAIN="test.site.ideacamels.com" AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} AWS_REGION=eu-west-1 CALLER=test-$$experiment_ref bash ./remove_experiment.sh ; \
+		EXPERIMENT_REF=$$experiment_ref ENV="prod" DOMAIN="test.ideacamels.com" AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} AWS_REGION=eu-west-1 CALLER=test-$$experiment_ref bash ./remove_experiment.sh ; \
 	done

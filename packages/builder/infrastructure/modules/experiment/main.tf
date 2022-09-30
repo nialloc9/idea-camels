@@ -2,7 +2,7 @@ module "main" {
   source = "github.com/riboseinc/terraform-aws-s3-cloudfront-website?ref=v2.0.0"
 
   fqdn                = var.fqdn
-  aliases             = concat(["www.${var.fqdn}"], var.sub_domains)
+  aliases             = []
   ssl_certificate_arn = var.certificate_arn != "" ? var.certificate_arn : aws_acm_certificate_validation.cert[0].certificate_arn
   allowed_ips         = var.allowed_ips
 

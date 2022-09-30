@@ -9,3 +9,8 @@ data "aws_acm_certificate" "ideacamels" {
 
   provider = aws.virginia
 }
+
+data "aws_route53_zone" "root" {
+  name         = "ideacamels.com."
+  private_zone = false
+}
