@@ -2,7 +2,6 @@ const { query } = require("../utils/database");
 const { handleSuccess } = require("../utils/utils");
 const { mapper } = require("./utils/domain");
 const { now, getYearsFromDate } = require("../utils/date");
-const domain = require("./utils/domain");
 
 /**
  * gets domains by account ref

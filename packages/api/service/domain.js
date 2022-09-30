@@ -16,7 +16,6 @@ const {
   calculateDomainPrice,
 } = require("../utils/payments");
 const { chargeCustomer } = require("../utils/stripe");
-const errors = require("../utils/errors");
 
 const onGetAccountDomains = ({
   data: {
