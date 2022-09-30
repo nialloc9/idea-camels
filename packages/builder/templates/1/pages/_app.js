@@ -1,11 +1,11 @@
 import "semantic-ui-css/semantic.min.css";
 import React, { Fragment } from "react";
-import { ThemeProvider } from "../utils/style";
-import Navigation from "../components/Navigation";
-import Head from "../components/Head";
-import Footer from "../components/Footer";
+import { ThemeProvider } from "../src/utils/style";
+import Navigation from "../src/components/Navigation";
+import Head from "../src/components/Head";
+import Footer from "../src/components/Footer";
 
-import { config, content, theme } from "../config";
+import { config, content, theme } from "../src/config";
 
 console.log("============= TEST CONFIG =============");
 console.log(config);

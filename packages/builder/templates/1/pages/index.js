@@ -1,12 +1,11 @@
 import React, { Fragment } from "react";
-import withPageAnalytics from "../hoc/withPageAnalytics";
-import Block1 from "../components/Home/Block1";
-import Block2 from "../components/Home/Block2";
-import Block3 from "../components/Home/Block3";
-import Block4 from "../components/Home/Block4";
-import Block5 from "../components/Home/Block5";
+import Block1 from "../src/components/Home/Block1";
+import Block2 from "../src/components/Home/Block2";
+import Block3 from "../src/components/Home/Block3";
+import Block4 from "../src/components/Home/Block4";
+import Block5 from "../src/components/Home/Block5";
 
-export default withPageAnalytics(({ content }) => (
+const Component = ({ content }) => (
   <Fragment>
     <Block1 content={content} />
     <Block2 content={content} />
@@ -14,4 +13,8 @@ export default withPageAnalytics(({ content }) => (
     <Block4 content={content} />
     <Block5 content={content} />
   </Fragment>
-));
+);
+
+Component.displayName = "Index";
+
+export default Component;
