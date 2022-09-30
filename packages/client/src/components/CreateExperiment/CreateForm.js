@@ -128,7 +128,7 @@ class CreateForm extends Component {
           semanticProps={{
             label: {
               basic: true,
-              content: ".site.ideacamels.com",
+              content: ".ideacamels.com",
             },
             labelPosition: "right",
           }}
@@ -137,7 +137,24 @@ class CreateForm extends Component {
           tabletDisplay="inline-block"
           placeholder="Please add a domain name for your experiment"
           info="This is a free domain. If you wish to have your own custom domain please click button below."
-          validate={[validateRequired, validateSpecialChars]}
+          validate={[
+            validateRequired,
+            validateSpecialChars,
+            (value) =>
+              [
+                "www",
+                "static",
+                "dev",
+                "staging",
+                "prod",
+                "develop",
+                "development",
+                "stage",
+                "production",
+              ].find((o) => o === value)
+                ? "Reserved Domain"
+                : undefined,
+          ]}
         />
         <Button
           icon="add to cart"
