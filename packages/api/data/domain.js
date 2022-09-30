@@ -14,16 +14,16 @@ const onGet = ({ data: { accountRef, domainRef, name }, caller }) =>
 
       switch (true) {
         case domainRef && !accountRef:
-          getQuery = `${getQuery} WHERE domain_ref=${domainRef}`;
+          getQuery = `${getQuery} WHERE domain_ref=${domainRef} AND deleted_flag=0`;
           break;
         case !domainRef && accountRef:
-          getQuery = `${getQuery} WHERE account_ref=${accountRef}`;
+          getQuery = `${getQuery} WHERE account_ref=${accountRef} AND deleted_flag=0`;
           break;
         case !domainRef && !accountRef && name:
-          getQuery = `${getQuery} WHERE name=${name}`;
+          getQuery = `${getQuery} WHERE name=${name} AND deleted_flag=0`;
           break;
         case domainRef && accountRef:
-          getQuery = `${getQuery} WHERE account_ref=${accountRef} AND domain_ref=${domainRef}`;
+          getQuery = `${getQuery} WHERE account_ref=${accountRef} AND domain_ref=${domainRef} AND deleted_flag=0`;
           break;
       }
 

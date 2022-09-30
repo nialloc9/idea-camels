@@ -16,6 +16,7 @@ const {
   calculateDomainPrice,
 } = require("../utils/payments");
 const { chargeCustomer } = require("../utils/stripe");
+const errors = require("../utils/errors");
 
 const onGetAccountDomains = ({
   data: {
@@ -193,7 +194,23 @@ const onCreateSubDomain = ({
 }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const domain = `${subDomain}.site.ideacamels.com`;
+      const domain = `${subDomain}.ideacamels.com`;
+
+      const {
+        data: { domains: existingDomains },
+      } = await onGetDomain({ data: { name: domain }, caller });
+
+      if (existingDomains.length > 0) {
+        return reject(
+          errors["1008"]({
+            service: "onCreateSubDomain",
+            caller,
+            data: { domain },
+            reason: "Domain already exists",
+          })
+        );
+      }
+
       const response = await onCreateDomain({
         data: { accountRef, name: domain },
         caller,

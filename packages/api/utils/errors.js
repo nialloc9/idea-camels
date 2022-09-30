@@ -79,6 +79,16 @@ const service = {
     reason,
     data,
   }),
+  1008: ({ endpoint, service, dataLayer, caller, reason, data } = {}) => ({
+    message: "domain already exists",
+    code: 1008,
+    endpoint,
+    service,
+    dataLayer,
+    caller,
+    reason,
+    data,
+  }),
 };
 
 const misc = {
