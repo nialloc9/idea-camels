@@ -4,6 +4,7 @@ import {
   styled,
   getMarginsOrPaddings,
   withTheme,
+  createMediaQuery,
 } from "../../../utils/style";
 import withAnalytics from "../../../hoc/withAnalytics";
 import { Grid, GridRow, GridColumn } from "../../Grid";
@@ -16,16 +17,10 @@ import { config } from "../../../config";
 const AnalyticsButton = withAnalytics(Button);
 
 const Container = styled.section`
-  min-height: ${({
-    theme: {
-      block4: { height },
-    },
-  }) => remCalc(height)};
-  padding: ${({
-    theme: {
-      block4: { paddings },
-    },
-  }) => getMarginsOrPaddings(paddings)};
+  ${({ theme: { breakpoints } }) => createMediaQuery(breakpoints.tablet)} {
+    min-height: ${remCalc(900)};
+  }
+
   background-color: ${({
     theme: {
       block4: { backgroundColor },
@@ -44,6 +39,12 @@ const Container = styled.section`
 const HeadingContainer = styled.div`
   width: 100%;
   text-align: center;
+
+  padding: ${remCalc(100)} 0 ${remCalc(100)} 0;
+
+  ${({ theme: { breakpoints } }) => createMediaQuery(breakpoints.tablet)} {
+    padding: ${remCalc(50)} 0 ${remCalc(100)} 0;
+  }
 `;
 
 const Heading = styled.h1`
@@ -106,12 +107,7 @@ const SplitCard = styled.div`
 
 const CardContainer = styled.div`
   display: flex;
-  justify-content: center;
-  margin: ${({
-    theme: {
-      block4: { cardContainer },
-    },
-  }) => getMarginsOrPaddings(cardContainer.margins)};
+  justify-content: center; ;
 `;
 
 const ImageContainer = styled.div`
