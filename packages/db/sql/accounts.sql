@@ -39,7 +39,7 @@ INSERT INTO `idea_camels`.`accounts`
 VALUES
   (
     1,
-    "cus_LSAZrhSsamBd47",
+    "cus_LPEfYbTGC1IF3y",
     'nialloc9@gmail.com',
     'Niall',
     "O' Connor",
