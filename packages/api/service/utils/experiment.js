@@ -42,10 +42,10 @@ const mapKeywordsToCriterionToCreate = ({ keywords, adGroupName }) =>
  * @returns
  */
 const mapExperimentsToAdGroupNames = (experiments) =>
-  experiments.reduce((total = [], { ad_group_name })=> {
-    if(ad_group_name) total.push(ad_group_name)
+  experiments.reduce((total = [], { ad_group_name }) => {
+    if (ad_group_name) total.push(ad_group_name);
 
-    return total
+    return total;
   }, []);
 
 /**
@@ -61,19 +61,18 @@ const mapBuildExperimentToECSConfig = ({
   themeKey,
   contentKey,
   description,
-    headline,
-    headline2,
-    keywords,
+  headline,
+  headline2,
+  keywords,
   caller,
-  budget
+  budget,
 }) => {
-
-  const keyWordsToPassAsEnvVariables = keywords.map((o,i) => ({
+  const keyWordsToPassAsEnvVariables = keywords.map((o, i) => ({
     name: `KEYWORD_${i}`,
-    value: o
-  }))
+    value: o,
+  }));
 
-  return ({
+  return {
     cluster: config.aws.clusters.builder.name,
     taskDefinition: config.aws.clusters.builder.taskDefinition,
     environmentVariables: [
@@ -91,10 +90,10 @@ const mapBuildExperimentToECSConfig = ({
       { name: "HEADLINE", value: headline },
       { name: "HEADLINE_2", value: headline2 },
       { name: "BUDGET", value: budget.toString() },
-      ...keyWordsToPassAsEnvVariables
+      ...keyWordsToPassAsEnvVariables,
     ],
-  });
-}
+  };
+};
 
 /**
  * @description maps experiment to campaign budget
@@ -197,7 +196,7 @@ const mapExperimentToAdGroupAd = ({
 /**
  * @description maps metrics to experiments
  */
-const mapMetricsToExperiment = ({ metrics, experiments }) => {
+const mapMetricsToExperiment = ({ metrics = [], experiments }) => {
   const mappedMetricsToAdGroupName = metrics.reduce(
     (total = {}, { ad_group, metrics }) => {
       total[ad_group.resource_name] = metrics;

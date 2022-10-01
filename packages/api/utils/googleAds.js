@@ -258,11 +258,11 @@ const getMetrics = async ({
 } = {}) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO GET AGGROUP METRICS");
-    return {};
+    return [];
   }
 
-  if(adGroupResourceName.length === 0) return []
- 
+  if (adGroupResourceName.length === 0) return [];
+
   const mappedMetrics = metrics.map((o) => metricMap[o]);
 
   const body = {
@@ -283,7 +283,7 @@ const getMetrics = async ({
       { key: "ad_group.resource_name", op: "IN", val: adGroupResourceName },
     ];
   }
-  
+
   const response = await customer.report(body);
 
   return response;

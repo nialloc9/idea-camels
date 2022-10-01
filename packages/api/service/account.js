@@ -119,6 +119,18 @@ const onReauthorise = ({
         }),
       };
 
+      const paymentProfile = await getCustomer({
+        customerId: account.payment_customer_id,
+      });
+      console.log("paymentProfile1", paymentProfile);
+      if (paymentProfile.default_source) {
+        const { card } = await getCard({
+          customerId: account.payment_customer_id,
+          cardId: paymentProfile.default_source,
+        });
+        responseData.card = card || {};
+      }
+
       resolve(handleSuccess("account reauthorised", responseData));
     } catch (error) {
       reject(error);

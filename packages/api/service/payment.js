@@ -23,7 +23,12 @@ const onAddCard = ({
         caller,
         source: cardToken,
       });
-
+      console.log({
+        customerId: payment_customer_id,
+        accountRef,
+        caller,
+        source: cardToken,
+      });
       resolve(handleSuccess("okay"));
     } catch (error) {
       reject(error);

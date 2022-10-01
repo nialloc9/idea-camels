@@ -34,7 +34,7 @@ class CheckoutForm extends React.Component {
       this.setState({ errorMessage: result.error.message });
     } else {
       onSubmit(result.token);
-      callback();
+      if (callback) callback();
     }
 
     this.setState({ isLoading: false });

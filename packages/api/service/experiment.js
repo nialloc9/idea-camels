@@ -123,7 +123,7 @@ const onCreateExperiment = ({
         caller,
       });
 
-      const { payment_customer_id } = accountData[0];
+      const { payment_customer_id, test_account } = accountData[0];
       const {
         data: { domains },
       } = await onGetDomainByDomainRef({
@@ -133,13 +133,15 @@ const onCreateExperiment = ({
 
       const { name } = domains[0];
 
-      await chargeCustomer({
-        customerId: payment_customer_id,
-        amount: budget,
-        caller,
-        accountRef,
-        description: `Creating experiment for ${name}`,
-      });
+      if (test_account === 0) {
+        await chargeCustomer({
+          customerId: payment_customer_id,
+          amount: budget,
+          caller,
+          accountRef,
+          description: `Creating experiment for ${name}`,
+        });
+      }
 
       const { path: contentPath, cleanup: onContentCleanUp } =
         await writeToTmpFile({
