@@ -63,7 +63,11 @@ export const post = async ({
   token,
 }) => {
   const headersToSend = token
-    ? { ...headers, Authorization: `Bearer ${token}` }
+    ? {
+        ...headers,
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${token}`,
+      }
     : headers;
 
   const response = await axios.post(
