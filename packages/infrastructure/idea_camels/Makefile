@@ -64,6 +64,9 @@ deploy-via-cicd:
 	&& terraform apply -auto-approve --var-file=environments/prod/variables.tfvars \
 	&& terraform output
 
+post-deploy:
+	sh ./scripts/check_api_endpoint.sh
+	
 # BASTION
 ssh-prod-bastion:
 	ssh -i "${PROD_PATH_TO_SSH}" ${BASTION_USERNAME}@${PROD_BASTION_PUBLIC_IP}

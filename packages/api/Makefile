@@ -22,3 +22,6 @@ deploy-via-cicd:
 	docker push $(ECR_HOSTNAME)/$(NAME):${MAJOR_VERSION}.${MINOR_VERSION}.${GITHUB_RUN_NUMBER}
 	docker push $(ECR_HOSTNAME)/$(NAME):latest
 	AWS_REGION=${AWS_REGION} aws lambda update-function-code --function-name  prod_ideacamels_api --publish --image-uri $(ECR_HOSTNAME)/$(NAME):latest
+
+post-deploy:
+	sh ./scripts/check_api_endpoint.sh
