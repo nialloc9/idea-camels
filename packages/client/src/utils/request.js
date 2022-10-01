@@ -59,13 +59,14 @@ export const post = async ({
   headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
   },
   token,
 }) => {
   const headersToSend = token
     ? {
         ...headers,
-        "Access-Control-Allow-Origin": "*",
+
         Authorization: `Bearer ${token}`,
       }
     : headers;
