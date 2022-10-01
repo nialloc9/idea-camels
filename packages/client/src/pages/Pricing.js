@@ -19,9 +19,10 @@ export default withPageAnalytics(() => (
             <Card.Content>
               <Card.Header>Pay per usage</Card.Header>
               <Card.Description>
-                IdeaCamels is a pay per usage product where you only pay for
-                what you use. No contracts, no hassle, and certainly no hidden
-                fees. No more tricky terms just value added as you need it.
+                IdeaCamels is a pay per usage product providing both free and
+                paid for domains where you only pay for what you use. No
+                contracts, no hassle, and certainly no hidden fees. No more
+                tricky terms just value added as you need it.
               </Card.Description>
             </Card.Content>
           </Card>
