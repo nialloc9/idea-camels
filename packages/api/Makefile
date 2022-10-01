@@ -25,3 +25,5 @@ deploy-via-cicd:
 
 post-deploy:
 	sh ./scripts/check_api_endpoint.sh
+
+	
