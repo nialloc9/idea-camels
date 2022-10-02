@@ -35,7 +35,7 @@ export const onFetch = () => async (dispatch, getState) => {
     uri: `experiment/get-by-account`,
     token,
   });
-
+  console.log("experiment/get-by-account", error);
   if (error) {
     return onSetState({
       isFetchLoading: false,
