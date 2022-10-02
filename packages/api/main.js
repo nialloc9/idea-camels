@@ -10,7 +10,9 @@ const responseHandler = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*", // Required for CORS support to work
         "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
-        "Access-Control-Allow-Methods": "POST",
+        "Access-Control-Allow-Methods": "POST,OPTIONS",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept, Authorization",
       },
       body: JSON.stringify(body),
     };
@@ -48,7 +50,13 @@ exports.handler = async (event) => {
         data: { event },
       });
 
-    const { uri, required = [], isAuth = false, isAdmin=false, func } = endpoint;
+    const {
+      uri,
+      required = [],
+      isAuth = false,
+      isAdmin = false,
+      func,
+    } = endpoint;
     logger.info(endpoint, `${uri} found`);
 
     const data = await validateAndParse({
@@ -56,7 +64,7 @@ exports.handler = async (event) => {
       req: { headers, body: JSON.parse(body) },
       required,
       isAuth,
-      isAdmin
+      isAdmin,
     });
 
     const payload = await func({ data, uri, caller: data.caller });
