@@ -57,11 +57,8 @@ export const post = async ({
   url,
   body,
   headers = {
+    Accept: "application/json",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-    "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
-    "Access-Control-Allow-Methods": "POST,OPTIONS",
-    "Access-Control-Allow-Headers": "*",
   },
   token,
 }) => {
