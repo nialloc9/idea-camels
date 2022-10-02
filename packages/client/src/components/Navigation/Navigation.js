@@ -76,9 +76,11 @@ class LoggedIn extends Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   componentDidMount() {
-    const { onFetchExperiments } = this.props;
+    const { isFetchExperimentsInitialised, onFetchExperiments } = this.props;
 
-    onFetchExperiments();
+    if (!isFetchExperimentsInitialised) {
+      onFetchExperiments();
+    }
   }
 
   render() {
@@ -156,8 +158,17 @@ class LoggedIn extends Component {
 
 const mapStateToProps = ({
   account: { token },
-  experiment: { data: experiments, isFetchLoading: isFetchExperimentsLoading },
-}) => ({ isLoggedIn: token !== "", experiments, isFetchExperimentsLoading });
+  experiment: {
+    data: experiments,
+    isFetchLoading: isFetchExperimentsLoading,
+    isFetchInitialised: isFetchExperimentsInitialised,
+  },
+}) => ({
+  isLoggedIn: token !== "",
+  experiments,
+  isFetchExperimentsLoading,
+  isFetchExperimentsInitialised,
+});
 
 export default connect(mapStateToProps, {
   logout: onLogout,

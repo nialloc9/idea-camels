@@ -13,7 +13,7 @@ const store = createStore(reducers(history), composeEnhancer(middleware));
 store.subscribe(() => {
   const {
     account,
-    experiment: { newExperiment, formIndex },
+    experiment: { data: experimentData, newExperiment, formIndex },
   } = store.getState();
 
   const { token, rememberMe, data, card } = account;
@@ -27,7 +27,7 @@ store.subscribe(() => {
       : config.security.default_cookie_expiration
   );
 
-  setCache("experiment", { newExperiment, formIndex });
+  setCache("experiment", { data: experimentData, newExperiment, formIndex });
 });
 
 export { Provider, connect } from "react-redux";
