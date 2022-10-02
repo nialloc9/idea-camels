@@ -12,7 +12,7 @@ const responseHandler = {
         "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
         "Access-Control-Allow-Methods": "POST,OPTIONS",
         "Access-Control-Allow-Headers":
-          "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+          "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Access-Control-Allow-Methods",
       },
       body: JSON.stringify(body),
     };
