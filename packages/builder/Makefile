@@ -64,6 +64,7 @@ configure-client:
 	STATUS="CONFIGURING_CLIENT" node ./updateStatus.js
 
 	cd ./experiments/${EXPERIMENT_REF}/client; \
+	npm install; \
 	npm run test; \
 	rm -rf ./build; \
 	npm run build; \
