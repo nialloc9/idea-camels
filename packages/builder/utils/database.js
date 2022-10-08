@@ -6,13 +6,7 @@ const { logger } = require("./utils");
 const {
   db: { host, user, password, database, port },
 } = config;
-console.log({
-  host,
-  user,
-  password,
-  database,
-  port,
-});
+
 const DatabasePool = mysql.createPool({
   host,
   user,
@@ -41,7 +35,7 @@ const getConnection = async () =>
 
 const query = async (query, data, dataLayer, newConnection) =>
   new Promise(async (resolve, reject) => {
-    console.log('newConnection', newConnection)
+    console.log("newConnection", newConnection);
     const connection = newConnection || (await getConnection());
 
     connection.query(query, data, (error, results) => {

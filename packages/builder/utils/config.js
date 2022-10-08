@@ -74,7 +74,7 @@ const localhost = {
     experimentRef: EXPERIMENT_REF,
     templateRef: TEMPLATE_REF,
     accountRef: ACCOUNT_REF,
-    domain: "test.ideacamels.com",
+    domain: DOMAIN,
     themeKey: THEME_KEY,
     contentKey: CONTENT_KEY,
     budget: BUDGET,
