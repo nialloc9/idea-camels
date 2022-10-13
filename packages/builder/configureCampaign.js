@@ -108,20 +108,20 @@ const main = async () => {
       keywords,
     });
 
-    // await onCreateCampaign({
-    //   data: {
-    //     accountRef,
-    //     experimentRef,
-    //     campaignName,
-    //     budgetName,
-    //     adGroupName,
-    //     adGroupAdName,
-    //     headline,
-    //     headline2,
-    //     ...mappedCriterionToDb,
-    //   },
-    //   caller,
-    // });
+    await onCreateCampaign({
+      data: {
+        accountRef,
+        experimentRef,
+        campaignName,
+        budgetName,
+        adGroupName,
+        adGroupAdName,
+        headline,
+        headline2,
+        ...mappedCriterionToDb,
+      },
+      caller,
+    });
 
     logger.info(
       { experimentRef, domain },

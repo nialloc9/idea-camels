@@ -48,11 +48,7 @@ const mapKeywordsToCriterionToCreate = ({ keywords, adGroupName }) =>
  * @param {*} param0
  * @returns
  */
-const mapExperimentToCampaignBudget = ({
-  budget,
-  experimentRef,
-  name,
-}) => ({
+const mapExperimentToCampaignBudget = ({ budget, experimentRef, name }) => ({
   amount_micros: calculateAdBudgetMinusMarkup({ budget }) * 1000000,
   explicitly_shared: false, // only for this campaign
   name: `${experimentRef}-${name}-budget`,
@@ -82,7 +78,7 @@ const mapExperimentToCampaign = ({
   status: 2, // ENABLED
 });
 // Need to add below to txt record on route53 ideacamels.com txt
-"v=spf1 include:amazonses.com ~all"
+("v=spf1 include:amazonses.com ~all");
 /**
  * @description maps experiment to ad group
  * @param {*} param0
@@ -121,10 +117,10 @@ const mapExperimentToAdGroupAd = ({
   ad: {
     added_by_google_ads: false,
     device_preference: 0,
-    expanded_text_ad: {
+    responsive_search_ad: {
       description,
-      headline_part1: headline,
-      headline_part2: headline2,
+      headlines: [headline, headline2],
+      path1: `https://${name}`,
     },
     final_app_urls: [],
     final_mobile_urls: [],
