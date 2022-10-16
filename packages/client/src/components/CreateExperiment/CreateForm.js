@@ -181,7 +181,7 @@ class CreateForm extends Component {
     const {
       submitting,
       pristine,
-      submitError,
+      submitErrors = {},
       values: { budget, domain, subDomain },
       newExperiment,
       domainPrices,
@@ -189,12 +189,16 @@ class CreateForm extends Component {
     } = this.props;
 
     const { keywordsIndex } = this.state;
-
+    console.log(this.props);
     return (
       <Segment padded>
         <Form
-          error={submitError}
           initialValues={newExperiment}
+          error={
+            submitErrors["headline"] ||
+            submitErrors["description"] ||
+            submitErrors["keyword1"]
+          }
           onSubmit={onSubmit}
         >
           <Segment padded>
@@ -286,7 +290,7 @@ class CreateForm extends Component {
                   <FormInput
                     fluid
                     type="text"
-                    labelText="Description"
+                    labelText="Description 2"
                     name="description2"
                     display="block"
                     tabletDisplay="inline-block"
