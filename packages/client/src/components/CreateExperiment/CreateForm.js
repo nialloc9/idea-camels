@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Grid, GridRow, GridColumn } from "../Grid";
+import { Divider } from "../Divider";
 import { Button } from "../Styled/Button";
 import { Segment } from "../Styled/Segment";
 import { Header } from "../Styled/Header";
@@ -241,7 +242,30 @@ class CreateForm extends Component {
                   />
                 </GridColumn>
               </GridRow>
+              <GridRow centered columns={2}>
+                <GridColumn>
+                  <FormInput
+                    fluid
+                    type="text"
+                    labelText="Headline 3"
+                    name="headline3"
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="Please type a third headline for your experiment"
+                    info="This will appear below your main headline for your ads run in this experiment."
+                    validate={[validateRequired, validateMaxLength(25)]}
+                    action="create-experiment-form-click"
+                    label="headline-3"
+                  />
+                </GridColumn>
+                <GridColumn />
+              </GridRow>
 
+              <GridRow columns={1}>
+                <GridColumn>
+                  <Divider />
+                </GridColumn>
+              </GridRow>
               <GridRow centered columns={2}>
                 <GridColumn>
                   <FormInput
@@ -258,7 +282,21 @@ class CreateForm extends Component {
                     label="description"
                   />
                 </GridColumn>
-                <GridColumn />
+                <GridColumn>
+                  <FormInput
+                    fluid
+                    type="text"
+                    labelText="Description"
+                    name="description2"
+                    display="block"
+                    tabletDisplay="inline-block"
+                    placeholder="Please type a second description for your experiment"
+                    info="This will also be used as the description for your ads run in this experiment. It will appear underneath your headline."
+                    validate={[validateRequired, validateMaxLength(35)]}
+                    action="create-experiment-form-click"
+                    label="description-2"
+                  />
+                </GridColumn>
               </GridRow>
             </Grid>
           </Segment>

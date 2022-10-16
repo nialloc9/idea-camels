@@ -24,7 +24,9 @@ const main = async () => {
       budget,
       headline,
       headline2,
+      headline3,
       description,
+      description2,
       keywords,
       experimentRef,
       accountRef,
@@ -87,8 +89,11 @@ const main = async () => {
         name: domain,
         adGroupName,
         description,
+        description2,
         headline,
         headline2,
+        headline3,
+        headline3,
       })
     );
 
@@ -118,6 +123,9 @@ const main = async () => {
         adGroupAdName,
         headline,
         headline2,
+        headline3,
+        description,
+        description2,
         ...mappedCriterionToDb,
       },
       caller,

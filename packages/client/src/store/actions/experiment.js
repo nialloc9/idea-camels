@@ -82,7 +82,9 @@ export const onCreate = (callback) => async (dispatch, getState) => {
         keyword6,
         headline,
         headline2,
+        headline3,
         description,
+        description2,
       },
     },
   } = getState();
@@ -150,7 +152,9 @@ export const onCreate = (callback) => async (dispatch, getState) => {
       keywords: [keyword1, keyword2, keyword3, keyword4, keyword5, keyword6],
       headline,
       headline2,
+      headline3,
       description,
+      description2,
     },
   });
 

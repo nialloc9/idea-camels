@@ -111,16 +111,17 @@ const mapExperimentToAdGroupAd = ({
   name,
   adGroupName,
   description,
+  description2,
   headline,
   headline2,
+  headline3,
 }) => ({
   ad: {
     added_by_google_ads: false,
     device_preference: 0,
     responsive_search_ad: {
-      description,
-      headlines: [headline, headline2],
-      path1: `https://${name}`,
+      descriptions: [description, description2].map((o) => o && { text: o }),
+      headlines: [headline, headline2, headline3].map((o) => o && { text: o }),
     },
     final_app_urls: [],
     final_mobile_urls: [],
