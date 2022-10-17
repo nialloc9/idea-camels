@@ -179,56 +179,12 @@ export const onCreate = (callback) => async (dispatch, getState) => {
 };
 
 /**
- * @description checks if array has duplicates
- */
-const hasDuplicates = (arr) => {
-  const noDups = new Set(arr);
-
-  return arr.length !== noDups.size;
-};
-
-/**
  * @description prepates new experiment and purchases domain from registrar if not already owned by account
  * @param {*} params
  * @returns
  */
 export const onPrepareExperiment = (newData) => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
-
-  if (hasDuplicates([newData.headline, newData.headline2, newData.headline3])) {
-    return {
-      headline: "Headlines must be unique",
-      headline2: "Headlines must be unique",
-      headline3: "Headlines must be unique",
-    };
-  }
-
-  if (hasDuplicates([newData.description, newData.description2])) {
-    return {
-      description: "Descriptions must be unique",
-      description2: "Descriptions must be unique",
-    };
-  }
-
-  if (
-    hasDuplicates([
-      newData.keyword1,
-      newData.keyword2,
-      newData.keyword3 || "default-value-1",
-      newData.keyword4 || "default-value-2",
-      newData.keyword5 || "default-value-3",
-      newData.keyword6 || "default-value-4",
-    ])
-  ) {
-    return {
-      keyword1: "Keywords must be unique",
-      keyword2: "Keywords must be unique",
-      keyword3: "Keywords must be unique",
-      keyword4: "Keywords must be unique",
-      keyword5: "Keywords must be unique",
-      keyword6: "Keywords must be unique",
-    };
-  }
 
   const {
     experiment: { newExperiment },

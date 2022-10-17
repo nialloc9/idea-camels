@@ -189,7 +189,7 @@ class CreateForm extends Component {
     } = this.props;
 
     const { keywordsIndex } = this.state;
-    console.log(this.props);
+
     return (
       <Segment padded>
         <Form
