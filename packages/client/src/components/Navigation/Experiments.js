@@ -30,7 +30,7 @@ export const Experiments = ({ experiments, match = {}, isLoading }) => {
 
   return (
     <AnalyticsMenuItem action="navigation-click" label="experiments">
-      <Dropdown text={experimentText} margin="auto">
+      <Dropdown style={{ margin: "auto" }} text={experimentText} margin="auto">
         <DropdownMenu size="mini">
           {experiments.map(({ experiment_ref, name }) => (
             <AnalyticsSoftLink

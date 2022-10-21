@@ -14,6 +14,7 @@ const Security = ({ content, onSetContent }) => {
             <EditableImage
               src={content.security.image.src}
               alt={content.security.image.alt}
+              height={534}
               component={Image}
               onSubmit={(src) => ({ security: { image: { src } } })}
             />

@@ -23,6 +23,7 @@ const Addons = ({ content, onSetContent }) => {
             <EditableImage
               src={content.addons.image.src}
               alt={content.addons.image.alt}
+              height={470}
               component={Image}
               onSubmit={({ src }) =>
                 onSetContent({ addons: { image: { src } } })

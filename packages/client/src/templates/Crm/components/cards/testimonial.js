@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, Box, Image, Heading, Text } from "theme-ui";
+import { remCalc } from "../../../../utils/style";
 import EditableImageContainer from "../../../common/EditableImageContainer";
 import withEditableText from "../../../common/withEditableText";
 
@@ -8,6 +9,7 @@ const EditableText = withEditableText(Text);
 const EditableHeading = withEditableText(Heading);
 
 const Testimonial = ({ data, onEdit, ...rest }) => {
+  console.log(remCalc(31));
   return (
     <Box sx={styles.testimonial}>
       <Box as="figure" sx={styles.avatar}>
@@ -28,6 +30,7 @@ const Testimonial = ({ data, onEdit, ...rest }) => {
           component={Image}
           src={data.logoImage.src}
           alt={data.authorName}
+          height={31}
           onSubmit={(src) =>
             onEdit({
               data: { ...data, logoImage: { alt: data.authorName, src } },

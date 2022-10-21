@@ -42,7 +42,6 @@ const Banner = ({ content, onSetContent }) => {
               onSubmit={(button1) => ({ banner: { button1 } })}
             />
             <EditableButton
-              variant="outlined"
               sx={styles.btnOutlined}
               initialText={content.banner.button2}
               onSubmit={(button2) => ({ banner: { button2 } })}
@@ -54,6 +53,8 @@ const Banner = ({ content, onSetContent }) => {
           <EditableImage
             src={content.banner.image.src}
             alt={content.banner.image.alt}
+            height={680}
+            containerHeight={713}
             component={Image}
             onSubmit={(src) => onSetContent({ banner: { image: { src } } })}
           />

@@ -47,6 +47,7 @@ const Dashboard = ({ content, onSetContent }) => {
                 src={tab.image}
                 alt={tab.title}
                 component={Image}
+                height={643}
                 onSubmit={(src) =>
                   onSetContent({
                     dashboard: {

@@ -48,6 +48,7 @@ const styles = {
   footer: {
     variant: "footer",
     pt: 9,
+    backgroundColor: "dark",
   },
   footerTopInner: {
     gap: [50, null, null, null, 0, 50],

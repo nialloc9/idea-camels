@@ -110,5 +110,9 @@ const styles = {
     alignItems: "center",
     display: "flex",
     marginTop: [2, null, null, -4, -5],
+    height: 713,
+    img: {
+      height: 680,
+    },
   },
 };

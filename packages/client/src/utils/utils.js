@@ -73,6 +73,19 @@ export const handleResizeFile = async ({
 };
 
 /**
+ * @description resizes image but keeps aspect
+ */
+export const calculateAspectRatioFit = ({
+  srcWidth,
+  srcHeight,
+  maxWidth,
+  maxHeight,
+}) => {
+  const ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+
+  return { width: srcWidth * ratio, height: srcHeight * ratio };
+};
+/**
  * @description converts timestamp to milliseconds since epoch
  * @param {string} date
  * @returns {number}

@@ -27,13 +27,16 @@ export const FileUpload = withAnalytics(
     maxFiles = 1,
     onSubmit,
     onError,
+    onCancel,
     disabled = false,
     minSize,
     maxSize,
+    text,
   }) => {
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       onDropAccepted: onSubmit,
       onDropRejected: onError,
+      onFileDialogCancel: onCancel,
       accept,
       maxFiles,
       disabled,
@@ -59,6 +62,7 @@ export const FileUpload = withAnalytics(
           borderRadius={remCalc(10)}
           padding={remCalc(5)}
         >
+          {text && <Block>{text}</Block>}
           <Icon name="plus circle" size="big" color="#686868" />
           <Label cursor="pointer" label={label} />
         </Block>

@@ -1,8 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, Image } from 'theme-ui';
-import { Link } from 'components/link';
-import {content, config} from 'config';
+import { jsx, Image } from "theme-ui";
+import { Link } from "components/link";
+import { content, config } from "config";
 
 export default function Logo({ isSticky, light, dark, ...props }) {
   return (
@@ -13,11 +13,12 @@ export default function Logo({ isSticky, light, dark, ...props }) {
 }
 const styles = {
   logo: {
-    alignItems: 'center',
-    cursor: 'pointer',
-    display: 'inline-flex',
+    alignItems: "center",
+    cursor: "pointer",
+    display: "inline-flex",
     img: {
-      maxWidth: [128, null, '100%'],
+      maxWidth: [128, null, "100%"],
+      height: 37,
     },
   },
 };

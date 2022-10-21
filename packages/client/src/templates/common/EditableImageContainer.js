@@ -3,7 +3,7 @@ import { Block } from "../../components/Styled/Block";
 import { FileUpload } from "../../components/Form/FileUpload";
 import { styled, remCalc } from "../../utils/style";
 import { upload } from "../../utils/request";
-import { handleResizeFile } from "../../utils/utils";
+import { calculateAspectRatioFit, handleResizeFile } from "../../utils/utils";
 import { connect } from "../../store";
 import withAnalytics from "../../hoc/withAnalytics";
 
@@ -12,6 +12,8 @@ const Edit = styled.span`
   :hover {
     opacity: 0.5;
   }
+
+  height: ${({ height }) => remCalc(height)};
 `;
 
 class EditableImage extends Component {
@@ -82,20 +84,10 @@ class EditableImage extends Component {
     this.setState({ error: message });
   };
 
-  onImgLoad = ({ target: img }) => {
-    this.setState({
-      imageDimensions: { height: img.offsetHeight, width: img.offsetWidth },
-    });
-  };
+  onCancel = () => this.setState({ isOpen: false });
 
   render() {
-    const {
-      isOpen,
-      error,
-      src,
-      isLoading,
-      imageDimensions: { height },
-    } = this.state;
+    const { isOpen, error, src, isLoading } = this.state;
 
     const {
       iconSize,
@@ -103,19 +95,23 @@ class EditableImage extends Component {
       border,
       padding,
       labelText = "Upload Image",
-      editMinHeight,
+      height,
+      containerHeight,
       component: Child,
     } = this.props;
 
     if (!isOpen) {
       return (
-        <Edit onClick={this.handleOpen}>
+        <Edit height={containerHeight} onClick={this.handleOpen}>
           <Child
             {...this.imageProps}
-            onLoad={this.onImgLoad}
             src={src}
             key={src}
             id={src}
+            style={{
+              maxHeight: height,
+              minHeight: height,
+            }}
           />
         </Edit>
       );
@@ -127,13 +123,13 @@ class EditableImage extends Component {
         margin="auto"
         display="flex"
         justifyContent="center"
-        minHeight={remCalc(height)}
+        height={containerHeight ? remCalc(containerHeight) : remCalc(height)}
       >
         <Block
           display="flex"
           justifyContent="center"
           flexDirection="column"
-          minHeight={editMinHeight}
+          height={containerHeight ? remCalc(containerHeight) : remCalc(height)}
         >
           <FileUpload
             isLoading={isLoading}
@@ -146,6 +142,7 @@ class EditableImage extends Component {
             error={error}
             onSubmit={this.handleSubmit}
             onError={this.handeError}
+            onCancel={this.onCancel}
           />
         </Block>
       </Block>

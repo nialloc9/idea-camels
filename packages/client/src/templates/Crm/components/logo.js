@@ -17,6 +17,7 @@ export default function Logo({
       component={Image}
       src={content.logo.image.src}
       alt={content.logo.image.alt}
+      height={37}
       onSubmit={(src) => ({ logo: { image: { src } } })}
     />
   );

@@ -29,7 +29,7 @@ const Dashboard = () => {
     </section>
   );
 };
-console.log(rgba("#7141F8", 0.03));
+
 export default Dashboard;
 
 const styles = {
@@ -81,6 +81,10 @@ const styles = {
       boxShadow: "0px 4px 6px rgba(125, 128, 170, 0.08)",
       borderRadius: 5,
       padding: ["10px 10px", null, null, "10px 18px"],
+    },
+    textAlign: "center",
+    img: {
+      height: 643,
     },
   },
 };

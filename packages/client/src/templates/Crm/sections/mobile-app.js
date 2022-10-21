@@ -14,6 +14,7 @@ const MobileApp = ({ content, onSetContent }) => {
             <EditableImageContainer
               src={content.mobileApp.image.src}
               alt={content.mobileApp.image.alt}
+              height={550}
               component={Image}
               onSubmit={(src) =>
                 onSetContent({ mobileApp: { image: { src } } })
@@ -35,18 +36,20 @@ const MobileApp = ({ content, onSetContent }) => {
               <EditableImageContainer
                 src={content.mobileApp.appleStoreImage.src}
                 alt={content.mobileApp.appleStoreImage.alt}
+                height={48}
                 component={Image}
                 onSubmit={(src) =>
                   onSetContent({ mobileApp: { appleStoreImage: { src } } })
                 }
               />
               <EditableImageContainer
-                src={content.mobileApp.appleStoreImage.src}
+                src={content.mobileApp.googleStoreImage.src}
                 sx={{ ml: 3 }}
-                alt={content.mobileApp.appleStoreImage.alt}
+                alt={content.mobileApp.googleStoreImage.alt}
+                height={48}
                 component={Image}
                 onSubmit={(src) =>
-                  onSetContent({ mobileApp: { appleStoreImage: { src } } })
+                  onSetContent({ mobileApp: { googleStoreImage: { src } } })
                 }
               />
             </Flex>
