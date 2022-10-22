@@ -10,6 +10,7 @@ tmp/
 .prod.env
 *.pem
 .vscode
+.next/
 
 packages/backend/dist
 
