@@ -8,7 +8,11 @@ import {
 } from "../../../../../utils/style";
 import { Grid, GridColumn } from "../../Grid";
 import { Card, CardHeader, CardDescription, CardContent } from "../../Card";
-import { EditableText, EditableButton } from "../../Edit";
+import { Button } from "../../Button";
+import withEditableText from "../../../../common/withEditableText";
+
+const EditableText = withEditableText("div");
+const EditableButton = withEditableText(Button);
 
 const Container = styled.section`
   min-height: ${({

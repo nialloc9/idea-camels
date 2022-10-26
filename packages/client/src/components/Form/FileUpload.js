@@ -31,6 +31,7 @@ export const FileUpload = withAnalytics(
     disabled = false,
     minSize,
     maxSize,
+    iconSize = "big",
     text,
   }) => {
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -63,7 +64,7 @@ export const FileUpload = withAnalytics(
           padding={remCalc(5)}
         >
           {text && <Block>{text}</Block>}
-          <Icon name="plus circle" size="big" color="#686868" />
+          <Icon name="plus circle" size={iconSize} color="#686868" />
           <Label cursor="pointer" label={label} />
         </Block>
         <Error error={error} />

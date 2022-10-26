@@ -3,7 +3,7 @@ import { Block } from "../../components/Styled/Block";
 import { FileUpload } from "../../components/Form/FileUpload";
 import { styled, remCalc } from "../../utils/style";
 import { upload } from "../../utils/request";
-import { calculateAspectRatioFit, handleResizeFile } from "../../utils/utils";
+import { handleResizeFile } from "../../utils/utils";
 import { connect } from "../../store";
 import withAnalytics from "../../hoc/withAnalytics";
 

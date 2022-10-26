@@ -1,5 +1,5 @@
 import React from "react";
-import { styled } from "../../utils/style";
+import { styled, remCalc } from "../../utils/style";
 import SemanticImage from "semantic-ui-react/dist/commonjs/elements/Image";
 
 export const Image = styled(
@@ -47,4 +47,11 @@ export const Image = styled(
         ${({ hoverTransform = false }) =>
       hoverTransform && `transform: ${hoverTransform};`}
   }
+`;
+
+export const BackgroundImage = styled.section`
+  min-height: ${({ height }) => remCalc(height)};
+  background-image: url(${({ src }) => src});
+  background-position: center;
+  background-repeat: ${({ backgroundRepeat }) => backgroundRepeat};
 `;

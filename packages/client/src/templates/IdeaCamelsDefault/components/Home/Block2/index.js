@@ -1,5 +1,5 @@
 import React from "react";
-import { EditableBackgroundImage } from "../../Edit";
+import EditableBackgroundImage from "../../../../common/EditableBackgroundImage";
 import { withTheme, remCalc } from "../../../../../utils/style";
 
 export default withTheme(

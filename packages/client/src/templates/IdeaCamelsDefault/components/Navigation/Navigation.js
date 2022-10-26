@@ -1,7 +1,11 @@
 import React, { Fragment } from "react";
 import { Menu, Item, MenuMenu } from "../Styled/Menu";
-import { EditableText, EditableImage } from "../Edit";
+import { Image } from "../Styled/Image";
 import { remCalc, withTheme } from "../../../../utils/style";
+import EditableImageContainer from "../../../common/EditableImageContainer";
+import withEditableText from "../../../common/withEditableText";
+
+const EditableText = withEditableText("div");
 
 const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
   const handleTextSubmit = (index) => (value) => {
@@ -22,8 +26,9 @@ const Navigation = withTheme(({ theme, content, onSetExperiment }) => {
         fontFamily={theme.defaultFont.fontFamily}
       >
         <Item name="logo" active>
-          <EditableImage
-            iconSize="small"
+          <EditableImageContainer
+            component={Image}
+            iconSize="tiny"
             maxWidth={remCalc(23)}
             alt={content.navigation.logo.alt}
             src={content.navigation.logo.src}

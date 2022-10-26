@@ -4,8 +4,25 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { Header } from "../../Header";
 import { Block } from "../../Styled/Block";
-import { withTheme, remCalc } from "../../../../../utils/style";
-import { EditableText, EditableImage } from "../../Edit";
+import { Image } from "../../Styled/Image";
+import { withTheme, remCalc, styled } from "../../../../../utils/style";
+
+import EditableImageContainer from "../../../../common/EditableImageContainer";
+import withEditableText from "../../../../common/withEditableText";
+
+const EditableText = withEditableText("div");
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const InnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  min-height: ${remCalc(700)};
+`;
 
 const settings = {
   dots: true,
@@ -57,27 +74,29 @@ const Slide = withTheme(
     onSetCarouselImage,
     onSetCarouselText,
   }) => (
-    <Block>
-      <EditableImage
-        centered
-        size={block5.carousel.size}
-        src={image.src}
-        alt={image.alt}
-        action="template-edit-carousel-click"
-        label={`image-${index}`}
-        editMinHeight={remCalc(400)}
-        onSubmit={onSetCarouselImage}
-      />
-      <Header textAlign={block5.carousel.textAlign}>
-        <EditableText
-          maxWidth={remCalc(600)}
-          initialText={header.text}
+    <Container>
+      <InnerContainer>
+        <EditableImageContainer
+          component={Image}
+          centered
+          size={block5.carousel.size}
+          src={image.src}
+          alt={image.alt}
           action="template-edit-carousel-click"
-          label={`header-${index}`}
-          onSubmit={onSetCarouselText}
+          label={`image-${index}`}
+          onSubmit={onSetCarouselImage}
         />
-      </Header>
-    </Block>
+        <Header textAlign={block5.carousel.textAlign}>
+          <EditableText
+            maxWidth={remCalc(600)}
+            initialText={header.text}
+            action="template-edit-carousel-click"
+            label={`header-${index}`}
+            onSubmit={onSetCarouselText}
+          />
+        </Header>
+      </InnerContainer>
+    </Container>
   )
 );
 

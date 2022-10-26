@@ -8,7 +8,14 @@ import {
 import { Grid, GridRow, GridColumn } from "../../Grid";
 import { Segment } from "../../Styled/Segment";
 import { Divider } from "../../Divider";
-import { EditableText, EditableImage, EditableButton } from "../../Edit";
+import { Image } from "../../Image";
+
+import { Button } from "../../Button";
+import EditableImageContainer from "../../../../common/EditableImageContainer";
+import withEditableText from "../../../../common/withEditableText";
+
+const EditableText = withEditableText("div");
+const EditableButton = withEditableText(Button);
 
 const Container = styled.section`
   min-height: ${({
@@ -183,7 +190,8 @@ export default withTheme(
                 <GridColumn>
                   <ImageContainer>
                     <ImageInnerContainer>
-                      <EditableImage
+                      <EditableImageContainer
+                        component={Image}
                         size={firstCard.image.size}
                         src={content.block4.card.image.src}
                         alt={content.block4.card.image.alt}

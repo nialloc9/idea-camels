@@ -6,7 +6,12 @@ import {
   withTheme,
 } from "../../../../../utils/style";
 import Carausel from "./Carousel";
-import { EditableText, EditableButton } from "../../Edit";
+
+import { Button } from "../../Button";
+import withEditableText from "../../../../common/withEditableText";
+
+const EditableText = withEditableText("div");
+const EditableButton = withEditableText(Button);
 
 const Container = styled.section`
   min-height: ${({
@@ -37,6 +42,7 @@ const InnerContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  min-height: ${remCalc(700)};
   max-width: ${({
     theme: {
       block5: { card },

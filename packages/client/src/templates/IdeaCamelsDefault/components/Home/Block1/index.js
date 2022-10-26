@@ -1,6 +1,9 @@
 import React from "react";
 import { remCalc, styled, withTheme } from "../../../../../utils/style";
-import { EditableText, EditableButton, EditableImage } from "../../Edit";
+import { Button } from "../../Styled/Button";
+import { Image } from "../../Image";
+import EditableImageContainer from "../../../../common/EditableImageContainer";
+import withEditableText from "../../../../common/withEditableText";
 
 const Container = styled.section`
   min-height: ${({
@@ -115,6 +118,9 @@ const ButtonContainer = styled.div`
   }) => (buttonWidth ? remCalc(buttonWidth) : "auto")};
 `;
 
+const EditableText = withEditableText("div");
+const EditableButton = withEditableText(Button);
+
 export default withTheme(
   ({
     theme: {
@@ -126,7 +132,8 @@ export default withTheme(
     <Container>
       <InnerContainer>
         <ImageContainer>
-          <EditableImage
+          <EditableImageContainer
+            component={Image}
             alt={content.block1.logo.alt}
             size="small"
             src={content.block1.logo.src}

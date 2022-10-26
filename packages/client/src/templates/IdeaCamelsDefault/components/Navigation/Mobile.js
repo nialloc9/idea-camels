@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { Menu, Item } from "../Styled/Menu";
 import { Block } from "../Styled/Block";
 import { Button } from "../Styled/Button";
-import { EditableText } from "../Edit";
 import { withTheme } from "../../../../utils/style";
+
+import withEditableText from "../../../common/withEditableText";
+
+const EditableText = withEditableText("div");
 
 export default withTheme(({ theme, content, onSetExperiment }) => {
   const [{ isOpen, activeItem }, setState] = useState({
