@@ -1,7 +1,12 @@
 import { EXPERIMENT_SET } from "../constants/experiment";
 import { DOMAIN_SET } from "../constants/domain";
 import { postApi } from "../../utils/request";
-import { deepMerge, convertDateToUnix } from "../../utils/utils";
+import {
+  deepMerge,
+  convertDateToUnix,
+  arrayHasDuplicates,
+  removeEmptiesFromArray,
+} from "../../utils/utils";
 import { findThemeAndContent } from "../../templates";
 import { handleConversion } from "../../utils/analytics";
 
@@ -185,6 +190,55 @@ export const onCreate = (callback) => async (dispatch, getState) => {
  */
 export const onPrepareExperiment = (newData) => async (dispatch, getState) => {
   const onSetState = setState(dispatch);
+
+  if (
+    arrayHasDuplicates(
+      removeEmptiesFromArray([newData.description, newData.description2])
+    )
+  ) {
+    return {
+      description: "Descriptions must be unique.",
+      description2: "Descriptions must be unique.",
+    };
+  }
+
+  if (
+    arrayHasDuplicates(
+      removeEmptiesFromArray([
+        newData.headline,
+        newData.headline2,
+        newData.headline3,
+      ])
+    )
+  ) {
+    return {
+      headline: "Headlines must be unique.",
+      headlin2: "Headlines must be unique.",
+      headline3: "Headlines must be unique.",
+    };
+  }
+
+  if (
+    arrayHasDuplicates(
+      removeEmptiesFromArray([
+        newData.keyword1,
+        newData.keyword2,
+        newData.keyword3,
+        newData.keyword4,
+        newData.keyword5,
+        newData.keyword6,
+      ])
+    )
+  ) {
+    return {
+      keyword1: "Keywords must be unique.",
+      keyword2: "Keywords must be unique.",
+      keyword3: "Keywords must be unique.",
+      keyword4: "Keywords must be unique.",
+      keyword5: "Keywords must be unique.",
+      keyword6: "Keywords must be unique.",
+    };
+  }
 
   const {
     experiment: { newExperiment },

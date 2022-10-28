@@ -149,3 +149,11 @@ export const formatGoogleAdsMicros = (micros) => {
 
   return macro.toFixed(2);
 };
+
+export const removeEmptiesFromArray = (arr) =>
+  arr.reduce((total, curr) => {
+    if (curr) total.push(curr);
+    return total;
+  }, []);
+
+export const arrayHasDuplicates = (arr) => new Set(arr).size !== arr.length;
