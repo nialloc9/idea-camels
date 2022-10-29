@@ -186,7 +186,6 @@ const endpoints = [
     uri: "/lead/create",
     required: ["email", "caller"],
     func: onCreateLead,
-    isAuth: true,
   },
   {
     uri: "/log/error",
