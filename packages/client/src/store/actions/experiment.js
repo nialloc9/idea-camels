@@ -30,7 +30,8 @@ export const onFetch = () => async (dispatch, getState) => {
     experiment: { isFetchInitialised, isFetchExperimentsLoading },
   } = getState();
 
-  if (isFetchInitialised || isFetchExperimentsLoading) return;
+  // fetch loaded or loading or the customer has not logged in
+  if (isFetchInitialised || isFetchExperimentsLoading || !token) return;
 
   const onSetState = setState(dispatch);
 

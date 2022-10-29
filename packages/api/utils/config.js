@@ -32,7 +32,7 @@ const development = {
   webAddress: "https://ideacamels.com",
   env: ENV,
   isProd: ENV === "prod",
-  noInternet: true,
+  noInternet: false,
   logSuccessResponse: true,
   logErrorResponse: true,
   name: "idea-camels-server",
