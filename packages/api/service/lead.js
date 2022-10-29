@@ -10,8 +10,10 @@ const onCreateLead = ({ data: { email, experimentRef }, caller }) =>
   new Promise(async (resolve, reject) => {
     try {
       await onCreate({
-        email,
-        experimentRef,
+        data: {
+          email,
+          experimentRef,
+        },
         caller,
       });
 
