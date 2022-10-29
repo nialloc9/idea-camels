@@ -6,15 +6,7 @@ const { handleSuccess } = require("../utils/utils");
  * @param {*} param0
  * @returns
  */
-const onCreateLead = ({
-  data: {
-    email,
-    decodedToken: {
-      data: { experimentRef },
-    },
-  },
-  caller,
-}) =>
+const onCreateLead = ({ data: { email, experimentRef }, caller }) =>
   new Promise(async (resolve, reject) => {
     try {
       await onCreate({

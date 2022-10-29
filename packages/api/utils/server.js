@@ -184,7 +184,7 @@ const endpoints = [
   },
   {
     uri: "/lead/create",
-    required: ["email", "caller"],
+    required: ["email", "experimentRef", "caller"],
     func: onCreateLead,
   },
   {
