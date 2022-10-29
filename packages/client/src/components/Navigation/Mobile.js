@@ -8,7 +8,6 @@ import { items } from "./utils";
 import withAnalytics from "../../hoc/withAnalytics";
 import { connect } from "../../store";
 import { onLogout } from "../../store/actions/account";
-import { onFetch } from "../../store/actions/experiment";
 import { theme as defaultTheme } from "../../config";
 
 const AnalyticsMenuItem = withAnalytics(Item);
@@ -87,12 +86,6 @@ class LoggedIn extends Component {
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
-  componentDidMount() {
-    const { onFetchExperiments } = this.props;
-
-    onFetchExperiments();
-  }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -184,7 +177,6 @@ const mapStateToProps = ({
 
 export default connect(mapStateToProps, {
   logout: onLogout,
-  onFetchExperiments: onFetch,
 })(
   ({
     isLoggedIn = false,

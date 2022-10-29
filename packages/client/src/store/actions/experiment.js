@@ -27,10 +27,10 @@ const setState = (dispatch) => (payload) =>
 export const onFetch = () => async (dispatch, getState) => {
   const {
     account: { token },
-    experiment: { isFetchInitialised },
+    experiment: { isFetchInitialised, isFetchExperimentsLoading },
   } = getState();
 
-  if (isFetchInitialised) return;
+  if (isFetchInitialised || isFetchExperimentsLoading) return;
 
   const onSetState = setState(dispatch);
 

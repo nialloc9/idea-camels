@@ -7,7 +7,6 @@ import { Experiments } from "./Experiments";
 import { remCalc } from "../../utils/style";
 import { connect } from "../../store";
 import { onLogout } from "../../store/actions/account";
-import { onFetch } from "../../store/actions/experiment";
 import { items } from "./utils";
 import { theme as defaultTheme } from "../../config";
 
@@ -74,14 +73,6 @@ class LoggedIn extends Component {
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
-  componentDidMount() {
-    const { isFetchExperimentsInitialised, onFetchExperiments } = this.props;
-
-    if (!isFetchExperimentsInitialised) {
-      onFetchExperiments();
-    }
-  }
 
   render() {
     const {
@@ -172,7 +163,6 @@ const mapStateToProps = ({
 
 export default connect(mapStateToProps, {
   logout: onLogout,
-  onFetchExperiments: onFetch,
 })(
   ({
     isLoggedIn = false,
