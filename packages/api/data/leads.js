@@ -39,7 +39,9 @@ const onGetMultiple = ({ data: { experimentRef, leadRef }, caller }) =>
       );
 
       resolve(
-        handleSuccess(`DATA - GET_MULTIPLE_LEADS - FROM ${caller}`, results)
+        handleSuccess(`DATA - GET_MULTIPLE_LEADS - FROM ${caller}`, {
+          leads: results,
+        })
       );
     } catch (error) {
       reject(error);

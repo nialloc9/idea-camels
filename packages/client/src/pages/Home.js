@@ -152,21 +152,21 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                   data={[
                     {
                       title: "Clicks",
-                      value: clicks,
+                      value: clicks || 0,
                       color: theme.colors.main000,
                       tooltip:
                         "Searched for and clicked on your add. A great indicator of interest.",
                     },
                     {
                       title: "Impressions",
-                      value: impressions,
+                      value: impressions || 0,
                       color: "orange",
                       tooltip:
                         "Searched for and looked at your ad. A good indicator of interest.",
                     },
                     {
                       title: "Expanded Ad",
-                      value: engagements,
+                      value: engagements || 0,
                       color: "green",
                       tooltip:
                         "Number of people who expanded your ad. A decent indicator of interest.",
