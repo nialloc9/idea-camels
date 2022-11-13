@@ -67,7 +67,7 @@ export const post = async ({
         ...headers,
 
         Authorization: `Bearer ${token}`,
-        timeout: 120,
+        timeout: 1000 * 60 * 2, // 2 minutes
       }
     : headers;
 
