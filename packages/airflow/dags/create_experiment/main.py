@@ -2,12 +2,28 @@
 Code that goes along with the Airflow located at:
 http://airflow.readthedocs.org/en/latest/tutorial.html
 """
-import sys, os
+import sys
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime, timedelta
-from create_infrastructure import main
+from create_experiment.create_infrastructure import main
 
+import sys, traceback
+from create_experiment.utils.config import config
+from create_experiment.utils.db import query
+from create_experiment.utils.alert import alert
+
+def main():
+    try: 
+        print("========= CONFIGURING EXPERIMENT  =========")
+
+        
+    except Exception as ex:   
+        json_error = str(ex)
+        print(json_error)    
+        traceback.print_exc() 
+        alert(json_error)
+        sys.exit(1)
 
 default_args = {
     "owner": "airflow",
