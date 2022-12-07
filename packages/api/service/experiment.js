@@ -40,11 +40,11 @@ const onGetAccountExperiments = ({
         data: { accountRef },
         caller,
       });
-      // console.log(1, experiments);
+
       const response = {
         experiments,
       };
-      // console.log(2, experiments.length);
+
       if (experiments.length > 0) {
         const metrics = await getMetrics({
           metrics: [
@@ -59,12 +59,12 @@ const onGetAccountExperiments = ({
           orderBy: "clicks",
           adGroupResourceName: mapExperimentsToAdGroupNames(experiments), // e.g ["customers/9074082905/adGroups/108117690178"]
         });
-        // console.log(3, metrics);
+
         const experimentsWithMetrics = mapMetricsToExperiment({
           experiments,
           metrics,
         });
-        // console.log(4, experimentsWithMetrics);
+
         const {
           data: { leads },
         } = await onGetMultipleLeads({
@@ -76,13 +76,10 @@ const onGetAccountExperiments = ({
           caller,
         });
 
-        // console.log(6, response.experiments);
         response.experiments = mapExperimentsToLeads({
           experiments: experimentsWithMetrics,
           leads,
         });
-
-        console.log(7, response.experiments);
       }
 
       // TODO: run cron to update database to expired for domains going to expire tomorrow

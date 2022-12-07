@@ -27,11 +27,11 @@ const setState = (dispatch) => (payload) =>
 export const onFetch = () => async (dispatch, getState) => {
   const {
     account: { token },
-    experiment: { isFetchInitialised, isFetchExperimentsLoading },
+    experiment: { isFetchInitialised, isFetchLoading },
   } = getState();
 
   // fetch loaded or loading or the customer has not logged in
-  if (isFetchInitialised || isFetchExperimentsLoading || !token) return;
+  if (isFetchInitialised || isFetchLoading || !token) return;
 
   const onSetState = setState(dispatch);
 

@@ -153,7 +153,11 @@ export const onCreateAccount = ({
     data: { firstName, lastName, phone, email, password },
   });
 
-  handleIdentify(account.account_ref);
+  handleIdentify(account.account_ref, {
+    first_name: firstName,
+    last_name: lastName,
+    email: email,
+  });
 };
 
 /**

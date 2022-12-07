@@ -67,11 +67,11 @@ export const handlePageView = () => {
 /**
  * @description handles a page view
  */
-export const handleIdentify = (id) => {
+export const handleIdentify = (id, attributes = {}) => {
   if (config.isProd) {
     logger.info("CUSTOMER FOUND", { id });
-    analytics.identify(`${id}`);
-    return hotjar.identify(`${id}`, {});
+    analytics.identify(`${id}`, attributes);
+    return hotjar.identify(`${id}`, attributes);
   }
 
   logger.info("SIMULATED GA IDENTIFY");

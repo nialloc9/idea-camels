@@ -14,20 +14,20 @@ import {
   TableBody,
 } from "../components/Styled/Table";
 import { Block } from "../components/Styled/Block";
-import { Image } from "../components/Styled/Image";
 import { Message } from "../components/Message";
 import { PieChart } from "../components/PieChart";
 import { Header } from "../components/Header";
 import withPageAnalytics from "../hoc/withPageAnalytics";
+import { withLoader } from "../hoc/withLoader";
 import withAnalytics from "../hoc/withAnalytics";
 import theme from "../config/theme";
 import { remCalc } from "../utils/style";
 import { formatToUtc, formatGoogleAdsMicros } from "../utils/utils";
 import { connect } from "../store";
-import fullReportImage from "../static/fullReportNoHeader.png";
 
-const AnalyticsImage = withAnalytics(Image);
 const AnalyticsAnchor = withAnalytics("a");
+
+const LoaderMessage = withLoader(Message);
 
 const renderInputListItem = ({ domain, keywords }) =>
   keywords.map((o) => <ListItem key={`keywords-${o}`}>{o}</ListItem>);
@@ -48,7 +48,12 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
         margin="auto"
         minHeight={remCalc(600)}
       >
-        <Message isLoading={isFetchLoading} compact textAlign="center">
+        <LoaderMessage
+          loadingIconSize="small"
+          isLoading={isFetchLoading}
+          compact
+          textAlign="center"
+        >
           Please {experiments.length > 0 && "select or "}
           <AnalyticsAnchor
             action="home-anchor-click"
@@ -58,18 +63,7 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
             create an experiment
           </AnalyticsAnchor>{" "}
           to get started.
-        </Message>
-        <AnalyticsImage
-          href="/create-experiment"
-          cursor="pointer"
-          opacity={0.6}
-          hoverOpacity={0.5}
-          hoverTransition="opacity 0.5s"
-          hoverTrans
-          src={fullReportImage}
-          action="home-example-report-image-click"
-          label="redirect-to-create-experiment"
-        />
+        </LoaderMessage>
       </Block>
     );
   }
