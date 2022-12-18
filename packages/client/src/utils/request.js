@@ -1,6 +1,7 @@
 import axios from "axios";
 import { config as defaultConfig } from "../config";
 import { generateRandomId, logger } from "./utils";
+import apiMocks from "../mocks/api";
 
 /**
  * @description configures error based one environment as localhost uses express server not lambda api
@@ -95,6 +96,8 @@ export const postApi = async ({
   config = defaultConfig,
 }) => {
   try {
+    if (config.useMockApi) return apiMocks[uri];
+
     const { data } = await post({
       url: `${config.api.base}/${uri}`,
       body,

@@ -11,6 +11,7 @@ const development = {
   buildNumber: REACT_APP_BUILD_VERSION,
   env: NODE_ENV,
   isProd: false,
+  useMockApi: true,
   featureFlagEmails: ["nialloc9+5@gmail.com"],
   pathname,
   social: {
@@ -43,6 +44,7 @@ const staging = { ...development };
 const production = {
   ...staging,
   isProd: true,
+  useMockApi: true,
   env: "production",
   domainUrl: "https://ideacamels.com",
   api: {
