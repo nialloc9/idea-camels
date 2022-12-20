@@ -23,12 +23,12 @@ const withModal = (WrappedComponent) =>
     onClose = () => this.setState({ isOpen: false });
 
     render() {
-      const { buttonText, modalHeaderText, ...rest } = this.props;
+      const { buttonText, buttonSize, modalHeaderText, ...rest } = this.props;
       const { isOpen } = this.state;
 
       return (
         <Fragment>
-          <Button primary onClick={this.onOpen}>
+          <Button size={buttonSize} primary onClick={this.onOpen}>
             {buttonText}
           </Button>
           <Modal open={isOpen} closeIcon onClose={this.onClose}>
