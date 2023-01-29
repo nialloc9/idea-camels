@@ -15,7 +15,9 @@ import UltimateFeatures from "./sections/ultimate-features";
 import config from "./config";
 
 const CRM = ({ theme, content, onSetExperiment }) => {
-  const onSetContent = (newContent) => onSetExperiment({ content: newContent });
+  const onSetContent = (newContent) => {
+    return onSetExperiment({ content: newContent });
+  };
 
   return (
     <ThemeProvider theme={theme}>

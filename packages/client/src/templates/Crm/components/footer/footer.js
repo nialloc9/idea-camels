@@ -46,6 +46,7 @@ export default function Footer({ content, domain, onSetContent }) {
                   key={i}
                   initialText={item}
                   variant="footer"
+                  color="white"
                   onSubmit={(value) =>
                     onSetContent({
                       header: {
@@ -67,6 +68,7 @@ const styles = {
   footer: {
     variant: "footer",
     pt: 9,
+    width: "100%",
   },
   footerTopInner: {
     gap: [50, null, null, null, 0, 50],
@@ -86,6 +88,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-between",
     padding: ["30px 0 20px", null, null, "30px 0 35px", "35px 0 40px"],
+    color: "white",
   },
   copyright: {
     display: ["flex"],
@@ -115,10 +118,10 @@ const styles = {
       },
     },
     a: {
-      color: "white",
       fontSize: [1, null, null, 2],
       textDecoration: "none",
       variant: "footer",
+      color: "white",
     },
   },
 };

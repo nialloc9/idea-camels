@@ -62,11 +62,6 @@ const mapBuildExperimentToECSConfig = ({
   contentKey,
   caller,
 }) => {
-  const keyWordsToPassAsEnvVariables = keywords.map((o, i) => ({
-    name: `KEYWORD_${i}`,
-    value: o,
-  }));
-
   return {
     cluster: config.aws.clusters.builder.name,
     taskDefinition: config.aws.clusters.builder.taskDefinition,
@@ -81,7 +76,6 @@ const mapBuildExperimentToECSConfig = ({
       { name: "DOMAIN", value: domain },
       { name: "THEME_KEY", value: themeKey },
       { name: "CONTENT_KEY", value: contentKey },
-      ...keyWordsToPassAsEnvVariables,
     ],
   };
 };

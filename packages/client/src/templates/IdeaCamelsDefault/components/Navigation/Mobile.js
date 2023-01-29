@@ -11,7 +11,7 @@ const EditableText = withEditableText("div");
 export default withTheme(({ theme, content, onSetExperiment }) => {
   const [{ isOpen, activeItem }, setState] = useState({
     activeItem: "home",
-    isOpen: false,
+    isOpen: true,
   });
 
   const handleMenuClick = () => setState({ isOpen: !isOpen });

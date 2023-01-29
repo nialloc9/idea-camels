@@ -4,13 +4,11 @@ const {
 } = require("../data/experiment");
 const { onCreate: onCreateTheme } = require("../data/theme");
 const { onGet: onGetDomainByDomainRef } = require("../data/domain");
-const { onGet: onGetAccount } = require("../data/account");
 const { onGetMultiple: onGetMultipleLeads } = require("../data/leads");
 const { generateRandomId, handleSuccess } = require("../utils/utils");
 const { getMetrics } = require("../utils/googleAds");
 const { runTask, uploadToS3 } = require("../utils/aws");
 const { writeToTmpFile } = require("../utils/file");
-const { chargeCustomer } = require("../utils/stripe");
 const config = require("../utils/config");
 const {
   mapExperimentsToAdGroupNames,
@@ -115,12 +113,6 @@ const onCreateExperiment = ({
 }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const { data: accountData } = await onGetAccount({
-        data: { accountRef },
-        caller,
-      });
-
-      const { payment_customer_id, test_account } = accountData[0];
       const {
         data: { domains },
       } = await onGetDomainByDomainRef({
@@ -129,16 +121,6 @@ const onCreateExperiment = ({
       });
 
       const { name } = domains[0];
-
-      if (test_account === 0) {
-        await chargeCustomer({
-          customerId: payment_customer_id,
-          amount: budget,
-          caller,
-          accountRef,
-          description: `Creating experiment for ${name}`,
-        });
-      }
 
       const { path: contentPath, cleanup: onContentCleanUp } =
         await writeToTmpFile({
@@ -185,8 +167,6 @@ const onCreateExperiment = ({
         themeRef,
         accountRef,
         domainRef,
-        endDate: parseInt(endDate),
-        budget: parseInt(budget),
         templateRef,
       };
 

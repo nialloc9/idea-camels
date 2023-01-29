@@ -207,5 +207,12 @@
       "width": "1px !important",
       "whiteSpace": "nowrap !important"
     }
+  },
+  "footer": {
+    "fontSize": "15px",
+    "textDecoration": "none",
+    "color": "white",
+    "lineHeight": 2.5,
+    "backgroundColor": "#1D2146"
   }
 }

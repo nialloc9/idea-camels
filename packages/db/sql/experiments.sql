@@ -21,3 +21,6 @@ CREATE TABLE experiments
 );
 
 ALTER TABLE experiments ADD INDEX (account_ref);
+
+ALTER TABLE experiments DROP COLUMN budget;
+ALTER TABLE experiments DROP COLUMN end_date;

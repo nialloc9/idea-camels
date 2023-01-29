@@ -14,6 +14,7 @@ const Widget = ({ title, items, index, onSetContent }) => {
       <EditableHeading
         as="h4"
         initialtText={title}
+        color="white"
         onSubmit={(value) =>
           onSetContent({
             footer: {
@@ -29,6 +30,7 @@ const Widget = ({ title, items, index, onSetContent }) => {
               key={i}
               initialText={item}
               variant="footer"
+              color="white"
               onSubmit={(value, i) =>
                 onSetContent({
                   footer: {
@@ -52,6 +54,9 @@ export default Widget;
 
 const styles = {
   footerWidget: {
+    a: {
+      color: "white",
+    },
     h4: {
       color: "white",
       fontFamily: "body",
@@ -72,10 +77,6 @@ const styles = {
         },
       },
       a: {
-        fontSize: "15px",
-        color: "white",
-        textDecoration: "none",
-        lineHeight: 2.5,
         variant: "footer",
       },
     },

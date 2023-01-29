@@ -165,6 +165,7 @@ const onCreate = ({
           description,
           description2,
           keywordOptimiser,
+          endDate: parseInt(endDate),
           ...mappedCriterionToDb,
         },
         caller,

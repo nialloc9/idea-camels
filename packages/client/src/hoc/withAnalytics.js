@@ -24,7 +24,9 @@ export default (WrappedComponent) =>
       } = this.props;
 
       try {
-        handleEvent(action, label);
+        if (action) {
+          handleEvent(action, label);
+        }
       } catch (error) {
         logger.error(error);
       }

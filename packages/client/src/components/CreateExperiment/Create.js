@@ -3,30 +3,16 @@ import { Grid, GridRow, GridColumn } from "../Grid";
 import { Button } from "../Styled/Button";
 import { Segment } from "../Styled/Segment";
 import { Header } from "../Styled/Header";
-import { Form } from "../Form/Form";
-import { FormInput } from "../Form/Input";
 import { Message } from "../Message";
-import { ListHeader, List, ListItem } from "../List";
-import { Dropdown } from "../Form/Dropdown";
+import { Dropdown } from "../Styled/Dropdown";
+import withAnalytics from "../../hoc/withAnalytics";
 import Billing from "../Billing";
+import Domain from "./Domain";
 import withModal from "../../hoc/withModal";
 import Default from "../../templates/IdeaCamelsDefault";
 import Crm from "../../templates/Crm";
-import { withForm } from "../../hoc/withForm";
-import { calculateDomainPrice } from "../../utils/payments";
 import { remCalc } from "../../utils/style";
-import {
-  validateRequired,
-  validateDomain,
-  validateSpecialChars,
-} from "../../utils/form";
-import {
-  onPrepareExperiment,
-  onResetDomain,
-  onSetNewExperiment,
-  onCreate,
-} from "../../store/actions/experiment";
-import { onCreate as onCreateCampaign } from "../../store/actions/campaign";
+import { onSetNewExperiment, onCreate } from "../../store/actions/experiment";
 import { connect } from "../../store";
 import { toTitleCase } from "../../utils/utils";
 import templates, { findTemplate } from "../../templates";
@@ -34,25 +20,9 @@ import { history } from "../../store/middleware/history";
 
 const BillingModal = withModal(Billing);
 
+const AnalyticsDropDown = withAnalytics(Dropdown);
+
 class CreateForm extends Component {
-  constructor(props) {
-    super(props);
-    const {
-      values: { domain },
-    } = props;
-
-    this.state = {
-      domainPrice: undefined,
-      keywordsIndex: 1,
-      domainIndex: domain ? 0 : 1,
-    };
-  }
-
-  static defaultProps = {
-    domainPrices: [],
-    suggestedDomains: [],
-  };
-
   get templateOptions() {
     return templates.map(({ config: { name, ref } }) => ({
       key: ref,
@@ -63,7 +33,7 @@ class CreateForm extends Component {
 
   get themeOptions() {
     const {
-      values: { templateRef },
+      newExperiment: { templateRef },
     } = this.props;
 
     const template = findTemplate(templateRef);
@@ -81,148 +51,30 @@ class CreateForm extends Component {
     }));
   }
 
-  renderSuggestDomains = () => {
-    const { suggestedDomains = [] } = this.props;
-
-    if (suggestedDomains.length === 0) return null;
-
-    return (
-      <Message>
-        <ListHeader>Suggested Domain</ListHeader>
-        <List bulleted>
-          {suggestedDomains.map(({ DomainName }) => (
-            <ListItem key={DomainName}>{DomainName}</ListItem>
-          ))}
-        </List>
-      </Message>
-    );
-  };
-
-  setDomainIndex = (domainIndex) => {
-    const { onResetDomain } = this.props;
-    onResetDomain();
-    this.setState({ domainIndex });
-  };
-
-  renderDomainSelection = () => {
-    const { domainIndex } = this.state;
-    const { domainPrices, onPrepareExperiment } = this.props;
-
-    if (domainIndex === 0) {
-      return (
-        <GridColumn>
-          <FormInput
-            fluid
-            type="text"
-            labelText="Domain"
-            action="create-experiment-form-click"
-            label="create-free-domain-button"
-            name="domain"
-            display="block"
-            tabletDisplay="inline-block"
-            info="This will purchase a new domain for you."
-            placeholder="Please add a domain to purchase for your experiment"
-            validate={[
-              validateRequired,
-              validateDomain,
-              (value) =>
-                calculateDomainPrice({
-                  domain: value,
-                  domainPrices,
-                }) === 0
-                  ? "Domain Unavailable"
-                  : undefined,
-            ]}
-            onChange={(value) => onPrepareExperiment({ domain: value })}
-          />
-          <Button
-            icon="recycle"
-            primary
-            content="Use free domain"
-            onClick={() => this.setDomainIndex(1)}
-            type="button"
-            action="create-experiment-form-click"
-            label="create-free-domain-button"
-          />
-          {this.renderSuggestDomains()}
-        </GridColumn>
-      );
-    }
-
-    return (
-      <GridColumn>
-        <FormInput
-          fluid
-          type="text"
-          labelText="Domain"
-          action="create-experiment-form-click"
-          label="custom-domain"
-          semanticProps={{
-            label: {
-              basic: true,
-              content: ".ideacamels.com",
-            },
-            labelPosition: "right",
-          }}
-          name="subDomain"
-          display="block"
-          tabletDisplay="inline-block"
-          placeholder="Please add a domain name for your experiment"
-          info="This is a free domain. If you wish to have your own custom domain please click button below."
-          validate={[
-            validateRequired,
-            validateSpecialChars,
-            (value) =>
-              [
-                "www",
-                "static",
-                "dev",
-                "staging",
-                "prod",
-                "develop",
-                "development",
-                "stage",
-                "production",
-              ].find((o) => o === value)
-                ? "Reserved Domain"
-                : undefined,
-          ]}
-          onChange={(value) => onPrepareExperiment({ subDomain: value })}
-        />
-        <Button
-          icon="add to cart"
-          primary
-          content="Purchase custom domain"
-          onClick={() => this.setDomainIndex(0)}
-          type="button"
-          action="create-experiment-form-click"
-          label="purchase-custom-button"
-        />
-      </GridColumn>
-    );
-  };
-
   renderStyleSelect = () => {
     const {
       isFetchTemplatesLoading,
-      newExperiment: { templateRef, themeRef },
-      onPrepareExperiment,
+      newExperiment: { domain, subDomain, templateRef, themeRef },
+      onSetNewExperiment,
     } = this.props;
 
+    if (!domain && !subDomain) return null;
+
     return (
-      <Segment>
+      <Segment padded>
         <Header textAlign="left">2. Set Landing Page Style</Header>
         <Grid container centered stackable>
           <GridRow centered columns={2}>
             <GridColumn>
-              <Dropdown
-                labelText="Template"
-                name="templateRef"
+              <AnalyticsDropDown
+                fluid
                 lazyLoad
                 labeled
-                defaultValue={templateRef}
                 selection
                 search
+                labelText="Template"
+                name="templateRef"
+                value={templateRef}
                 display="block"
                 action="edit-experiment-form-click"
                 label="template"
@@ -230,15 +82,16 @@ class CreateForm extends Component {
                 options={this.templateOptions}
                 placeholder="Please select a template"
                 loading={isFetchTemplatesLoading}
-                onChange={(value) =>
-                  onPrepareExperiment({
+                onChange={(e, { value }) =>
+                  onSetNewExperiment({
                     templateRef: value,
+                    themeRef: 1,
                   })
                 }
               />
             </GridColumn>
             <GridColumn>
-              <Dropdown
+              <AnalyticsDropDown
                 labelText="Theme"
                 name="themeRef"
                 value={themeRef}
@@ -252,8 +105,9 @@ class CreateForm extends Component {
                 disabled={this.themeOptions.length === 0}
                 placeholder="Please select a theme"
                 loading={isFetchTemplatesLoading}
-                onChange={(value) =>
-                  onPrepareExperiment({
+                fluid
+                onChange={(e, { value }) =>
+                  onSetNewExperiment({
                     themeRef: value,
                   })
                 }
@@ -267,9 +121,10 @@ class CreateForm extends Component {
 
   renderTemplate = () => {
     const {
-      newExperiment: { templateRef, theme, content },
+      newExperiment: { domain, subDomain, templateRef, theme, content },
+      onSetNewExperiment,
     } = this.props;
-    if ([content, theme].some((o) => !o)) return null;
+    if ([domain || subDomain, content, theme].some((o) => !o)) return null;
 
     const Component = {
       1: Default,
@@ -294,17 +149,15 @@ class CreateForm extends Component {
       isCreateLoading,
       createErrorMessage,
       newExperiment: { domain, subDomain, templateRef },
-      onSubmit,
+      onCreate,
     } = this.props;
-
-    const { domainIndex } = this.state;
 
     if ([domain || subDomain, templateRef].some((o) => !o)) return null;
 
     return (
       <Segment>
         <Header textAlign="left">4. Deploy Experiment</Header>
-        {hasValidCard || domainIndex === 1 ? (
+        {hasValidCard || (!domain && !!subDomain) ? (
           <Button
             textAlign="left"
             positive
@@ -312,7 +165,7 @@ class CreateForm extends Component {
             loading={isCreateLoading}
             action="create-experiment-form-2-submit-click"
             onClick={() =>
-              onSubmit((experiment) =>
+              onCreate((experiment) =>
                 history.push(
                   `/home?experiment_ref=${experiment.experiment_ref}`
                 )
@@ -330,48 +183,32 @@ class CreateForm extends Component {
     );
   };
 
-  renderForm = () => {
-    return (
-      <Segment padded>
-        <Header textAlign="left">1. Set Experiment Details</Header>
-        <Grid container centered stackable>
-          <GridRow centered columns={2}>
-            {this.renderDomainSelection()}
-            <GridColumn />
-          </GridRow>
-        </Grid>
-      </Segment>
-    );
-  };
-
   render() {
-    const { newExperiment, onSubmit } = this.props;
-
     return (
-      <Segment padded>
-        <Form initialValues={newExperiment} onSubmit={onSubmit}>
-          {this.renderForm()}
-          {this.renderStyleSelect()}
-          {this.renderTemplate()}
-          {this.renderControls()}
-        </Form>
+      <Segment>
+        <Domain />
+        {this.renderStyleSelect()}
+        {this.renderTemplate()}
+        {this.renderControls()}
       </Segment>
     );
   }
 }
 
 export default connect(
-  ({ experiment: { newExperiment }, domain: { suggested, prices } }) => ({
+  ({
+    experiment: { createErrorMessage, newExperiment },
+    domain: { suggested, prices },
+    account: { card: { id } = {} },
+  }) => ({
+    createErrorMessage,
     newExperiment,
     suggestedDomains: suggested,
     domainPrices: prices,
-    initialValues: newExperiment,
+    hasValidCard: !!id,
   }),
   {
-    onSubmit: onCreate,
-    onPrepareExperiment,
-    onResetDomain,
+    onCreate,
     onSetNewExperiment,
-    onCreateCampaign,
   }
-)(withForm(CreateForm));
+)(CreateForm);

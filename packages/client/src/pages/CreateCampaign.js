@@ -8,7 +8,7 @@ import { onCreate } from "../store/actions/campaign";
 
 const Page = ({ onCreateCampaign }) => {
   return (
-    <Section minHeight="110vh" justifyContent="center" display="flex">
+    <Section minHeight="165vh" justifyContent="center" display="flex">
       <Block display="flex" justifyContent="center" flexDirection="column">
         <CreateCampaign onSubmit={onCreateCampaign} />
       </Block>

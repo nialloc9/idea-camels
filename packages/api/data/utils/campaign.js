@@ -55,6 +55,7 @@ const dbNames = convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase([
   "headline_3",
   "description",
   "description_2",
+  "end_date",
   "keyword_optimiser",
   "created_by",
   "created_at",

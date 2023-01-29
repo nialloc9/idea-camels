@@ -106,7 +106,7 @@
     "fontFamily": "Cairo, 'Playfair Display', sans-serif",
     "height": 700,
     "backgroundColor": "white",
-    "paddings": [20, 20, 0, 20],
+    "paddings": [20, 20, 40, 20],
     "quoteContainerPaddings": [0, 0, 0, 0],
     "card": { "width": 1000 },
     "carousel": { "size": "huge", "textAlign": "center" },

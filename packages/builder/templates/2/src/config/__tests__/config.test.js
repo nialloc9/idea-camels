@@ -4,17 +4,17 @@ import content from "../content.json";
 
 describe("template 1 configs", () => {
   it("template contents.json are correct", () => {
-    expect(typeof content.block1.logo.src).toBe("string");
-    expect(typeof content.block2.image.src).toBe("string");
-    expect(typeof content.block3.heading.text).toBe("string");
-    expect(typeof content.block4.card.image.src).toBe("string");
+    expect(typeof content.logo.image.src).toBe("string");
+    expect(typeof content.banner.image.src).toBe("string");
+    expect(typeof content.dashboard.title).toBe("string");
+    expect(typeof content.addons.title).toBe("string");
   });
 
   it("template theme.json are correct", () => {
-    expect(typeof theme.block1.backgroundColor).toBe("string");
-    expect(typeof theme.block2.backgroundRepeat).toBe("string");
-    expect(typeof theme.block3.backgroundColor).toBe("string");
-    expect(typeof theme.block4.backgroundColor).toBe("string");
+    expect(typeof theme.banner.backgroundColor).toBe("string");
+    expect(typeof theme.testimonials.button.backgroundRepeat).toBe("string");
+    expect(typeof theme.colors.text).toBe("string");
+    expect(typeof theme.styles.root.fontFamily).toBe("string");
   });
 
   it("template config.js are correct", () => {

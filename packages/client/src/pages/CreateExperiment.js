@@ -18,7 +18,7 @@ class CreateExperiment extends Component {
     return (
       <Block minHeight={remCalc(500)}>
         <Grid padded centered stackable>
-          <GridRow>
+          <GridRow columns={6}>
             <Create />
           </GridRow>
         </Grid>

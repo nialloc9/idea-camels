@@ -8,8 +8,6 @@ const dbNames = convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase([
   `domain_ref`,
   `theme_ref`,
   `template_ref`,
-  `end_date`,
-  `budget`,
   `created_by`,
   `created_at`,
   `last_updated_at`,

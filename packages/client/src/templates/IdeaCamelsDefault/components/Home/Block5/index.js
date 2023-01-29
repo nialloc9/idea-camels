@@ -127,9 +127,9 @@ export default withTheme(
     onSetExperiment,
   }) => (
     <Fragment>
-      <Carausel content={content} onSetExperiment={onSetExperiment} />
       <Container>
         <InnerContainer>
+          <Carausel content={content} onSetExperiment={onSetExperiment} />
           <QuoteContainer>
             <Quote>
               <EditableText

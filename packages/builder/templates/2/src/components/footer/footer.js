@@ -97,9 +97,6 @@ const styles = {
       },
     },
     a: {
-      color: "white",
-      fontSize: [1, null, null, 2],
-      textDecoration: "none",
       variant: "footer",
     },
   },

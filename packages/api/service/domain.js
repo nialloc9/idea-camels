@@ -198,7 +198,7 @@ const onCreateSubDomain = ({
       const {
         data: { domains: existingDomains },
       } = await onGetDomain({ data: { name: domain }, caller });
-
+      console.log(existingDomains);
       if (existingDomains.length > 0) {
         return reject(
           errors["1008"]({

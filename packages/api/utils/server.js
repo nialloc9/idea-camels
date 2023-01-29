@@ -148,21 +148,7 @@ const endpoints = [
   {
     uri: "/experiment/create",
     func: onCreateExperiment,
-    required: [
-      "domainRef",
-      "content",
-      "theme",
-      "endDate",
-      "budget",
-      "templateRef",
-      "headline",
-      "headline2",
-      "headline3",
-      "description",
-      "description2",
-      "keywords",
-      "caller",
-    ],
+    required: ["domainRef", "content", "theme", "templateRef", "caller"],
     isAuth: true,
   },
   {

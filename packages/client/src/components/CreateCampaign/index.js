@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Grid, GridRow, GridColumn } from "../Grid";
 import { Divider } from "../Divider";
+import { Image } from "../Styled/Image";
 import { Button } from "../Styled/Button";
 import { Segment } from "../Styled/Segment";
-import { Header } from "../Styled/Header";
+import { Header, HeaderSubheader } from "../Styled/Header";
 import { Form } from "../Form/Form";
 import { FormInput } from "../Form/Input";
 import { FormCheckbox } from "../Form/Checkbox";
@@ -21,6 +22,7 @@ import { onCreate } from "../../store/actions/campaign";
 import { connect } from "../../store";
 import { getQueryParameterByName } from "../../utils/utils";
 import { history } from "../../store/middleware/history";
+import googleAdExample from "../../static/googleAdExample.png";
 
 const BillingModal = withModal(Billing);
 
@@ -51,14 +53,22 @@ class CreateForm extends Component {
     }));
 
   renderControls = () => {
-    const { hasValidCard, isCreateLoading, submitting, pristine } = this.props;
+    const {
+      hasValidCard,
+      isCreateLoading,
+      submitting,
+      pristine,
+      hasValidationErrors,
+    } = this.props;
 
     return (
       <Segment padded>
         {hasValidCard ? (
           <Button
             positive
-            disabled={isCreateLoading || pristine || submitting}
+            disabled={
+              isCreateLoading || pristine || submitting || hasValidationErrors
+            }
             loading={isCreateLoading}
             action="create-campaign-form-submit-click"
             onClick={this.handleSubmit}
@@ -72,16 +82,14 @@ class CreateForm extends Component {
     );
   };
 
-  handleSubmit = (formData) => {
+  handleSubmit = async (formData) => {
     const { onSubmit } = this.props;
 
-    return onSubmit(
-      {
-        ...formData,
-        experimentRef: this.experimentRef,
-      },
-      history.push(`/home?experiment_ref=${this.experimentRef}`)
-    );
+    const { isSuccess } = await onSubmit(formData);
+
+    if (isSuccess) {
+      history.push(`/home?experiment_ref=${this.experimentRef}`);
+    }
   };
 
   render() {
@@ -89,19 +97,31 @@ class CreateForm extends Component {
       submitErrors = {},
       createErrorMessage,
       createSuccessMessage,
+      submitError,
     } = this.props;
 
     const { keywordsIndex } = this.state;
 
     return (
       <Segment padded>
+        <Segment padded>
+          <Header>
+            Ads drive traffic, traffic drives leads, and leads drive potential
+            customers!
+            <HeaderSubheader>It's that simple.</HeaderSubheader>
+          </Header>
+          <Image size="huge" src={googleAdExample} margin="auto" />
+        </Segment>
         <Form
           success={createSuccessMessage}
           error={
             submitErrors["headline"] ||
             submitErrors["description"] ||
             submitErrors["keyword1"] ||
-            createErrorMessage
+            submitErrors["budget"] ||
+            submitErrors["endDate"] ||
+            createErrorMessage ||
+            submitError
           }
           onSubmit={this.handleSubmit}
         >
@@ -327,7 +347,7 @@ class CreateForm extends Component {
                 <GridColumn>
                   <FormCheckbox
                     labelText="Dynamic keyword optimisation"
-                    name="keywordOptimise"
+                    name="keywordOptimiser"
                     inlineLabel
                     defaultChecked
                     info="IdeaCamels uses AI to dynamically update your keywords each day to optimise bidding strategy. We recommend you keep this on."
@@ -394,7 +414,7 @@ export default connect(
     createErrorMessage,
     experiments: data,
     initialValues: {
-      keywordOptimise: true,
+      keywordOptimiser: true,
     },
   }),
   { onSubmit: onCreate }

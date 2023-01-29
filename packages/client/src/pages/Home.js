@@ -17,13 +17,13 @@ import { Block } from "../components/Styled/Block";
 import { Message } from "../components/Message";
 import { PieChart } from "../components/PieChart";
 import { Header } from "../components/Header";
+import { SoftLink } from "../components/Link";
 import withPageAnalytics from "../hoc/withPageAnalytics";
 import { withMessage } from "../hoc/withMessage";
 import { withLoader } from "../hoc/withLoader";
 import { withDisplay } from "../hoc/withDisplay";
 import withAnalytics from "../hoc/withAnalytics";
 import theme from "../config/theme";
-import config from "../config/config";
 import { remCalc } from "../utils/style";
 import { formatToUtc, formatGoogleAdsMicros } from "../utils/utils";
 import { connect } from "../store";
@@ -34,9 +34,11 @@ const LoaderMessage = withLoader(Message);
 
 const MessageOrSegment = withMessage(Segment);
 
-const DisplayButton = withDisplay(Button);
-
 const DisplaySegment = withDisplay(Segment);
+
+const AnalyticsSoftLink = withAnalytics(SoftLink);
+
+const DisplaySoftLink = withDisplay(AnalyticsSoftLink);
 
 const renderInputListItem = ({ domain, keywords }) =>
   keywords.map((o) => <ListItem key={`keywords-${o}`}>{o}</ListItem>);
@@ -151,9 +153,8 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
               target="_blank"
               action="view-experiment-click"
               icon="eye"
-            >
-              View Experiment
-            </Button>
+              content="View Experiment"
+            />
             {/* <Button
               primary
               icon="edit"
@@ -163,16 +164,20 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
             >
               Edit Experiment
             </Button> */}
-            <DisplayButton
+
+            <DisplaySoftLink
               isDisplayed={showCampaignData}
-              primary
-              floated="left"
-              href={`${config.domainUrl}/create-campaign?experiment_ref=${experimentRef}`}
               action="create-campaign"
-              positive
+              to={`/create-campaign?experiment_ref=${experimentRef}`}
             >
-              Super Charge
-            </DisplayButton>
+              <Button
+                primary
+                floated="left"
+                icon="star"
+                content="Super Charge"
+                positive
+              />
+            </DisplaySoftLink>
           </GridColumn>
 
           <GridColumn />

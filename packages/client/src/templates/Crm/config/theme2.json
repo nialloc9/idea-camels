@@ -249,6 +249,10 @@
     }
   },
   "footer": {
+    "fontSize": "15px",
+    "textDecoration": "none",
+    "color": "white",
+    "lineHeight": 2.5,
     "backgroundColor": "#1446A0"
   },
   "icons": {

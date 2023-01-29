@@ -3,6 +3,7 @@ import {
   Form as ReactFinalForm,
   Field as ReactFinalField,
 } from "react-final-form";
+import { FORM_ERROR } from "final-form";
 import { pipelineHof } from "../utils/form";
 
 export const withForm = (WrappedComponent) =>
@@ -38,3 +39,5 @@ export const withField = (WrappedComponent) =>
       );
     }
   };
+
+export { FORM_ERROR };

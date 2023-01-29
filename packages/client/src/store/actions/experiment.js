@@ -150,64 +150,6 @@ export const onCreate = (callback) => async (dispatch, getState) => {
 };
 
 /**
- * @description prepates new experiment and purchases domain from registrar if not already owned by account
- * @param {*} params
- * @returns
- */
-export const onPrepareExperiment = (newData) => async (dispatch, getState) => {
-  console.log("onPrepareExperiment", newData);
-  const onSetState = setState(dispatch);
-
-  const {
-    experiment: { newExperiment },
-  } = getState();
-
-  const experimentPayload = {
-    ...newExperiment,
-    ...newData,
-  };
-
-  if (experimentPayload.templateRef !== newExperiment.templateRef) {
-    const {
-      theme: { theme },
-      content,
-    } = findThemeAndContent({
-      templateRef: newData.templateRef || 2,
-      themeRef: newData.themeRef || 1,
-    });
-
-    experimentPayload.content = content;
-    experimentPayload.theme = theme;
-  }
-
-  if (
-    newData.templateRef &&
-    newData.templateRef === newExperiment.templateRef
-  ) {
-    const {
-      theme: { theme },
-    } = findThemeAndContent({
-      templateRef: newData.templateRef,
-      themeRef: newData.themeRef,
-    });
-
-    experimentPayload.theme = theme;
-  }
-
-  onSetState({
-    newExperiment: experimentPayload,
-  }); // formIndex 1 means go to next form
-};
-
-/**
- * @description sets formIndex for create experiment
- * @param {*} formIndex
- * @returns
- */
-export const onSetFormIndex = (formIndex) => (dispatch) =>
-  setState(dispatch)({ formIndex });
-
-/**
  * @description adds to new experiment in experiment reducer
  * @param {*} newExperiment
  * @returns
@@ -217,16 +159,40 @@ export const onSetNewExperiment = (expermentDataToAdd) => (
   getState
 ) => {
   const onSetState = setState(dispatch);
-
+  console.log("expermentDataToAdd", expermentDataToAdd);
   const {
     experiment: { newExperiment },
   } = getState();
 
-  onSetState({ newExperiment: deepMerge(newExperiment, expermentDataToAdd) });
+  const experimentPayload = { ...expermentDataToAdd };
+
+  // changing templateRef
+  if (
+    (expermentDataToAdd.templateRef &&
+      experimentPayload.templateRef !== newExperiment.templateRef) ||
+    (expermentDataToAdd.themeRef &&
+      experimentPayload.themeRef !== newExperiment.themeRef)
+  ) {
+    const {
+      theme: { theme },
+      content,
+    } = findThemeAndContent({
+      templateRef: expermentDataToAdd.templateRef || newExperiment.templateRef,
+      themeRef: expermentDataToAdd.themeRef || 1,
+    });
+
+    experimentPayload.content = content;
+    experimentPayload.theme = theme;
+    experimentPayload.templateRef =
+      expermentDataToAdd.templateRef || newExperiment.templateRef;
+    experimentPayload.themeRef = expermentDataToAdd.themeRef || 1;
+  }
+
+  onSetState({ newExperiment: deepMerge(newExperiment, experimentPayload) });
 };
 
 /**
- * @description sets formIndex for create experiment
+ * @description removes domain and subdomain values
  * @param {*} formIndex
  * @returns
  */
