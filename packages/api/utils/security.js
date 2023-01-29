@@ -88,29 +88,25 @@ const requiredParams = ({
     const bearer = Authorization || authorization;
 
     if ((isAuth || isAdmin) && !bearer) {
-      reject(
+      return reject(
         errors["2003"]({
           endpoint,
           caller,
           data: { "authorisation token": "undefined" },
         })
       );
-
-      return;
     }
 
     required.forEach((o) => {
       const target = body[o];
       if (target === undefined || (!target && target !== 0)) {
-        reject(
+        return reject(
           errors["2003"]({
             endpoint,
             caller,
             data: { [o]: "undefined" },
           })
         );
-
-        return;
       }
     });
 

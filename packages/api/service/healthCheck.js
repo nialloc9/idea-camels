@@ -47,19 +47,19 @@ const onEmailCheck = () =>
     }
   });
 
-  const onAlertCheck = () =>
+const onAlertCheck = () =>
   new Promise(async (resolve, reject) => {
     try {
       logger.info("Starting alert health checks");
-      const {error} = await sendAlert({
-        channel: 'api-prod-alerts',
-        text: 'test'
+      const { error } = await sendAlert({
+        channel: "api-prod-alerts",
+        text: "test",
       });
 
-      if(error) {
-        return reject(error)
+      if (error) {
+        return reject(error);
       }
-      
+
       logger.info("Alert okay");
       resolve(handleSuccess("okay"));
     } catch (error) {
@@ -72,5 +72,5 @@ module.exports = {
   onDBHealthCheck,
   onGoogleAdsCheck,
   onEmailCheck,
-  onAlertCheck
+  onAlertCheck,
 };

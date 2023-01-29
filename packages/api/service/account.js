@@ -81,6 +81,7 @@ const onLogin = ({ data: { email, password, rememberMe = false }, caller }) =>
           customerId: account.payment_customer_id,
           cardId: paymentProfile.default_source,
         });
+
         responseData.card = card || {};
       }
 

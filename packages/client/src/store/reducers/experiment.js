@@ -3,7 +3,6 @@ import { STORE_RESET } from "../constants/store";
 import { getCache } from "../../utils/cache";
 
 const initialState = {
-  formIndex: 0,
   isFetchLoading: false,
   isFetchInitialised: false,
   isFetchTemplatesLoading: false,

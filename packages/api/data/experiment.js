@@ -4,10 +4,16 @@ const { mapper } = require("./utils/experiment");
 const { now } = require("../utils/date");
 const { addSelectQueryColumns } = require("./utils/utils");
 
-const onGet = ({ caller }) =>
+const onGet = ({ caller, experimentRef }) =>
   new Promise(async (resolve, reject) => {
     try {
-      const getQuery = `SELECT * FROM experiments`;
+      let getQuery = `SELECT * FROM experiments`;
+
+      switch (true) {
+        case experimentRef:
+          getQuery = `${getQuery} WHERE experiment_ref=${experimentRef} AND deleted_flag=0`;
+          break;
+      }
 
       const results = await query(
         getQuery,
@@ -30,13 +36,12 @@ const onGet = ({ caller }) =>
  * gets experiments by account ref
  */
 const onGetWithThemeAndCampaignByAccountRef = ({
-  data: { accountRef },
+  data: { accountRef, experimentRef },
   caller,
 }) =>
   new Promise(async (resolve, reject) => {
     try {
       const values = [
-        "c.experiment_ref",
         "c.campaign_name",
         "c.budget_name",
         "c.ad_group_name",
@@ -73,7 +78,9 @@ const onGetWithThemeAndCampaignByAccountRef = ({
 
       const getQuery = `SELECT ${addSelectQueryColumns(
         values
-      )} FROM experiments as e LEFT JOIN themes as t ON e.theme_ref = t.theme_ref LEFT JOIN domains as d ON e.domain_ref = d.domain_ref LEFT JOIN campaigns as c on e.experiment_ref = c.experiment_ref WHERE e.account_ref=${accountRef} AND e.deleted_flag != 1`;
+      )} FROM experiments as e LEFT JOIN themes as t ON e.theme_ref = t.theme_ref LEFT JOIN domains as d ON e.domain_ref = d.domain_ref LEFT JOIN campaigns as c on e.experiment_ref = c.experiment_ref WHERE e.account_ref=${accountRef}${
+        experimentRef ? ` AND e.experiment_ref='${experimentRef}'` : ""
+      } AND e.deleted_flag != 1`;
 
       const results = await query(
         getQuery,

@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Checkbox as StyledCheckbox } from "../Styled/Checkbox";
-import { Icon } from "../Styled/Icon";
+import { Icon } from "semantic-ui-react";
 import { Field } from "./Form";
 import { Error } from "./Error";
 import { Warning } from "./Warning";
@@ -55,7 +55,6 @@ export class Checkbox extends PureComponent {
 
     return (
       <Field>
-        {!inlineLabel && Label}
         <StyledCheckbox
           {...rest}
           touched={touched.toString()}

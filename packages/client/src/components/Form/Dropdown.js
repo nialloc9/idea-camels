@@ -23,7 +23,9 @@ class CustomDropdown extends Component {
   handleChange = (e, { value }) => {
     const { onChange } = this.props;
 
-    onChange(value);
+    if (onChange) {
+      onChange(value);
+    }
   };
 
   render() {

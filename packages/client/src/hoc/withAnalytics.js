@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { handleEvent } from "../utils/analytics";
+import { logger } from "../utils/utils";
 
 /**
  * RULES
@@ -25,7 +26,7 @@ export default (WrappedComponent) =>
       try {
         handleEvent(action, label);
       } catch (error) {
-        console.log(error);
+        logger.error(error);
       }
 
       if (onClick) {

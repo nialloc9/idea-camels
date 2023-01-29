@@ -100,14 +100,6 @@ const localhost = {
       KEYWORD_5,
     ],
   },
-  googleAds: {
-    clientId: GOOGLE_ADS_CLIENT_ID,
-    clientSecret: GOOGLE_ADS_CLIENT_SECRET,
-    refreshToken: GOOGLE_ADS_REFRESH_TOKEN,
-    developerToken: GOOGLE_ADS_DEVELOPER_TOKEN,
-    customerId: GOOGLE_ADS_CUSTOMER_ID,
-    customerIdSplit: GOOGLE_ADS_CUSTOMER_ID.split("-").join(""),
-  },
   api: {
     baseUrl: API_BASE_URL,
   },

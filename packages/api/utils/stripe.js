@@ -103,6 +103,7 @@ const getCard = async (
     if (config.noInternet) return { card: cardMock };
 
     const card = await provider.customers.retrieveSource(customerId, cardId);
+
     return { card };
   } catch (error) {
     return { error };

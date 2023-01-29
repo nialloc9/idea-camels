@@ -53,7 +53,7 @@ const customer = client.Customer({
 const createCampaign = async (campaign) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO CREATE CAMPAIGN");
-    return {};
+    return campaignMock;
   }
 
   const { results } = await customer.campaigns.create(
@@ -71,7 +71,7 @@ const createCampaign = async (campaign) => {
 const updateCampaign = async (campaign, customerProvider = customer) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO UPDATE CAMPAIGN");
-    return {};
+    return campaignMock;
   }
 
   const { results } = await customerProvider.campaigns.update(campaign, {
@@ -87,7 +87,7 @@ const updateCampaign = async (campaign, customerProvider = customer) => {
 const getCampaign = async (resourceName) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO LIST CAMPAIGNS");
-    return [];
+    return [campaignMock];
   }
 
   return await customer.campaigns.get(resourceName);
@@ -130,7 +130,7 @@ const createBudget = async (budget) => {
 const getBudget = async (resourceName) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO LIST BUDGETS");
-    return [];
+    return [campaignBudgetMock];
   }
 
   return await customer.campaignBudgets.get(resourceName);
@@ -142,7 +142,7 @@ const getBudget = async (resourceName) => {
 const deleteBudget = async (name) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO DELETE BUDGET");
-    return {};
+    return campaignBudgetMock;
   }
 
   return await customer.campaignBudgets.delete(name, {
@@ -157,7 +157,7 @@ const deleteBudget = async (name) => {
 const createAdGroup = async (adGroup) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO CREATE ADGROUP");
-    return {};
+    return adGroupMock.resource_name;
   }
 
   const { results } = await customer.adGroups.create([adGroup], {
@@ -174,14 +174,14 @@ const createAdGroup = async (adGroup) => {
 const updateAdGroup = async (adGroup) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO UPDATE ADGROUP");
-    return {};
+    return adGroupMock.resource_name;
   }
 
   const { results } = await customer.adGroups.update(adGroup, {
     validate_only: !config.isProd,
   });
 
-  return config.isProd ? results[0] : adGroupMock;
+  return config.isProd ? results[0] : adGroupMock.resource_name;
 };
 
 /**
@@ -191,7 +191,7 @@ const updateAdGroup = async (adGroup) => {
 const createAdGroupAd = async (adGroupAd) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO CREATE ADGROUPAD");
-    return {};
+    return adGroupAdMock.resource_name;
   }
 
   const { results } = await customer.adGroupAds.create([adGroupAd], {
@@ -208,7 +208,7 @@ const createAdGroupAd = async (adGroupAd) => {
 const updateAdGroupAd = async (adGroupAd) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO UPDATE ADGROUPAD");
-    return {};
+    return adGroupAd;
   }
 
   const { results } = await customer.adGroupAds.update(adGroupAd, {
@@ -225,7 +225,7 @@ const updateAdGroupAd = async (adGroupAd) => {
 const createAdGroupCriterion = async (adGroupCriterions) => {
   if (config.noInternet) {
     logger.info("NO INTERNET TO CREATE AD GROUP CRITERIAN");
-    return {};
+    return [adGroupCriterionMock];
   }
 
   const { results } = await customer.adGroupCriteria.create(adGroupCriterions, {

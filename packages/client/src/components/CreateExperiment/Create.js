@@ -24,9 +24,10 @@ import {
   onPrepareExperiment,
   onResetDomain,
   onSetNewExperiment,
+  onCreate,
 } from "../../store/actions/experiment";
+import { onCreate as onCreateCampaign } from "../../store/actions/campaign";
 import { connect } from "../../store";
-import { getWeeksFromNow, getDateMonthsFromNow } from "../../utils/utils";
 import { toTitleCase } from "../../utils/utils";
 import templates, { findTemplate } from "../../templates";
 import { history } from "../../store/middleware/history";
@@ -105,7 +106,7 @@ class CreateForm extends Component {
 
   renderDomainSelection = () => {
     const { domainIndex } = this.state;
-    const { domainPrices, onSubmit } = this.props;
+    const { domainPrices, onPrepareExperiment } = this.props;
 
     if (domainIndex === 0) {
       return (
@@ -132,7 +133,7 @@ class CreateForm extends Component {
                   ? "Domain Unavailable"
                   : undefined,
             ]}
-            onChange={(value) => onSubmit({ domain: value })}
+            onChange={(value) => onPrepareExperiment({ domain: value })}
           />
           <Button
             icon="recycle"
@@ -186,7 +187,7 @@ class CreateForm extends Component {
                 ? "Reserved Domain"
                 : undefined,
           ]}
-          onChange={(value) => onSubmit({ subDomain: value })}
+          onChange={(value) => onPrepareExperiment({ subDomain: value })}
         />
         <Button
           icon="add to cart"
@@ -204,10 +205,9 @@ class CreateForm extends Component {
   renderStyleSelect = () => {
     const {
       isFetchTemplatesLoading,
-      newExperiment: { templateRef, themeRef, domain, subDomain, endDate },
-      onSubmit,
+      newExperiment: { templateRef, themeRef },
+      onPrepareExperiment,
     } = this.props;
-    if ([domain || subDomain, endDate].some((o) => !o)) return null;
 
     return (
       <Segment>
@@ -231,7 +231,9 @@ class CreateForm extends Component {
                 placeholder="Please select a template"
                 loading={isFetchTemplatesLoading}
                 onChange={(value) =>
-                  onSubmit({ templateRef: value, themeRef: 1 })
+                  onPrepareExperiment({
+                    templateRef: value,
+                  })
                 }
               />
             </GridColumn>
@@ -250,7 +252,11 @@ class CreateForm extends Component {
                 disabled={this.themeOptions.length === 0}
                 placeholder="Please select a theme"
                 loading={isFetchTemplatesLoading}
-                onChange={(value) => onSubmit({ templateRef, themeRef: value })}
+                onChange={(value) =>
+                  onPrepareExperiment({
+                    themeRef: value,
+                  })
+                }
               />
             </GridColumn>
           </GridRow>
@@ -263,7 +269,7 @@ class CreateForm extends Component {
     const {
       newExperiment: { templateRef, theme, content },
     } = this.props;
-    if ([templateRef, content, theme].some((o) => !o)) return null;
+    if ([content, theme].some((o) => !o)) return null;
 
     const Component = {
       1: Default,
@@ -287,12 +293,18 @@ class CreateForm extends Component {
       hasValidCard,
       isCreateLoading,
       createErrorMessage,
+      newExperiment: { domain, subDomain, templateRef },
       onSubmit,
     } = this.props;
+
+    const { domainIndex } = this.state;
+
+    if ([domain || subDomain, templateRef].some((o) => !o)) return null;
+
     return (
-      <Segment padded>
+      <Segment>
         <Header textAlign="left">4. Deploy Experiment</Header>
-        {hasValidCard ? (
+        {hasValidCard || domainIndex === 1 ? (
           <Button
             textAlign="left"
             positive
@@ -310,11 +322,7 @@ class CreateForm extends Component {
             Create Experiment
           </Button>
         ) : (
-          <BillingModal
-            buttonSize="huge"
-            buttonText="Add Card To Purchase Domain"
-            modalHeaderText="Add Card"
-          />
+          <BillingModal buttonText="Add Card" modalHeaderText="Add Card" />
         )}
 
         {createErrorMessage && <Message error>{createErrorMessage}</Message>}
@@ -322,49 +330,27 @@ class CreateForm extends Component {
     );
   };
 
-  render() {
-    const {
-      submitting,
-      pristine,
-      isFetchTemplatesLoading,
-      submitErrors = {},
-      values: { budget, domain, subDomain },
-      newExperiment,
-      domainPrices,
-      onSubmit,
-    } = this.props;
+  renderForm = () => {
+    return (
+      <Segment padded>
+        <Header textAlign="left">1. Set Experiment Details</Header>
+        <Grid container centered stackable>
+          <GridRow centered columns={2}>
+            {this.renderDomainSelection()}
+            <GridColumn />
+          </GridRow>
+        </Grid>
+      </Segment>
+    );
+  };
 
-    const { templateRef, themeRef, theme, content } = newExperiment;
+  render() {
+    const { newExperiment, onSubmit } = this.props;
 
     return (
       <Segment padded>
         <Form initialValues={newExperiment} onSubmit={onSubmit}>
-          <Segment padded>
-            <Header textAlign="left">1. Set Experiment Details</Header>
-            <Grid container centered stackable>
-              <GridRow centered columns={2}>
-                {this.renderDomainSelection()}
-                <GridColumn>
-                  <FormInput
-                    fluid
-                    type="date"
-                    labelText="End Date"
-                    name="endDate"
-                    display="block"
-                    tabletDisplay="inline-block"
-                    placeholder="When do you wish experiment to end?"
-                    validate={[validateRequired]}
-                    min={getWeeksFromNow(4).toISOString().split("T")[0]}
-                    max={getDateMonthsFromNow(6).toISOString().split("T")[0]}
-                    action="create-experiment-form-click"
-                    label="end-date"
-                    info="Date to end experiment"
-                    onChange={(value) => onSubmit({ endDate: value })}
-                  />
-                </GridColumn>
-              </GridRow>
-            </Grid>
-          </Segment>
+          {this.renderForm()}
           {this.renderStyleSelect()}
           {this.renderTemplate()}
           {this.renderControls()}
@@ -381,5 +367,11 @@ export default connect(
     domainPrices: prices,
     initialValues: newExperiment,
   }),
-  { onSubmit: onPrepareExperiment, onResetDomain, onSetNewExperiment }
+  {
+    onSubmit: onCreate,
+    onPrepareExperiment,
+    onResetDomain,
+    onSetNewExperiment,
+    onCreateCampaign,
+  }
 )(withForm(CreateForm));

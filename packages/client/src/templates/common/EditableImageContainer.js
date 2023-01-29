@@ -3,7 +3,7 @@ import { Block } from "../../components/Styled/Block";
 import { FileUpload } from "../../components/Form/FileUpload";
 import { styled, remCalc } from "../../utils/style";
 import { upload } from "../../utils/request";
-import { handleResizeFile } from "../../utils/utils";
+import { handleResizeFile, logger } from "../../utils/utils";
 import { connect } from "../../store";
 import withAnalytics from "../../hoc/withAnalytics";
 
@@ -70,7 +70,7 @@ class EditableImage extends Component {
       onSubmit(url);
       this.setState({ isOpen: false, src: url, isLoading: false });
     } catch (e) {
-      console.log(e);
+      logger.log(e);
       const { message } = e;
       this.setState({ error: message, isLoading: false });
     }

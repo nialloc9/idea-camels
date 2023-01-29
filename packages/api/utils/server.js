@@ -32,6 +32,7 @@ const { onCreateLead } = require("../service/lead");
 const { onGetAdPerformance } = require("../service/report");
 const { onLogError } = require("../service/log");
 const { onManuallyRunExperiment } = require("../service/admin");
+const { onCreate: onCreateCampaign } = require("../service/campaign");
 const { logger } = require("./utils");
 const { sendAlert } = require("./alert");
 
@@ -196,6 +197,23 @@ const endpoints = [
     uri: "/report/get-ad-performance",
     required: [],
     func: onGetAdPerformance,
+  },
+  {
+    uri: "/campaign/create",
+    required: [
+      "budget",
+      "experimentRef",
+      "description",
+      "description2",
+      "headline",
+      "headline2",
+      "headline3",
+      "keywords",
+      "budget",
+      "keywordOptimiser",
+    ],
+    isAuth: true,
+    func: onCreateCampaign,
   },
   {
     uri: "/backend/run-experiment",

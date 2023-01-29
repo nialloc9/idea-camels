@@ -7,6 +7,7 @@ import { theme } from "./config";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import CreateExperiment from "./pages/CreateExperiment";
+import CreateCampaign from "./pages/CreateCampaign";
 import SignUp from "./pages/SignUp";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
@@ -33,6 +34,11 @@ const routes = [
   {
     path: "/create-experiment",
     component: CreateExperiment,
+    isAuth: true,
+  },
+  {
+    path: "/create-campaign",
+    component: CreateCampaign,
     isAuth: true,
   },
   {

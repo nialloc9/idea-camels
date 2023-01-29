@@ -8,21 +8,6 @@ import { onFetchDomainPrices } from "../store/actions/domain";
 import { connect } from "../store";
 
 class CreateExperiment extends Component {
-  // get forms() {
-  //   return [
-  //     {
-  //       form: CreateForm,
-  //       index: 0,
-  //       props: {},
-  //     },
-  //     {
-  //       form: Template,
-  //       index: 1,
-  //       props: {},
-  //     },
-  //   ];
-  // }
-
   componentDidMount() {
     const { onFetchDomainPrices } = this.props;
 
@@ -30,8 +15,6 @@ class CreateExperiment extends Component {
   }
 
   render() {
-    const { formIndex } = this.props;
-
     return (
       <Block minHeight={remCalc(500)}>
         <Grid padded centered stackable>
@@ -44,8 +27,7 @@ class CreateExperiment extends Component {
   }
 }
 
-const mapStateToProps = ({ experiment: { formIndex, newExperiment } }) => ({
-  formIndex,
+const mapStateToProps = ({ experiment: { newExperiment } }) => ({
   newExperiment,
 });
 

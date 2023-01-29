@@ -2,9 +2,7 @@ AWS_PROFILE?=idea-camels
 AWS_REGION?=eu-west-1
 NAME?=builder-prod
 ACCOUNT_NUMBER?=115830081349
-
 ECR_HOSTNAME=$(ACCOUNT_NUMBER).dkr.ecr.eu-west-1.amazonaws.com
-
 PATCH_DEFAULT_VERSION?=1
 MAJOR_VERSION?=1
 MINOR_VERSION?=0
@@ -77,15 +75,6 @@ configure-client:
 
 	STATUS="CLIENT_CONFIGURED" node ./updateStatus.js
 
-# Description: Deploys campaign
-configure-campaign:
-	STATUS="CONFIGURING_CAMPAIGN" node ./updateStatus.js
-
-	node --unhandled-rejections=strict ./configureCampaign.js
-
-	STATUS="CAMPAIGN_CONFIGURED" node ./updateStatus.js
-
-# Description: Deploys and runs a campaign for an experiment
 post-build:
 	STATUS="COMPLETE" node ./updateStatus.js
 
@@ -95,17 +84,11 @@ post-build:
 # EXPERIMENT_REF -> The experiment ref from the database e.g 1
 # TEMPLATE_REF -> The template ref from the database e.g 1
 # CALLER -> Unique ID for this task e.g hfdahaj44
-# DESCRIPTION -> description of ad
-# HEADLINE -> Headline for ad
-# HEADLINE_2 -> Headline 2 for ad
-# BUDGET -> Budget for ad
-# KEYWORD_{0 - 6} -> Set of keywords for ad
 test-experiment:
 	# cd templates/1 && npm install
 
 	AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} AWS_REGION=eu-west-1 AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
 	EXPERIMENT_REF=1 TEMPLATE_REF=1 ENV="prod" DOMAIN="test.ideacamels.com" CALLER=test DESCRIPTION='test my idea' \
-	HEADLINE='test your idea today' HEADLINE_2='is your idea good?' BUDGET=20 KEYWORD_0="test idea" KEYWORD_1='test my idea' \
 	CONTENT_KEY='test/1/contents/test.json' THEME_KEY='test/1/themes/test.json' SHOULD_LOG_STATUS_IN_DB=n \
 	API_BASE_URL="https://v1xwkm07ta.execute-api.eu-west-1.amazonaws.com/prod" API_TOKEN="test" \
 	bash ./entrypoint.sh

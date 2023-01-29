@@ -109,14 +109,7 @@ const onCreateExperiment = ({
     endDate,
     content,
     theme,
-    budget,
     templateRef,
-    description,
-    description2,
-    headline,
-    headline2,
-    headline3,
-    keywords,
   },
   caller,
 }) =>
@@ -210,14 +203,7 @@ const onCreateExperiment = ({
           themeKey,
           contentKey,
           templateRef,
-          description,
-          description2,
-          headline,
-          headline2,
-          headline3,
-          keywords,
           caller,
-          budget,
         })
       );
 
@@ -231,8 +217,6 @@ const onCreateExperiment = ({
           name,
           content: contentKey,
           theme: themeKey,
-          campaign: {},
-          metrics: {},
         })
       );
     } catch (error) {

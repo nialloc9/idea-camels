@@ -9,7 +9,6 @@ const EditableText = withEditableText(Text);
 const EditableHeading = withEditableText(Heading);
 
 const Testimonial = ({ data, onEdit, ...rest }) => {
-  console.log(remCalc(31));
   return (
     <Box sx={styles.testimonial}>
       <Box as="figure" sx={styles.avatar}>

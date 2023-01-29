@@ -4,6 +4,7 @@ import app from "./app";
 import account from "./account";
 import experiment from "./experiment";
 import domain from "./domain";
+import campaign from "./campaign";
 
 export default (history) =>
   combineReducers({
@@ -12,4 +13,5 @@ export default (history) =>
     account,
     domain,
     experiment,
+    campaign,
   });

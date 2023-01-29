@@ -18,9 +18,12 @@ import { Message } from "../components/Message";
 import { PieChart } from "../components/PieChart";
 import { Header } from "../components/Header";
 import withPageAnalytics from "../hoc/withPageAnalytics";
+import { withMessage } from "../hoc/withMessage";
 import { withLoader } from "../hoc/withLoader";
+import { withDisplay } from "../hoc/withDisplay";
 import withAnalytics from "../hoc/withAnalytics";
 import theme from "../config/theme";
+import config from "../config/config";
 import { remCalc } from "../utils/style";
 import { formatToUtc, formatGoogleAdsMicros } from "../utils/utils";
 import { connect } from "../store";
@@ -28,6 +31,12 @@ import { connect } from "../store";
 const AnalyticsAnchor = withAnalytics("a");
 
 const LoaderMessage = withLoader(Message);
+
+const MessageOrSegment = withMessage(Segment);
+
+const DisplayButton = withDisplay(Button);
+
+const DisplaySegment = withDisplay(Segment);
 
 const renderInputListItem = ({ domain, keywords }) =>
   keywords.map((o) => <ListItem key={`keywords-${o}`}>{o}</ListItem>);
@@ -69,6 +78,7 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
   }
 
   const {
+    campaign_name = "",
     metrics: {
       clicks,
       impressions,
@@ -77,7 +87,7 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
       cost_micros,
       engagements,
     } = {},
-    leads,
+    leads = [],
     keyword_0,
     keyword_1,
     keyword_2,
@@ -88,7 +98,18 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
     headline2,
     name,
     status,
+    budget,
   } = experiment;
+
+  const showCampaignData = campaign_name !== "";
+
+  const showPieChart =
+    showCampaignData &&
+    [clicks > 0, impressions > 0, engagements > 0].some((o) => o);
+
+  const pieChartMessage = showCampaignData
+    ? "Campaign metrics will display here once you have leads interacting with your ads."
+    : "Super charge your experiment with ads on Google above.";
 
   const progress =
     {
@@ -99,8 +120,6 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
       CONFIGURED_INFRA: 40,
       CONFIGURING_CLIENT: 50,
       CLIENT_CONFIGURED: 60,
-      CONFIGURING_CAMPAIGN: 70,
-      CAMPAIGN_CONFIGURED: 80,
       COMPLETE: 100,
     }[status] || 0;
 
@@ -131,16 +150,42 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
               href={`https://${name}`}
               target="_blank"
               action="view-experiment-click"
+              icon="eye"
             >
               View Experiment
             </Button>
+            {/* <Button
+              primary
+              icon="edit"
+              floated="left"
+              href={`${config.domainUrl}/edit-experiment?experiment_ref=${experimentRef}`}
+              action="edit-experiment-click"
+            >
+              Edit Experiment
+            </Button> */}
+            <DisplayButton
+              isDisplayed={showCampaignData}
+              primary
+              floated="left"
+              href={`${config.domainUrl}/create-campaign?experiment_ref=${experimentRef}`}
+              action="create-campaign"
+              positive
+            >
+              Super Charge
+            </DisplayButton>
           </GridColumn>
+
           <GridColumn />
         </GridRow>
         <GridRow>
           <GridColumn>
             <Segment height="100%">
-              <Segment size="small" height="100%" textAlign="center">
+              <MessageOrSegment
+                message={showPieChart ? undefined : pieChartMessage}
+                size="small"
+                height="100%"
+                textAlign="center"
+              >
                 <PieChart
                   width={remCalc(250)}
                   data={[
@@ -168,12 +213,18 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                   ]}
                   title="Metrics"
                 />
-              </Segment>
+              </MessageOrSegment>
             </Segment>
           </GridColumn>
           <GridColumn>
             <Segment>
-              <Segment>
+              <MessageOrSegment
+                message={
+                  showCampaignData
+                    ? undefined
+                    : "Leads will be shown here once they add their emails."
+                }
+              >
                 <Header>Confirmed Interest</Header>
                 <Table basic="very" celled>
                   <TableHeader>
@@ -193,21 +244,28 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                     ))}
                   </TableBody>
                 </Table>
-              </Segment>
+              </MessageOrSegment>
             </Segment>
           </GridColumn>
         </GridRow>
         <GridRow>
           <GridColumn>
             <Segment height="100%">
-              <Segment padded>
+              <MessageOrSegment
+                padded
+                message={
+                  showCampaignData
+                    ? undefined
+                    : "Your ads will display here once you super charge above."
+                }
+              >
                 <Header>Headlines</Header>
                 <List>
                   <ListItem>{headline}</ListItem>
                   <ListItem>{headline2}</ListItem>
                 </List>
-              </Segment>
-              <Segment padded>
+              </MessageOrSegment>
+              <DisplaySegment padded isDisplayed={showCampaignData}>
                 <Header>Keywords</Header>
                 <List>
                   {renderInputListItem({
@@ -221,17 +279,24 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                     ],
                   })}
                 </List>
-              </Segment>
+              </DisplaySegment>
             </Segment>
           </GridColumn>
 
           <GridColumn>
-            <Segment>
+            <MessageOrSegment
+              message={
+                showCampaignData
+                  ? undefined
+                  : "Your ad budget will display here once you super charge above."
+              }
+            >
               <Segment>
-                <Header>Budget</Header>
+                <Header>Budget ($)</Header>
                 <Table basic="very" celled>
                   <TableHeader>
                     <TableRow>
+                      <TableHeaderCell>Total Budget</TableHeaderCell>
                       <TableHeaderCell>Budget Spent</TableHeaderCell>
                       <TableHeaderCell>Average Cost Per Click</TableHeaderCell>
                       <TableHeaderCell>
@@ -241,6 +306,7 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                   </TableHeader>
                   <TableBody>
                     <TableRow>
+                      <TableCell>{budget}</TableCell>
                       <TableCell>
                         {formatGoogleAdsMicros(cost_micros)}
                       </TableCell>
@@ -254,7 +320,7 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
                   </TableBody>
                 </Table>
               </Segment>
-            </Segment>
+            </MessageOrSegment>
           </GridColumn>
         </GridRow>
       </Grid>

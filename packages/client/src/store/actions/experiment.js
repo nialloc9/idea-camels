@@ -1,14 +1,8 @@
 import { EXPERIMENT_SET } from "../constants/experiment";
 import { DOMAIN_SET } from "../constants/domain";
 import { postApi } from "../../utils/request";
-import {
-  deepMerge,
-  convertDateToUnix,
-  arrayHasDuplicates,
-  removeEmptiesFromArray,
-} from "../../utils/utils";
+import { deepMerge } from "../../utils/utils";
 import { findThemeAndContent } from "../../templates";
-import { handleConversion } from "../../utils/analytics";
 
 /**
  * sets the state
@@ -72,14 +66,7 @@ export const onCreate = (callback) => async (dispatch, getState) => {
     account: { token },
     experiment: {
       data,
-      newExperiment: {
-        subDomain,
-        domain,
-        content,
-        theme,
-        endDate,
-        templateRef,
-      },
+      newExperiment: { subDomain, domain, content, theme, templateRef },
     },
   } = getState();
 
@@ -139,7 +126,6 @@ export const onCreate = (callback) => async (dispatch, getState) => {
     body: {
       content,
       theme,
-      endDate: convertDateToUnix(endDate),
       templateRef,
       domainRef,
     },
@@ -169,6 +155,7 @@ export const onCreate = (callback) => async (dispatch, getState) => {
  * @returns
  */
 export const onPrepareExperiment = (newData) => async (dispatch, getState) => {
+  console.log("onPrepareExperiment", newData);
   const onSetState = setState(dispatch);
 
   const {
@@ -179,12 +166,6 @@ export const onPrepareExperiment = (newData) => async (dispatch, getState) => {
     ...newExperiment,
     ...newData,
   };
-
-  // if no templateRef has been selected before
-  if (!experimentPayload.templateRef) {
-    experimentPayload.templateRef = 2;
-    experimentPayload.themeRef = 1;
-  }
 
   if (experimentPayload.templateRef !== newExperiment.templateRef) {
     const {
@@ -214,7 +195,6 @@ export const onPrepareExperiment = (newData) => async (dispatch, getState) => {
   }
 
   onSetState({
-    formIndex: 1,
     newExperiment: experimentPayload,
   }); // formIndex 1 means go to next form
 };

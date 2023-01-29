@@ -60,14 +60,7 @@ const mapBuildExperimentToECSConfig = ({
   accountRef,
   themeKey,
   contentKey,
-  description,
-  description2,
-  headline,
-  headline2,
-  headline3,
-  keywords,
   caller,
-  budget,
 }) => {
   const keyWordsToPassAsEnvVariables = keywords.map((o, i) => ({
     name: `KEYWORD_${i}`,
@@ -88,12 +81,6 @@ const mapBuildExperimentToECSConfig = ({
       { name: "DOMAIN", value: domain },
       { name: "THEME_KEY", value: themeKey },
       { name: "CONTENT_KEY", value: contentKey },
-      { name: "DESCRIPTION", value: description },
-      { name: "DESCRIPTION_2", value: description2 },
-      { name: "HEADLINE", value: headline },
-      { name: "HEADLINE_2", value: headline2 },
-      { name: "HEADLINE_3", value: headline3 },
-      { name: "BUDGET", value: budget.toString() },
       ...keyWordsToPassAsEnvVariables,
     ],
   };
