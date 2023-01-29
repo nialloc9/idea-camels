@@ -98,14 +98,12 @@ export const postApi = async ({
   try {
     if (config.useMockApi) return apiMocks[uri];
 
-    const { data } = await post({
+    return await post({
       url: `${config.api.base}/${uri}`,
       body,
       headers,
       token,
     });
-
-    return { data };
   } catch (error) {
     logger.log("========== POST API CALL ERROR RESPONSE ==========", {
       error,
