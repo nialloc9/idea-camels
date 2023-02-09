@@ -10,7 +10,7 @@ const development = {
   domainUrl: "http://localhost:3000",
   buildNumber: REACT_APP_BUILD_VERSION,
   env: NODE_ENV,
-  isProd: false,
+  isProd: NODE_ENV === "production",
   useMockApi: false,
   featureFlagEmails: ["nialloc9+5@gmail.com"],
   pathname,

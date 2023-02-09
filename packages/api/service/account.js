@@ -24,6 +24,8 @@ const { sendEmail } = require("../utils/mailer/mailer");
 const { addCustomerToList } = require("../utils/marketingEmail");
 const { resetPassword } = require("../utils/mailer/templates/resetPassword");
 const { sendAlert } = require("../utils/alert");
+const { onGetAccountExperiments } = require("./experiment");
+const { onListDomainPrices } = require("./domain");
 
 const onLogin = ({ data: { email, password, rememberMe = false }, caller }) =>
   new Promise(async (resolve, reject) => {
@@ -85,6 +87,33 @@ const onLogin = ({ data: { email, password, rememberMe = false }, caller }) =>
         responseData.card = card || {};
       }
 
+      try {
+        const {
+          data: { experiments = [] },
+        } = await onGetAccountExperiments({
+          data: { decodedToken: { data: { accountRef: account.account_ref } } },
+          caller,
+        });
+
+        responseData.experiments = experiments;
+      } catch (error) {
+        responseData.experiments = [];
+        sendAlert({ text: JSON.stringify(error) });
+        logger.error(error);
+      }
+
+      try {
+        const {
+          data: { prices = [] },
+        } = await onListDomainPrices({ caller });
+
+        responseData.domainPrices = prices;
+      } catch (error) {
+        responseData.domainPrices = [];
+        sendAlert({ text: JSON.stringify(error) });
+        logger.error(error);
+      }
+
       resolve(handleSuccess("account found", responseData));
     } catch (error) {
       reject(error);
@@ -119,6 +148,33 @@ const onReauthorise = ({
             : config.security.default_token_expiration,
         }),
       };
+
+      try {
+        const {
+          data: { experiments = [] },
+        } = await onGetAccountExperiments({
+          data: { decodedToken: { data: { accountRef: account.account_ref } } },
+          caller,
+        });
+
+        responseData.experiments = experiments;
+      } catch (error) {
+        responseData.experiments = [];
+        sendAlert({ text: JSON.stringify(error) });
+        logger.error(error);
+      }
+
+      try {
+        const {
+          data: { prices = [] },
+        } = await onListDomainPrices({ caller });
+
+        responseData.domainPrices = prices;
+      } catch (error) {
+        responseData.domainPrices = [];
+        sendAlert({ text: JSON.stringify(error) });
+        logger.error(error);
+      }
 
       const paymentProfile = await getCustomer({
         customerId: account.payment_customer_id,

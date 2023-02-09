@@ -11,8 +11,6 @@ const initialState = {
   fetchErrorMessage: "",
   fetchTemplatesErrorMessage: "",
   data: [],
-  templates: [],
-  theme: [],
   newExperiment: {
     budget: undefined,
     endDate: undefined,

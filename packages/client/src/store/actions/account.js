@@ -1,4 +1,6 @@
 import { ACCOUNT_SET } from "../constants/account";
+import { EXPERIMENT_SET } from "../constants/experiment";
+import { DOMAIN_SET } from "../constants/domain";
 import { onResetStore } from "./store";
 import { postApi } from "../../utils/request";
 import { FORM_ERROR } from "../../utils/form";
@@ -6,12 +8,32 @@ import { getQueryParameterByName } from "../../utils/utils";
 import { handleIdentify } from "../../utils/analytics";
 
 /**
- * sets the loading state
+ * sets the account state
  * @param payload
  */
 const setState = (dispatch) => (payload) =>
   dispatch({
     type: ACCOUNT_SET,
+    payload,
+  });
+
+/**
+ * sets the experiment state
+ * @param payload
+ */
+const setExperimentState = (dispatch) => (payload) =>
+  dispatch({
+    type: EXPERIMENT_SET,
+    payload,
+  });
+
+/**
+ * sets the experiment state
+ * @param payload
+ */
+const setDomainState = (dispatch) => (payload) =>
+  dispatch({
+    type: DOMAIN_SET,
     payload,
   });
 
@@ -59,7 +81,8 @@ export const onFetchAccount = ({
   rememberMe = false,
 }) => async (dispatch) => {
   const onSetState = setState(dispatch);
-
+  const onSetExperimentState = setExperimentState(dispatch);
+  const onSetDomainState = setDomainState(dispatch);
   onSetState({ isFetchLoading: true, fetchErrorMessage: "" });
 
   const { data, error } = await postApi({
@@ -73,7 +96,7 @@ export const onFetchAccount = ({
     };
   }
 
-  const { token, account, card } = data;
+  const { token, account, card, experiments = [], domainPrices } = data;
 
   onSetState({
     isFetchLoading: false,
@@ -82,6 +105,10 @@ export const onFetchAccount = ({
     data: account,
     card,
   });
+
+  onSetExperimentState({ data: experiments });
+
+  onSetDomainState({ prices: domainPrices });
 
   handleIdentify(account.account_ref);
 };
@@ -95,6 +122,8 @@ export const onReAuthAccount = (originalToken) => async (dispatch) => {
   if (originalToken === "") return;
 
   const onSetState = setState(dispatch);
+  const onSetExperimentState = setExperimentState(dispatch);
+  const onSetDomainState = setDomainState(dispatch);
 
   const { error, data } = await postApi({
     uri: `account/reauthorise`,
@@ -105,12 +134,16 @@ export const onReAuthAccount = (originalToken) => async (dispatch) => {
     return dispatch(onResetStore());
   }
 
-  const { token, account } = data;
+  const { token, account, experiments = [], domainPrices = [] } = data;
 
   onSetState({
     token,
     data: account,
   });
+
+  onSetExperimentState({ data: experiments });
+
+  onSetDomainState({ prices: domainPrices });
 };
 
 /**

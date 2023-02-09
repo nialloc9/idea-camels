@@ -15,45 +15,6 @@ const setState = (dispatch) => (payload) =>
   });
 
 /**
- * @description fetchs account experiments
- * @returns
- */
-export const onFetch = () => async (dispatch, getState) => {
-  const {
-    account: { token },
-    experiment: { isFetchInitialised, isFetchLoading },
-  } = getState();
-
-  // fetch loaded or loading or the customer has not logged in
-  if (isFetchInitialised || isFetchLoading || !token) return;
-
-  const onSetState = setState(dispatch);
-
-  onSetState({ isFetchLoading: true, fetchErrorMessage: "" });
-
-  const { data, error } = await postApi({
-    uri: `experiment/get-by-account`,
-    token,
-  });
-
-  if (error) {
-    return onSetState({
-      isFetchLoading: false,
-      fetchErrorMessage: error.message,
-    });
-  }
-
-  const { experiments } = data;
-
-  onSetState({
-    isFetchInitialised: true,
-    isFetchLoading: false,
-    fetchErrorMessage: "",
-    data: experiments,
-  });
-};
-
-/**
  * @description creates a new experiment for the account
  * @returns
  */
