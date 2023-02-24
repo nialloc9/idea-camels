@@ -1,4 +1,4 @@
-import logging, os
+import logging, os, traceback
 # Import WebClient from Python SDK (github.com/slackapi/python-slack-sdk)
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
@@ -9,7 +9,7 @@ from config import config
 
 def alert(message):
     try:
-
+        print("Sending message {} to {} with token {}".format(message, config["slack"]["alert_channel"], config["slack"]["token"]))
         client = WebClient(token=config["slack"]["token"])
         
         # Call the conversations.list method using the WebClient
@@ -19,4 +19,7 @@ def alert(message):
         )
    
     except SlackApiError as e:
-        print(f"Error: {e}")
+        json_error = str(e)
+        print(json_error)    
+        traceback.print_exc() 
+        print("Error: {}".format(e))
