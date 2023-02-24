@@ -136,6 +136,7 @@ if __name__ == "__main__":
                     optimse_keywords(googleads_client=googleads_client, domain_name=domain_name)
         
         print("Optimisiation complete...")
+        alert("Optimised keywords for {} campigns...".format(len(keyword_dfs)))
     except Exception as ex:   
         json_error = str(ex)
         print(json_error)    
