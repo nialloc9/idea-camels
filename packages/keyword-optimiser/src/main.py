@@ -116,8 +116,10 @@ def optimse_keywords(googleads_client, domain_name):
 
     alert("{} keywords updated".format(first_column["campaign_resource_name"]))
 
-if __name__ == "__main__":
+print("...")
 
+if __name__ == "__main__":
+    print("Sarting optimiser...")
     try:
         googleads_client = GoogleAdsClient.load_from_dict(config["credentials"])
 
