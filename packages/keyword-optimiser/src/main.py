@@ -122,9 +122,9 @@ if __name__ == "__main__":
     print("Sarting optimiser...")
     try:
         googleads_client = GoogleAdsClient.load_from_dict(config["credentials"])
-
+        print("Google ads client loaded...")
         keyword_dfs = get_keyword_stats(googleads_client, config["credentials"]["login_customer_id"])
-
+        print("Keywords found...")
         if keyword_dfs:
             for campaign_id, keyword_df in keyword_dfs:
 
@@ -134,7 +134,8 @@ if __name__ == "__main__":
 
                 for domain_name in domain_names:
                     optimse_keywords(googleads_client=googleads_client, domain_name=domain_name)
-            
+        
+        print("Optimisiation complete...")
     except Exception as ex:   
         json_error = str(ex)
         print(json_error)    
