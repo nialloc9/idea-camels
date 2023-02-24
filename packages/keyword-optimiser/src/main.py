@@ -81,6 +81,41 @@ def fetch_keyword_suggestions(
 
     return df.head(limit)
 
+def optimse_keywords(googleads_client, domain_name):
+    """optimises keywords for domain
+
+    Args:
+        googleads_client (any): google ads client
+        domain_name (string): domain name
+    """
+    suggestions = fetch_keyword_suggestions(
+                    googleads_client,
+                    config["credentials"]["login_customer_id"],
+                    config["location_ids"],
+                    config["language_id"],
+                    keyword_df.head(20),
+                    page_url="https://{}".format(domain_name),
+                )
+                
+    top_suggestions = suggestions.head(config["ads"]["create_count"])
+    [remove_keyword(client=googleads_client, criterion_id=k["criterion_id"], customer_id=config["credentials"]["login_customer_id"], ad_group_id=k["ad_group_id"]) for i, k in keyword_df.iterrows()]
+    print("======== Suggestions ========")
+    print(top_suggestions.head(config["ads"]["create_count"]))
+    print("======== Suggestions ========")
+
+    query_data = []
+
+    for i,s in top_suggestions.iterrows():
+        resource_name, keyword_text = add_keyword(client=googleads_client, keyword_text=s["text"], customer_id=config["credentials"]["login_customer_id"], ad_group_id=first_column["ad_group_id"])
+        query_data.append(resource_name)
+        query_data.append(keyword_text)
+
+    query_data.append(first_column["campaign_resource_name"])
+
+    query("UPDATE campaigns SET criterion_0_name=%s, keyword_0=%s, criterion_1_name=%s, keyword_1=%s, criterion_2_name=%s, keyword_2=%s, criterion_3_name=%s, keyword_3=%s, criterion_4_name=%s, keyword_4=%s, criterion_5_name=%s, keyword_5=%s, criterion_6_name=%s, keyword_6=%s, criterion_7_name=%s, keyword_7=%s, criterion_8_name=%s, keyword_8=%s, criterion_9_name=%s, keyword_9=%s, criterion_10_name=%s, keyword_10=%s, criterion_11_name=%s, keyword_11=%s, criterion_12_name=%s, keyword_12=%s, criterion_13_name=%s, keyword_13=%s, criterion_14_name=%s, keyword_14=%s, criterion_15_name=%s, keyword_15=%s, criterion_16_name=%s, keyword_16=%s, criterion_17_name=%s, keyword_17=%s, criterion_18_name=%s, keyword_18=%s, criterion_19_name=%s, keyword_19=%s WHERE campaign_name=%s", tuple(query_data))
+
+    alert("{} keywords updated".format(first_column["campaign_resource_name"]))
+
 if __name__ == "__main__":
 
     try:
@@ -93,37 +128,11 @@ if __name__ == "__main__":
 
                 first_column = keyword_df.iloc[0]
 
-                # domain_name = query("SELECT domains.name FROM domains JOIN experiments ON domains.domain_ref = experiments.domain_ref JOIN campaigns ON experiments.experiment_ref = campaigns.experiment_ref WHERE campaigns.campaign_name={}".format(ad_group_id=first_column["campaign_resource_name"]))[0]
-                domain_name="ideacamels.com"
-                suggestions = fetch_keyword_suggestions(
-                    googleads_client,
-                    config["credentials"]["login_customer_id"],
-                    config["location_ids"],
-                    config["language_id"],
-                    keyword_df.head(20),
-                    page_url="https://{}".format(domain_name),
-                )
-                
-                top_suggestions = suggestions.head(config["ads"]["create_count"])
-                [remove_keyword(client=googleads_client, criterion_id=k["criterion_id"], customer_id=config["credentials"]["login_customer_id"], ad_group_id=k["ad_group_id"]) for i, k in keyword_df.iterrows()]
-                print("======== Suggestions ========")
-                print(top_suggestions.head(config["ads"]["create_count"]))
-                print("======== Suggestions ========")
+                domain_names = query("SELECT domains.name FROM domains JOIN experiments ON domains.domain_ref = experiments.domain_ref JOIN campaigns ON experiments.experiment_ref = campaigns.experiment_ref WHERE campaigns.campaign_name={}".format(ad_group_id=first_column["campaign_resource_name"]))
 
-                query_data = []
-
-                for i,s in top_suggestions.iterrows():
-                    resource_name, keyword_text = add_keyword(client=googleads_client, keyword_text=s["text"], customer_id=config["credentials"]["login_customer_id"], ad_group_id=first_column["ad_group_id"])
-                    query_data.append(resource_name)
-                    query_data.append(keyword_text)
-
-                query_data.append(first_column["campaign_resource_name"])
-
-                query("UPDATE campaigns SET criterion_0_name=%s, keyword_0=%s, criterion_1_name=%s, keyword_1=%s, criterion_2_name=%s, keyword_2=%s, criterion_3_name=%s, keyword_3=%s, criterion_4_name=%s, keyword_4=%s, criterion_5_name=%s, keyword_5=%s, criterion_6_name=%s, keyword_6=%s, criterion_7_name=%s, keyword_7=%s, criterion_8_name=%s, keyword_8=%s, criterion_9_name=%s, keyword_9=%s, criterion_10_name=%s, keyword_10=%s, criterion_11_name=%s, keyword_11=%s, criterion_12_name=%s, keyword_12=%s, criterion_13_name=%s, keyword_13=%s, criterion_14_name=%s, keyword_14=%s, criterion_15_name=%s, keyword_15=%s, criterion_16_name=%s, keyword_16=%s, criterion_17_name=%s, keyword_17=%s, criterion_18_name=%s, keyword_18=%s, criterion_19_name=%s, keyword_19=%s WHERE campaign_name=%s", tuple(query_data))
-
-                alert("{} keywords updated".format(first_column["campaign_resource_name"]))
-
-        
+                for domain_name in domain_names:
+                    optimse_keywords(googleads_client=googleads_client, domain_name=domain_name)
+            
     except Exception as ex:   
         json_error = str(ex)
         print(json_error)    

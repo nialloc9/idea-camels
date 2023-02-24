@@ -350,7 +350,7 @@ class CreateForm extends Component {
                     name="keywordOptimiser"
                     inlineLabel
                     defaultChecked
-                    info="IdeaCamels uses AI to dynamically update your keywords each day to optimise bidding strategy. We recommend you keep this on."
+                    info="IdeaCamels uses AI to dynamically update your keywords to optimise bidding strategy. We recommend you keep this on."
                   />
                 </GridColumn>
               </GridRow>
