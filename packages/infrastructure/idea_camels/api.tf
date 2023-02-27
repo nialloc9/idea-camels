@@ -189,6 +189,7 @@ module "cors_lambda" {
     "X-Amz-Security-Token",
     "X-Api-Key",
     "next-query",
+    "Access-Control-Allow-Origin"
   ]
 }
 
