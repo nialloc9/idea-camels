@@ -8,7 +8,7 @@ const responseHandler = {
       statusCode: 200,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+        "Access-Control-Allow-Origin": "www.ideacamels.com,ideacamels.com", // Required for CORS support to work
         "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
         "Access-Control-Allow-Methods": "POST,OPTIONS,GET",
         "Access-Control-Allow-Headers":
@@ -26,7 +26,7 @@ const responseHandler = {
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+        "Access-Control-Allow-Origin": "www.ideacamels.com,ideacamels.com", // Required for CORS support to work
         "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
         "Access-Control-Allow-Methods": "POST,OPTIONS,GET",
         "Access-Control-Allow-Headers":
