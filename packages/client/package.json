@@ -63,9 +63,9 @@
     "serve": "^11.3.2"
   },
   "scripts": {
-    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
-    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
-    "test": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts test  --transformIgnorePatterns 'node_modules/(?!my-library-dir)/'",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
+    "test": "NODE_OPTIONS=--openssl-legacy-provider && react-scripts test  --transformIgnorePatterns 'node_modules/(?!my-library-dir)/'",
     "eject": "react-scripts eject",
     "serve": "serve build -p 3000",
     "p": "prettier --tab-width 4 --write ./src",
