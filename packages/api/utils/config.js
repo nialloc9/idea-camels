@@ -153,6 +153,8 @@ const prod = {
     whitelist: [
       "http://ideacamels.com",
       "https://ideacamels.com",
+      "http://www.ideacamels.com",
+      "https://www.ideacamels.com",
       /\.ideacamels\.com$/,
     ],
   },
