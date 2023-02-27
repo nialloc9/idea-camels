@@ -68,14 +68,13 @@ export const post = async ({
         ...headers,
 
         Authorization: `Bearer ${token}`,
-        timeout: 1000 * 60 * 2, // 2 minutes
       }
     : headers;
 
   const response = await axios.post(
     url,
     { ...body, caller: generateRandomId() },
-    { headers: headersToSend }
+    { headers: headersToSend, timeout: 1000 * 60 * 2 } // 2 minutes
   );
 
   logger.log("========== POST API CALL RESPONSE ==========", response);
