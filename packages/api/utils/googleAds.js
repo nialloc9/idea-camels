@@ -256,6 +256,7 @@ const getMetrics = async ({
   orderBy = "clicks",
   adGroupResourceName = [],
 } = {}) => {
+  return []; // TODO in place as google api too slow for sync.
   if (config.noInternet) {
     logger.info("NO INTERNET TO GET AGGROUP METRICS");
     return [];
