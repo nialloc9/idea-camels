@@ -285,7 +285,7 @@ const getMetrics = async ({
   }
 
   const response = await customer.report(body);
-
+  logger.info(response, "GOOGLE_ADS_REPORT_FOUND");
   return response;
 };
 

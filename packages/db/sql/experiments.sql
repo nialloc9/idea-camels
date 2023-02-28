@@ -24,3 +24,7 @@ ALTER TABLE experiments ADD INDEX (account_ref);
 
 ALTER TABLE experiments DROP COLUMN budget;
 ALTER TABLE experiments DROP COLUMN end_date;
+
+ALTER TABLE experiments ADD INDEX (domain_ref);
+ALTER TABLE experiments ADD INDEX (theme_ref);
+ALTER TABLE experiments ADD INDEX (template_ref);
