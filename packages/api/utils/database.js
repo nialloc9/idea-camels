@@ -41,6 +41,10 @@ const getConnection = async (
 const query = async (queryString, data, caller, dataLayer, newConnection) =>
   new Promise(async (resolve, reject) => {
     try {
+      logger.info("==== DATABASE QUERY ====");
+      logger.info(queryString, data);
+      logger.info("==== DATABASE QUERY ====");
+
       const connection = newConnection || (await getConnection({ caller }));
       connection.query(queryString, data, (error, results) => {
         connection.release();

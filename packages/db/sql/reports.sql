@@ -12,7 +12,7 @@ CREATE TABLE reports
   average_cpm int DEFAULT 0,
   average_cpc int DEFAULT 0,
   cost_micros int DEFAULT 0,
-  engagements int DEFAULT 0
+  engagements int DEFAULT 0,
   PRIMARY KEY (report_ref)
 );
 
