@@ -83,7 +83,7 @@ const onGetWithThemeAndCampaignByAccountRef = ({
 
       const getQuery = `SELECT ${addSelectQueryColumns(
         values
-      )} FROM experiments as e LEFT JOIN themes as t ON e.theme_ref = t.theme_ref LEFT JOIN domains as d ON e.domain_ref = d.domain_ref LEFT JOIN campaigns as c on e.experiment_ref = c.experiment_ref LEFT_JOIN reports as r on e.experiment_ref = r.experiment_ref WHERE e.account_ref=${accountRef}${
+      )} FROM experiments as e LEFT JOIN themes as t ON e.theme_ref = t.theme_ref LEFT JOIN domains as d ON e.domain_ref = d.domain_ref LEFT JOIN campaigns as c on e.experiment_ref = c.experiment_ref LEFT JOIN reports as r on e.experiment_ref = r.experiment_ref WHERE e.account_ref=${accountRef}${
         experimentRef ? ` AND e.experiment_ref='${experimentRef}'` : ""
       } AND e.deleted_flag != 1`;
 
