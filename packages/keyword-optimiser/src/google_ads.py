@@ -169,16 +169,12 @@ def get_keyword_stats(client, customer_id):
           campaign.id,
           campaign.name,
           campaign.resource_name,
-          ad_group.id,
-          ad_group.name,
-          ad_group_criterion.criterion_id,
-          ad_group_criterion.keyword.text,
-          ad_group_criterion.keyword.match_type,
           metrics.impressions,
           metrics.clicks,
           metrics.average_cpc,
           metrics.ctr,
-          metrics.cost_micros
+          metrics.cost_micros,
+          metrics.engagements
         FROM keyword_view 
         WHERE ad_group.status = 'ENABLED'
         AND campaign.status = 'ENABLED'

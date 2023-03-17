@@ -7,6 +7,7 @@ const dbNames = convertArrayToObjectWithKeysCamelCaseAndValueSnakeCase([
   "account_ref",
   "experiment_ref",
   "campaign_name",
+  "google_ads_campaign_id",
   "budget_name",
   "ad_group_name",
   "ad_group_ad_name",

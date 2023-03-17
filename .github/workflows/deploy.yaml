@@ -86,6 +86,27 @@ jobs:
             fi
           done < files.txt
 
+      - name: check modified report-fetcher files
+        id: run_report_fetcher_job
+        run: |
+          echo "=============== list modified files ==============="
+          git diff --name-only HEAD^ HEAD
+
+          echo "========== check paths of modified files =========="
+          git diff --name-only HEAD^ HEAD > files.txt
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file = packages/report-fetcher/* ]]; then
+              echo "This modified file is under the 'packages/report-fetcher' folder."
+              echo "::set-output name=should_run::true"
+              break
+            else
+              echo "No changes found in the 'packages/report-fetcher' folder."
+              echo "::set-output name=should_run::false"
+            fi
+          done < files.txt
+
       - name: check modified api files
         id: run_api_job
         run: |
@@ -198,6 +219,31 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy Keyword Optimiser
         run: cd packages/keyword-optimiser && make deploy-via-cicd
+      - name: Report Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1
+        with:
+          status: ${{ job.status }}
+          notify_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_PROD_ALERTS_WEBHOOK_URL }}
+
+  Deploy-Report-Fetcher:
+    runs-on: ubuntu-latest
+    needs: check
+    if: needs.check.outputs.run_report_fetcher_job == 'true' && github.ref == 'refs/heads/master'
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Deploy Report Fetcher
+        run: cd packages/report-fetcher && make deploy-via-cicd
       - name: Report Status
         if: always()
         uses: ravsamhq/notify-slack-action@v1

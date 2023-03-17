@@ -28,6 +28,7 @@ init:
 
 plan:
 	export AWS_PROFILE=$(AWS_PROFILE) \
+	export AWS_REGION=$(AWS_REGION) \
 	&& terraform plan --var-file=environments/$(ENV)/variables.tfvars
 
 apply:
@@ -59,6 +60,7 @@ destroy-prod:
 
 deploy-via-cicd:
 	terraform init  -backend-config=environments/prod/backend.tfvars \
+	&& export AWS_REGION=$(AWS_REGION) \
 	&& terraform apply -auto-approve --var-file=environments/prod/variables.tfvars -target=module.domain.aws_acm_certificate.cert -target=module.domain.aws_acm_certificate_validation.cert \
 	&& terraform apply -auto-approve --var-file=environments/prod/variables.tfvars -target=module.ecr.api_ecr.aws_ecr_repository \
 	&& terraform apply -auto-approve --var-file=environments/prod/variables.tfvars \

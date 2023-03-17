@@ -37,18 +37,6 @@ const mapKeywordsToCriterionToCreate = ({ keywords, adGroupName }) =>
   }, []);
 
 /**
- * @description maps experiments to adGroupNames
- * @param {*} experiments
- * @returns
- */
-const mapExperimentsToAdGroupNames = (experiments) =>
-  experiments.reduce((total = [], { ad_group_name }) => {
-    if (ad_group_name) total.push(ad_group_name);
-
-    return total;
-  }, []);
-
-/**
  * @description maps experiment to config required for building on ECS
  * @param {*} param0
  * @returns
@@ -179,24 +167,6 @@ const mapExperimentToAdGroupAd = ({
 });
 
 /**
- * @description maps metrics to experiments
- */
-const mapMetricsToExperiment = ({ metrics = [], experiments }) => {
-  const mappedMetricsToAdGroupName = metrics.reduce(
-    (total = {}, { ad_group, metrics }) => {
-      total[ad_group.resource_name] = metrics;
-      return total;
-    },
-    {}
-  );
-
-  return experiments.map((o) => ({
-    ...o,
-    metrics: mappedMetricsToAdGroupName[o.ad_group_name] || {},
-  }));
-};
-
-/**
  * @description maps leads to experiments
  */
 const mapExperimentsToLeads = ({ leads = [], experiments = [] }) => {
@@ -221,12 +191,10 @@ const mapExperimentsToLeads = ({ leads = [], experiments = [] }) => {
 module.exports = {
   mapCriterionsToDb,
   mapKeywordsToCriterionToCreate,
-  mapExperimentsToAdGroupNames,
   mapBuildExperimentToECSConfig,
   mapExperimentToCampaignBudget,
   mapExperimentToCampaign,
   mapExperimentToAdGroup,
   mapExperimentToAdGroupAd,
-  mapMetricsToExperiment,
   mapExperimentsToLeads,
 };

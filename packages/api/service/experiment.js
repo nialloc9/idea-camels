@@ -6,14 +6,11 @@ const { onCreate: onCreateTheme } = require("../data/theme");
 const { onGet: onGetDomainByDomainRef } = require("../data/domain");
 const { onGetMultiple: onGetMultipleLeads } = require("../data/leads");
 const { generateRandomId, handleSuccess } = require("../utils/utils");
-const { getMetrics } = require("../utils/googleAds");
 const { runTask, uploadToS3 } = require("../utils/aws");
 const { writeToTmpFile } = require("../utils/file");
 const config = require("../utils/config");
 const {
-  mapExperimentsToAdGroupNames,
   mapBuildExperimentToECSConfig,
-  mapMetricsToExperiment,
   mapExperimentsToLeads,
 } = require("./utils/experiment");
 
@@ -44,30 +41,11 @@ const onGetAccountExperiments = ({
       };
 
       if (experiments.length > 0) {
-        const metrics = await getMetrics({
-          metrics: [
-            "clicks",
-            "impressions",
-            "average_cpm",
-            "average_cpc",
-            "cost_micros",
-            "engagements",
-            "gmail_forwards",
-          ],
-          orderBy: "clicks",
-          adGroupResourceName: mapExperimentsToAdGroupNames(experiments), // e.g ["customers/9074082905/adGroups/108117690178"]
-        });
-
-        const experimentsWithMetrics = mapMetricsToExperiment({
-          experiments,
-          metrics,
-        });
-
         const {
           data: { leads },
         } = await onGetMultipleLeads({
           data: {
-            experimentRef: experimentsWithMetrics.map(
+            experimentRef: experiments.map(
               ({ experiment_ref }) => experiment_ref
             ),
           },

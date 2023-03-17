@@ -1,6 +1,7 @@
 const { onGet: onGetAccount } = require("../data/account");
 const { onGetWithThemeAndCampaignByAccountRef } = require("../data/experiment");
 const { onCreate: onCreateCampaign } = require("../data/campaign");
+const { onCreate: onCreateReport } = require("../data/campaign");
 const { chargeCustomer } = require("../utils/stripe");
 const config = require("../utils/config");
 const { logger, handleSuccess } = require("../utils/utils");
@@ -97,16 +98,21 @@ const onCreate = ({
 
       logger.info({ budgetName }, "========= BUDGET CREATED  =========");
 
-      const { resource_name: campaignName } = await createCampaign(
-        mapExperimentToCampaign({
-          experimentRef,
-          budgetName,
-          endDate,
-          name: `${domain}-${caller}`,
-        })
-      );
+      const { id: google_ads_campaign_id, resource_name: campaignName } =
+        await createCampaign(
+          mapExperimentToCampaign({
+            experimentRef,
+            budgetName,
+            endDate,
+            name: `${domain}-${caller}`,
+          })
+        );
 
       logger.info({ campaignName }, "========= CAMPAIGN CREATED  =========");
+
+      await onCreateReport({ experimentRef, google_ads_campaign_id });
+
+      logger.info({ campaignName }, "========= REPORT CREATED  =========");
 
       const { resource_name: adGroupName } = await createAdGroup(
         mapExperimentToAdGroup({
@@ -154,6 +160,7 @@ const onCreate = ({
       const { data: campaignCreated } = await onCreateCampaign({
         data: {
           accountRef,
+          googleAdsCampaignId: google_ads_campaign_id,
           experimentRef,
           campaignName,
           budgetName,

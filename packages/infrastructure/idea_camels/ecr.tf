@@ -16,8 +16,14 @@ module "api_ecr" {
   environment = var.environment
 }
 
-module "ideacamels_keyword_optimiser_ecr" {
+module "keyword_optimiser_ecr" {
   source      = "./modules/ecr"
   name        = "keyword-optimiser"
+  environment = var.environment
+}
+
+module "report_fetcher_ecr" {
+  source      = "./modules/ecr"
+  name        = "report-fetcher"
   environment = var.environment
 }

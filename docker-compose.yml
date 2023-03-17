@@ -55,3 +55,11 @@ services:
     env_file:
       - ./packages/keyword-optimiser/.dev.env
     command: tail -f /dev/null
+  idea-camels-report-fetcher:
+    build: ./packages/report-fetcher
+    volumes:
+      - ./packages/report-fetcher:/usr/src/app:cached
+      - $HOME/.aws/credentials:/root/.aws/credentials:ro
+    env_file:
+      - ./packages/report-fetcher/.dev.env
+    command: tail -f /dev/null

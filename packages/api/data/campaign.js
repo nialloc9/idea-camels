@@ -1,6 +1,6 @@
 const { query } = require("../utils/database");
 const { handleSuccess } = require("../utils/utils");
-const { mapper } = require("./utils/campaign");
+const { mapper } = require("./utils/report");
 const { now } = require("../utils/date");
 
 /**

@@ -81,14 +81,12 @@ const Home = ({ isFetchLoading, experiments = [] }) => {
 
   const {
     campaign_name = "",
-    metrics: {
-      clicks,
-      impressions,
-      average_cpc,
-      average_cpm,
-      cost_micros,
-      engagements,
-    } = {},
+    clicks,
+    impressions,
+    average_cpc,
+    average_cpm,
+    cost_micros,
+    engagements,
     leads = [],
     keyword_0,
     keyword_1,
