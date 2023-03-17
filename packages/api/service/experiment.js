@@ -53,7 +53,7 @@ const onGetAccountExperiments = ({
         });
 
         response.experiments = mapExperimentsToLeads({
-          experiments: experimentsWithMetrics,
+          experiments,
           leads,
         });
       }
