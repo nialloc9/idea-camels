@@ -1,6 +1,6 @@
 AWS_PROFILE?=idea-camels
 AWS_REGION?=eu-west-1
-NAME?=report-fetcher
+NAME?=report-fetcher-prod
 ACCOUNT_NUMBER?=115830081349
 
 ECR_HOSTNAME=$(ACCOUNT_NUMBER).dkr.ecr.eu-west-1.amazonaws.com
