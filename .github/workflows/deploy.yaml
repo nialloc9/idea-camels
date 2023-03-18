@@ -15,6 +15,7 @@ jobs:
       run_api_job: ${{ steps.run_api_job.outputs.should_run }}
       run_infra_job: ${{ steps.run_infra_job.outputs.should_run }}
       run_keyword_optimiser_job: ${{ steps.run_keyword_optimiser_job.outputs.should_run }}
+      run_report_fetcher_job: ${{ steps.run_report_fetcher_job.outputs.should_run }}
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
