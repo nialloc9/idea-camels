@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, GridRow } from "../components/Grid";
+import { Grid, GridColumn, GridRow } from "../components/Grid";
 import Create from "../components/CreateExperiment/Create";
 import { Block } from "../components/Styled/Block";
 import withPageAnalytics from "../hoc/withPageAnalytics";
@@ -10,8 +10,10 @@ class CreateExperiment extends Component {
     return (
       <Block minHeight={remCalc(500)}>
         <Grid padded centered stackable>
-          <GridRow columns={6}>
-            <Create />
+          <GridRow>
+            <GridColumn>
+              <Create />
+            </GridColumn>
           </GridRow>
         </Grid>
       </Block>
