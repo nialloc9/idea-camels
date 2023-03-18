@@ -37,11 +37,11 @@ jobs:
             echo $file
             if [[ $file = packages/client/* ]]; then
               echo "This modified file is under the 'packages/client' folder."
-              echo "{should_run}={true}" >> $GITHUB_OUTPUT
+              echo "should_run=true" >> $GITHUB_OUTPUT
               break
             else
               echo "No changes found in the 'packages/client' folder."
-              echo "{should_run}={false}" >> $GITHUB_OUTPUT
+              echo "should_run=false" >> $GITHUB_OUTPUT
             fi
           done < files.txt
 
@@ -58,11 +58,11 @@ jobs:
             echo $file
             if [[ $file = packages/builder/* ]]; then
               echo "This modified file is under the 'packages/builder' folder."
-              echo "{should_run}={true}" >> $GITHUB_OUTPUT
+              echo "should_run=true" >> $GITHUB_OUTPUT
               break
             else
               echo "No changes found in the 'packages/builder' folder."
-              echo "{should_run}={false}" >> $GITHUB_OUTPUT
+              echo "should_run=false" >> $GITHUB_OUTPUT
             fi
           done < files.txt
 
@@ -79,11 +79,11 @@ jobs:
             echo $file
             if [[ $file = packages/keyword-optimiser/* ]]; then
               echo "This modified file is under the 'packages/keyword-optimiser' folder."
-              echo "{should_run}={true}" >> $GITHUB_OUTPUT
+              echo "should_run=true" >> $GITHUB_OUTPUT
               break
             else
               echo "No changes found in the 'packages/keyword-optimiser' folder."
-              echo "{should_run}={false}" >> $GITHUB_OUTPUT
+              echo "should_run=false" >> $GITHUB_OUTPUT
             fi
           done < files.txt
 
@@ -100,11 +100,11 @@ jobs:
             echo $file
             if [[ $file = packages/report-fetcher/* ]]; then
               echo "This modified file is under the 'packages/report-fetcher' folder."
-              echo "{should_run}={true}" >> $GITHUB_OUTPUT
+              echo "should_run=true" >> $GITHUB_OUTPUT
               break
             else
               echo "No changes found in the 'packages/report-fetcher' folder."
-              echo "{should_run}={false}" >> $GITHUB_OUTPUT
+              echo "should_run=false" >> $GITHUB_OUTPUT
             fi
           done < files.txt
 
@@ -121,11 +121,11 @@ jobs:
             echo $file
             if [[ $file = packages/api/* ]]; then
               echo "This modified file is under the 'packages/api' folder."
-              echo "{should_run}={true}" >> $GITHUB_OUTPUT
+              echo "should_run=true" >> $GITHUB_OUTPUT
               break
             else
               echo "No changes found in the 'packages/api' folder."
-              echo "{should_run}={false}" >> $GITHUB_OUTPUT
+              echo "should_run=false" >> $GITHUB_OUTPUT
             fi
           done < files.txt
 
@@ -142,11 +142,11 @@ jobs:
             echo $file
             if [[ $file = packages/infrastructure/* ]]; then
               echo "This modified file is under the 'packages/infrastructure' folder."
-              echo "{should_run}={true}" >> $GITHUB_OUTPUT
+              echo "should_run=true" >> $GITHUB_OUTPUT
               break
             else
               echo "No changes found in the 'packages/infrastructure' folder."
-              echo "{should_run}={false}" >> $GITHUB_OUTPUT
+              echo "should_run=false" >> $GITHUB_OUTPUT
             fi
           done < files.txt
 

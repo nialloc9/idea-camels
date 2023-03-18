@@ -24,3 +24,5 @@ deploy-via-cicd:
 	docker push $(ECR_HOSTNAME)/$(NAME):latest
 
 	
+
+	
