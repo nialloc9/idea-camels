@@ -76,8 +76,10 @@ if __name__ == "__main__":
 
         # TODO change api to query database for these metrics instead of google directly
         
-        print("Report fetcher complete...")
-        # alert(message="{} reports fetched".format(len(reports_df)))
+        
+        alert(message="{} reports fetched".format(len(campaign_reports)))
+
+        print("Report fetcher complete... {} reports updated...".format(len(campaign_reports))))
     except Exception as ex:   
         json_error = str(ex)
         print(json_error)    
